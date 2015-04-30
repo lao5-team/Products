@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_gray_12"
+	 >
+    
+    <LinearLayout 
+        android:id="@+id/layout_passenger_info"
+         android:layout_width="match_parent"
+   		 android:layout_height="wrap_content"
+    	 android:background="@color/color_gray_12"
+    	 android:orientation="vertical"
+  		>
+    	<RelativeLayout 
+            android:id="@+id/title_name" 
+            android:clickable="true" 
+            android:background="@color/color_gray_12"
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+           
+           <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_language_title" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:text="@string/name" />
+
+        </RelativeLayout>
+        
+        <View android:layout_marginLeft="@dimen/margin_10" 
+            style="@style/line_h" />
+    
+   	   <RelativeLayout 
+            android:id="@+id/layout_first_name" 
+            android:background="@drawable/selector_btn_4" 
+            android:clickable="true" 
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+           
+           <EditText 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/edt_first_name" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:hint="@string/first_name" />
+
+        </RelativeLayout>
+        
+        <View android:layout_marginLeft="@dimen/margin_10" 
+            style="@style/line_h" />
+        
+        <RelativeLayout 
+            android:id="@+id/layout_last_name" 
+            android:background="@drawable/selector_btn_4" 
+            android:clickable="true" 
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+           
+           <EditText 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/edt_last_name" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:hint="@string/last_name" />
+        </RelativeLayout>
+        
+        <View android:layout_marginLeft="@dimen/margin_10" 
+            style="@style/line_h" />
+        
+           <RelativeLayout 
+            android:id="@+id/title_passenger_id" 
+            android:clickable="true" 
+            android:background="@color/color_gray_12"
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+           
+           <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_passenger_id" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:text="@string/ID" />
+
+        </RelativeLayout>
+        
+         <RelativeLayout 
+            android:id="@+id/layout_ID_type" 
+            android:background="@drawable/selector_btn_4" 
+            android:clickable="true" 
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+           
+           <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_id_type" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+			/>
+            
+            <ImageView 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="@dimen/margin_10" 
+                android:layout_marginRight="@dimen/margin_10" 
+                android:src="@drawable/icon_right_arrow" 
+                android:layout_alignParentRight="true" 
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+        
+                 <View android:layout_marginLeft="@dimen/margin_10" 
+            style="@style/line_h" />
+         
+        <RelativeLayout 
+            android:id="@+id/layout_id_number" 
+            android:background="@drawable/selector_btn_4" 
+            android:clickable="true" 
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+           
+           <EditText 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/edt_id_number" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:hint="@string/number" />
+
+        </RelativeLayout>
+	</LinearLayout>
+	
+    <RelativeLayout 
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_passenger_info"
+        android:gravity="center_horizontal"
+ 		>
+        <Button 
+            android:id="@+id/btn_confirm"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/size_20dip"
+            android:layout_width="@dimen/passengerlist_confirmbutton_width"
+            android:layout_height="@dimen/passengerlist_confirmbutton_height"
+            android:text="@string/done"
+            android:background="@drawable/selector_btn_1"
+            android:gravity="center"
+            />
+    </RelativeLayout>
+    
+</RelativeLayout>

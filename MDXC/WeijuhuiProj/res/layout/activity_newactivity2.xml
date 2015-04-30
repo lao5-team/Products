@@ -1,0 +1,155 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android1="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android1:layout_marginLeft="10dp"
+    tools:context=".MainActivity" >
+
+    <RelativeLayout
+        android1:id="@+id/relativeLayout_title"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content" >
+
+        <TextView
+            android1:id="@+id/textView_title"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_centerVertical="true"
+            android1:layout_marginLeft="10dp"
+            android1:text="@string/title"
+            android1:textSize="18dp" />
+
+        <EditText
+            android1:id="@+id/editText_title"
+            android1:layout_width="match_parent"
+            android1:layout_height="wrap_content"
+            android1:layout_marginRight="10dp"
+            android1:layout_toRightOf="@id/textView_title"
+            android1:hint="填写聚会标题" />
+    </RelativeLayout>
+
+    <Button
+        android1:id="@+id/button_confirm"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentBottom="true"
+        android1:layout_alignParentLeft="true"
+        android1:layout_marginLeft="10dp"
+        android1:text="@string/confirm_activity" />
+
+    <Button
+        android1:id="@+id/button_cancel"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/button_confirm"
+        android1:layout_alignParentRight="true"
+        android1:layout_marginRight="10dp"
+        android1:text="@string/cancel_activity" />
+
+    <RelativeLayout
+        android1:id="@+id/relativeLayout_content"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_marginTop="10dp"
+        android1:layout_below="@id/relativeLayout_title" >
+
+        <TextView
+            android1:id="@+id/textView_content"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_marginLeft="10dp"
+            android1:text="@string/contentDescription"
+            android1:textSize="18dp" />
+
+        <EditText
+            android1:id="@+id/editText_content"
+            android1:layout_width="match_parent"
+            android1:layout_height="wrap_content"
+            android1:layout_marginLeft="10dp"
+            android1:layout_marginRight="10dp"
+            android1:layout_marginTop="10dp"
+            android1:layout_below="@+id/textView_content"
+            android1:ems="10"
+            android1:hint="填写聚会内容"
+            android1:inputType="textMultiLine"
+            android1:lines="4"
+            android1:scrollbarStyle="insideOverlay" >
+
+            <requestFocus />
+        </EditText>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android1:id="@+id/relativeLayout_paymentType"
+        android1:layout_width="match_parent"
+        android1:layout_height="wrap_content"
+        android1:layout_marginTop="10dp"
+        android1:layout_below="@id/relativeLayout_content" >
+
+        <TextView
+            android1:id="@+id/textView_paymentType"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_centerVertical="true"
+            android1:layout_marginLeft="10dp"
+            android1:text="@string/paymentType"
+            android1:textSize="18dp" />
+
+        <CheckBox
+            android1:id="@+id/checkBox_pay_me"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_toRightOf="@id/textView_paymentType"
+            android1:text="@string/pay_me" />
+
+        <CheckBox
+            android1:id="@+id/checkBox_pay_aa"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_toRightOf="@id/checkBox_pay_me"
+            android1:text="@string/pay_aa" />
+
+        <CheckBox
+            android1:id="@+id/checkBox_pay_other"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_toRightOf="@id/checkBox_pay_aa"
+            android1:text="@string/pay_other" />
+
+    </RelativeLayout>
+
+    <Button
+        android1:id="@+id/button_select_business"
+        android1:layout_width="match_parent"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@id/relativeLayout_paymentType"
+        android1:layout_marginLeft="10dp"
+        android1:layout_marginRight="10dp"
+        android1:layout_marginTop="10dp"
+        android1:text="@string/select_business_room" />
+
+    <Button
+        android1:id="@+id/button_select_friends"
+        android1:layout_width="match_parent"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/button_select_business"
+        android1:layout_marginLeft="10dp"
+        android1:layout_marginRight="10dp"
+        android1:layout_marginTop="27dp"
+        android1:text="@string/select_party_member" />
+
+    <Button
+        android1:id="@+id/button_select_date"
+        android1:layout_width="match_parent"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/button_select_friends"
+        android1:layout_marginLeft="10dp"
+        android1:layout_marginRight="10dp"
+        android1:layout_marginTop="30dp"
+        android1:text="@string/select_time" />
+
+</RelativeLayout>

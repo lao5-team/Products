@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+
+<!--         <EditText -->
+<!--             android:id="@+id/editText_search" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_marginLeft="70dp" -->
+<!--             android:ems="10" /> -->
+
+        <TextView
+            android:id="@+id/textView_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="TextView" />
+
+        <SearchView
+            android:id="@+id/searchView_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@+id/textView_city" >
+        </SearchView>
+
+        <ImageButton
+            android:id="@+id/imageButton_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/add" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relativeLayout_header"
+        android:scrollbars="vertical"
+        android:id="@+id/relativeLayout_content" >
+
+        <GridView
+            android:id="@+id/gridView_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3" >
+        </GridView>
+
+        <ListView
+            android:id="@+id/listView_activity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dip"
+            android:layout_below="@+id/gridView_category"
+            android:cacheColorHint="#00000000"
+	        android:descendantFocusability="afterDescendants"
+	        android:divider="@color/divider_list"
+	        android:dividerHeight="1px"
+	        android:background="@color/gray_light">
+        </ListView>
+
+        <Button
+            android:id="@+id/button_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="refresh" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

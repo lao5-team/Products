@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:orientation="vertical"
+        android:background="@color/color_efefef"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/rl_splash"
+                android:background="@drawable/bg_launch" android:visibility="invisible">
+        </RelativeLayout>
+        <LinearLayout
+                android:id="@+id/ll_content"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="@dimen/margin_10" android:visibility="visible">
+
+                <TextView
+                        android:textSize="@dimen/font_size_large"
+                        android:textColor="@color/color_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_10"
+                        android:text="@string/account"/>
+
+                <View style="@style/line_h"/>
+
+                <EditText
+                        android:id="@+id/editText_username"
+                        android:background="@color/color_ffffff"
+                        android:layout_width="fill_parent"
+                        android:hint="@string/account_hint"
+                        android:imeOptions="actionNext"
+                        style="@style/BaseInput"/>
+
+                <View
+                        android:layout_marginBottom="@dimen/margin_10"
+                        style="@style/line_h"/>
+
+                <TextView
+                        android:textSize="@dimen/font_size_large"
+                        android:textColor="@color/color_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_10"
+                        android:text="@string/password"/>
+
+                <View style="@style/line_h"/>
+
+                <EditText
+                        android:textColor="@color/color_333333"
+                        android:id="@+id/editText_password"
+                        android:layout_width="fill_parent"
+                        android:inputType="textPassword"
+                        android:imeOptions="actionGo"
+                        style="@style/BaseInput"/>
+
+                <View
+                        android:layout_marginBottom="@dimen/margin_10"
+                        style="@style/line_h"/>
+
+                <Button
+                        android:textSize="@dimen/font_size_large"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_white"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/button_OK"
+                        android:background="@drawable/selector_btn_1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/view_item_height"
+                        android:layout_margin="@dimen/margin_10"
+                        android:text="@string/sign_in"
+                        android:onClick="onClickSignIn"/>
+
+                <TextView
+                        android:textSize="@dimen/font_size_large"
+                        android:textColor="@color/color_099fde"
+                        android:id="@+id/tv_forgot_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_10"
+                        android:text="@string/forgot_password"/>
+
+                <include
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.0dip"
+                        android:layout_margin="@dimen/margin_10"
+                        android:layout_weight="1.0"
+                        layout="@layout/activity_view_not_a_member"/>
+
+                <Button
+                        android:textSize="@dimen/font_size_large"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_white"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/button_Cancel"
+                        android:background="@drawable/selector_btn_2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/view_item_height"
+                        android:layout_margin="@dimen/margin_10"
+                        android:text="@string/skip_sign_in"
+                        android:onClick="onClickSkip"/>
+        </LinearLayout>
+</RelativeLayout>

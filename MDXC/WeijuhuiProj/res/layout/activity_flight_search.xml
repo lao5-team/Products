@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        android:scrollbars="none"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ctrip="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/color_ffffff"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+        <LinearLayout
+                android:background="@color/color_efefef"
+                android:padding="@dimen/margin_10"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <!--<ctrip.english.views.components.SwitchView-->
+                    <!--android:id="@id/sv_trip_type"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="@dimen/view_item_height"-->
+                    <!--ctrip:left_text="@string/round_trip"-->
+                    <!--ctrip:right_text="@string/one_way"/>-->
+            <Button
+                    android:textSize="@dimen/font_size_large"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_white"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/button_oneway"
+                    android:background="@drawable/selector_btn_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_item_height"
+                    android:layout_margin="@dimen/margin_10"
+                    android:text="@string/round_trip"
+                    android:onClick="onClickSkip"
+                    android:layout_weight="1"/>
+
+            <Button
+                    android:textSize="@dimen/font_size_large"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_white"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/button_roundtrip"
+                    android:background="@drawable/selector_btn_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_item_height"
+                    android:layout_margin="@dimen/margin_10"
+                    android:text="@string/one_way"
+                    android:onClick="onClickSkip"
+                    android:layout_weight="1"/>
+
+        </LinearLayout>
+        <View style="@style/line_h"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15">
+
+            <include layout="@layout/view_airports_selector"
+                     android:id="@+id/airports_selector"/>
+
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0">
+
+                    <LinearLayout
+                            android:gravity="center|left"
+                            android:orientation="horizontal"
+                            android:id="@+id/ll_departDate_container"
+                            android:background="@drawable/selector_btn_4"
+                            android:padding="5.0dip"
+                            android:clickable="true"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/button_height_60">
+
+                        <TextView
+                                android:id="@+id/tv_depart_weekday"
+                                android:layout_marginRight="@dimen/margin_10"
+                                style="@style/TipView"/>
+
+                        <TextView
+                                android:id="@+id/tv_depart_date"
+                                style="@style/TitleView"/>
+                    </LinearLayout>
+
+                    <View style="@style/line_h"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/flight_search_returnDate_container"
+                        android:paddingLeft="@dimen/margin_10"
+                        android:clickable="true"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0">
+
+                    <LinearLayout
+                            android:gravity="center|right"
+                            android:orientation="horizontal"
+                            android:background="@drawable/selector_btn_4"
+                            android:padding="5.0dip"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/button_height_60">
+
+                        <TextView
+                                android:id="@+id/tv_return_weekday"
+                                android:layout_marginRight="@dimen/margin_10"
+                                style="@style/TipView"/>
+
+                        <TextView
+                                android:id="@+id/tv_return_date"
+                                style="@style/TitleView"/>
+                    </LinearLayout>
+
+                    <View style="@style/line_h"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:gravity="center_vertical"
+                    android:background="@drawable/selector_btn_4"
+                    android:padding="5.0dip"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/button_height_90">
+
+                <TextView
+                        android:textSize="@dimen/font_size_medium"
+                        android:textColor="@color/color_999999"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/passenger_count"
+                        android:layout_weight="1.0"/>
+
+                <LinearLayout
+                        android:gravity="center|right"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0">
+
+                    <ImageView
+                            android:id="@+id/iv_minus"
+                            android:background="@drawable/selector_icon_minus"
+                            android:clickable="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:textSize="@dimen/font_size_large"
+                            android:textColor="@color/color_333333"
+                            android:id="@+id/tv_passenger_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20.0dip"
+                            android:layout_marginRight="20.0dip"
+                            android:singleLine="true"/>
+
+                    <ImageView
+                            android:id="@+id/iv_plus"
+                            android:background="@drawable/selector_icon_plus"
+                            android:clickable="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View style="@style/line_h"/>
+
+            <TextView
+                    android:gravity="center_vertical"
+                    android:id="@+id/tv_flight_class"
+                    android:background="@drawable/selector_btn_4"
+                    android:padding="5.0dip"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/button_height_60"
+                    style="@style/TitleView"/>
+
+            <View style="@style/line_h"/>
+        </LinearLayout>
+
+        <include
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/button_height_60"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="40.0dip"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginBottom="20.0dip"
+                layout="@layout/view_search_button"/>
+    </LinearLayout>
+</ScrollView>

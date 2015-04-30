@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="@color/color_ffffff">
+
+<!--     <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton_back" android:layout_margin="5dp" android:src="@drawable/btn_titlebar_back"
+            />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="My Flight Orders"
+            android:layout_alignBottom="@+id/imageButton_back"
+            android:id="@+id/textView4" android:layout_gravity="center_horizontal" android:layout_margin="5dp"
+            android:gravity="center" android:textColor="@color/color_000000" android:layout_centerHorizontal="true"/> -->
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_below="@+id/imageButton_back"
+            android:layout_height="fill_parent" android:id="@+id/rl_progress">
+        <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar2"
+                android:layout_alignParentStart="true" android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Loading Flight Orders"
+                android:id="@+id/textView5" android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/progressBar2" android:layout_toEndOf="@+id/progressBar2"
+                android:layout_marginLeft="20dp" android:layout_marginStart="69dp"
+                android:textColor="@color/color_000000"/>
+    </RelativeLayout>
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView_flight_orders" android:layout_gravity="center_horizontal" android:layout_margin="5dp"
+            android:layout_below="@+id/imageButton_back" android:divider="@android:color/holo_purple"
+            android:dividerHeight="2dp" android:visibility="visible"/>
+</RelativeLayout>

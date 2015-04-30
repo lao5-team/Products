@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.test.juxiaohui"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.test.juxiaohui" />
+
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:name="DemoApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon_launcher"
+        android:label="@string/app_name" 
+         >
+        <activity
+            android:name="com.test.juxiaohui.activity.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.CreateActivityActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.EntryActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.RegisterActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.AlertDialog"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+
+        <service android:name="com.test.juxiaohui.service.ContactChangeService" />
+        <service android:name="com.test.juxiaohui.service.MessageService" />
+        <!-- 设置环信应用的appkey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="weijuhui#weijuhui" />
+        <!-- 声明sdk所需的service -->
+        <service android:name="com.easemob.chat.EMChatService" />
+
+        <activity
+            android:name="com.test.juxiaohui.activity.ActivityDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.AddContactActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity android:name="com.test.juxiaohui.activity.NewFriendsMsgActivity" >
+        </activity>
+
+        <uses-library android:name="android.test.runner" />
+
+        <activity
+            android:name="com.test.juxiaohui.activity.ActivityMembersActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.CreateActivityActivity2"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.CustomActivityActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.DateActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.test.juxiaohui.activity.PhotoSelectActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity android:name="com.test.juxiaohui.activity.ActivityPayment" >
+        </activity>
+        <activity
+            android:name=".activity.MessagesActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity android:name=".activity.ActivityListActivity" >
+        </activity>
+        <activity
+            android:name=".shop.app.GoodsListActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name=".shop.app.GoodsActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity android:name=".shop.app.ChartActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+
+        <activity android:name=".shop.app.OrderListActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+
+        <activity android:name=".shop.app.OrderActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+
+        <activity android:name=".shop.app.PayActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+        <activity android:name=".shop.app.ShopMainActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+        
+
+        
+        <activity android:name=".activity.EntryTest" android:theme="@style/horizontal_slide">
+
+        </activity>
+        <activity android:name=".mdxc.app.RegisterActivity"
+                  android:theme="@style/CTActivityStyleLeftPush">
+        </activity>
+        <activity android:name=".mdxc.app.LoginActivity" android:theme="@style/CTActivityStyleLeftPush">
+		<intent-filter>
+           <action android:name="android.intent.action.MAIN"/>
+           <category android:name="android.intent.category.LAUNCHER"/>
+         </intent-filter>
+	    </activity>
+        <activity android:name=".mdxc.app.FlightSearchActivity" android:theme="@style/CTActivityStyleLeftPush" />
+        <activity android:name=".mdxc.app.FlightSearchResultActivity" android:theme="@style/CTActivityStyleLeftPush"/>
+        <activity android:name=".mdxc.app.FlightDetailActivity" android:theme="@style/CTActivityStyleLeftPush"/>
+       <activity android:name=".mdxc.app.FlightOrderActivity" android:theme="@style/CTActivityStyleLeftPush"/>
+        <activity android:name=".mdxc.app.EntryActivity" android:theme="@style/CTActivityStyleLeftPush"/>
+        <activity android:name=".mdxc.app.CitySearchActivity" android:theme="@style/CTActivityStyleLeftPush"/>
+         <activity android:name=".mdxc.app.PassengerListActivity" android:theme="@style/CTActivityStyleLeftPush">
+        </activity>
+            
+         <activity android:name=".mdxc.app.PassengerEditorActivity" android:theme="@style/CTActivityStyleLeftPush"/>
+
+
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="Test Activty"
+        android:targetPackage="com.test.juxiaohui" />
+
+</manifest>

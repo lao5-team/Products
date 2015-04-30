@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_home_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_home" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/navigation_bar_height" >
+
+        <ImageView
+            android:id="@+id/rl_left_drawer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:duplicateParentState="true"
+            android:padding="15.0dip"
+            android:src="@drawable/icon_drawer" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_10"
+            android:background="@drawable/icon_home_logo" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/rl_ad"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/main_banner_height"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone" >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_ad"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/color_gray_9" />
+
+            <LinearLayout
+                android:id="@+id/ll_index_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5.0dip"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/rl_ad"
+            android:gravity="center_horizontal"
+            android:paddingBottom="@dimen/home_fragment_icon_ad_divider" >
+
+            <TextView
+                android:id="@+id/tv_hotel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="@dimen/margin_10"
+                android:drawableTop="@drawable/selector_icon_home_hotel"
+                android:gravity="center"
+                android:text="@string/hotels"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/font_size_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_flight_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/home_fragment_icons_divider"
+                android:drawablePadding="@dimen/margin_10"
+                android:drawableTop="@drawable/selector_icon_home_flight"
+                android:gravity="center"
+                android:text="@string/flights"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/font_size_large"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

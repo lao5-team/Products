@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    android:layout_gravity="center_vertical" 
+    android:orientation="vertical" 
+    android:background="@drawable/selector_btn_4"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <RelativeLayout 
+        android:gravity="center_vertical" 
+        android:layout_width="fill_parent" 
+        android:layout_height="40.0dip">        
+        <ImageView 
+            android:id="@+id/iv_selected" 
+            android:background="@drawable/icon_selected" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="@dimen/margin_10" 
+            android:layout_marginRight="20.0dip" 
+            android:layout_alignParentRight="true" 
+            android:layout_centerVertical="true" />       
+        <LinearLayout
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent" 
+            android:layout_marginLeft="@dimen/margin_10" 
+            android:layout_toLeftOf="@+id/iv_selected" 
+            android:layout_centerVertical="true">         
+            <TextView 
+                android:textSize="@dimen/font_size_medium" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@id/tv_title" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:singleLine="true" />        
+            <TextView 
+                android:textSize="@dimen/font_size_small" 
+                android:textColor="@color/color_666666" 
+                android:gravity="center_vertical" 
+                android:id="@id/tv_subtitle" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:layout_marginLeft="5.0dip" 
+                android:singleLine="true" />
+        </LinearLayout>
+    </RelativeLayout>
+    
+    <View 
+        android:id="@+id/iv_margin_divider" 
+        android:visibility="gone" 
+        style="@style/line_h_margin_left_10" />
+    <View 
+        android:id="@+id/iv_bottom_divider" 
+        android:visibility="gone" 
+        style="@style/line_h" />
+</LinearLayout>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical" 
+    android:background="@color/color_efefef" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+  	xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout 
+        android:orientation="vertical" 
+        android:background="@color/color_ffffff" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_15">
+       
+        <View style="@style/line_h" />
+        
+        <RelativeLayout 
+            android:id="@+id/rl_language" 
+            android:background="@drawable/selector_btn_4" 
+            android:clickable="true" 
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+           
+           <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_language_title" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:text="@string/language" />
+            
+            <ImageView 
+                android:id="@+id/iv_language_next" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="@dimen/margin_10" 
+                android:layout_marginRight="@dimen/margin_10" 
+                android:src="@drawable/icon_right_arrow" 
+                android:layout_alignParentRight="true" 
+                android:layout_centerVertical="true" />
+            <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_666666" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_language" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:layout_toLeftOf="@+id/iv_language_next" />
+            <ImageView 
+                android:id="@+id/iv_language" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_toLeftOf="@+id/tv_language" 
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+        
+        <View 
+            android:layout_marginLeft="@dimen/margin_10" 
+            style="@style/line_h" />
+        
+        <RelativeLayout 
+            android:id="@+id/rl_currency" 
+            android:background="@drawable/selector_btn_4" 
+            android:clickable="true" 
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+            
+            <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_currency_title" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:text="@string/currency" />
+            
+            <ImageView 
+                android:id="@+id/iv_currency_next" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="@dimen/margin_10" 
+                android:layout_marginRight="@dimen/margin_10" 
+                android:src="@drawable/icon_right_arrow" 
+                android:layout_alignParentRight="true" 
+                android:layout_centerVertical="true" />
+            
+            <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_666666" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_currency" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:layout_toLeftOf="@+id/iv_currency_next" />
+        </RelativeLayout>
+        
+        <View 
+            android:layout_marginLeft="@dimen/margin_10" 
+            style="@style/line_h" />
+        
+        <RelativeLayout 
+            android:id="@+id/rl_distance" 
+            android:background="@drawable/selector_btn_4" 
+            android:clickable="true" 
+            android:layout_width="fill_parent" 
+            android:layout_height="@dimen/view_item_height">
+            
+            <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_333333" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_unit_title" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:text="@string/distance_unit" />
+           
+            <ImageView 
+                android:id="@+id/iv_unit_next" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="@dimen/margin_10" 
+                android:layout_marginRight="@dimen/margin_10" 
+                android:src="@drawable/icon_right_arrow" 
+                android:layout_alignParentRight="true" 
+                android:layout_centerVertical="true" />
+            
+            <TextView 
+                android:textSize="@dimen/font_size_26" 
+                android:textColor="@color/color_666666" 
+                android:gravity="center_vertical" 
+                android:id="@+id/tv_unit" 
+                android:paddingLeft="@dimen/margin_10" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:layout_toLeftOf="@id/iv_unit_next" />
+        </RelativeLayout>
+        
+        <View style="@style/line_h" />
+    </LinearLayout>
+    
+    <RelativeLayout 
+        android:orientation="horizontal" 
+        android:id="@+id/rl_update" 
+        android:background="@drawable/selector_btn_4" 
+        android:clickable="true" 
+        android:layout_width="fill_parent" 
+        android:layout_height="@dimen/view_item_height" 
+        android:layout_marginTop="@dimen/margin_10">
+        
+        <View style="@style/line_h" />
+        
+        <TextView 
+            android:textSize="@dimen/font_size_26" 
+            android:textColor="@color/color_333333" 
+            android:gravity="center_vertical" 
+            android:id="@+id/tv_update_title" 
+            android:paddingLeft="@dimen/margin_10" 
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent" 
+            android:text="@string/update" />
+        
+        <ImageView 
+            android:id="@+id/iv_update_next" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10" 
+            android:src="@drawable/icon_right_arrow" 
+            android:layout_alignParentRight="true" 
+            android:layout_centerVertical="true" />
+        
+        <TextView 
+            android:textSize="@dimen/font_size_26" 
+            android:textColor="@color/color_666666" 
+            android:gravity="center_vertical" 
+            android:id="@+id/tv_version" 
+            android:layout_width="wrap_content" 
+            android:layout_height="fill_parent" 
+            android:layout_toLeftOf="@+id/iv_update_next" />
+        
+        <ImageView 
+            android:id="@+id/iv_new_version" 
+            android:visibility="gone" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="@dimen/margin_10" 
+            android:layout_marginRight="@dimen/margin_10" 
+            android:src="@drawable/icon_right_arrow" 
+            android:layout_toLeftOf="@+id/tv_version" 
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+    
+    <View style="@style/line_h" />
+    
+    <View 
+        android:layout_marginTop="@dimen/margin_10" 
+        style="@style/line_h" />
+    
+    <TextView 
+        android:textSize="@dimen/font_size_26" 
+        android:id="@+id/tv_more_info_title" 
+        android:background="@drawable/selector_btn_4" 
+        android:clickable="true" 
+        android:layout_width="fill_parent" 
+        android:text="@string/more_info" 
+        style="@style/NextButtonWithBackground" />
+    <View style="@style/line_h" />
+</LinearLayout>

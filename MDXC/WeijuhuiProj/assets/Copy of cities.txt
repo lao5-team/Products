@@ -1,0 +1,1518 @@
+ANB	,	安尼斯顿	,	AANNISTON
+ABD	,	阿巴丹	,	ABADAN
+ABA	,	阿巴干	,	ABAKAN
+AEH	,	阿贝歇	,	ABECHER
+ABR	,	阿伯丁	,	ABERDEEN
+ABZ	,	阿伯丁	,	ABERDEEN
+AHB	,	阿卜哈	,	ABHA
+ABJ	,	阿比让	,	ABIDJAN
+ABI	,	阿比林	,	ABILENE
+AUH	,	雅布达比	,	ABU DHABI
+ABV	,	*	,	ABUJA
+ACA	,	阿卡普尔科	,	ACAPULCO
+AGV	,	阿卡里奎	,	ACARIGUA
+ACC	,	阿克拉	,	ACCRA
+ADA	,	阿达纳	,	ADANA
+ADL	,	阿德雷德	,	ADELAIDE
+ADE	,	亚丁	,	ADEN
+AZR	,	阿得拉	,	ADRAR
+AGA	,	阿加迪尔	,	AGADIR
+AGF	,	阿让	,	AGEN
+AGR	,	阿格拉	,	AGRA
+AJA	,	阿雅克修	,	AJACCIO
+AXT	,	秋田	,	AKITA
+AKC	,	阿克朗	,	AKRON
+CAK	,	阿克朗	,	AKRON/CANTON
+AKU	,	阿克苏	,	AKSU
+SCO	,	阿克套	,	AKTAU
+AEY	,	阿库雷里	,	AKUREYRI
+AAN	,	艾恩	,	AL AIN
+ALM	,	阿拉穆古多	,	ALAMOGORDO
+ABY	,	阿尔班尼	,	ALBANY
+ALB	,	阿尔班尼	,	ALBANY
+ALH	,	阿尔班尼	,	ALBANY
+ABQ	,	阿布奎基	,	ALBUQUERQUE
+ABX	,	阿尔伯里	,	ALBURY
+ALP	,	阿勒波	,	ALEPPO
+ALJ	,	亚历山大湾	,	ALEXANDER BAY
+ALY	,	亚历山大	,	ALEXANDRIA
+ALG	,	阿尔及尔	,	ALGIERS
+ALC	,	阿利钦塔	,	ALICANTE
+ASP	,	爱丽斯泉	,	ALICE SPRINGS
+IXD	,	安拉亚巴德	,	ALLAHABAD
+ABE	,	阿伦镇	,	ALLENTOWN/BETHLEHEM
+AIA	,	阿尔林斯	,	ALLIANCE
+ARD	,	阿洛岛	,	ALOR ISLAND
+AOR	,	亚罗士打	,	ALOR SETAR
+AAT	,	阿勒泰	,	ALTAY
+AOO	,	阿图纳	,	ALTOONA
+AMA	,	阿马里略	,	AMARILLO
+AMQ	,	安汶	,	AMBON
+ADJ	,	安曼	,	AMMAN
+AMM	,	安曼	,	AMMAN
+ATQ	,	阿姆利则	,	AMRITSAR
+AMS	,	亚姆斯特丹	,	AMSTERDAM
+ANC	,	安科雷季	,	ANCHORAGE
+AOI	,	安科纳	,	ANCONA
+AZN	,	安迪山	,	ANDIZHAN
+ASD	,	安德罗斯	,	ANDROS TOWN
+ANG	,	昂古莱姆	,	ANGOULEME
+AXA	,	安奎拉	,	ANGUILLA
+AKA	,	安康	,	ANKANG
+ANK	,	安哥拉	,	ANKARA
+ESB	,	安卡拉	,	ANKARA
+AAE	,	安纳巴	,	ANNABA
+AQG	,	安庆	,	ANQING
+AOG	,	鞍山	,	ANSHAN
+AYT	,	安塔利亚	,	ANTALYA
+ANU	,	安提瓜	,	ANTIGUA
+ANR	,	安特卫普	,	ANTWERP
+AOJ	,	青森	,	AOMORI
+ATW	,	阿普雷顿	,	APPLETON
+AQJ	,	阿圭巴	,	AQABA
+AJU	,	阿拉卡茹	,	ARACAJU
+ARW	,	阿拉德	,	ARAD
+AUX	,	阿拉奎亚	,	ARAGUAIA
+ACV	,	-	,	ARCATA
+YAB	,	北极湾	,	ARCTIC BAY
+ADU	,	阿尔德比勒	,	ARDABIL
+AQP	,	阿伦基帕	,	AREQUIPA
+ARC	,	阿里卡	,	ARICA
+ARI	,	阿里卡	,	ARICA
+AXM	,	阿尔民尼亚	,	ARMENIA
+ARM	,	阿米代尔	,	ARMIDALE
+AUA	,	阿鲁巴	,	ARUBA
+AKJ	,	旭川	,	ASAHIGAWA
+AVL	,	阿什维尔	,	ASHEVILLE
+ASB	,	阿什卡巴德	,	ASHKHABAD
+ASM	,	阿斯马拉	,	ASMARA
+ASA	,	阿萨布	,	ASSAB
+ASF	,	阿斯特拉罕	,	ASTRAKHAN
+ASU	,	亚松森	,	ASUNCION
+ASW	,	阿斯旺	,	ASWAN
+ATR	,	阿塔尔	,	ATAR
+ATB	,	阿特巴拉	,	ATBARA
+ATH	,	雅典	,	ATHENS
+ATL	,	亚特兰大	,	ATLANTA
+ACY	,	大西洋城	,	ATLANTIC CITY
+AIY	,	大西洋城	,	ATLANTIC CITY
+AKL	,	奥克兰	,	AUCKLAND
+AGS	,	奥古斯达	,	AUGUSTA
+AUG	,	奥古斯达	,	AUGUSTA
+AUS	,	奥斯丁	,	AUSTIN
+AVN	,	亚威农	,	AVIGNON
+AYP	,	阿亚库乔	,	AYACUCHO
+AYQ	,	埃尔石	,	AYERS ROCK
+BCD	,	巴哥洛	,	BACOLOD
+BJZ	,	巴达霍斯	,	BADAJOZ
+BAG	,	碧瑶	,	BAGUIO
+BHI	,	布兰卡湾	,	BAHIA BLANCA
+BAH	,	巴林	,	BAHRAIN
+BFL	,	巴克斯菲尔	,	BAKERSFIELD
+BAK	,	巴库	,	BAKU
+BPN	,	巴里巴板	,	BALIKPAPAN
+BXH	,	巴尔喀什	,	BALKHASH
+BNK	,	巴连娜	,	BALLINA
+BWI	,	巴尔的摩	,	BALTIMORE
+BKO	,	巴马科	,	BAMAKO
+BMV	,	邦美蜀	,	BAN NE THUOT
+BND	,	阿巴斯港	,	BANDAR ABBAS
+BWN	,	诗里布加湾	,	BANDAR SERI BEGAWAN
+BDO	,	万隆	,	BANDUNG
+BLR	,	班加罗尔	,	BANGALORE
+BKK	,	曼谷	,	BANGKOK
+BGR	,	邦哥尔	,	BANGOR
+BGF	,	班吉	,	BANGUI
+BDJ	,	马辰	,	BANJARMASIN
+BJL	,	宾祖尔	,	BANJUL
+BSD	,	保山	,	BAOCHAN
+BAV	,	包头	,	BAOTOU
+BCA	,	巴拉果亚	,	BARACOA
+BGI	,	巴巴多斯	,	BARBADOS
+BBQ	,	巴布达	,	BARBUDA
+BCI	,	巴格甸	,	BARCALDINE
+BCN	,	巴赛隆拿	,	BARCELONA
+BLA	,	巴塞隆纳	,	BARCELONA
+BRI	,	巴里	,	BARI
+BZL	,	巴里索尔	,	BARISAL
+BAX	,	巴纳尼	,	BARNAUL
+BTR	,	巴顿路奇	,	BARON ROUGE
+BRM	,	巴基西梅托	,	BARQUIAIMETO
+BRR	,	巴拉群岛	,	BARRA
+BAQ	,	巴兰基拉	,	BARRANQUILLA
+BRA	,	巴里拉斯	,	BARREIRAS
+BRW	,	巴罗	,	BARROW
+BSL	,	巴塞尔	,	BASEL
+BBR	,	巴斯特尔	,	BASSE TERRE
+BIA	,	巴斯提亚	,	BASTIA
+BSG	,	巴塔	,	BATA
+BHS	,	巴妥斯特	,	BATHURST
+ZBF	,	巴瑟斯特	,	BATHURST
+BBM	,	马德望	,	BATTAMBANG
+BUS	,	巴统	,	BATUMI
+BPT	,	波蒙特	,	BEAMONT
+BKW	,	贝克里	,	BECKLEY
+BHY	,	北海	,	BEIHAI
+BJS	,	北京	,	BEIJING
+NAY	,	北京	,	BEIJING
+BEW	,	贝拉	,	BEIRA
+BEY	,	贝鲁特	,	BEIRUT
+BLG	,	美拉呀	,	BELAGA
+BEL	,	贝伦	,	BELEM
+BFS	,	贝尔法斯特	,	BELFAST
+BHD	,	贝尔法斯特	,	BELFAST
+EGO	,	别尔哥罗德	,	BELGOROD
+BEG	,	贝尔格莱德	,	BELGRADE
+BZE	,	伯利兹	,	BELIZE CITY
+TZA	,	伯利兹	,	BELIZE CITY
+BLI	,	柏尔罕	,	BELLINGHAM
+BFU	,	蚌埠	,	BENGBU
+BKS	,	明古鲁	,	BENGKULU
+BUG	,	本格拉	,	BENGUELA
+BEH	,	本顿港	,	BENTON HARBOR
+BEJ	,	贝劳	,	BERAU
+BBO	,	柏培拉	,	BERBERA
+BGO	,	卑尔根	,	BERGEN
+BER	,	柏林	,	BERLIN
+SXF	,	柏林	,	BERLIN
+TXL	,	柏林	,	BERLIN
+BDA	,	百慕达	,	BERMUDA
+BRN	,	伯恩	,	BERNE
+BMO	,	八莫	,	BHAMO
+BHU	,	包纳加尔	,	BHAVANAGAR
+BHO	,	博柏尔	,	BHOPAL
+BHJ	,	布季	,	BHUJ
+BIK	,	伯克	,	BIAK
+BIO	,	比尔波	,	BILBAO
+BIL	,	比灵斯	,	BILLINGS
+BMU	,	卑马	,	BIMA
+BGM	,	宾罕顿	,	BINGHAMTON
+BTU	,	宾土卢	,	BINTULU
+BVI	,	伯士维尔	,	BIRDSVILLE
+BHM	,	伯明汉	,	BIRMINGHAM
+BHX	,	伯明汉	,	BIRMINGHAM
+BHH	,	比沙	,	BISHA
+FRU	,	皮什凯克	,	BISHKEK
+BSK	,	比斯加拉	,	BISKRA
+BIS	,	俾斯麦	,	BISMARCK
+OXB	,	比绍	,	BISSAU
+BKQ	,	布拉加尔	,	BLACKALL
+BLZ	,	布兰太尔	,	BLANTYRE
+BHE	,	布兰赫姆	,	BLENHEIM
+BFN	,	布隆方丹	,	BLOEMFONTEIN
+BMG	,	布隆明顿	,	BLOOMINGION
+BLF	,	蓝田	,	BLUEFIELD
+BEF	,	蓝田	,	BLUEFIELDS
+BNU	,	布伦曼瑙	,	BLUMENAU
+BVB	,	波阿维斯塔	,	BOA VISTA
+BVC	,	波阿维斯塔	,	BOA VISTA
+BOO	,	波多	,	BODO
+BOG	,	波哥大	,	BOGOTA
+BOI	,	波西	,	BOISE
+BLQ	,	波伦那	,	BOLOGNA
+BOM	,	孟买	,	BOMBAY/MUMBAI
+BON	,	波内尔	,	BONAIRE
+BNJ	,	波恩	,	BONN
+BOD	,	波尔多	,	BORDEAUX
+RNN	,	博恩霍意姆	,	BORNHOLM
+BOX	,	波劳罗拉	,	BORROLOOLA
+BOS	,	波士顿	,	BOSTON
+BRK	,	伯克	,	BOURKE
+BZN	,	波兹曼	,	BOZEMAN
+BSB	,	巴西尼亚	,	BRASILIA
+BWE	,	布伦兹维克	,	BRAUNSCHWEIG
+BZV	,	布拉柴维尔	,	BRAZZAVILLE
+BRE	,	不莱梅	,	BREMEN
+BES	,	布勒斯特	,	BREST
+BQT	,	布勒斯特	,	BREST
+BWQ	,	布鲁窝利纳	,	BREWARRINA
+BDR	,	布列治港	,	BRIDGEPORT
+BDS	,	布尔的西	,	BRINDISI
+BNE	,	布里斯班	,	BRISBANE
+BRS	,	布里斯托	,	BRISTOL
+BRQ	,	布尔诺	,	BRNO
+BHQ	,	布罗肯希尔	,	BROKEN HILL
+BME	,	布鲁姆	,	BROOME
+BRO	,	布朗斯维尔	,	BROWNSVILLE
+SSI	,	不伦瑞克	,	BRUNSWICK
+BRU	,	布鲁塞尔	,	BRUSSELS
+BGA	,	布卡拉曼加	,	BUCARAMANGA
+BBU	,	布加勒斯特	,	BUCHAREST
+BUH	,	布加勒斯特	,	BUCHAREST
+BUD	,	布达佩斯	,	BUDAPEST
+AEP	,	布宜诺斯	,	BUENOS AIRES
+BUE	,	布宜诺斯	,	BUENOS AIRES
+BUF	,	布法罗	,	BUFFALO
+BJM	,	宝针宝拉	,	BUJUMBURA
+BHK	,	布哈拉	,	BUKHARA
+BDB	,	班达堡	,	BUNDABERG
+BUR	,	布班克	,	BURBANK
+BUC	,	伯克敦	,	BURKETOWN
+BRL	,	布灵顿	,	BURLINGTON
+BTV	,	布灵顿	,	BURLINGTON
+BWT	,	伯尼	,	BURNIE
+BTM	,	标特	,	BUTTE
+BXU	,	武端	,	BUTUAN
+CAB	,	卡奔达	,	CABINDA
+CFR	,	冈	,	CAEN
+CAG	,	卡利阿里	,	CAGLIARI
+CNS	,	开恩兹	,	CAIRNS
+CAI	,	开罗	,	CAIRO
+CJA	,	卡哈马卡	,	CAJAMARCA
+CCU	,	加尔各答	,	CALCUTTA
+YYC	,	卡尔加利	,	CALGARY
+CLO	,	卡利	,	CALI
+CMW	,	卡马圭	,	CAMAGUEY
+CBG	,	剑桥	,	CAMBRIDGE
+CPE	,	金伯撤	,	CAMPECHE
+CPV	,	大坎皮纳	,	CAMPINA GRANDE
+CPQ	,	坎皮纳斯	,	CAMPINAS
+CGR	,	大坎波	,	CAMPO GRANDE
+CAW	,	坎波斯	,	CAMPOS
+CBR	,	坎培拉	,	CANBERRA
+CEQ	,	康城	,	CANNES
+JCA	,	夏纳	,	CANNES
+CAP	,	海地角	,	CAP HAITIEN
+CBI	,	巴仑角岛	,	CAPE BARREN ISLAND
+CPT	,	开普敦	,	CAPE TOWN
+CCS	,	卡拉卡斯	,	CARACAS
+CRQ	,	卡拉维卡斯	,	CARAVELAS
+CWL	,	加地夫	,	CARDIFF
+CLD	,	喀尔斯巴德	,	CARLSBAD
+CNM	,	客尔斯巴德	,	CARLSBAD
+CVQ	,	加那芬	,	CARNARVON
+CRU	,	卡里亚库岛	,	CARRIACOU
+CTG	,	卡塔基纳	,	CARTAGENA
+CAS	,	卡萨布兰卡	,	CASABLANCA
+CMN	,	卡萨布兰卡	,	CASABLANCA
+CSI	,	卡息诺	,	CASINO
+CPR	,	卡斯柏	,	CASPER
+CTC	,	卡塔马卡	,	CATAMARCA
+CTA	,	卡坦尼亚	,	CATANIA
+CAY	,	卡宴	,	CAYENNE
+CYB	,	开曼布腊克	,	CAYMAN BRAC
+CEB	,	宿雾	,	CEBU
+CDC	,	斯德城	,	CEDAR CITY
+CID	,	斯德湍	,	CEDAR RAPIDS
+CED	,	塞杜纳	,	CEDUNA
+CDR	,	查德隆	,	CHADRON
+ZBR	,	哈赫巴哈	,	CHAH-BAHAR
+CGQ	,	长春	,	CHANGCHUN
+CSX	,	长沙	,	CHANGSHA
+CZX	,	常州	,	CHANGZHOU
+CDG	,	巴黎	,	CHARLES DE GAULLE
+CHS	,	查理斯顿	,	CHARLESTON
+CRW	,	查理斯顿	,	CHARLESTON
+CTL	,	查理维尔	,	CHARLEVILLE
+CLT	,	夏洛特	,	CHARLOTTE
+CHT	,	查特罕群岛	,	CHATHAM ISLAND
+CHA	,	查塔劳加	,	CHATTANOOGA
+CJU	,	济洲	,	CHEJU
+CTU	,	成都	,	CHENGDU
+CER	,	瑟堡	,	CHERBOURG
+CYS	,	斜阳	,	CHEYENNE
+CNX	,	青迈	,	CHIANG MAI
+CEI	,	清莱	,	CHIANG RAI
+CYI	,	嘉义	,	CHIAYI
+CHI	,	芝加哥	,	CHICAGO
+GYY	,	兹加哥	,	CHICAGO
+PWK	,	茲加哥	,	CHICAGO
+CGX	,	芝加哥	,	CHICAGO MEIGS FIELD
+MDW	,	芝加哥	,	CHICAGO MIDWAY
+ORD	,	芝加哥	,	CHICAGO O HARE INTL
+CIX	,	契克拉约	,	CHICLAYO
+CIC	,	奇科	,	CHICO
+CUU	,	奇瓦瓦	,	CHIHUAHUA
+CHM	,	钦波特	,	CHIMBOTE
+HIN	,	吾州	,	CHINJU
+CJL	,	奇特拉尔	,	CHITRAL
+CGP	,	吉大港	,	CHITTAGONG
+CHY	,	楚雪尔湾	,	CHOISEUL BAY
+CHC	,	基督城	,	CHRISTCHURCH
+AVI	,	谢哥阿维拉	,	CIEGO DE AVILA
+CXP	,	芝拉札	,	CILACAP
+CVG	,	辛辛那提	,	CINCINNATI
+CBL	,	波利瓦尔城	,	CIUDAD BOLIVAR
+CME	,	卡门城	,	CIUDAD DEL CARMEN
+CJS	,	华雷斯城	,	CIUDAD JUAREZ
+CEN	,	奥布雷冈城	,	CIUDAD OBREGON
+CVM	,	维多利亚城	,	CIUDAD VICTORIA
+CKB	,	克拉克斯堡	,	CLARKSBURG
+CFE	,	克勒蒙菲朗	,	CLERMONT-FERRAND
+CLE	,	克利夫兰	,	CLEVELAND
+CNJ	,	克郎加里	,	CLONCURRY
+CVN	,	克洛维斯	,	CLOVIS
+CLJ	,	克鲁日	,	CLUJ
+CAZ	,	科巴	,	COBAR
+CIJ	,	科比哈	,	COBIJA
+CBB	,	科查班巴	,	COCHABAMBA
+COK	,	科钦	,	COCHIN
+CCK	,	可可岛	,	COCOS ISLANDS
+CFS	,	科夫斯港	,	COFFS HARBOUR
+CJB	,	科因巴托尔	,	COIMBATORE
+CGN	,	科隆	,	COLOGNE
+CMB	,	哥伦坡	,	COLOMBO
+COS	,	科罗拉多	,	COLORADO
+CAE	,	哥伦比亚	,	COLUMBIA
+COU	,	哥伦比亚	,	COLUMBIA
+CMH	,	哥伦布	,	COLUMBUS
+CSG	,	哥伦布	,	COLUMBUS
+UBS	,	哥伦布	,	COLUMBUS
+CRD	,	里瓦达维亚	,	COMODORO RIVADAVIA
+CKY	,	科纳克里	,	CONAKRY
+CCP	,	康塞纯	,	CONCEPCION
+CND	,	康士坦大	,	CONSTANTA
+CZL	,	康士坦丁	,	CONSTANTINE
+CPD	,	古伯巴地	,	COOBER PEDY
+CTN	,	科克顿	,	COOKTOWN
+CNB	,	库南布	,	COONAMBLE
+UCOMDU	,	库塔蒙拉	,	COOTAMUNDRA
+CPH	,	哥本哈根	,	COPENHANGEN
+CPO	,	科皮亚波	,	COPIAPO
+COR	,	科多巴	,	CORDOBA
+CZE	,	科罗	,	CORO
+CZH	,	科罗萨尔	,	COROZAL
+CZU	,	科罗萨尔	,	COROZAL
+CNQ	,	科连特斯	,	CORRIENTES
+CEZ	,	科特兹	,	CORTEZ
+CBO	,	波达巴都	,	COTABATO
+COO	,	科托努	,	COTONOU
+CWT	,	科拉	,	COWRA
+CZM	,	科苏梅尔	,	COZUMEL
+CZS	,	南克鲁兹罗	,	CRUZEIRO DO SUL
+CUY	,	乔	,	CUE
+CUE	,	昆卡	,	CUENCA
+CGB	,	库亚巴	,	CUIABA
+CUL	,	库利亚坎	,	CULIACAN
+CUJ	,	古里安	,	CULION
+CUM	,	库马纳	,	CUMANA
+CBE	,	坎伯兰	,	CUMBERLAND
+CMA	,	坎纳马拉	,	CUNNAMULLA
+CUR	,	库腊索	,	CURACAO
+CWB	,	库里提巴	,	CURITIBA
+CUZ	,	库斯科	,	CUZCO
+DKR	,	达哈尔	,	DAKAR
+VIL	,	达萨拉	,	DAKHLA
+DBA	,	达尔本丁	,	DALBANDIN
+DLU	,	大理	,	DALI CITY
+DLC	,	大连	,	DALIAN
+DAL	,	达拉斯	,	DALLAS
+DFW	,	达拉斯	,	DALLAS
+DAM	,	大马士	,	DAMASCUS
+DNV	,	丹斯维尔	,	DANVILLE
+DRW	,	达尔文	,	DARWIN
+DAY	,	代顿	,	DAYTON
+DEC	,	迪凯特	,	DECATUR
+DEL	,	新德里	,	DELHI
+DNQ	,	德尼利昆	,	DENILIQUIN
+DPS	,	巴里岛	,	DENPASAR
+DEN	,	丹佛	,	DENVER
+DRB	,	德比	,	DERBY
+DSM	,	得梅因	,	DES MOINES
+DTT	,	底特律	,	DETROIT
+DPO	,	德文彼特	,	DEVONPORT
+DHA	,	达兰	,	DHAHRAN
+DAC	,	达卡	,	DHAKA
+DIK	,	迪克森	,	DICKINSON
+DIN	,	奠边府	,	DIEN BIEN PHU
+DIJ	,	第戎	,	DIJON
+DIL	,	帝力	,	DILI
+DIR	,	德雷达瓦	,	DIRE DAWA
+DIY	,	迪亚巴克尔	,	DIYARBAKIR
+DJG	,	贾奈特	,	DJANET
+JIB	,	吉布提	,	DJIBOUTI
+CFN	,	多尼哥	,	DONEGAL
+DOG	,	楝古拉	,	DONGOLA
+DTM	,	多特蒙德	,	DORTMUND
+DHN	,	多森	,	DOTHAN
+DLA	,	杜阿拉	,	DOUALA
+DRS	,	德累斯顿	,	DRESDEN
+DXB	,	杜拜	,	DUBAI
+DBO	,	达博	,	DUBBO
+DUB	,	都柏林	,	DUBLIN
+DBQ	,	迪比克	,	DUBUQUE
+DLH	,	德卢斯	,	DULUTH
+DGT	,	达马盖地	,	DUMAGUETE
+DND	,	邓迪	,	DUNDEE
+DGO	,	杜兰戈	,	DURANGO
+DRO	,	杜兰戈	,	DURANGO
+DUR	,	德班	,	DURBAN
+DUS	,	杜塞尔多夫	,	DUSSELDORF
+ELS	,	东伦敦	,	EAST LONDON
+EAU	,	欧克莱尔	,	EAU CLAIRE
+EDI	,	爱丁堡	,	EDINBURGH
+YEA	,	艾蒙顿	,	EDMONTON
+YEG	,	埃德蒙顿	,	EDMONTON
+YXD	,	艾蒙顿	,	EDMONTON
+ELD	,	埃尔多拉多	,	EI DORADO
+ELF	,	法希尔	,	EI FASHER
+EBD	,	欧拜伊德	,	EI OBEID
+ELP	,	埃尔帕索	,	EI PASO
+ELE	,	埃尔雷亚尔	,	EI REAL
+ESR	,	萨尔瓦多	,	EI SALVADOR
+EIN	,	恩和芬	,	EINDHOVEN
+ERN	,	埃鲁内佩	,	EIRUNEPE
+ESL	,	埃利斯塔利	,	ELISTA
+EKO	,	埃尔科	,	ELKO
+ELI	,	埃尔迈拉	,	ELMIRA
+ELY	,	伊利	,	ELY
+LYU	,	伊利	,	ELY
+EME	,	埃姆登	,	EMDEN
+EMD	,	埃默拉尔德	,	EMERALD
+ENO	,	恩卡纳西翁	,	ENCARNACION
+ENE	,	英德	,	ENDE
+WDG	,	伊尼德	,	ENID
+ENS	,	恩斯赫德	,	ENSCHEDE
+NEH	,	恩施	,	ENSHI
+EBB	,	恩德培	,	ENTEBBE/KAMPALA
+ENU	,	埃努古	,	ENUGU
+ERF	,	爱尔福特	,	ERFURT
+ERI	,	伊利	,	ERIE
+ERZ	,	埃尔祖鲁姆	,	ERZURUM
+EBJ	,	埃斯比约	,	ESBJERG
+EPR	,	埃斯佩兰斯	,	ESPERANCE
+EQS	,	埃斯克尔	,	ESQUEL
+ESS	,	埃森	,	ESSEN
+EUG	,	尤金	,	EUGENE
+EVV	,	埃文斯维尔	,	EVANSVILLE
+EXT	,	埃克塞特尼	,	EXETER
+FIE	,	费尔岛	,	FAIR ISLE
+FAI	,	费尔班克斯	,	FAIRBANKS
+FKQ	,	法克法	,	FAK FAK
+FAR	,	法戈	,	FARGO
+FMN	,	法明顿	,	FARMINGRON
+FAY	,	费耶特维尔	,	FAYETTEVILLE
+FYV	,	费耶特维尔	,	FAYETTEVILLE
+FEG	,	费尔干纳	,	FERGANA
+FEZ	,	非斯	,	FEZ
+FLS	,	弗林德斯德	,	FLINDERS ISLAND
+FNT	,	弗林特	,	FLINT
+FLR	,	佛罗伦斯	,	FLORENCE
+ZFD	,	丰迪拉克	,	FOND DU LAC
+FRB	,	福布斯	,	FORBES
+FMA	,	福莫萨	,	FORMOSA
+FDF	,	法兰西堡	,	FORT DE FRANCE
+FLL	,	劳特德尔堡	,	FORT LAUDERDALE
+ZFM	,	麦克弗森堡	,	FORT MCPHERSON
+FSM	,	史密斯堡	,	FORT SMITH
+YXJ	,	圣约翰	,	FORT ST JOHN
+FWA	,	韦恩堡	,	FORT WAYNE
+FYU	,	育空堡	,	FORT YUKON
+FRW	,	弗朗西斯敦	,	FRANCISTOWN
+FRA	,	法兰克福	,	FRANKFUT
+FPO	,	自由港	,	FREEPORT
+FNA	,	自由市	,	FREETOWN
+FAT	,	弗雷斯诺	,	FRESNO
+FUJ	,	福井	,	FUKUE
+FUK	,	福冈	,	FUKUOKA
+FYN	,	富蕴	,	FUYUN
+FOC	,	福州	,	FUZHOU
+GBE	,	加柏罗尼	,	GABORONE
+GBG	,	盖尔斯堡	,	GALESBURG
+GEV	,	耶利瓦勒	,	GALLIVARE
+GUP	,	盖洛普	,	GALLUP
+GWY	,	戈尔韦	,	GALWAY
+YQX	,	甘德	,	GANDER
+KOW	,	赣州	,	GANZHOU
+GAQ	,	加奥	,	GAO
+GAR	,	加赖纳	,	GARAINA
+GCK	,	加登城	,	GARDEN CITY
+GAU	,	高哈蒂	,	GAUAHATI
+GVX	,	耶夫勒	,	GAVLE
+GDN	,	格但斯克	,	GDANSK
+EGN	,	朱奈纳	,	GENEINA
+GVA	,	日内瓦	,	GENEVA
+GOA	,	热那亚	,	GENOA
+GGT	,	乔治镇	,	GEORGE TOWN
+GEO	,	乔治市	,	GEORGETOWN
+GET	,	杰拉尔顿	,	GERALDTON
+GHA	,	盖尔达耶	,	GHARDAIA
+GIB	,	直布罗陀	,	GIBRALTAR
+GIL	,	吉尔吉特	,	GILGIT
+GIS	,	吉斯伯恩	,	GISBORNE
+GLT	,	格伦德斯通	,	GLADSTONE
+GGW	,	格拉斯哥	,	GLASGOW
+GLA	,	格拉斯哥	,	GLASGOW
+PIK	,	格拉斯哥	,	GLASGOW
+GLI	,	格伦因尼斯	,	GLEN INNES
+GDV	,	格伦代夫	,	GLENDIVE
+GOI	,	果亚区	,	GOA
+GYN	,	戈亚尼亚	,	GOIANIA
+OOL	,	黄金海岸	,	GOLD COAST
+GME	,	戈梅利	,	GOMEL
+GDQ	,	贡德尔	,	GONDAR
+GFN	,	格拉夫顿	,	GRAFTON
+JGC	,	大峡谷	,	GRAND CANYON
+GCM	,	大开曼岛	,	GRAND CAYMAN ISLAND
+GCN	,	大峡谷	,	GRAND CAYON
+GFK	,	大福克斯	,	GRAND FORKS
+GRI	,	格兰德艾兰	,	GRAND ISLAND
+GPZ	,	大急流	,	GRAND RAPIDS
+GRR	,	大急流	,	GRAND RAPIDS
+GRZ	,	格拉莰	,	GRAZ
+GBZ	,	大巴里尔岛	,	GREAT BARRIER ISLAND
+GTF	,	大瀑布	,	GREAT FALLS
+GRB	,	格林贝	,	GREEN BAY
+GSO	,	格林斯伯勒	,	GREENSBORO
+GLH	,	格林维尔	,	GREENVILLE
+GSP	,	格林维尔	,	GREENVILLE
+PGV	,	格林維爾	,	GREENVILLE
+GND	,	格兰尼达	,	GRENADA
+GNB	,	格勒洛布尔	,	GRENOBLE
+GFF	,	格里菲斯	,	GRIFFITH
+GRQ	,	格罗宁根	,	GRONINGEN
+GTE	,	格鲁特岛	,	GROOTE EYLANDT
+GDL	,	瓜达拉哈拉	,	GUADALAJARA
+GUM	,	关岛	,	GUAM
+CAN	,	广州	,	GUANGZHOU
+GUA	,	危地马拉城	,	GUATEMALA CITY
+GYE	,	瓜亚基尔	,	GUAYAQUIL
+GYA	,	*	,	GUAYARAMERIN
+GYM	,	瓜伊马斯	,	GUAYMAS
+KWL	,	桂林	,	GUILIN
+GWD	,	加瓦特尔	,	GWADAR
+GWL	,	瓜廖尔	,	GWALIOR
+KVD	,	古贾	,	GYANDZHA
+HGR	,	黑格斯敦	,	HAGERSTOWN
+HEA	,	海壹法	,	HAIFA
+HAK	,	海口	,	HAIKOU
+HAS	,	哈伊勒	,	HAIL
+HLD	,	海拉尔	,	HAILAR
+HPH	,	海防	,	HAIPHONG
+HKD	,	-	,	HAKODATE
+YHZ	,	哈利法克斯	,	HALIFAX
+HAM	,	汉堡	,	HAMBURG
+HTI	,	哈密尔顿岛	,	HAMILTON ISLAND
+HFT	,	哈默弗斯特	,	HAMMERFEST
+HNM	,	哈纳	,	HANA
+CMX	,	汉科克	,	HANCOCK
+HGH	,	杭州	,	HANGZHOU
+HAN	,	河内	,	HANOI
+HAJ	,	汉诺威	,	HANOVER
+HZG	,	汉中	,	HANZHONG
+HRE	,	克拉利	,	HARARE
+HRB	,	哈尔滨	,	HARBIN
+HRL	,	哈灵顿	,	HARLINGEN
+HAR	,	哈里斯堡	,	HARRISBURG
+MDT	,	哈里斯堡	,	HARRISBURG
+HFD	,	哈特福德	,	HARTFORD
+HAU	,	海于格松	,	HAUGESUND
+HAV	,	夏湾拿	,	HAVANA
+HVR	,	哈佛	,	HAVRE
+HFE	,	合肥	,	HEFEI
+HLN	,	海伦娜	,	HELENA
+HGL	,	黑尔戈兰岛	,	HELGOLAND
+HEL	,	赫尔辛基	,	HELSINKI
+HMO	,	埃莫西约	,	HERMOSILLO
+HIB	,	希滨	,	HIBBING
+ITO	,	希洛	,	HILO
+HIJ	,	广岛	,	HIROSHIMA
+SGN	,	胡志明市	,	HO CHI MINH CITY
+HBA	,	荷伯德	,	HOBART
+HOB	,	霍布斯	,	HOBBS
+HKK	,	霍基蒂卡	,	HOKITIKA
+HOG	,	奥尔金	,	HOLGUIN
+HCR	,	霍利克罗斯	,	HOLY CROSS
+HOM	,	何马	,	HOMER
+HKG	,	香港	,	HONG KONG
+HIR	,	霍尼亚拉	,	HONIARA
+HNL	,	火奴鲁鲁	,	HONOLULU
+HOT	,	温泉城	,	HOT SPRINGS
+HTN	,	和田	,	HOTAN
+EFD	,	休斯敦	,	HOUSTON
+HOU	,	侯斯顿	,	HOUSTON
+IAH	,	侯斯顿	,	HOUSTON
+HUN	,	花莲	,	HUALIEN
+HYN	,	黄岩	,	HUANGYAN
+HUU	,	瓦拉斯	,	HUANUCO
+HGD	,	休恩登	,	HUGHEN
+HUZ	,	惠州	,	HUIZHOU
+HTS	,	享廷顿	,	HUNTINGTON
+HON	,	休伦	,	HURON
+HSI	,	黑斯廷斯	,	HUSLIA
+HDD	,	海得拉巴	,	HYDERBAD
+IAS	,	雅西	,	IASI
+IBE	,	伊瓦格	,	IBAGUE
+IBZ	,	伊比萨岛	,	IBIZA
+IDA	,	爱达福尔斯	,	IDAHO FALLS
+IOS	,	伊列乌斯	,	IIHEUS
+IKI	,	壹岐岛	,	IKI
+ILO	,	伊洛伊洛	,	ILOILO
+IMF	,	恩帕尔	,	IMPHAL
+IDR	,	印多尔	,	INDORE
+INN	,	因斯布鲁克	,	INNSBRUCK
+INV	,	因弗内斯	,	INVERNESS
+IPH	,	怡保	,	IPOH
+IQQ	,	伊基克	,	IQUIQUE
+IQT	,	伊基托斯特	,	IQUITOS
+IKT	,	伊尔库莰克	,	IRKUTSK
+IMT	,	艾恩芒廷	,	IRON MOUNTAIN
+IWD	,	艾恩伍德	,	IRONWOOD
+IFJ	,	伊萨菲厄泽	,	ISAFJORDUR
+ILY	,	艾莱	,	ISLAY
+IOM	,	马恩岛	,	ISLE OF MAN
+IST	,	伊斯坦堡	,	ISTANBUL
+IJK	,	伊热夫斯克	,	IZHEVSK
+ADB	,	伊士麦	,	IZMIR
+IZM	,	伊兹密尔	,	IZMIR
+JLR	,	贾巴尔普尔	,	JABALPUR
+JAC	,	杰克逊	,	JACKSON
+JAN	,	杰克逊	,	JACKSON
+MKL	,	杰克遜	,	JACKSON
+JAX	,	杰克逊维尔	,	JACKSONVILLE
+OAJ	,	杰克遜維爾	,	JACKSONVILLE
+JAG	,	雅各布巴德	,	JACOBABAD
+JAI	,	齐普尔	,	JAIPUR
+HLP	,	雅加达	,	JAKARTA
+JKT	,	雅加达	,	JAKARTA
+CGK	,	雅加达	,	JAKARTA SOEKARNO-HAT
+DJB	,	占碑	,	JAMBI
+JHW	,	詹姆斯敦	,	JAMESTOWN
+JMS	,	詹姆斯敦	,	JAMESTOWN
+IXJ	,	查谟	,	JAMMU
+JGA	,	贾姆讷格尔	,	JAMNAGAR
+DJJ	,	木惹山	,	JAYAPURA
+JED	,	乍得	,	JEDDAH
+JER	,	泽西	,	JERSEY
+JRS	,	耶路撒冷	,	JERUSALEM
+JMU	,	佳木斯	,	JIAMUSI
+JGN	,	嘉谷关	,	JIAYUGUAN
+JIL	,	吉林	,	JILIN
+TNA	,	济南	,	JINAN
+JHG	,	景洪	,	JINGHONG
+JNZ	,	锦州	,	JINZHOU
+JIU	,	九江	,	JIUJIANG
+JPA	,	若昂佩索阿	,	JOAO PESSOA
+JDH	,	焦特布尔	,	JODHPUR
+JNB	,	约翰尼斯堡	,	JOHANNESBURG
+JFK	,	纽约	,	JOHN F KENNEDY INTL
+JON	,	约汉斯顿岛	,	JOHNSTON ISLAND
+JST	,	约翰斯顿	,	JOHNSTOWN
+JHB	,	新山	,	JOHOR BAHRU
+IBR	,	琼斯伯勒	,	JONESBORO
+JOS	,	乔斯	,	JOS
+JDO	,	茹阿泽鲁	,	JUAZEIRO DO NORTE
+JUL	,	胡利亚卡	,	JULIACA
+JUM	,	久姆拉	,	JUMLA
+JNU	,	朱诺	,	JUNEAU
+JYV	,	于韦斯屈菜	,	JYVASKYLA
+KBL	,	喀布尔	,	KABUL
+KAD	,	卡杜纳	,	KADUNA
+KOJ	,	鹿儿岛	,	KAGOSHIMA
+KBZ	,	凯库拉	,	KAIKOURA
+KAT	,	凯塔业	,	KAITAIA
+AZO	,	卡拉马索	,	KALAMAZOO
+KGI	,	卡尔吉利	,	KALGOORLIE
+KAN	,	卡诺	,	KANO
+MCI	,	堪薩斯城	,	KANSAS CITY
+MKC	,	堪萨斯城	,	KANSAS CITY
+KHH	,	高雄	,	KAOHSIUNG
+KHI	,	卡拉奇	,	KARACHI
+KUI	,	喀拉@	,	KARACHI
+KRY	,	克拉玛依	,	KARAMAY
+KAB	,	卡里巴	,	KARIBA
+KSD	,	卡尔斯塔德	,	KARLSTAD
+KSQ	,	卡尔希	,	KARSHI
+KRB	,	卡兰巴	,	KARUMBA
+KTR	,	凯瑟琳	,	KATHERINE
+KTM	,	加德满都	,	KATHMANDU
+KTW	,	卡托维兹	,	KATOWICE
+LIH	,	考爱岛	,	KAUAI ISLAND
+KUN	,	考纳斯	,	KAUNAS
+ASR	,	凯塞尔	,	KAYSERI
+KZN	,	喀山	,	KAZAN
+KEM	,	凯米	,	KEMI
+KPS	,	肯普西	,	KEMPSEY
+KDI	,	肯达里	,	KENDARI
+KET	,	景栋	,	KENGTUNG
+KER	,	克尔曼	,	KERMAN
+KTN	,	凯奇坎	,	KETCHIKAN
+EYW	,	基韦斯特	,	KEY WEST
+KHE	,	赫尔松	,	KHERSON
+KKC	,	孔敬	,	KHON KAEN
+KEL	,	基尔	,	KIEL
+IEV	,	基辅	,	KIEV
+KBP	,	基辅	,	KIEV
+KFA	,	基法	,	KIFFA
+KGL	,	基加利	,	KIGALI
+TKQ	,	基戈马	,	KIGOMA
+KRI	,	基科里	,	KIKORI
+JRO	,	乞力马扎罗	,	KILIMANJARO
+KND	,	金松	,	KINDU
+KNS	,	金岛	,	KING ISLAND
+IGM	,	金曼	,	KINGMAN
+KIN	,	京斯顿	,	KINGSTON
+YGK	,	金斯顿	,	KINGSTON
+KNH	,	金门	,	KINMEN
+FIH	,	金沙沙	,	KINSHASA
+KKN	,	希尔克内斯	,	KIRKENES
+IRK	,	柯克斯维尔	,	KIRKSVILLE
+KOI	,	柯克沃尔	,	KIRKWALL
+KRN	,	基律纳	,	KIRUNA
+FKI	,	基桑加尼	,	KISANGANI
+KIS	,	基苏木	,	KISUMU
+KKJ	,	北九川	,	KITA KYUSHU
+KCZ	,	高知	,	KOCHI
+ADQ	,	科迪亚克	,	KODIAK
+USM	,	苏梅岛	,	KOH SAMUI
+KOK	,	科科拉	,	KOKKOLA
+KKD	,	科高达	,	KOKODA
+KOV	,	科克切塔夫	,	KOKSHETAU
+KMQ	,	小松	,	KOMATSU
+KRL	,	库尔勒	,	KORLA
+KBR	,	古晋	,	KOTA BHARU
+BKI	,	沙巴	,	KOTA KINABALU
+KSZ	,	科特拉斯	,	KOTLAS
+OTZ	,	科策布	,	KOTZEBUE
+KUL	,	吉隆坡	,	KUALA LUMPUR
+KUA	,	关丹	,	KUANTAN
+KCH	,	古隽	,	KUCHING
+KUD	,	古达	,	KUDAT
+KMJ	,	熊本	,	KUMAMOTO
+KMG	,	昆明	,	KUNMING
+KNX	,	库努纳拉	,	KUNUNURRA
+KUO	,	库奥皮奥	,	KUOPIO
+KOE	,	古邦	,	KUPANG
+KCA	,	库车	,	KUQA
+KRO	,	库尔干	,	KURGAN
+KUH	,	钏路	,	KUSHIRO
+KWI	,	科威特	,	KUWAIT
+LGA	,	纽约	,	LA GUARDIA
+LAP	,	拉巴斯	,	LA PAZ
+LPB	,	拉巴斯	,	LA PAZ
+LRH	,	拉罗谢尔	,	LA ROCHELLE
+XLB	,	拉克布谢特	,	LAC BROCHET
+LAF	,	拉斐特	,	LAFAYETTE
+LFT	,	拉斐特	,	LAFAYETTE
+LOS	,	拉各斯	,	LAGOS
+LDU	,	拿笃	,	LAHAD DAFU
+LHE	,	拉合尔	,	LAHORE
+LCH	,	莱克查尔斯	,	LAKE CHARLES
+LAA	,	拉马尔	,	LAMAR
+LPT	,	南邦	,	LAMPANG
+LNY	,	拉奈	,	LANAI CITY
+LNS	,	兰开斯特	,	LANCASTER
+LGK	,	凌加卫岛	,	LANGKAWI
+LAN	,	兰辛	,	LANSING
+LHW	,	兰州	,	LANZHOU
+LAO	,	拉奥	,	LAOAG
+LAR	,	拉勒米	,	LARAMIE
+LRD	,	拉雷多	,	LAREDO
+HSH	,	拉斯韦加斯	,	LAS VEGAS
+LAS	,	拉斯维加斯	,	LAS VEGAS
+VGT	,	拉斯韦加斯	,	LAS VEGAS NORTH AIR
+LVO	,	拉弗顿	,	LAVERTON
+LAW	,	劳顿	,	LAWTON
+LEH	,	勒阿弗尔	,	LE HAVRE
+LEB	,	黎巴嫩	,	LEBANON
+LGP	,	黎加斯比	,	LEGASPI
+LGH	,	利克里克	,	LEIGH CREEK
+LEJ	,	莱比锡	,	LEIPZIG
+BJX	,	利昂	,	LEON/GUANAJUATO
+LWT	,	刘易斯顿	,	LEWISTOWN
+LXA	,	拉萨	,	LHASA
+LYG	,	連雲港	,	LIANYUNGANG
+LBL	,	利伯勒尔	,	LIBERAL
+LIR	,	利比里亚	,	LIBERIA
+LBV	,	利伯维尔	,	LIBREVILLE
+LIL	,	里尔	,	LILLE
+LLW	,	利朗伟	,	LILONGWE
+LIM	,	利马	,	LIMA
+LIG	,	利摩日	,	LIMOGES
+LDI	,	林迪	,	LINDI
+LNZ	,	林莰	,	LINZ
+LIS	,	里斯本	,	LISBON
+LIT	,	小石城	,	LITTLE ROCK
+LZH	,	柳州	,	LIUZHOU
+LPL	,	利物浦	,	LIVERPOOL
+LVI	,	利文斯敦	,	LIVINGSTONE
+LJU	,	卢布尔雅那	,	LJUBLJANA
+LFW	,	洛美	,	LOME
+LCY	,	伦敦	,	LONDON
+LON	,	伦敦	,	LONDON
+LTN	,	伦敦	,	LONDON
+STN	,	伦敦	,	LONDON
+YXU	,	伦敦	,	LONDON
+LGW	,	伦敦	,	LONDON GATWICK
+LHR	,	伦敦	,	LONDON HEATHROW
+LDY	,	伦敦德里	,	LONDONDERRY
+LGB	,	长滩	,	LONG BEACH
+HAP	,	长岛	,	LONG ISLAND
+ISP	,	长岛	,	LONG ISLAND
+LRE	,	朗里奇	,	LONGREACH
+GGG	,	朗维尤	,	LONGVIEW
+LRT	,	洛里昂	,	LORIENT
+LAX	,	洛杉机	,	LOS ANGELES
+SDF	,	路易斯维尔	,	LOUISVILLE
+LAD	,	罗安达	,	LUANDA
+LBX	,	卢邦	,	LUBANG
+LBB	,	拉伯克	,	LUBBOCK
+FBM	,	庐本巴希	,	LUBUMBASHI
+LKO	,	勒克瑙	,	LUCKNOW
+LUD	,	卢得立次	,	LUDERITZ
+LLA	,	吕勒奥	,	LULEA
+LYA	,	洛陽	,	LUOYANG
+LUN	,	桑比亚	,	LUSAKA
+LUX	,	卢森堡	,	LUXEMBOURG
+LXR	,	盧克索	,	LUXOR
+LZO	,	盧州	,	LUZHOU
+LYH	,	林奇堡	,	LYNCHBURG
+LYS	,	里昂	,	LYON
+MCP	,	馬卡帕	,	MACAPA
+MFM	,	澳门	,	MACAU
+MCZ	,	馬塞約	,	MACEIO
+MKY	,	麥凱	,	MACKAY
+MCN	,	梅肯	,	MACON
+MSN	,	麥迪遜	,	MADISON
+MAA	,	马德拉斯	,	MADRAS
+MAD	,	马德里	,	MADRID
+IXM	,	马杜赖	,	MADURAI
+GDX	,	马加丹	,	MAGADAN
+MGD	,	馬格達萊納	,	MAGDALENA
+MCX	,	馬哈奇卡拉	,	MAKHACHKALA
+MZG	,	馬公	,	MAKUNG
+SSG	,	马拉博	,	MALABO
+MKZ	,	馬六甲	,	MALACCA
+AGP	,	马拉加	,	MALAGA
+MLX	,	馬拉蒂亞	,	MALATYA
+JMM	,	马尔默	,	MALMO
+MMA	,	馬爾默	,	MALMO
+MDC	,	萬鴉老	,	MANADO
+MAO	,	馬瑙斯	,	MANAUS
+MAN	,	曼彻斯特	,	MANCHESTER
+MHT	,	曼徹斯特	,	MANCHESTER
+MDL	,	曼德勒	,	MANDALAY
+IXE	,	门格洛尔	,	MANGALORE
+MNL	,	马尼拉	,	MANILA
+MBL	,	馬尼斯蒂	,	MANISTEE
+ZLO	,	曼萨尼约	,	MANZANILLO
+MPM	,	馬普托	,	MAPUTO
+MWA	,	馬里恩	,	MARION
+MPW	,	馬里烏波爾	,	MARIUPOL
+MQT	,	馬凱特	,	MARQUETTE
+RAK	,	马拉喀什	,	MARRAKECH
+MRS	,	马赛	,	MARSEILLA
+MLL	,	馬紹爾	,	MARSHALL
+MBH	,	馬里伯勒	,	MARYBOROUGH
+MHD	,	馬什哈德	,	MASHAD
+AMI	,	马打兰	,	MATARAM
+MMJ	,	松本	,	MATSUMOTO
+MTO	,	馬頓	,	MATTON
+MOF	,	毛梅雷	,	MAUMERE
+MRU	,	毛里求斯	,	MAURITIUS
+MZT	,	馬薩特蘭	,	MAZATLAN
+MDK	,	姆班達卡	,	MBANDAKA
+MCK	,	麥庫克	,	MCCOOK
+MCG	,	麥格拉斯	,	MCGRATH
+MES	,	棉兰	,	MEDAN
+MDE	,	麥得林	,	MEDELLIN
+MFR	,	梅德福	,	MEDFORD
+MKR	,	米卡薩拉	,	MEEKATHARRA
+MEL	,	墨尔本	,	MELBOURNE
+MLB	,	墨爾本	,	MELBOURNE
+MLN	,	梅利利亞	,	MELILLA
+MEM	,	孟菲斯	,	MEMPHIS
+MID	,	梅里達	,	MERIDA
+MEI	,	默里迪恩	,	MERIDIAN
+ETZ	,	梅斯	,	METZ
+MEX	,	墨西哥城	,	MEXICO CITY
+MIA	,	迈阿密	,	MIAMI
+MPB	,	迈亚美	,	MIAMI
+MAF	,	米德蘭	,	MIDLAND
+LIN	,	米兰	,	MILAN
+MIL	,	米兰	,	MILAN
+MXP	,	米蘭	,	MILAN
+MLS	,	邁爾斯城	,	MILES CITY
+MKE	,	密沃基	,	MILWAUKEE
+MOT	,	邁諾特	,	MINOT
+MSQ	,	明斯克	,	MINSK
+MSO	,	米蘇拉	,	MISSOULA
+MHE	,	米切爾	,	MITCHELL
+MMY	,	宮古	,	MIYAKO JIMA
+KMI	,	宫崎	,	MIYAZAKI
+MLI	,	莫林	,	MOLINE
+MBA	,	木巴萨	,	MOMBASA
+MBE	,	紋別	,	MONBETSU
+MLU	,	門羅	,	MONROE
+MLW	,	蒙羅維亞	,	MONROVIA
+MCM	,	蒙地卡罗	,	MONTE CARLO
+MBJ	,	蒙特哥湾	,	MONTEGO BAY
+MRY	,	蒙特雷	,	MONTEREY
+MTR	,	蒙特里亞	,	MONTERIA
+MTY	,	蒙特雷	,	MONTERREY
+MGM	,	蒙哥瑪利	,	MONTGOMERY
+MCU	,	蒙呂松	,	MONTLUCON
+MPL	,	蒙彼利埃	,	MONTPELLIER
+YMQ	,	蒙特里尔	,	MONTREAL
+YMX	,	蒙特里尔	,	MONTREAL
+YUL	,	蒙特里尔	,	MONTREAL
+MNI	,	蒙塞拉特	,	MONTSERRAT
+MLM	,	莫雷利亞	,	MORELIA
+HNA	,	盛冈	,	MORIOKA
+HAH	,	摩朗尼	,	MORONI
+BKA	,	莫斯科	,	MOSCOW
+MOW	,	莫斯科	,	MOSCOW
+SVO	,	莫斯科	,	MOSCOW
+MWH	,	摩西萊克	,	MOSES LAKE
+MBP	,	莫紐班巴	,	MOYOBAMBA
+MDG	,	牡丹	,	MUDAJIANG
+AGB	,	慕尼克	,	MUNCHEN
+MIE	,	曼西	,	MUNCIE
+MUC	,	慕尼克	,	MUNICH
+FMO	,	蒙斯特	,	MUNSTER
+MCT	,	马斯哈特	,	MUSCAT
+MKG	,	馬斯基根	,	MUSKEGON
+NYM	,	納德姆	,	NADYM
+NGS	,	長崎	,	NAGASAKI
+NGO	,	名古屋	,	NAGOYA
+NBO	,	内罗比	,	NAIROBI
+NNK	,	納克內克	,	NAKNEK
+APL	,	南普拉	,	NAMPULA
+OSY	,	納姆索斯	,	NAMSOS
+NAO	,	南昌	,	NANCHONG
+NKG	,	南京	,	NANJING
+NNG	,	南宁	,	NANNING
+NTE	,	南特	,	NANTES
+NTG	,	南通	,	NANTONG
+NNY	,	南陽	,	NANYANG
+NAP	,	那不勒斯	,	NAPLES
+NAA	,	納拉布賴	,	NARRABRI
+NVK	,	納爾維克	,	NARVIK
+NAS	,	拿骚	,	NASSAU
+WNS	,	纳瓦布沙阿	,	NAWABSHAH
+NVA	,	內瓦	,	NEIVA
+NSN	,	納爾遜	,	NELSON
+EMN	,	内马	,	NEMA
+EWB	,	新贝尔福特	,	NEW BEDFORD
+EWN	,	新伯尔尼	,	NEW BERN
+MSY	,	新奧爾良	,	NEW ORLENS
+NYC	,	纽约	,	NEW YORK
+TSS	,	纽约	,	NEW YORK EAST 34TH S
+EWR	,	纽约	,	NEWARK INTL
+BEO	,	纽卡塞尔	,	NEWCASTLE
+NCL	,	紐卡斯爾	,	NEWCASTLE
+NTL	,	紐卡斯爾	,	NEWCASTLE
+PHF	,	紐波特紐斯	,	NEWPORT NEWS
+NHA	,	芽莊	,	NHA-TRANG
+NIM	,	尼亚美	,	NIAMEY
+NCE	,	尼斯	,	NICE
+FNI	,	尼姆	,	NIMES
+NGB	,	寧波	,	NINGBO
+WTL	,	诺阿塔克	,	NOATAK
+OME	,	諾姆	,	NOME
+OFK	,	諾克福	,	NORFOLK
+ORF	,	諾克福	,	NORFOLK
+LBF	,	北普拉特	,	NORTH PLATTE
+NWI	,	諾里奇	,	NORWICH
+NOU	,	努美阿	,	NOUMEA
+NUE	,	纽伦堡	,	NUREMBERG
+NYN	,	寧根	,	NYNGAN
+OAK	,	奥克兰	,	OAKLAND
+OAX	,	瓦哈卡	,	OAXOCA
+OBO	,	帶廣	,	OBIHIRO
+ODE	,	欧登塞	,	ODENSE
+OGS	,	奧格登斯堡	,	OGDENSBURG
+OIT	,	大分	,	OITA
+OKJ	,	岡山	,	OKAYAMA
+OKA	,	冲绳岛	,	OKINAWA
+OKC	,	俄克拉何馬	,	OKLAHOMA CITY
+OMA	,	奧馬哈	,	OMAHA
+ONT	,	安大略	,	ONTARIO
+ORN	,	奧蘭	,	ORAN
+OAG	,	奧蘭治	,	ORANGE
+ORB	,	厄勒布魯	,	OREBRO
+REN	,	奥伦堡	,	OREBURG
+ORL	,	奧蘭多	,	ORLANDO HERNDON
+MCO	,	奥兰多	,	ORLANDO INTL
+ORY	,	巴黎	,	ORLY
+ORW	,	奧爾馬拉	,	ORMARA
+OSW	,	奧爾斯克	,	ORSK
+OSA	,	大阪	,	OSAKA
+ITM	,	大阪	,	OSAKA ITAMI AIRPORT
+KIX	,	大阪	,	OSAKA KANSAI INTL
+OSS	,	奧什	,	OSH
+OSH	,	奧科什科	,	OSHKOSH
+OSI	,	奧西耶克	,	OSIJEK
+OSK	,	奧斯卡港	,	OSKARSHAMN
+FBU	,	奥斯陆	,	OSLO
+OSL	,	奧耶圭	,	OSLO
+OSD	,	厄斯特松德	,	OSTERSUND
+OSR	,	俄斯特拉發	,	OSTRAVA
+YOW	,	渥太华	,	OTTAWA
+OUA	,	瓦加杜古	,	OUAGADOUGOU
+OGX	,	瓦蘭格拉	,	OUARGLA
+OUE	,	韋索	,	OUESSO
+OUD	,	烏季達	,	OUJDA
+OUL	,	奧盧	,	OULU
+PBI	,	帕姆	,	PALM BEACH
+PMI	,	巴尔马	,	PALMA DE MALLORCA
+PAC	,	巴拿馬城	,	PANAMA CITY
+PFN	,	巴拿馬城	,	PANAMA CITY
+PTY	,	巴拿马	,	PANAMA CITY
+PBM	,	帕拉馬里博	,	PARAMARIBO
+PAR	,	巴黎	,	PARIS
+PMF	,	帕爾馬	,	PARMA
+PAT	,	巴特那	,	PATNA
+PUF	,	波城	,	PAU
+PEK	,	北京	,	PEKING
+PEN	,	槟城	,	PENANG
+PDT	,	彭德爾頓	,	PENDLETON
+PNS	,	彭薩科拉	,	PENSACOLA
+PZE	,	彭贊喜	,	PENZANCE
+PIA	,	皮奧里亞	,	PEORIA
+PGF	,	佩皮尼昂	,	PERPIGNAN
+KPV	,	佩里维尔	,	PERRYVILLE
+PER	,	柏斯	,	PERTH
+PHL	,	费城	,	PHILADELPHIA
+PNH	,	金边	,	PHNOM PENH
+PHX	,	凤凰城	,	PHOENIX
+HKT	,	布吉岛	,	PHUKET
+PIR	,	皮爾	,	PIERRE
+PIF	,	屏東	,	PINGTUNG
+PSA	,	比萨	,	PISA
+PIT	,	匹茲堡	,	PITTSBURGH
+PXU	,	百里居	,	PLEIKU
+PLH	,	普利茅斯	,	PLYMOUTH
+PIH	,	波卡特洛	,	POCATELLO
+PTP	,	皮持尔角	,	POINTE-A-PITRE
+PIS	,	普瓦捷	,	POITIERS
+IXZ	,	布莱尔港	,	PORT BLAIR
+PLO	,	林肯港	,	PORT LINCOLN
+POM	,	莫勒斯比港	,	PORT MORESBY
+PZU	,	蘇丹港	,	PORT SUDAN
+PDX	,	波特蘭	,	PORTLAND
+PWM	,	波特蘭	,	PORTLAND
+POA	,	阿雷格里港	,	PORTO ALEGRE
+POU	,	波基普西	,	POUGHKEEPSIE
+PRG	,	布拉格	,	PRAGUE
+PVD	,	普羅維登斯	,	PROVIDENCE
+SCC	,	普拉德霍湾	,	PRUDHOE BAY
+PBC	,	普埃布拉	,	PUEBLA
+PUB	,	普韋布洛	,	PUEBLO
+IQM	,	且末	,	QIEMO
+TAO	,	青岛	,	QINGDAO
+SHP	,	秦皇岛	,	QINHUANGDAO
+NDG	,	齊齊哈爾	,	QIQIHAR
+YQB	,	魁北克	,	QUEBEC
+ZQN	,	女皇镇	,	QUEENSTOWN
+UEL	,	克利马内	,	QUELIMANE
+QRO	,	克雷塔罗	,	QUERETARO
+UET	,	奎达	,	QUETTA
+UIN	,	昆西	,	QUINCY
+UIO	,	基多	,	QUITO
+RBA	,	拉巴特	,	RABAT
+RPR	,	赖布尔	,	RAIPUR
+RAJ	,	拉杰果德	,	RAJKOT
+RDU	,	罗利	,	RALEIGH
+IXR	,	兰契	,	RANCHI
+RAP	,	拉皮德城	,	RAPID CITY
+REC	,	累西腓	,	RECIFE
+RDD	,	雷丁	,	REDDING
+YQR	,	里贾纳	,	REGINA
+RHE	,	兰斯	,	REIMS
+RMK	,	伦马克	,	RENMARK
+RNS	,	雷恩	,	RENNES
+RNO	,	雷诺	,	RENO
+KEF	,	雷克雅未克	,	REYKJAVIK
+REK	,	雷克雅米克	,	REYKJAVIK
+RKV	,	雷克雅未克	,	REYKJAVIK
+REX	,	雷诺萨	,	REYNOSA
+RHI	,	莱茵兰德	,	RHINELANDER
+RIC	,	里士满	,	RICHMOND
+RIX	,	里加	,	RIGA
+RJK	,	里耶卡	,	RIJEKA
+RMI	,	里米尼	,	RIMINI
+GIG	,	里约热内卢	,	RIO DE JANEIRO
+RIO	,	里约热内卢	,	RIO DE JANEIRO
+SDU	,	里约热内卢	,	RIO DE JANEIRO
+RGA	,	里奥格兰德	,	RIO GRANDE
+RIG	,	里奥格兰德	,	RIO GRANDE
+RCH	,	里奥阿查	,	RIOHACHA
+RIW	,	里弗顿	,	RIVERTON
+RUH	,	利雅德	,	RIYADH
+ROA	,	罗阿诺克	,	ROANOKE
+ROC	,	罗切斯特	,	ROCHESTER
+RFD	,	罗克福	,	ROCKFORD
+ROK	,	罗夫汉普顿	,	ROCKHAMPTON
+RWI	,	洛基山	,	ROCKY MOUNT
+RMA	,	罗马	,	ROMA
+CIA	,	罗马	,	ROME
+FCO	,	羅馬	,	ROME
+ROM	,	罗马	,	ROME
+ROS	,	罗萨里奥	,	ROSARIO
+RSJ	,	罗萨里奥	,	ROSARIO
+XRR	,	罗斯里弗	,	ROSS RIVER
+ROV	,	罗斯托夫	,	ROSTOV
+ROW	,	罗斯伟尔	,	ROSWELL
+RTI	,	罗地	,	ROTI
+ROT	,	罗托鲁阿	,	ROTORUA
+RTM	,	鹿特丹	,	ROTTERDAM
+RTA	,	罗图马岛	,	ROTUMA ISLAND
+RXS	,	洛塞斯	,	ROXAS
+RTG	,	鲁滕	,	RUTENG
+SCN	,	萨尔布吕肯	,	SAARBRUCKEN
+SAC	,	萨克拉门托	,	SACRAMENTO
+SMF	,	萨克拉门托	,	SACRAMENTO
+MBS	,	薩吉諾	,	SAGINAW
+SPD	,	赛德普尔	,	SAIDPUR
+SNO	,	沙公那空	,	SAKON NAKHON
+SLL	,	塞拉莱	,	SALALAH
+SXE	,	塞尔	,	SALE
+SLC	,	盐湖城	,	SALT LAKE CITY
+SLA	,	萨尔曼	,	SALTA
+SLW	,	萨尔蒂约	,	SALTILLO
+SSA	,	萨尔瓦多	,	SALVADOR
+SZG	,	萨尔斯堡	,	SALZBURG
+SRI	,	三马林达	,	SAMARINDA
+SKD	,	撒马尔汗	,	SAMARKAND
+SSX	,	萨姆松	,	SAMSUN
+ADZ	,	圣安德烈斯	,	SAN ANDRES ISLAND
+SJT	,	圣安吉洛	,	SAN ANGELO
+SAT	,	圣安东尼奥	,	SAN ANTONIO
+SVZ	,	圣安东尼奥	,	SAN ANTONIO
+NCR	,	圣加洛斯	,	SAN CARLOS
+SAN	,	圣地亚哥	,	SAN DIEGO
+SFO	,	三藩市	,	SAN FRANCISCO
+SJC	,	圣荷西	,	SAN JOSE
+SJO	,	圣约瑟	,	SAN JOSE
+SIG	,	圣胡安	,	SAN JUAN
+SJU	,	圣胡安	,	SAN JUAN
+UAQ	,	圣胡安	,	SAN JUAN
+SBP	,	圣路易斯	,	SAN LUIS
+CPC	,	圣马田	,	SAN MARTIN
+SPR	,	圣佩德罗	,	SAN PEDRO
+SAL	,	圣萨尔瓦多	,	SAN SALVADOR
+ZSA	,	圣萨尔瓦多	,	SAN SALVADOR
+SAH	,	萨那	,	SANAA
+SDK	,	山打根	,	SANDAKAN
+SNA	,	圣安哪	,	SANTA ANA
+SBA	,	圣巴巴拉	,	SANTA BARBARA
+ZSM	,	圣克拉拉	,	SANTA CLARA
+SRZ	,	圣克鲁斯	,	SANTA CRUZ
+SAF	,	圣菲	,	SANTA FE
+SFN	,	圣菲	,	SANTA FE
+RIA	,	圣玛丽亚	,	SANTA MARIA
+SMX	,	圣玛丽亚	,	SANTA MARIA
+RSA	,	圣罗莎	,	SANTA ROSA
+SRA	,	圣罗莎	,	SANTA ROSA
+STS	,	圣罗莎	,	SANTA ROSA
+STM	,	圣塔伦	,	SANTAREM
+SCL	,	圣地亚哥	,	SANTIAGO
+SCU	,	圣地亚哥	,	SANTIAGO
+SDQ	,	圣多明各	,	SANTO DOMINGO
+STD	,	圣多明各	,	SANTO DOMINGO
+SYX	,	三亚	,	SANYAN
+SLZ	,	圣路易斯	,	SAO LUIZ
+CGH	,	圣保罗	,	SAO PAULO
+GRU	,	圣保罗	,	SAO PAULO
+SAO	,	圣保罗	,	SAO PAULO
+SPK	,	扎幌	,	SAPPORO
+CTS	,	扎幌	,	SAPPORO CHITOSE
+OKD	,	扎幌	,	SAPPORO OKADAMA
+SJJ	,	萨拉热窝	,	SARAJEVO
+SRQ	,	萨拉索塔	,	SARASOTA
+ZRM	,	沙美	,	SARMI
+YXE	,	萨斯卡通	,	SASKATOON
+CIU	,	苏圣马利	,	SAULT SAINTE MARIE
+SSM	,	苏圣玛丽	,	SAULT SAINTE MARIE
+YAM	,	苏圣玛丽	,	SAULT SAINTE MARIE
+SAV	,	萨凡纳河	,	SAVANNAH
+SAU	,	萨武	,	SAWU
+SEA	,	西雅图	,	SEATTLE
+SEY	,	塞利巴比	,	SELIBABY
+SRG	,	三宝垄	,	SEMARANG
+SDJ	,	仙台	,	SENDAI
+SEL	,	汉城	,	SEOUL
+GMP	,	漢城	,	SEOUL GIMPO INTL
+ICN	,	釜山	,	SEOUL-INCHEON
+SWD	,	苏厄德	,	SEWARD
+SFA	,	斯法克斯	,	SFAX
+SHA	,	上海	,	SHANGHAI
+PVG	,	上海	,	SHANGHAI PU DONG
+SNN	,	善农	,	SHANNON
+SWA	,	汕头	,	SHANTOU
+SHS	,	沙市	,	SHASHI
+SHE	,	沈阳	,	SHENYANG
+SZX	,	深圳	,	SHENZHEN
+SHR	,	谢里登	,	SHERIDAN
+SDZ	,	I设得兰群	,	SHETLAND ISLAND
+SYZ	,	设拉子	,	SHIRAZ
+SHV	,	什里夫波特	,	SHREVEPORT
+SBZ	,	锡比岛	,	SIBIU
+IXS	,	锡尔杰尔	,	SILCHAR
+SVC	,	银城	,	SILVER CITY
+SIP	,	辛菲罗波尔	,	SIMFEROPOL
+SIN	,	新加坡	,	SINGAPORE
+SIX	,	辛格尔顿	,	SINGLETON
+SUX	,	苏城	,	SIOUX CITY
+FSD	,	苏福尔斯	,	SIOUX FALLS
+SIT	,	锡特卡	,	SITKA
+AKY	,	约开	,	SITTWE
+SGY	,	斯卡圭	,	SKAGWAY
+SFT	,	谢莱夫特奥	,	SKELLEFTEA
+SKP	,	斯科普里	,	SKOPJE
+SXL	,	斯莱戈	,	SLIGO
+SLN	,	-	,	SLN
+SCT	,	索科特拉	,	SOCOTRA
+SOO	,	瑟德港	,	SODERHAMN
+SOF	,	索菲亚	,	SOFIA
+SOX	,	索加莫索	,	SOGAMOSO
+SKO	,	索科托	,	SOKOTO
+SOC	,	梭罗	,	SOLO CITY
+SOQ	,	梭朗	,	SORONG
+SBN	,	南本德	,	SOUTH BEND
+SOU	,	南安普顿	,	SOUTHAMPTON
+SQC	,	南克罗斯	,	SOUTHERN CROSS
+SPW	,	斯潘塞	,	SPENCER
+SPI	,	-	,	SPI
+SPU	,	斯普利特	,	SPLIT
+GEG	,	斯波坎	,	SPOKANE
+SXR	,	斯利那加	,	SRINAGAR
+EBU	,	圣艾蒂安	,	ST ETIENNE
+SGO	,	圣乔治	,	ST GEORGE
+SGU	,	圣乔治	,	ST GEORGE
+STG	,	圣乔治岛	,	ST GEORGE ISLAND
+YSJ	,	圣约翰	,	ST JOHN
+STL	,	圣路易	,	ST LOUIS
+XLS	,	圣路易	,	ST LOUIS
+SLU	,	圣路易斯	,	ST LUCIA
+SFG	,	圣马丁	,	ST MARTIN
+SMK	,	圣迈克尔	,	ST MICHAEL
+SNP	,	圣保罗岛	,	ST PAUL ISLAND
+LED	,	圣彼得堡	,	ST PETERSBURG
+PIE	,	聖比得堡	,	ST PETERSBURG
+SHD	,	斯汤顿	,	STAUNTON
+SVG	,	斯塔万格	,	STAVANGER
+SMS	,	圣玛丽角	,	STE MARIE
+SQI	,	斯特灵	,	STERLING
+ARN	,	斯德哥尔摩	,	STOCKHOLM
+STO	,	斯德哥尔摩	,	STOCKHOLM
+SYY	,	斯托诺韦	,	STORNOWAY
+SRN	,	斯特拉思	,	STRAHAN
+SXB	,	斯特拉斯堡	,	STRASBOURG
+TNX	,	上丁	,	STUNG TRENG
+STR	,	斯图加特	,	STUTTGART
+SCV	,	苏恰瓦	,	SUCEAVA
+SRE	,	苏克兰	,	SUCRE
+SWQ	,	松巴哇	,	SUMBAWA
+SDL	,	松兹瓦尔	,	SUNDSVALL
+SUV	,	苏瓦	,	SUVA
+SZV	,	苏州	,	SUZHOU
+SWF	,	-	,	SWF
+SYD	,	悉尼	,	SYDNEY
+SYR	,	锡拉丘兹	,	SYRACUSE
+SZZ	,	什切青	,	SZCZECIN
+TBO	,	塔波拉	,	TABORA
+TBZ	,	大不里士	,	TABRIZ
+TUU	,	塔布克	,	TABUK
+TAC	,	塔克洛班	,	TACLOBAN
+TCQ	,	塔克纳	,	TACNA
+TAG	,	塔秘拉兰	,	TAGBILARAN
+TXG	,	台中	,	TAICHUNG
+TNN	,	台南	,	TAINAN
+TPE	,	台北	,	TAIPEI
+TSA	,	台北	,	TAIPEI
+TTT	,	台东	,	TAITUNG
+TYN	,	太原	,	TAIYUAN
+TAK	,	高松	,	TAKAMATSU
+TYL	,	塔拉拉	,	TALARA
+TLH	,	塔拉哈西	,	TALLAHASSEE
+TLL	,	塔林	,	TALLINN
+TPA	,	坦帕	,	TAMPA
+TMP	,	坦佩雷	,	TAMPERE
+TAM	,	坦皮科	,	TAMPICO
+TMW	,	塔姆沃思	,	TAMWORTH
+TAL	,	塔纳诺	,	TANANA
+TDL	,	坦迪尔	,	TANDIL
+TNE	,	种子	,	TANEGASHIMA
+TNG	,	丹吉尔	,	TANGIER
+TAP	,	塔帕丘拉	,	TAPACHULA
+TRK	,	打拉根	,	TARAKAN
+TRO	,	塔里	,	TAREE
+TAS	,	塔什干	,	TASHKENT
+TUO	,	陶波	,	TAUPO
+TRG	,	陶朗阿	,	TAURANGA
+TWU	,	斗湖	,	TAWAU
+TBS	,	第比利斯	,	TBILISI
+TGU	,	洪都拉斯	,	TEGUCIGALPA
+THR	,	德克兰	,	TEHRAN
+TLV	,	特拉维夫	,	TEL AVIV I
+ZCO	,	特木科	,	TEMUCO
+TTE	,	特尔纳特	,	TERNATE
+HUF	,	特雷纳特	,	TERRE HAUTE
+TTU	,	得士安	,	TETUAN
+TXK	,	特克萨卡纳	,	TEXARKANA
+YQT	,	桑德贝	,	THUNDER BAY
+TIS	,	星期四岛	,	THURSDAY ISLAND
+TSN	,	天津	,	TIANJIN
+TIY	,	提吉克贾	,	TIDJIKJA
+TIJ	,	蒂华纳	,	TIJUANA
+TIU	,	蒂马鲁	,	TIMARU
+TSR	,	蒂米什瓦拉	,	TIMISOARA
+TIN	,	延杜夫	,	TINDOUF
+TOD	,	雕门	,	TIOMAN
+TRE	,	泰里	,	TIREE
+TAB	,	多巴哥	,	TOBAGO
+TKS	,	德岛	,	TOKUSHIMA
+TYO	,	东京	,	TOKYO
+HND	,	东京	,	TOKYO HANEDA AIRPORT
+NRT	,	東京	,	TOKYO NARITA AIRPORT
+TOL	,	托莱多	,	TOLEDO
+TOW	,	托莱多	,	TOLEDO
+TLI	,	托利托利	,	TOLITOLI
+TOM	,	通布图	,	TOMBOUCTOU
+TOF	,	托木斯克	,	TOMSK
+TNH	,	通化	,	TONGHUA
+TWB	,	图文巴	,	TOOWOOMBA
+TOP	,	托皮卡	,	TOPEKA
+YTO	,	多伦多	,	TORONTO
+YYZ	,	多伦多	,	TORONTO
+TRC	,	托雷翁	,	TORREON
+TOH	,	托雷斯	,	TORRES
+TTJ	,	鸟取	,	TOTTORI
+TLN	,	土伦	,	TOULON
+TLS	,	图卢兹	,	TOULOUSE
+TUF	,	图尔	,	TOURS
+TSV	,	汤斯维尔	,	TOWNSVILLE
+TOY	,	富山	,	TOYAMA
+TOE	,	托泽尔	,	TOZEUR
+TVC	,	特拉弗斯城	,	TRAVERSE CITY
+TTN	,	特伦顿	,	TRENTON
+TRI	,	-	,	TRI
+TRS	,	的里瓦斯特	,	TRIESTE
+TDD	,	特立尼达	,	TRINIDAD
+TRV	,	特里瓦得琅	,	TRIVANDRUM
+THN	,	特罗尔海坦	,	TROLLHATTAN
+TOS	,	特罗姆瑟	,	TROMSO
+TRD	,	特隆赫姆	,	TRONDHEIM
+TRU	,	特里希略	,	TRUJILLO
+TSJ	,	对马	,	TSUSHIMA
+TUB	,	土布艾	,	TUBUAI
+TUS	,	图森	,	TUCSON
+TUC	,	图库曼	,	TUCUMAN
+TUR	,	图库鲁伊	,	TUCURUI
+TUG	,	土格加劳	,	TUGUEGARAO
+TLE	,	图莱亚尔	,	TULEAR
+TUL	,	塔尔萨	,	TULSA
+TCO	,	图马科	,	TUMACO
+TUN	,	突尼斯	,	TUNIS
+TXN	,	屯溪	,	TUNXI
+TRN	,	都灵	,	TURIN
+TKU	,	图尔库	,	TURKU
+TWF	,	特温福尔斯	,	TWIN FALLS
+TYS	,	-	,	TYS
+TJM	,	秋明	,	TYUMEN
+UBJ	,	宇部	,	UBE
+UBA	,	乌贝拉巴	,	UBERABA
+UDI	,	乌贝兰迪亚	,	UBERLANDIA
+UBP	,	乌汶	,	UBON
+UFA	,	乌法	,	UFA
+UGO	,	威热	,	UIGE
+UCT	,	乌赫塔	,	UKHTA
+ULN	,	乌兰巴托	,	ULAN BATOR
+UNT	,	安斯特岛	,	UNST
+JUV	,	乌佩纳维克	,	UPERNAVIK
+URC	,	乌鲁木齐	,	URUMQI
+UCA	,	尤蒂卡	,	UTICA
+VAA	,	厄萨	,	VAASA
+VDS	,	瓦德瑟	,	VADSO
+VDZ	,	瓦尔迪兹	,	VALDEZ
+ZAL	,	瓦尔迪维亚	,	VALDIVIA
+VLC	,	瓦伦西亚	,	VALENCIA
+VLN	,	巴伦西亚	,	VALENCIA
+VLL	,	巴亚多利德	,	VALLADOLID
+VPS	,	瓦尔帕莱索	,	VALPARAISO
+VAN	,	凡湖	,	VAN
+CXH	,	温哥华	,	VANCOUVER
+YVR	,	温哥华	,	VANCOUVER
+VNE	,	瓦纳	,	VANNES
+VNS	,	瓦拉纳西	,	VARANASI
+VAR	,	瓦尔纳	,	VARNA
+VST	,	韦斯特罗斯	,	VASTERAS
+VCE	,	威尼斯	,	VENICE
+VER	,	韦拉克鲁德	,	VERACRUZ
+VCT	,	维多利亚	,	VICTORIA
+YYJ	,	维多利亚	,	VICTORIA
+VFA	,	维多利亚瀑	,	VICTORIA FALLS
+VDM	,	别德马	,	VIEDMA
+VIE	,	维也纳	,	VIENNA
+VNO	,	维尔纽斯	,	VILNIUS
+VBY	,	维斯比	,	VISBY
+VIT	,	维多利亚	,	VITORIA
+VIX	,	维多利亚	,	VITORIA
+ACT	,	瓦科	,	WACO
+WGP	,	阿英阿普	,	WAINGAPU
+AIN	,	维恩赖特	,	WAINWRIGHT
+WAA	,	威尔斯	,	WALES
+WAW	,	华沙	,	WARSAW
+DCA	,	华盛顿	,	WASHINGION
+IAD	,	华盛顿	,	WASHINGTON
+WAS	,	华盛顿	,	WASHINGTON
+ALO	,	滑铁卢	,	WATERLOO
+ART	,	瓦特镇	,	WATERTOWN
+ATY	,	瓦特镇	,	WATERTOWN
+WEF	,	维坊	,	WEIFANG
+WEH	,	威海	,	WEIHAI
+WLG	,	威灵顿	,	WELLINGTON
+WNZ	,	温州	,	WENZHOU
+WWY	,	西怀厄朗	,	WEST WYALONG
+WSZ	,	西港	,	WESTPORT
+WRY	,	韦斯特雷岛	,	WESTRAY
+WWK	,	维瓦克	,	WEWAK
+YXY	,	怀德霍斯	,	WHITEHORSE
+ICT	,	威奇托	,	WICHITA
+WIC	,	威克	,	WICK
+IPT	,	威廉斯	,	WILLIAMSPORT
+ISN	,	威利斯顿	,	WILLISTON
+ERS	,	温得和克	,	WINDHOEK
+WDH	,	温得和克	,	WINDHOEK
+YQG	,	温莎	,	WINDSOR
+YWG	,	温尼伯	,	WINNIPEG
+ZWL	,	伍拉斯顿湖	,	WOLLASTON LAKE
+ORH	,	伍斯特	,	WORCESTER
+WRG	,	兰格尔	,	WRANGELL
+WRO	,	弗罗莰瓦夫	,	WROCLAW
+WUH	,	武汉	,	WUHAN
+WHU	,	芜湖	,	WUHU
+WUX	,	无锡	,	WUXI
+WUS	,	武夷山	,	WUYISHAN
+WUZ	,	悟州	,	WUZHOU
+WYN	,	温德姆	,	WYNDHAM
+XMN	,	厦门	,	XIAMEN
+SIA	,	西安	,	XIAN
+XIY	,	西安	,	XIAN
+XFN	,	襄樊	,	XIANGFAN
+XNT	,	刑台	,	XINGTAI
+XNN	,	西宁	,	XINING
+XUZ	,	徐州	,	XUZHOU
+YKM	,	亚基马	,	YAKIMA
+KUM	,	屋久岛	,	YAKUSHIMA
+YAK	,	亚库塔特	,	YAKUTAT
+YKS	,	雅库次克	,	YAKUTSK
+GAJ	,	山形	,	YAMAGATA
+ASK	,	亚穆苏克罗	,	YAMOUSSOUKRO
+ENY	,	延安	,	YAN&RSQUO;AN
+YNB	,	延布	,	YANBU
+RGN	,	仰光	,	YANGON
+YKN	,	扬克顿	,	YANKTON
+YNT	,	烟台	,	YANTAI
+YAO	,	雅温得	,	YAOUNDE
+AZD	,	雅兹德	,	YAZD
+EVN	,	埃里温	,	YEREAVAN
+INC	,	银州	,	YINCHUAN
+YIN	,	伊宁	,	YINING
+JOG	,	日惹	,	YOGYAKARTA
+YNG	,	扬斯顿	,	YOUNGSTOWN
+ZCL	,	萨卡特卡斯	,	ZACATECAS
+ZAD	,	扎达尔	,	ZADAR
+ZAG	,	萨格勒布	,	ZAGREB
+ZAM	,	三宝颜	,	ZAMBOANGA
+ZNZ	,	桑给巴尔岛	,	ZANZIBAR
+ZAZ	,	萨拉戈萨	,	ZARAGAOZA
+ZHA	,	湛江	,	ZHANJIANG
+ZAT	,	昭通	,	ZHAOTONG
+CGO	,	郑州	,	ZHENGZHOU
+PZH	,	茲霍布	,	ZHOB
+ZUH	,	珠海	,	ZHUHAI
+ZIG	,	济金绍尔	,	ZIGUINCHOR
+ZRH	,	苏黎世	,	ZURICH

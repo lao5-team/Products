@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/font_size_large" android:textColor="@color/color_333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/not_a_member" />
+    <TextView android:textSize="@dimen/font_size_large" android:textColor="@color/color_099fde" android:id="@+id/tv_register_now" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/register_now" android:onClick="onClickRegister" />
+</LinearLayout>

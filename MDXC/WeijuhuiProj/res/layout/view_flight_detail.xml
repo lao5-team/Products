@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/flight_detail_header_layout" 
+        layout="@layout/view_flight_detail_header" />
+
+    <include 
+        android:id="@+id/flight_detail_content_layout" 
+        layout="@layout/view_flight_detail_content" />
+
+    <LinearLayout
+        android:id="@+id/ll_flight_coupon_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:orientation="vertical"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.0dip"
+        android:visibility="gone" >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/line_dotted_h" />
+
+        <TextView
+            android:id="@+id/tv_flight_coupon_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5.0dip"
+            android:paddingBottom="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_10"
+            android:textColor="@color/color_gray_3"
+            android:textSize="@dimen/font_size_medium" />
+    </LinearLayout>
+
+    <View style="@style/line_h" />
+
+    <TextView
+        android:id="@+id/tv_policy_title"
+        android:layout_width="fill_parent"
+        android:layout_height="35.0dip"
+        android:background="@color/color_gray_2"
+        android:clickable="true"
+        android:drawableRight="@drawable/icon_arrow_right_roate"
+        android:gravity="center_vertical"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.0dip"
+        android:text="@string/ticket_policy"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_medium"
+        android:textStyle="bold" />
+
+    <include 
+        android:id="@+id/flight_detail_policy_layout"
+        android:visibility="gone"
+        layout="@layout/view_flight_detail_policy" />
+
+</LinearLayout>

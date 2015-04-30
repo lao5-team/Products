@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    xmlns:tools="http://schemas.android.com/tools"  
+    android:layout_width="match_parent"  
+    android:layout_height="match_parent" >  
+  
+    <fragment  
+        android:id="@+id/fragment_title"  
+        android:name="com.test.juxiaohui.mainui.fragement.FragementFirst"  
+        android:layout_width="fill_parent"  
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottombar"></fragment>"
+  
+    <include  
+        android:id="@+id/bottombar"  
+        android:layout_width="fill_parent"  
+        android:layout_height="60dip"  
+        android:layout_alignParentBottom="true"  
+        layout="@layout/mainui_bottombar" />  
+  
+     <ImageView android:id="@+id/imagemain"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/main2"
+         android:background="@null"
+        />
+     
+   <!--  <FrameLayout  
+        android:id="@+id/content"  
+        android:layout_width="fill_parent"  
+        android:layout_height="fill_parent"  
+        android:layout_above="@id/bottombar"  
+        android:layout_below="@id/fragment_title" />  
+   -->
+</RelativeLayout>

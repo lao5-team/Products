@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:background="@color/color_ffffff"
+    android:orientation="horizontal" >
+<LinearLayout 
+    android:id="@+id/layout_time_2"
+    android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:orientation="vertical"
+	>
+    <TextView 
+        android:id="@+id/textview_depart_time_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="08:25"
+        android:layout_weight="1"/>
+    <TextView 
+        android:id="@+id/textview_arrive_time_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="11:10"
+        android:layout_weight="1"/>
+</LinearLayout>
+
+	<ImageView 
+	    android:id="@+id/icon_flight_trip_0_0"
+	    android:layout_width="11dp"
+	    android:layout_height="28dp"
+	    android:layout_toRightOf="@id/layout_time_2"
+	    android:layout_marginLeft="10dp"
+	    android:layout_centerVertical="true"
+	    android:src="@drawable/icon_flight_trip_0_0"/>
+	
+	<LinearLayout 
+    android:id="@+id/layout_protcode_2"
+    android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:layout_toRightOf="@id/icon_flight_trip_0_0"
+	android:layout_marginLeft="10dp"
+	android:orientation="vertical"
+	>
+    <TextView 
+        android:id="@+id/textview_depart_protcode_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="PVG"
+        android:layout_weight="1"/>
+    <TextView 
+        android:id="@+id/textview_arrive_protcode_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="HKG"
+        android:layout_weight="1"/>
+</LinearLayout>
+
+<LinearLayout 
+    android:id="@+id/layout_city_2"
+    android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:layout_marginLeft="10dp"
+	android:layout_toRightOf="@id/layout_protcode_2"
+	android:orientation="vertical"
+	>
+    <TextView 
+        android:id="@+id/textview_depart_city_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="PU DONG"
+        android:layout_weight="1"/>
+    <TextView 
+        android:id="@+id/textview_arrive_city_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="HONG KONG"
+        android:layout_weight="1"/>
+</LinearLayout>
+
+<LinearLayout 
+    android:id="@+id/layout_terminal_2"
+    android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:layout_alignParentRight="true"
+	
+	android:orientation="vertical"
+	>
+    <TextView 
+        android:id="@+id/textview_depart_terminal_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="T1"
+        android:layout_weight="1"/>
+    <TextView 
+        android:id="@+id/textview_arrive_terminal_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="T2"
+        android:layout_weight="1"/>
+</LinearLayout>
+	
+</RelativeLayout>

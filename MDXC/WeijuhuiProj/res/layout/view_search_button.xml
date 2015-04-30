@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:id="@+id/search_button_container"
+        android:background="@drawable/selector_btn_1"
+        android:clickable="true"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/button_height_60"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+            android:background="@drawable/icon_search_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5.0dip"/>
+
+    <TextView
+            android:textSize="@dimen/font_size_36"
+            android:textStyle="bold"
+            android:textColor="@color/color_ffffff"
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search"/>
+</LinearLayout>

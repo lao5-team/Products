@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <LinearLayout 
+        android:orientation="horizontal" 
+        android:background="@drawable/selector_btn_4" 
+        android:clickable="true" 
+        android:layout_width="fill_parent" 
+        android:layout_height="@dimen/view_item_height" 
+        android:onClick="onClickCurrentLocation">
+        
+        <ImageView
+            android:gravity="center_vertical" 
+            android:layout_width="wrap_content" 
+            android:layout_height="fill_parent" 
+            android:layout_marginLeft="@dimen/margin_10" 
+            android:src="@drawable/icon_nearby_normal" />
+        
+        <TextView 
+            android:textSize="@dimen/font_size_medium" 
+            android:textColor="@color/color_333333" 
+            android:gravity="center_vertical" 
+            android:id="@+id/tv_title" 
+            android:layout_width="0.0dip" 
+            android:layout_height="fill_parent" 
+            android:layout_marginLeft="@dimen/margin_10" 
+            android:text="@string/near_current_location" 
+            android:singleLine="true" 
+            android:layout_weight="1.0" />
+        <ProgressBar 
+            android:layout_gravity="center_vertical" 
+            android:id="@+id/view_city_header_progress_bar" 
+            android:visibility="gone" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginRight="12.0dip" 
+            android:layout_marginEnd="12.0dip" 
+            style="?android:attr/progressBarStyle" />
+    </LinearLayout>
+</LinearLayout>

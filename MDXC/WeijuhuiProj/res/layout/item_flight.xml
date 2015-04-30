@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bright_foreground_inverse_material_light" >
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/airline_layout"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_10"
+        >
+    <ImageView
+        android:id="@+id/imageView_airline_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chatfrom_voice_playing" />
+
+    <TextView
+        android:id="@+id/textView_aireline_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:text="TextView"
+        android:textColor="@color/color_000000"
+        android:textSize="15dp" />
+        
+    </LinearLayout>
+
+
+    <RelativeLayout 
+        android:layout_below="@id/airline_layout"
+        android:background="@drawable/selector_btn_4" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content">
+    <RelativeLayout 
+        android:orientation="horizontal" 
+        android:paddingBottom="@dimen/margin_10" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content">
+        
+        <RelativeLayout 
+            android:id="@+id/rl_content" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="5.0dip" 
+            android:layout_marginRight="15.0dip" 
+            android:layout_marginBottom="5.0dip" 
+            android:layout_alignParentRight="true">
+            
+<!--             <ImageView 
+                android:id="@+id/iv_airline" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="@dimen/margin_10" 
+                android:layout_marginTop="3.0dip" 
+                android:layout_marginRight="3.0dip" />
+            
+            <TextView 
+                android:textSize="@dimen/font_size_x_small" 
+                android:textColor="@color/color_orange" 
+                android:gravity="right" 
+                android:id="@+id/tv_tickets_left" 
+                android:visibility="invisible" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="5.0dip" 
+                android:layout_alignParentRight="true" /> -->
+            
+            
+            <LinearLayout 
+                android:gravity="center_vertical" 
+                android:orientation="horizontal" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="@dimen/margin_10" 
+                android:layout_alignParentTop="true">
+                
+                <LinearLayout 
+                    android:gravity="center" 
+                    android:orientation="horizontal" 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content">
+                    
+                    <LinearLayout 
+                        android:gravity="center" 
+                        android:orientation="vertical" 
+                        android:id="@+id/ll_depart" 
+                        android:layout_width="wrap_content" 
+                        android:layout_height="wrap_content">
+                        
+                        <TextView 
+                            android:textSize="@dimen/font_size_small" 
+                            android:textColor="@color/color_666666" 
+                            android:layout_gravity="right" 
+                            android:visibility="invisible" 
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:lineSpacingExtra="1.0dip" 
+                            android:lineSpacingMultiplier="0.9" />
+                        
+                        <TextView 
+                            android:textSize="@dimen/font_size_x_small" 
+                            android:textColor="@color/color_333333" 
+                            android:id="@id/tv_depart_date" 
+                            android:maxWidth="@dimen/flight_view_data_maxwidth"
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:text="08:00" 
+                            android:lineSpacingExtra="1.0dip" 
+                            android:lineSpacingMultiplier="0.9" />
+                        
+                        <TextView 
+                            android:textSize="@dimen/font_size_x_small" 
+                            android:textColor="@color/color_666666" 
+                            android:id="@+id/tv_depart_city" 
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:text="SHA" />
+                        
+                    </LinearLayout>
+                    
+                    <RelativeLayout 
+                        android:id="@+id/ll_stop" 
+                        android:layout_width="wrap_content" 
+                        android:layout_height="wrap_content" 
+                        android:layout_marginLeft="5.0dip" 
+                        android:layout_marginRight="5.0dip">
+                        
+    					<ImageView 
+    					    android:id="@+id/iv_arrow" 
+    					    android:background="@drawable/icon_flight_arrow" 
+    					    android:layout_width="@dimen/flight_view_arrow_widht" 
+    					    android:layout_height="wrap_content" 
+    					    android:layout_centerInParent="true" />
+    					
+                        <LinearLayout 
+                            android:gravity="center_horizontal" 
+                            android:orientation="vertical" 
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:layout_centerInParent="true">
+                            
+                            <TextView 
+                                android:textSize="@dimen/font_size_small" 
+                                android:textColor="@color/color_666666" 
+                                android:text="2h"
+                                android:id="@+id/tv_duration" 
+                                android:layout_width="wrap_content" 
+                                android:layout_height="wrap_content" 
+                                android:singleLine="true" />
+                            <LinearLayout 
+                                android:orientation="horizontal" 
+                                android:id="@+id/view_stops" 
+                                android:layout_width="wrap_content" 
+                                android:layout_height="wrap_content">
+                                
+                                <include android:id="@+id/view_stop_0" layout="@layout/view_stop_info" android:visibility="invisible"/>
+                                <include android:id="@+id/view_stop_1" layout="@layout/view_stop_info" android:visibility="invisible"/>
+                                <include android:id="@+id/view_stop_2" layout="@layout/view_stop_info" android:visibility="invisible"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <LinearLayout 
+                        android:gravity="center" 
+                        android:orientation="vertical" 
+                        android:id="@+id/ll_arrival" 
+                        android:layout_width="wrap_content" 
+                        android:layout_height="wrap_content">
+                        <TextView 
+                            android:textSize="@dimen/font_size_small" 
+                            android:textColor="@color/color_666666" 
+                            android:layout_gravity="right" 
+                            android:id="@+id/tv_over_day" 
+                            android:visibility="invisible" 
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:lineSpacingExtra="1.0dip" 
+                            android:lineSpacingMultiplier="0.9" />
+                        <TextView 
+                            android:textSize="@dimen/font_size_x_small" 
+                            android:textColor="@color/color_333333" 
+                            android:id="@+id/tv_arrival_date" 
+                            android:maxWidth="@dimen/flight_view_data_maxwidth"
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:text="08:00" 
+                            android:lineSpacingExtra="1.0dip" 
+                            android:lineSpacingMultiplier="0.9" />
+                        <TextView 
+                            android:textSize="@dimen/font_size_x_small" 
+                            android:textColor="@color/color_666666" 
+                            android:id="@+id/tv_arrival_city" 
+                            android:layout_width="wrap_content" 
+                            android:layout_height="wrap_content" 
+                            android:text="SHA" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout 
+                    android:gravity="right" 
+                    android:id="@+id/ll_price" 
+                    android:layout_width="0.0dip" 
+                    android:layout_height="wrap_content" 
+                    android:layout_marginLeft="5.0dip" 
+                    android:layout_weight="1.0">
+                    <TextView 
+                        android:textSize="@dimen/font_size_small" 
+                        android:textColor="@color/color_666666" 
+                        android:id="@+id/tv_currency" 
+                        android:layout_width="wrap_content" 
+                        android:layout_height="wrap_content"
+                        android:text="RMB" />
+                    <TextView 
+                        android:textSize="@dimen/font_size_x_small" 
+                        android:textStyle="bold" 
+                        android:textColor="@color/color_1484dc" 
+                        android:id="@+id/tv_price" 
+                        android:ellipsize="end"
+                        android:layout_width="wrap_content" 
+                        android:layout_height="wrap_content" 
+                        android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/register_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    
+ <!--   <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bookshelf_bg_color" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/phone_number_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/list_item_bg"
+                    android:orientation="vertical"
+                    android:visibility="visible" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="@dimen/wlan_login_padding_x_button"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/wlan_register_padding_y_titletop"
+                        android:paddingTop="@dimen/wlan_register_padding_y_titletop" >
+
+                        <TextView
+                            android:id="@+id/register_sendpresentationtext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/booklist_title_color"
+                            android:textSize="@dimen/Unite_TextSize_Normal" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/register_sendpwdbutton"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/Button_Height"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/wlan_register_padding_y_sendbuttonbottom"
+                        android:layout_marginLeft="@dimen/wlan_login_padding_x_button"
+                        android:layout_marginRight="@dimen/wlan_login_padding_x_button"
+                        android:layout_marginTop="@dimen/wlan_register_padding_y_sendbuttontop"
+                        android:background="@drawable/btn_blue_style"
+                        android:text="@string/register_sendpasswordbutton"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/Unite_TextSize_Normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/not_phonenumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/wlan_register_padding_y_sendbuttontop"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/not_phonenumber_register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/wlan_login_padding_x_common"
+                        android:gravity="center_horizontal"
+                        android:text="@string/not_phonenumber_register"
+                        android:textColor="@color/gray_text"
+                        android:textSize="@dimen/wlan_login_textsize_l" />
+
+                    <TextView
+                        android:id="@+id/not_phonenumber_register_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/register_link"
+                        android:textSize="@dimen/wlan_login_textsize_l"
+                        android:textColor="@color/booklist_title_click_color"
+                        android:background="@drawable/blocklist_item_bg" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/register_username_error_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/wlan_login_padding_x_common"
+                    android:gravity="center_vertical"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:id="@+id/register_username_error_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="@dimen/wlan_username_paddingTop"
+                        android:textColor="@color/text_red"
+                        android:textSize="@dimen/Unite_TextSize_Small" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/register_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/wlan_login_padding_x_common"
+                    android:layout_marginRight="@dimen/wlan_login_padding_x_common"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="12dip"
+                    android:paddingRight="12dip"
+                    android:visibility="visible" >
+
+                    <com.cmread.bplusc.view.EditTextWithDel
+                        android:id="@+id/username_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/EditText_Single_Height"
+                        android:layout_alignParentTop="true"
+                        android:ellipsize="end"
+                        android:hint="@string/register_name_null"
+                        android:inputType="text"
+                        android:maxLength="20"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColorHint="@color/cmalertdialog_cancelbtn_text_color"
+                        android:textSize="@dimen/bind_number_textsize" />
+
+                    <TextView
+                        android:id="@+id/user_name_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/username_edittext"
+                        android:text="@string/register_username_text_hint"
+                        android:textSize="@dimen/Unite_TextSize_Small"
+                        android:textColor="@color/content_text_color" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/register_password_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/wlan_login_padding_x_common"
+                    android:layout_marginRight="@dimen/wlan_login_padding_x_common"
+                    android:layout_marginTop="@dimen/wlan_login_padding_y_common"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="12dip"
+                    android:paddingRight="12dip"
+                    android:visibility="visible" >
+
+                    <com.cmread.bplusc.view.EditTextWithDel
+                        android:id="@+id/password_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/EditText_Single_Height"
+                        android:layout_alignParentTop="true"
+                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:hint="@string/register_password_hint"
+                        android:maxLength="14"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColorHint="@color/cmalertdialog_cancelbtn_text_color"
+                        android:textSize="@dimen/bind_number_textsize" />
+
+                    <LinearLayout
+                        android:id="@+id/register_password_visibility_Layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/password_edittext"
+                        android:layout_marginTop="10dip"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <CheckBox
+                            android:id="@+id/password_checkbox"
+                            android:layout_width="20dip"
+                            android:layout_height="20dip"
+                            android:button="@null"
+                            android:checked="true"
+                            android:focusable="false"
+                            android:background="@drawable/transparent_checkbox_style" />
+
+                        <TextView
+                            android:id="@+id/show_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15dip"
+                            android:text="@string/show_word"
+                            android:textSize="@dimen/Unite_TextSize_Normal"
+                            android:textColor="@color/gray_text" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/show_erification_code_error"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/register_password_visibility_Layout"
+                        android:layout_marginTop="@dimen/wlan_login_padding_y_common"
+                        android:text="@string/get_verificationcode_failed_text"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/Unite_TextSize_Normal"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/register_register_verification_code_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/wlan_register_agree_text_padding_y_"
+                    android:layout_marginLeft="@dimen/wlan_login_padding_x_common"
+                    android:layout_marginRight="@dimen/wlan_login_padding_x_common"
+                    android:layout_marginTop="@dimen/wlan_login_padding_x_common"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="visible" >
+
+                    <LinearLayout
+                        android:id="@+id/password_edittext_Layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:orientation="horizontal"
+                        android:paddingLeft="12dip"
+                        android:paddingRight="12dip"
+                        android:weightSum="10" >
+
+                        <com.cmread.bplusc.view.EditTextWithDel
+                            android:id="@+id/register_verification_code_edittext"
+                            android:layout_width="100dip"
+                            android:layout_height="@dimen/EditText_Single_Height"
+                            android:layout_weight="7"
+                            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            android:hint="@string/register_verification_code_hint"
+                            android:inputType="textPassword"
+                            android:maxLength="14"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColorHint="@color/cmalertdialog_cancelbtn_text_color"
+                            android:textSize="@dimen/bind_number_textsize" />
+
+                        <ImageView
+                            android:id="@+id/verification_code_imageview"
+                            android:layout_width="60dip"
+                            android:layout_height="33dip"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/wlan_login_padding_x_common"
+                            android:layout_weight="3"
+                            android:paddingRight="@dimen/wlan_login_edittext_padding"
+                            android:background="@drawable/verification_code_refresh" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/aggree_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/wlan_login_padding_x_common"
+                android:layout_marginRight="@dimen/wlan_login_padding_x_common"
+                android:layout_marginTop="@dimen/wlan_register_padding_y_registerbuttonbottom"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dip"
+                android:paddingRight="12dip" >
+
+                <CheckBox
+                    android:id="@+id/agreement_checkbox"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:button="@null"
+                    android:checked="true"
+                    android:focusable="false"
+                    android:background="@drawable/transparent_checkbox_style" />
+
+                <TextView
+                    android:id="@+id/agreement_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dip"
+                    android:text="@string/register_agreement_text"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/Unite_TextSize_Normal"
+                    android:background="@drawable/blocklist_item_bg" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/immediately_register"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/Button_Height"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/wlan_register_button_padding_x"
+                android:layout_marginRight="@dimen/wlan_register_button_padding_x"
+                android:layout_marginTop="@dimen/wlan_register_padding_y_registerbuttonbottom"
+                android:text="@string/immediately_register"
+                android:textSize="@dimen/dialog_button_textsize"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_blue_style"
+                android:padding="0dp" />
+        </LinearLayout>
+    </ScrollView>-->
+
+</LinearLayout>

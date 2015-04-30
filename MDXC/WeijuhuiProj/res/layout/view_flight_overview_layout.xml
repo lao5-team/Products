@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:background="@color/color_ffffff">
+
+    <ImageView 
+        android:id="@+id/icon_airline"
+        android:layout_alignParentLeft="true"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon_airline_3k"/>
+    
+    <TextView 
+        android:id="@+id/airline_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/icon_airline"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:text="东方航空"/>
+    <LinearLayout 
+        android:layout_below="@id/airline_company_name"
+        android:layout_toRightOf="@id/icon_airline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView 
+        android:id="@+id/flight_code_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/icon_airline"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:layout_weight="1"
+        android:text="KA871"/>
+        <TextView 
+        android:id="@+id/flight_model_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/icon_airline"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:layout_weight="3"
+        android:text="Airbus A320"/>
+        <TextView 
+        android:id="@+id/cabin_class_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/icon_airline"
+        android:textSize="@dimen/font_size_medium"
+        android:textColor="@color/color_666666"
+        android:layout_weight="1"
+        android:text="经济舱"/>
+    </LinearLayout>
+
+</RelativeLayout>

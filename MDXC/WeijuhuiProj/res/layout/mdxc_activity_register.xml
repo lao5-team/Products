@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/register_backgroud"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/register_text_margin"
+            android:text="@string/telephone_number"
+            android:textColor="@color/register_text_color"
+            android:textSize="@dimen/font_size_large" />
+      
+		<View
+		    style="@style/line_c8c8c8"
+		 	android:layout_height="1px"
+		    />
+       
+		<EditText
+		    android:id="@+id/et_phone_number"
+		    style="@style/register_edit_text_style"
+		    android:layout_width="fill_parent"
+		    android:imeOptions="actionNext" />
+
+        <View
+		    style="@style/line_c8c8c8"
+		 	android:layout_height="1px"
+		    />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/register_text_margin"
+            android:text="@string/password"
+            android:textColor="@color/register_text_color"
+            android:textSize="@dimen/font_size_large" />
+
+       
+        		<View
+		    style="@style/line_c8c8c8"
+		 	android:layout_height="1px"
+		    />
+
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/register_edit_text_style"
+            android:layout_width="fill_parent"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword" />
+
+        		<View
+		    style="@style/line_c8c8c8"
+		 	android:layout_height="1px"
+		    />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/register_text_margin"
+            android:text="@string/confirm_password"
+            android:textColor="@color/register_text_color"
+            android:textSize="@dimen/font_size_large" />
+
+        
+		<View
+		    style="@style/line_c8c8c8"
+		 	android:layout_height="1px"
+		    />
+        <EditText
+            android:id="@+id/et_confirm_password"
+            style="@style/register_edit_text_style"
+            android:layout_width="fill_parent"
+            android:imeOptions="actionGo"
+            android:inputType="textPassword" />
+		<View
+		    style="@style/line_c8c8c8"
+		 	android:layout_height="1px"
+		    />
+
+		<Button
+		    android:id="@+id/button_checkcode"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/get_checkCode" />
+
+		<TextView
+		    android:id="@+id/textView"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_margin="@dimen/register_text_margin"
+		    android:text="@string/CheckCode"
+		    android:textColor="@color/register_text_color"
+		    android:textSize="@dimen/font_size_large" />
+
+         <EditText
+            android:id="@+id/et_checkcode"
+            style="@style/register_edit_text_style"
+            android:layout_width="fill_parent"
+            android:imeOptions="actionGo"
+            android:inputType="textPassword" />
+
+		<View
+		    style="@style/line_c8c8c8"
+		 	android:layout_height="1px"
+		    />  
+
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/register_text_margin"
+            android:background="@drawable/btn_blue_selector"
+            android:text="@string/register_text"
+            android:textColor="@color/btn_white_normal"
+            android:textSize="@dimen/font_size_large"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    android:orientation="horizontal" 
+    android:background="@color/color_099fde"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <TextView 
+        android:textSize="@dimen/font_size_medium" 
+        android:textColor="@color/color_white" 
+        android:gravity="center" 
+        android:id="@+id/tv_cancel" 
+        android:clickable="true" 
+        android:layout_width="wrap_content" 
+        android:layout_height="fill_parent" 
+        android:layout_margin="@dimen/margin_10" 
+        android:minWidth="70.0dip" 
+        android:text="@string/clear" 
+        android:singleLine="true" 
+        android:layout_alignParentRight="true" 
+        android:layout_centerVertical="true" 
+        android:onClick="onClickCancel" />
+   
+    <RelativeLayout 
+        android:background="@drawable/bg_white_c_a" 
+        android:layout_width="fill_parent" 
+        android:layout_height="34.0dip" 
+        android:layout_marginLeft="@dimen/margin_10" 
+        android:layout_marginTop="5.0dip" 
+        android:layout_marginBottom="5.0dip" 
+        android:layout_toLeftOf="@+id/tv_cancel" 
+        android:layout_centerVertical="true">
+        
+        <ImageView 
+            android:id="@+id/iv_clear" 
+            android:background="@drawable/selector_icon_close" 
+            android:visibility="gone" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginRight="5.0dip" 
+            android:layout_alignParentRight="true" 
+            android:layout_centerVertical="true" />
+        <EditText 
+            android:layout_gravity="center_vertical" 
+            android:id="@+id/et_keyword" 
+            android:background="@null" 
+            android:layout_width="fill_parent" 
+            android:hint="@string/hotel_name_contains" 
+            android:layout_toLeftOf="@+id/iv_clear" 
+            android:layout_centerVertical="true" 
+            android:imeOptions="actionGo" 
+            style="@style/BaseInput" />
+    </RelativeLayout>
+</RelativeLayout>
