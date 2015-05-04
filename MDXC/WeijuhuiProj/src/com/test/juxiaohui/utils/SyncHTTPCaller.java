@@ -8,7 +8,10 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.LogManager;
 
+import com.test.juxiaohui.mdxc.data.LogData;
+import com.test.juxiaohui.mdxc.server.LogServer;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -99,8 +102,17 @@ public abstract class SyncHTTPCaller<T> {
 				HttpResponse httpResponse;
 					try {
 						httpResponse = new DefaultHttpClient().execute(httpRequest);
-						if (httpResponse.getStatusLine().getStatusCode() == 200) {
-							String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+						int statusCode = httpResponse.getStatusLine().getStatusCode();
+						String statusString = httpResponse.getStatusLine().toString();
+						String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+						String log = "url " + mURL + "\n" +
+									 "statusCode " + statusCode + "\n" +
+									 "statusString " + statusString + "\n" +
+								     "entity " + str + "\n";
+						LogData logData = new LogData();
+						logData.log = log;
+						LogServer.getInstance().uploadLog("", logData);
+						if (statusCode == 200) {
 							mDefaultResult = postExcute(str);
 						}
 					} catch (ClientProtocolException e) {

@@ -8,6 +8,9 @@ import com.test.juxiaohui.common.data.User;
 import com.test.juxiaohui.mdxc.data.ContactUser;
 import com.test.juxiaohui.mdxc.data.Passenger;
 import com.test.juxiaohui.mdxc.server.UserServer;
+import com.test.juxiaohui.utils.EncryptUtil;
+import junit.framework.Assert;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -228,6 +231,95 @@ public class UserManager {
 	public User getUserInfo(String username)
 	{
 		return mUserServer.getUserInfo(username);
+	}
+
+	public void saveLoginInfo(String username, String countryCode, String password)
+	{
+		Assert.assertNotNull(username);
+		Assert.assertNotNull(countryCode);
+		Assert.assertNotNull(password);
+		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put("countryCode", countryCode);
+			jsonObject.put("username", username);
+			jsonObject.put("password", EncryptUtil.encryptString(password));
+			jsonCache.putItem(username, jsonObject);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 获取当前缓存的用户名
+	 * @return
+	 */
+	public String getCachedUsername()
+	{
+		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+		List<JSONObject> jsonList = jsonCache.getAllItems();
+		String username = "";
+		if(null!=jsonList && jsonList.size()>0)
+		{
+			JSONObject jsonObject = jsonList.get(0);
+			if(jsonObject.has("username"))
+			{
+				try {
+					username = jsonObject.getString("username");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return username;
+	}
+
+	/**
+	 * 获取当前缓存的国家码
+	 * @return
+	 */
+	public String getCachedCountryCode()
+	{
+		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+		List<JSONObject> jsonList = jsonCache.getAllItems();
+		String username = "";
+		if(null!=jsonList && jsonList.size()>0)
+		{
+			JSONObject jsonObject = jsonList.get(0);
+			if(jsonObject.has("countryCode"))
+			{
+				try {
+					username = jsonObject.getString("countryCode");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return username;
+	}
+
+	/**
+	 * 获取当前缓存的密码
+	 * @return
+	 */
+	public String getCachedPassword()
+	{
+		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+		List<JSONObject> jsonList = jsonCache.getAllItems();
+		String username = "";
+		if(null!=jsonList && jsonList.size()>0)
+		{
+			JSONObject jsonObject = jsonList.get(0);
+			if(jsonObject.has("password"))
+			{
+				try {
+					username = jsonObject.getString("password");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return username;
 	}
 
 	/**

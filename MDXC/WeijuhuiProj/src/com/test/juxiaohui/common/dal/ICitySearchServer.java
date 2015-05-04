@@ -1,16 +1,18 @@
 package com.test.juxiaohui.common.dal;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.test.juxiaohui.mdxc.data.AirportData;
 import com.test.juxiaohui.mdxc.data.CityData;
 
 public interface ICitySearchServer 
 {
 	public ArrayList<CityData> getNearbyPort();
 	
-	public ArrayList<CityData> getLastSearchCities();
+	public List<CityData> getLastSearchCities();
 	
-	public ArrayList<CityData> getHostCities();
+	public List<CityData> getHotCities();
 	
 	/**
 	 * 
@@ -18,4 +20,6 @@ public interface ICitySearchServer
 	 * @return
 	 */
 	public ArrayList<CityData> getSearchResult(String condition);
+
+	public List<AirportData> getAirportsinCity(String cityCode);
 }

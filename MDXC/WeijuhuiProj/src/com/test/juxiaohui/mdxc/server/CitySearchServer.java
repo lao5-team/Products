@@ -5,17 +5,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import com.test.juxiaohui.DemoApplication;
 import com.test.juxiaohui.common.dal.ICitySearchServer;
+import com.test.juxiaohui.mdxc.data.AirportData;
 import com.test.juxiaohui.mdxc.data.CityData;
 
 public class CitySearchServer implements ICitySearchServer {
-	
+	public String[] mHotCityList = {"Yangon", "Mandalay", "Nay Pyi Taw", "Hongkong", "Singarpore", "Bangkok",
+	"Beijing", "Kunming", "Guangzhou"};
 	private static CitySearchServer mInstance = null;
+	private HashSet<String> mRecentCities = new HashSet<String>();
+	private static final String PREF_RECENT_CITIES = "recent_cities";
 	public static CitySearchServer getInstance()
 	{
 		if(mInstance == null)
@@ -28,6 +36,9 @@ public class CitySearchServer implements ICitySearchServer {
 	public CitySearchServer()
 	{
 		createFromFile();
+
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(DemoApplication.applicationContext);
+		preferences.getStringSet(PREF_RECENT_CITIES, mRecentCities);
 	}
 	
 
@@ -38,15 +49,28 @@ public class CitySearchServer implements ICitySearchServer {
 	}
 
 	@Override
-	public ArrayList<CityData> getLastSearchCities() {
+	public List<CityData> getLastSearchCities() {
 		// TODO Auto-generated method stub
-		return null;
+		Iterator<String> iterator = mRecentCities.iterator();
+		List<CityData> result = new ArrayList<CityData>();
+		while (iterator.hasNext())
+		{
+			CityData data = new CityData();
+			data.cityName = iterator.next();
+			result.add(data);
+		}
+		return result;
 	}
 
 	@Override
-	public ArrayList<CityData> getHostCities() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<CityData> getHotCities() {
+		// 丑代码，不过可用
+		ArrayList<CityData> hostList = new ArrayList<CityData>();
+		for(CityData city:hostList)
+		{
+			hostList.add(city);
+		}
+		return hostList;
 	}
 
 	@Override
@@ -73,6 +97,11 @@ public class CitySearchServer implements ICitySearchServer {
 			}
 			return results;
 		}
+	}
+
+	@Override
+	public List<AirportData> getAirportsinCity(String cityCode) {
+		return null;
 	}
 
 
@@ -102,4 +131,20 @@ public class CitySearchServer implements ICitySearchServer {
 			e.printStackTrace();
 		} 
 	}
+
+	/**
+	 *  添加 最近搜索过的城市名
+	 * @param cityName
+	 */
+	public void addRecentCity(String cityName)
+	{
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(DemoApplication.applicationContext);
+		SharedPreferences.Editor editor = preferences.edit();
+		mRecentCities.add(cityName);
+		editor.putStringSet(PREF_RECENT_CITIES, mRecentCities).commit();
+
+	}
+
+
+
 }

@@ -82,7 +82,15 @@ public class RegisterActivity extends Activity implements IRegisterMediator {
 		});
 	}
 
-	
+	/**
+	 * 添加国家代码选择
+	 */
+	@Override
+	public void addCountryCodeView() {
+
+	}
+
+
 	@Override
 	public void confirm() {
 		// TODO Auto-generated method stub

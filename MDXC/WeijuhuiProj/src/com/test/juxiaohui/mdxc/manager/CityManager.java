@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by yihao on 15/4/8.
@@ -131,14 +132,14 @@ public class CityManager {
 		return CitySearchServer.getInstance().getNearbyPort();
 	}
 	
-	public ArrayList<CityData> getLastSearchCities()
+	public List<CityData> getLastSearchCities()
 	{
 		return CitySearchServer.getInstance().getLastSearchCities();
 	}
 	
-	public ArrayList<CityData> getHostCities()
+	public ArrayList<CityData> getHotCities()
 	{
-		return CitySearchServer.getInstance().getHostCities();
+		return CitySearchServer.getInstance().getHotCities();
 	}
 	
 

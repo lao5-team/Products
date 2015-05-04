@@ -2,7 +2,7 @@ package com.test.juxiaohui.mdxc.mediator;
 
 
 /**
- * Created by qinyy on 15/3/5.
+ *
  */
 public interface IRegisterMediator {
    
@@ -11,6 +11,11 @@ public interface IRegisterMediator {
     public void addConfirmPasswordView();
     public void addGetCheckcodeView();
     public void addRegisterButton();
+
+    /**
+     * 添加国家代码选择
+     */
+    public void addCountryCodeView();
     public void getCheckcode();
     public void confirm();
     public void cancel();

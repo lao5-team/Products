@@ -26,11 +26,11 @@ public class CityStickyListHeadersListAdapter extends BaseAdapter implements Sti
 
 	private ArrayList<CityData> mResultCities;
 	private ArrayList<CityData> mNearbyPorts;
-	private ArrayList<CityData> mLastSearchCities;
-	private ArrayList<CityData> mHotCities;
+	private List<CityData> mLastSearchCities;
+	private List<CityData> mHotCities;
 	private SparseIntArray mPositionOfSection;
 	private SparseIntArray mSectionOfPosition;
-	private boolean isShowResult = true;
+	private boolean isShowResult = false;
 	
 	private LayoutInflater mInflater;
 	
@@ -38,12 +38,12 @@ public class CityStickyListHeadersListAdapter extends BaseAdapter implements Sti
 	
 	private StickyListHeadersListView mStickHeaderListView;
 	
-	public CityStickyListHeadersListAdapter(ArrayList<CityData> nearbyPorts, ArrayList<CityData> lastSearchCitys, ArrayList<CityData> hotCitys,Context context, StickyListHeadersListView stickHeaderListView)
+	public CityStickyListHeadersListAdapter(ArrayList<CityData> nearbyPorts, List<CityData> lastSearchCitys, List<CityData> hotCitys,Context context, StickyListHeadersListView stickHeaderListView)
 	{
 		mHotCities = hotCitys;
 		mNearbyPorts = nearbyPorts;
 		mLastSearchCities = lastSearchCitys;
-		mResultCities = CityManager.getInstance().getSearchResult("");//CitySearchServer.getInstance().getSearchResult("");
+		//mResultCities = CityManager.getInstance().getSearchResult("");//CitySearchServer.getInstance().getSearchResult("");
 		mInflater = LayoutInflater.from(context);
 		mContext = context;
 		mStickHeaderListView = stickHeaderListView;

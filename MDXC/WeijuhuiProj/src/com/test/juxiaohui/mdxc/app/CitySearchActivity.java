@@ -1,7 +1,10 @@
 package com.test.juxiaohui.mdxc.app;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.test.juxiaohui.mdxc.data.AirportData;
+import com.test.juxiaohui.mdxc.manager.CityManager;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import com.test.juxiaohui.R;
@@ -87,6 +90,22 @@ public class CitySearchActivity extends Activity implements ICitySearchActivityM
 		mImgClear = (ImageView) mSearchView.findViewById(R.id.iv_clear);
 	}
 
+	/**
+	 * 添加最近搜索过的城市
+	 */
+	@Override
+	public void addRecentCityView() {
+
+	}
+
+	/**
+	 * 添加热门城市
+	 */
+	@Override
+	public void addHotCityView() {
+
+	}
+
 	@Override
 	public void addCityList() {
 		// TODO Auto-generated method stub
@@ -94,7 +113,7 @@ public class CitySearchActivity extends Activity implements ICitySearchActivityM
 		Sidebar sidebar = (Sidebar)findViewById(R.id.sidebar);
 		sidebar.setListView(mCityListView.getWrappedList());
 		mCityListView.getWrappedList().setFastScrollEnabled(true);
-		mCityAdapter = new CityStickyListHeadersListAdapter(getNearbyPort(), getLastSearchCities(), getHostCities(), this,mCityListView);
+		mCityAdapter = new CityStickyListHeadersListAdapter(getNearbyPort(), CityManager.getInstance().getLastSearchCities(), CityManager.getInstance().getHotCities(), this,mCityListView);
 		mCityListView.setAdapter(mCityAdapter);
 		mCityListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -128,7 +147,7 @@ public class CitySearchActivity extends Activity implements ICitySearchActivityM
 		// TODO Auto-generated method stub
 		ArrayList<CityData> l = new ArrayList<CityData>();
 		CityData c = new CityData();
-		return l;
+		return null;
 	}
 
 	@Override
@@ -141,12 +160,10 @@ public class CitySearchActivity extends Activity implements ICitySearchActivityM
 	}
 
 	@Override
-	public ArrayList<CityData> getHostCities() {
-		// TODO Auto-generated method stub
-		ArrayList<CityData> l = new ArrayList<CityData>();
-		CityData c = new CityData();
+	public ArrayList<CityData> getHotCities() {
 
-		return l;
+
+		return null;
 	}
 
 	@Override
@@ -154,8 +171,37 @@ public class CitySearchActivity extends Activity implements ICitySearchActivityM
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 
-	
+	/**
+	 * 获取城市包含的机场列表
+	 *
+	 * @param cityId
+	 * @return
+	 */
+	@Override
+	public List<AirportData> getAirportsInCity(String cityId) {
+		return null;
+	}
+
+	/**
+	 * 选择了一个城市
+	 *
+	 * @param cityData
+	 */
+	@Override
+	public void onSelectCity(CityData cityData) {
+
+	}
+
+	/**
+	 * 选择了一个机场
+	 *
+	 * @param airportData
+	 */
+	@Override
+	public void onSelectAirport(AirportData airportData) {
+
+	}
+
 
 }

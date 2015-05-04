@@ -177,7 +177,7 @@
     <string name="about_us_9">"Ctrip.com is China's leading online travel agent, serving customers in China and around the world in eight different languages."</string>
     <string name="accept">Accept</string>
     <string name="account">Account</string>
-    <string name="account_hint">Username/Phone number/Email</string>
+    <string name="account_hint">Phone number</string>
     <string name="actual_carrier">● Actual carrier (Codeshare)</string>
     <string name="add_a_passenger">Add a passenger</string>
     <string name="add_a_traveler">Add a traveler</string>
@@ -808,4 +808,5 @@
     <string name="return_time">Return Time</string>
     <string name="reg_success">Register Success</string>
     <string name="reg_fail">Register Fail</string>
+    <string name="select_countryCode">Please select the phone\'s country code</string>
 </resources>

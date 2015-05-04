@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CityData implements Serializable,Comparable
 {
@@ -20,6 +21,8 @@ public class CityData implements Serializable,Comparable
 	public String portName = "";
 	public String portCode = "";
 
+	public ArrayList<AirportData> portList = new ArrayList<AirportData>();
+
 	public static CityData NULL = new CityData();
 
 	public static JSONObject toJSON(CityData data)
@@ -28,6 +31,7 @@ public class CityData implements Serializable,Comparable
 		try {
 			obj.put("cityName", data.cityName);
 			obj.put("cityCode", data.cityCode);
+			//obj.put("portsList", data.portList);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

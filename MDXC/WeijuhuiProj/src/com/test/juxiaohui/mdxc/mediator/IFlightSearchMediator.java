@@ -6,6 +6,12 @@ import java.util.Date;
 
 /**
  * Created by yihao on 15/3/5.
+ * 搜素机票的过程，首先用户会选择航班类型，单程或者往返
+ * 然后用户会选择出发和到达的城市或者机场
+ * 然后用户会选择时间，如果航班类型是单程，则只需要选择出发时间，如果是往返，则还需要选择返回时间
+ * 然后用户会选择座舱类型，有经济舱，商务舱，头等舱
+ * 然后用户开始搜索航班，搜索时会首先显示去程的航班列表，如果是单程，则会将航班加入订单。如果是往返，则会再次
+ * 显示返程的航班列表，用户选择时，会将去程和返程的选择添加到订单里。
  */
 public interface IFlightSearchMediator {
     public void addFlightTypeView();
@@ -80,8 +86,16 @@ public interface IFlightSearchMediator {
 
     public void setArrivalDate(Date date);
 
+    /**
+     * 用户选择了去程航班
+     * @param data
+     */
     public void onSetStartFlight(FlightData data);
 
+    /**
+     * 用户选择了返程航班
+     * @param data
+     */
     public void onSetReturnFlght(FlightData data);
 
 

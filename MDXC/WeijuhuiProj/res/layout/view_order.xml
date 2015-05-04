@@ -40,7 +40,7 @@
     <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listView_flight_orders" android:layout_gravity="center_horizontal" android:layout_margin="5dp"
-            android:layout_below="@+id/imageButton_back" android:divider="@android:color/holo_purple"
-            android:dividerHeight="2dp" android:visibility="visible"/>
+            android:id="@+id/listView_flight_orders" android:layout_gravity="center_horizontal" android:layout_margin="10dp"
+            android:layout_below="@+id/imageButton_back"
+            android:dividerHeight="7dp" android:visibility="visible"/>
 </RelativeLayout>
