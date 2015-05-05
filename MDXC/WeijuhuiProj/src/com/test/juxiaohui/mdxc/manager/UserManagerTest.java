@@ -27,7 +27,7 @@ public class UserManagerTest extends AndroidTestCase {
         contactUser = mUserManager.getContactUser();
         Assert.assertEquals(contactUser, ContactUser.NULL);
 
-        mUserManager.login("15510472558", "123456");
+        mUserManager.login("+86", "15510472558", "123456");
         contactUser  = new ContactUser();
         contactUser.contactName = "Yi";
         //contactUser.mLastName = "Hao";
@@ -39,7 +39,7 @@ public class UserManagerTest extends AndroidTestCase {
         Assert.assertEquals("Yi", contactUser.contactName);
 
         mUserManager.logout();
-        mUserManager.login("15510472558", "123456");
+        mUserManager.login("+86", "15510472558", "123456");
         contactUser = mUserManager.getContactUser();
         Assert.assertEquals("Yi", contactUser.contactName);
     }
@@ -49,7 +49,7 @@ public class UserManagerTest extends AndroidTestCase {
         mUserManager.logout();
         Assert.assertNotNull(mUserManager.getPassengerList());
 
-        mUserManager.login("15510472558", "123456");
+        mUserManager.login("+86", "15510472558", "123456");
         List<Passenger> listPassenger = new ArrayList<Passenger>();
         Passenger passenger = new Passenger();
         passenger.mId = "1";
@@ -66,7 +66,7 @@ public class UserManagerTest extends AndroidTestCase {
         mUserManager.logout();
         Assert.assertEquals(mUserManager.getPassengerList().size(), 0);
 
-        mUserManager.login("15510472558", "123456");
+        mUserManager.login("+86", "15510472558", "123456");
         Assert.assertEquals(mUserManager.getPassengerList().size(), 2);
         Assert.assertEquals(mUserManager.getPassengerById("1").mName, "a");
 
@@ -75,18 +75,18 @@ public class UserManagerTest extends AndroidTestCase {
 
     public void testLogin()
     {
-        Assert.assertEquals(mUserManager.login("15510472558", "123456"), UserManager.LOGIN_SUCCESS);
+        Assert.assertEquals(mUserManager.login("+86", "15510472558", "123456"), UserManager.LOGIN_SUCCESS);
 
-        Assert.assertEquals(mUserManager.login("15510472558", "123456"), UserManager.ALREADY_LOGIN);
+        Assert.assertEquals(mUserManager.login("+86", "15510472558", "123456"), UserManager.ALREADY_LOGIN);
 
         Assert.assertEquals(mUserManager.logout(), UserManager.LOGOUT_SUCCESS);
 
-        Assert.assertEquals(mUserManager.login("15510472558", "1234567"), UserManager.INVALID_USERNAME_PASSWORD);
+        Assert.assertEquals(mUserManager.login("+86", "15510472558", "1234567"), UserManager.INVALID_USERNAME_PASSWORD);
     }
 
     public void testGetUser()
     {
-       Assert.assertTrue(User.NULL!=mUserManager.getUserInfo("15510472558"));
+       Assert.assertTrue(User.NULL!=mUserManager.getUserInfo("+86", "15510472558"));
     }
 
 }

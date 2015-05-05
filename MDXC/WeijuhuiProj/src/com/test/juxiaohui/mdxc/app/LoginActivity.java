@@ -10,6 +10,7 @@ import android.widget.*;
 
 import com.test.juxiaohui.DemoApplication;
 import com.test.juxiaohui.R;
+import com.test.juxiaohui.mdxc.data.CountryCode;
 import com.test.juxiaohui.mdxc.manager.ServerManager;
 import com.test.juxiaohui.mdxc.manager.UserManager;
 import com.test.juxiaohui.mdxc.mediator.ILoginMediator;
@@ -31,6 +32,7 @@ public class LoginActivity extends Activity implements ILoginMediator{
     RelativeLayout mLayoutSplash;
     LinearLayout mLayoutContent;
     ExpandableListView mElvCountryCode;
+    String mCountryCode = "";
     private int mSelectedChildPos = -1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,11 +116,14 @@ public class LoginActivity extends Activity implements ILoginMediator{
     public void loginFromCache() {
         if(!UserManager.getInstance().isLogin())
         {
-            String username = DemoApplication.getInstance().getUserName();
-            String password = DemoApplication.getInstance().getPassword();
+            //String username = DemoApplication.getInstance().getUserName();
+            //String password = DemoApplication.getInstance().getPassword();
+            String countryCode = UserManager.getInstance().getCachedCountryCode();
+            String username = UserManager.getInstance().getCachedUsername();
+            String password = UserManager.getInstance().getCachedPassword();
             if(null!=username && null!=password)
             {
-                mLoginResult = UserManager.getInstance().login(username, password);
+                mLoginResult = UserManager.getInstance().login(countryCode, username, password);
                 if(!mLoginResult.equals(UserManager.LOGIN_SUCCESS))
                 {
                     showErrorMessage(mLoginResult);
@@ -153,7 +158,7 @@ public class LoginActivity extends Activity implements ILoginMediator{
 
                 @Override
                 public void run() {
-                    mLoginResult = UserManager.getInstance().login(username, password);
+                    mLoginResult = UserManager.getInstance().login(mCountryCode, username, password);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -211,10 +216,8 @@ public class LoginActivity extends Activity implements ILoginMediator{
      */
     @Override
     public void addCountryCodeView() {
-        final List<String> coutryCodeList = new ArrayList<String>();
-        coutryCodeList.add("+0086(China)");
-        coutryCodeList.add("+0065(Singapore)");
-        coutryCodeList.add("+0033(France)");
+        final List<String> countryCodeList = CountryCode.convertCodeListToString(CountryCode.getDefaultCodes());
+
         mElvCountryCode = (ExpandableListView)findViewById(R.id.expandableListView_countryCode);
         mElvCountryCode.setAdapter(new BaseExpandableListAdapter() {
 
@@ -225,7 +228,7 @@ public class LoginActivity extends Activity implements ILoginMediator{
 
             @Override
             public int getChildrenCount(int groupPosition) {
-                return coutryCodeList.size();
+                return countryCodeList.size();
             }
 
             @Override
@@ -260,7 +263,7 @@ public class LoginActivity extends Activity implements ILoginMediator{
                 TextView tv = (TextView) view.findViewById(R.id.textView_country_code);
                 if(mSelectedChildPos >= 0)
                 {
-                    tv.setText(coutryCodeList.get(mSelectedChildPos));
+                    tv.setText(countryCodeList.get(mSelectedChildPos));
                 }
                 else
                 {
@@ -274,7 +277,7 @@ public class LoginActivity extends Activity implements ILoginMediator{
             public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
                 View view = getLayoutInflater().inflate(R.layout.item_country_code, null);
                 TextView tv = (TextView) view.findViewById(R.id.textView_country_code);
-                tv.setText(coutryCodeList.get(childPosition));
+                tv.setText(countryCodeList.get(childPosition));
                 return view;
             }
 

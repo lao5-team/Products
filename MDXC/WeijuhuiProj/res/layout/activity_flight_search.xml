@@ -28,30 +28,28 @@
             <Button
                     android:textSize="@dimen/font_size_large"
                     android:textStyle="bold"
-                    android:textColor="@color/color_white"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/button_oneway"
-                    android:background="@drawable/selector_btn_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/view_item_height"
-                    android:layout_margin="@dimen/margin_10"
-                    android:text="@string/round_trip"
-                    android:onClick="onClickSkip"
-                    android:layout_weight="1"/>
-
-            <Button
-                    android:textSize="@dimen/font_size_large"
-                    android:textStyle="bold"
-                    android:textColor="@color/color_white"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/button_roundtrip"
-                    android:background="@drawable/selector_btn_2"
+                    android:background="@drawable/selector_btn_6"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_item_height"
                     android:layout_margin="@dimen/margin_10"
                     android:text="@string/one_way"
                     android:onClick="onClickSkip"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" android:textColor="@color/btn_white_normal"/>
+
+            <Button
+                    android:textSize="@dimen/font_size_large"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/button_roundtrip"
+                    android:background="@drawable/selector_btn_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_item_height"
+                    android:layout_margin="@dimen/margin_10"
+                    android:text="@string/round_trip"
+                    android:onClick="onClickSkip"
+                    android:layout_weight="1" android:enabled="true"/>
 
         </LinearLayout>
         <View style="@style/line_h"/>

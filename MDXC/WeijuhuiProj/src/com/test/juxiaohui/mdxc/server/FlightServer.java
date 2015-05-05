@@ -45,7 +45,7 @@ public class FlightServer implements IFlightServer {
 		url += "from=" + request.mDepartCode;
 		url += "&to=" + request.mArrivalCode;
 		url += "&departDate=" + request.mDepartDate;
-		if (request.mReturnDate.length() > 0) {
+		if (request.mTripType == FlightOrder.TRIP_ROUND) {
 			url += "&returnDate=" + request.mReturnDate;
 		}
 

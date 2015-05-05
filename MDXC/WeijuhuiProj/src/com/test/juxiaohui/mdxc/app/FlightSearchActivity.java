@@ -80,12 +80,12 @@ public class FlightSearchActivity extends Activity implements IFlightSearchMedia
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_search);
-        addFlightTypeView();
         addCityView();
         addPassengersView();
         addDateView();
         addClassView();
         addSearchView();
+        addFlightTypeView();
         mContext = this;
         mCurrentOrder = FlightOrderManager.getInstance().createFlightOrder(mSearchRequest.mTripType);
         //set default passenger number
@@ -112,13 +112,6 @@ public class FlightSearchActivity extends Activity implements IFlightSearchMedia
 
     @Override
     public void addFlightTypeView() {
-        mBtnRoundTrip = (Button) findViewById(R.id.button_roundtrip);
-        mBtnRoundTrip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFlightType(FlightOrder.TRIP_ROUND);
-            }
-        });
         mBtnOneWay = (Button) findViewById(R.id.button_oneway);
         mBtnOneWay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +119,15 @@ public class FlightSearchActivity extends Activity implements IFlightSearchMedia
                 setFlightType(FlightOrder.TRIP_ONE_WAY);
             }
         });
+
+        mBtnRoundTrip = (Button) findViewById(R.id.button_roundtrip);
+        mBtnRoundTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFlightType(FlightOrder.TRIP_ROUND);
+            }
+        });
+        setFlightType(FlightOrder.TRIP_ONE_WAY);
     }
 
     @Override
@@ -299,6 +301,23 @@ public class FlightSearchActivity extends Activity implements IFlightSearchMedia
     @Override
     public void setFlightType(int type) {
         mSearchRequest.mTripType = type;
+        if(type==FlightOrder.TRIP_ONE_WAY)
+        {
+            mBtnOneWay.setBackgroundColor(getResources().getColor(R.color.color_099fde));
+            mBtnOneWay.setTextColor(getResources().getColor(R.color.btn_white_normal));
+            mBtnRoundTrip.setBackgroundColor(getResources().getColor(R.color.btn_white_normal));
+            mBtnRoundTrip.setTextColor(getResources().getColor(R.color.color_099fde));
+            ///TvReturnTime.setText("");
+            mLlReturnlDate.setVisibility(View.GONE);
+        }
+        else if(type==FlightOrder.TRIP_ROUND)
+        {
+            mBtnRoundTrip.setBackgroundColor(getResources().getColor(R.color.color_099fde));
+            mBtnRoundTrip.setTextColor(getResources().getColor(R.color.btn_white_normal));
+            mBtnOneWay.setBackgroundColor(getResources().getColor(R.color.btn_white_normal));
+            mBtnOneWay.setTextColor(getResources().getColor(R.color.color_099fde));
+            mLlReturnlDate.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

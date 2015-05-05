@@ -19,21 +19,21 @@ public class UserServer implements IUserServer {
 
 	
 	@Override
-	public String register(String username, String password, String checkcode) {
+	public String register(String countryCode, String username, String password, String checkcode) {
 		// TODO Auto-generated method stub
 		String url = "http://64.251.7.148/user/app/register/index.json";
 
-		JSONObject json = new JSONObject();
-		try {
-			json.put("userName", username);
-			json.put("password", password);
-			json.put("confirmPassword", password);
-		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+//		JSONObject json = new JSONObject();
+//		try {
+//			json.put("userName", countryCode+username);
+//			json.put("password", password);
+//			json.put("confirmPassword", password);
+//		} catch (JSONException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		List params = new ArrayList();
-		params.add(new BasicNameValuePair("userName", username));
+		params.add(new BasicNameValuePair("userName", countryCode+username));
 		params.add(new BasicNameValuePair("password", password));
 		params.add(new BasicNameValuePair("confirmPassword", password));
 		params.add(new BasicNameValuePair("checkCode", checkcode));
@@ -72,10 +72,10 @@ public class UserServer implements IUserServer {
 	 * @return
 	 */
 	@Override
-	public String login(String username, String password, User user) {
+	public String login(String countryCode, String username, String password, User user) {
 		String url = "http://64.251.7.148/user/app/login/index.json";
 		List params=new ArrayList();
-		params.add(new BasicNameValuePair("userName", username));
+		params.add(new BasicNameValuePair("userName", countryCode + username));
 		params.add(new BasicNameValuePair("password", password));
 		SyncHTTPCaller<String> caller = new SyncHTTPCaller<String>(
 				url, null, params, SyncHTTPCaller.TYPE_POST, "") {
@@ -142,10 +142,10 @@ public class UserServer implements IUserServer {
 	}
 
 	@Override
-	public void sendCheckcode(String phoneNumber) {
+	public void sendCheckcode(String countryCode, String phoneNumber) {
 		String url = "http://64.251.7.148/user/app/register/checkcode.json";
 		List params=new ArrayList();
-		params.add(new BasicNameValuePair("userName", phoneNumber));
+		params.add(new BasicNameValuePair("userName", countryCode + phoneNumber));
 		SyncHTTPCaller<String> caller = new SyncHTTPCaller<String>(
 				url, null, params) {
 
@@ -165,10 +165,10 @@ public class UserServer implements IUserServer {
 	}
 
 	@Override
-	public User getUserInfo(final String username) {
+	public User getUserInfo(String countryCode, final String username) {
 		String url = "http://64.251.7.148/user/app/user/index.json";
 		List params=new ArrayList();
-		params.add(new BasicNameValuePair("user.mobilePhone", username));
+		params.add(new BasicNameValuePair("user.mobilePhone", countryCode+username));
 		SyncHTTPCaller<User> caller = new SyncHTTPCaller<User>(
 				url, null, params) {
 			@Override

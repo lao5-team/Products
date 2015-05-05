@@ -60,7 +60,7 @@ public class FlightOrderManagerTest extends AndroidTestCase {
         //没有登录，获取订单为空
 
         //登录后，获取不为空的订单
-        UserManager.getInstance().login("15510472558", "123456");
+        UserManager.getInstance().login("+86", "15510472558", "123456");
         Assert.assertTrue(0!=FlightOrderManager.getInstance().getFlightOrderList().size());
 
     }

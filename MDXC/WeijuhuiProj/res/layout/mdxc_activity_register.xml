@@ -17,6 +17,12 @@
             android:text="@string/telephone_number"
             android:textColor="@color/register_text_color"
             android:textSize="@dimen/font_size_large" />
+
+        <ExpandableListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/expandableListView_countryCode"
+                android:groupIndicator="@android:drawable/arrow_down_float"/>
       
 		<View
 		    style="@style/line_c8c8c8"

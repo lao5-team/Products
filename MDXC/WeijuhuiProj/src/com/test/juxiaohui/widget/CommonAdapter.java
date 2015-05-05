@@ -3,6 +3,7 @@ package com.test.juxiaohui.widget;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,20 +59,24 @@ public class CommonAdapter<T> extends BaseAdapter {
     		throw new IllegalArgumentException("dataList is null !");
     	}
     	mDataList = dataList;
+		if(mDataList.size()>0)
+		{
+			mIsEmpty = false;
+		}
 		notifyDataSetChanged();
     }
     
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		if(!mIsEmpty)
-		{
+//		if(!mIsEmpty)
+//		{
 			return mDataList.size();
-		}
-		else
-		{
-			return 1;
-		}
+//		}
+//		else
+//		{
+//			return 1;
+//		}
 
 	}
 
@@ -90,14 +95,21 @@ public class CommonAdapter<T> extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		if(!mIsEmpty)
-		{
+//		if(!mIsEmpty)
+//		{
+			Log.v(DemoApplication.TAG, "data");
 			return mItem.getView(mDataList.get(position), convertView);
-		}
-		else
-		{
-			return mEmptyDataView;
-		}
+//		}
+//		else
+//		{
+//			Log.v(DemoApplication.TAG, "return emptyView");
+//			return mEmptyDataView;
+//		}
+	}
+
+	public void setEmptyDataView(View view)
+	{
+		mEmptyDataView = view;
 	}
 
 }

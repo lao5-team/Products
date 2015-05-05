@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import android.widget.TextView;
 import com.test.juxiaohui.R;
 import com.test.juxiaohui.mdxc.manager.ServerManager;
 import com.test.juxiaohui.mdxc.data.FlightData;
@@ -32,8 +33,9 @@ public class FlightSearchResultActivity extends Activity implements ISearchResul
 	ListView mListView;
 	List<FlightData> mFlightsList = new ArrayList<FlightData>();
 	FlightSearchRequest mRequest = FlightSearchRequest.NULL;
-	RelativeLayout mRlprogress;
-
+	//RelativeLayout mRlprogress;
+	View mProgressView = null;
+	View mEmptyView = null;
 	public static String INTENT_FLIGHT = "flightdata";
 
 
@@ -49,7 +51,7 @@ public class FlightSearchResultActivity extends Activity implements ISearchResul
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flightsearchresult);
-        mRlprogress = (RelativeLayout)findViewById(R.id.progressLayout);
+        //mRlprogress = (RelativeLayout)findViewById(R.id.progressLayout);
         //setRequest(request);        
         try {
         	Intent intent = getIntent();
@@ -58,8 +60,11 @@ public class FlightSearchResultActivity extends Activity implements ISearchResul
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		TextView tvTitle = (TextView)findViewById(R.id.textView_title);
+		tvTitle.setText("From " + mRequest.mDepartCity + " To " + mRequest.mArrivalCity);
+		addResultView();
         search();
-        addResultView();
+
     }
 
     @Override
@@ -67,13 +72,23 @@ public class FlightSearchResultActivity extends Activity implements ISearchResul
     	if(results != null)
 		{
 			((CommonAdapter<FlightData>)mListView.getAdapter()).setData(results);
+			if(results.size()==0)
+			{
+				mEmptyView = getLayoutInflater().inflate(R.layout.item_empty_default, null);
+				mListView.removeFooterView(mProgressView);
+				mListView.addFooterView(mEmptyView);
+			}
+
+			//((CommonAdapter<FlightData>)mListView.getAdapter()).setEmptyDataView(emptyView);
+
 		}
 
-    	mListView.invalidate();
+		((CommonAdapter<FlightData>)mListView.getAdapter()).notifyDataSetChanged();
     }
 
     @Override
     public void addResultView() {
+		mProgressView = getLayoutInflater().inflate(R.layout.layout_progress, null);
         mListView = (ListView)findViewById(R.id.listView_flight);
         mListView.setAdapter(new CommonAdapter<FlightData>(mFlightsList, new IAdapterItem<FlightData>() {
 
@@ -82,7 +97,8 @@ public class FlightSearchResultActivity extends Activity implements ISearchResul
 				// TODO Auto-generated method stub
 				return FlightData.getItemView(FlightSearchResultActivity.this, getLayoutInflater(), convertView, data);
 			}
-		}));
+		}, mProgressView));
+
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -112,6 +128,8 @@ public class FlightSearchResultActivity extends Activity implements ISearchResul
 	public void search() {
 		if(mRequest != FlightSearchRequest.NULL)
 		{
+			mListView.removeFooterView(mEmptyView);
+			mListView.addFooterView(mProgressView);
 			Thread thread = new Thread(new Runnable() {
 				
 				@Override
@@ -121,13 +139,14 @@ public class FlightSearchResultActivity extends Activity implements ISearchResul
 						
 						@Override
 						public void run() {
-							mRlprogress.setVisibility(View.GONE);
+							//mRlprogress.setVisibility(View.GONE);
 							setResult(mFlightsList);
 						}
 					});
 				}
 			});
-			thread.start();			
+			thread.start();
+
 		}
 		else
 		{

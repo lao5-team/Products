@@ -1,5 +1,6 @@
 package com.test.juxiaohui.mdxc.manager;
 
+import android.util.Base64;
 import android.util.Log;
 import com.test.juxiaohui.DemoApplication;
 import com.test.juxiaohui.cache.temp.JSONCache;
@@ -50,32 +51,35 @@ public class UserManager {
 
 	/**
 	 * 执行注册
+	 * @param countryCode
 	 * @param username
 	 * @param password
 	 * @param checkcode
 	 * @return
 	 */
-    public String register(String username, String password, String checkcode)
+    public String register(String countryCode, String username, String password, String checkcode)
     {
-    	return mUserServer.register(username, password, checkcode);
+    	return mUserServer.register(countryCode, username, password, checkcode);
     }
 
 	/**
-	 * 执行登陆
+	 * 执行登陆，将国家码和用户名拼在一起
+	 * @param countryCode
 	 * @param username
 	 * @param password
 	 * @return
 	 */
-    public String login(String username, String password)
+    public String login(String countryCode, String username, String password)
     {
 		if(mCurrentUser==User.NULL)
 		{
-			String result = mUserServer.login(username, password, null);
+			String result = mUserServer.login(countryCode, username, password, null);
 			if(result.equals("Success"))
 			{
 
-				mCurrentUser = mUserServer.getUserInfo(username);
-
+				mCurrentUser = mUserServer.getUserInfo(countryCode, username);
+				//save login info
+				saveLoginInfo(username, countryCode, password);
 				//load this user's passengers
 				loadPassengers();
 				return LOGIN_SUCCESS;//LOGIN_SUCCESS;
@@ -121,11 +125,12 @@ public class UserManager {
 
 	/**
 	 * 向指定手机号发送验证码
+	 * @param countryCode
 	 * @param phoneNumber
 	 */
-    public void sendCheckcode(String phoneNumber)
+    public void sendCheckcode(String countryCode, String phoneNumber)
     {
-    	mUserServer.sendCheckcode(phoneNumber);
+    	mUserServer.sendCheckcode(countryCode, phoneNumber);
     }
 
 	/**
@@ -228,9 +233,9 @@ public class UserManager {
 		return !mCurrentUser.equals(User.NULL);
 	}
 
-	public User getUserInfo(String username)
+	public User getUserInfo(String countryCode, String username)
 	{
-		return mUserServer.getUserInfo(username);
+		return mUserServer.getUserInfo(countryCode, username);
 	}
 
 	public void saveLoginInfo(String username, String countryCode, String password)
@@ -243,7 +248,7 @@ public class UserManager {
 		try {
 			jsonObject.put("countryCode", countryCode);
 			jsonObject.put("username", username);
-			jsonObject.put("password", EncryptUtil.encryptString(password));
+			jsonObject.put("password", android.util.Base64.encodeToString(password.getBytes(), Base64.DEFAULT));
 			jsonCache.putItem(username, jsonObject);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -313,7 +318,7 @@ public class UserManager {
 			if(jsonObject.has("password"))
 			{
 				try {
-					username = jsonObject.getString("password");
+					username = new String(android.util.Base64.decode(jsonObject.getString("password"), Base64.DEFAULT));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
