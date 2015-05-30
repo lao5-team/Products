@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string-array android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/str_arr_new_activity_tabs" name="new_activity_tabs">
+        <item android:layout_width="wrap_content" android:id="@+id/item1" android:layout_height="wrap_content">@string/place</item>
+        <item android:layout_width="wrap_content" android:id="@+id/item2" android:layout_height="wrap_content">@string/content</item>
+        <item android:layout_width="wrap_content" android:id="@+id/item3" android:layout_height="wrap_content">@string/sale</item>
+    </string-array>
+    
+</resources>

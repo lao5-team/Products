@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:background="#f2f0eb">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test api"
+                android:id="@+id/button_api" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+                android:background="@drawable/button_login_bg" android:layout_margin="5dip" android:padding="5dip"
+                android:layout_gravity="center_horizontal" android:textColor="#FFFFFF"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_id" android:layout_below="@+id/button_api"
+                android:layout_centerHorizontal="true"
+                android:textSize="20sp" android:layout_margin="5dip" android:text="id:"
+                android:paddingLeft="5dip" android:paddingRight="5dip" android:background="@drawable/border"
+                android:textColor="#FF000000"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:id="@+id/textView_title" android:layout_below="@+id/button_api"
+                  android:layout_centerHorizontal="true" android:textSize="20sp"
+                  android:layout_margin="5dip" android:text="title:" android:paddingLeft="5dip"
+                  android:paddingRight="5dip" android:background="@drawable/border" android:textColor="#FF000000"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test image"
+                android:id="@+id/button_img"
+                android:layout_marginTop="10dp" android:layout_centerHorizontal="true"
+                android:background="@drawable/button_login_bg" android:padding="5dip"
+                android:layout_gravity="center_horizontal"/>
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView" android:layout_below="@+id/button_img"
+                />
+    </LinearLayout>
+</ScrollView>

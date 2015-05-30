@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants" >
+
+    <ImageView
+        android:id="@+id/imageView_pic"
+        android:layout_width="72dip"
+        android:layout_height="72dip" 
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/xuanchuan"/>
+
+    <TextView
+        android:id="@+id/textView_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_activity"
+        android:layout_alignParentTop="true"
+        android:text="TextView"
+        android:textSize="@dimen/normal_font_size" />
+    
+        <TextView
+            android:id="@+id/textView_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/textView_from"
+            android:layout_toRightOf="@+id/imageView_pic"
+            android:text="TextView"
+            android:textSize="@dimen/normal_font_size" />
+
+        <TextView
+            android:id="@+id/textView_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textSize="@dimen/normal_font_size" 
+            android:text="TextView" />
+
+</RelativeLayout>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/imageView_avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/app_pref_bg" />
+
+    <TextView
+        android:id="@+id/textView_treasure_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView_avatar"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@+id/imageView_avatar"
+        android:text="TextView"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textView_introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView_avatar"
+        android:layout_below="@+id/imageView_avatar"
+        android:layout_marginTop="10dp"
+        android:text="@string/introduction"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView_introContent"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_alignLeft="@+id/textView_introduction"
+        android:layout_below="@+id/textView_introduction"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/app_pref_bg"
+        android:text="@string/none_intro_content" />
+
+    <TextView
+        android:id="@+id/textView_doing_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_introContent"
+        android:layout_below="@+id/textView_introContent"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:text="@string/doing_activity" />
+
+    <TextView
+        android:id="@+id/textView_finish_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_doing_activity"
+        android:layout_below="@+id/textView_doing_activity"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:text="@string/finish_activity" />
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="19dp"
+        android:text="@string/logout" />
+
+    <ImageButton
+        android:id="@+id/imageButton_finish_activity"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/textView_finish_activity"
+        android:layout_alignRight="@+id/textView_introContent"
+        android:background="@drawable/next"
+        android:scaleType="fitCenter" />
+
+    <ImageButton
+        android:id="@+id/imageButton_doing_activity"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@id/textView_doing_activity"
+        android:layout_alignLeft="@+id/imageButton_finish_activity"
+        android:layout_alignRight="@id/textView_introContent"
+        android:background="@drawable/next"
+        android:scaleType="fitCenter" />
+
+</RelativeLayout>

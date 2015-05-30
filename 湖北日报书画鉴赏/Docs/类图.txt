@@ -1,0 +1,104 @@
+class Account{
+    String username;
+    String password;
+}
+
+
+public class User {
+    /**
+     * 用户id，同Account#username
+     */
+    String id;
+
+    /**
+     * 用户应用内显示名
+     */
+    String displayName;
+
+    /**
+     * 性别
+     */
+    String gender;
+
+    /**
+     * 用户角色
+     */
+    String role;
+
+    /**
+     * 用户兴趣列表
+     */
+    List<String> intersetList;
+
+    /**
+     * 用户技能列表
+     */
+    List<String> skillList;
+
+    /**
+     * 用户上传的书法列表
+     */
+    List<String> uploadCalligraphyList;
+
+    /**
+     * 用户收藏的书法列表
+     */
+    List<String> subscribeCalligraphyList;
+
+    /**
+     * 用户关注的用户列表
+     */
+    List<String> followingUserList;
+
+    /**
+     * 用户的粉丝列表
+     */
+    List<String> followedUserList;
+}
+
+class Calligraphy{
+	String id;
+	String uploadDate;
+	String uploadUser;
+	String title;
+	String describe;
+	List<String> imageList;
+	List<String> commentList;
+	
+};
+
+class Message{
+	String toUser;
+	String fromUser;
+	String uploadDate;
+};
+
+class Comment{
+	String id;
+	String uploadDate;
+	String uploadUser;
+	String replyTarget;
+	String targetType;
+	String content;
+};
+
+/**
+用户兴趣类
+*/
+class Interest{
+	String id;
+	String name;
+	String describe;
+};
+
+注册，登录，注销会涉及到 User
+
+发表，浏览，作品，涉及到User, Calligraphy
+
+系统推送的消息，如评论，系统广告，涉及到User，Message，Calligraphy
+
+评论作品，涉及到User，Calligraphy，Comment
+
+
+
+

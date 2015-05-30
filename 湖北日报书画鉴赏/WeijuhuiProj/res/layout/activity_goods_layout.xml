@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/imageView_goods"
+        android:layout_width="128dip"
+        android:layout_height="128dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/app_panel_video_icon" />
+
+    <TextView
+        android:id="@+id/textView_treasure_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView_goods"
+        android:layout_marginLeft="26dp"
+        android:layout_toRightOf="@+id/imageView_goods"
+        android:text="TextView"
+        android:textSize="@dimen/normal_font_size" />
+
+    <TextView
+        android:id="@+id/textView_prize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_treasure_name"
+        android:layout_below="@+id/textView_treasure_name"
+        android:layout_marginTop="15dp"
+        android:text="TextView"
+        android:textSize="@dimen/normal_font_size" />
+
+    <TextView
+        android:id="@+id/textView_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_prize"
+        android:layout_below="@+id/textView_prize"
+        android:layout_marginTop="15dp"
+        android:text="TextView"
+        android:textSize="@dimen/normal_font_size" />
+
+    <Button
+        android:id="@+id/button_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="38dp"
+        android:layout_marginLeft="14dp"
+        android:text="收藏" />
+
+    <Button
+        android:id="@+id/button_add_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button_favorite"
+        android:layout_alignBottom="@+id/button_favorite"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="32dp"
+        android:text="加入购物车" />
+
+</RelativeLayout>

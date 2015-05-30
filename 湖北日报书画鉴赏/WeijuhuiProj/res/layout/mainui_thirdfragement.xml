@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffffff"
+    android:orientation="vertical" >
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+            android:id="@+id/fanhui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_alignParentLeft="true"
+            android:text="@string/fanhui"
+            android:textColor="#ff000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        
+         <TextView
+             android:id="@+id/fabu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/fabu"
+            android:textColor="#ff000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+         
+          <TextView
+            android:id="@+id/zhuti"
+            android:background="#aaffffff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dip"
+            android:layout_below="@+id/fabu"
+            android:text="@string/zhuti"
+            android:textColor="#77ffff00"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+          
+          <EditText android:id="@+id/zhutiedit"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:textSize="20sp"
+              android:layout_below="@+id/zhuti"
+              android:shadowRadius="0.5"
+              />
+          
+          <TextView
+            android:id="@+id/duxiang"
+            android:background="#aaffffff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dip"
+            android:layout_below="@+id/zhutiedit"
+            android:text="@string/duixiang"
+            android:textColor="#77ffff00"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+          
+           <TextView
+            android:id="@+id/nv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingTop="10dip"
+            android:layout_below="@+id/duxiang"
+            android:text="@string/nv"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+           
+           <TextView
+            android:id="@+id/nan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dip"
+            android:layout_below="@+id/duxiang"
+            android:text="@string/nan"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+           
+           <TextView
+            android:id="@+id/buxian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dip"
+            android:layout_below="@+id/duxiang"
+            android:layout_alignParentRight="true"
+            android:text="@string/buxian"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+           
+           <CheckBox android:id="@+id/daiguimi"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/daiguimi"
+               android:layout_alignParentRight="true"
+               android:layout_below="@+id/buxian"/>
+         
+         
+    </RelativeLayout>
+    
+    
+
+</LinearLayout>

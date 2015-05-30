@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="订单详情"
+        android:textSize="@dimen/normal_font_size" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView_title" >
+
+        <TextView
+            android:id="@+id/textView_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="订单状态"
+            android:textSize="@dimen/normal_font_size" />
+
+        <TextView
+            android:id="@+id/textView_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="订单号"
+            android:textSize="@dimen/normal_font_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginTop="19dp" >
+
+        <TextView
+            android:id="@+id/textView_cname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="收货人姓名"
+            android:textSize="@dimen/normal_font_size" />
+
+        <TextView
+            android:id="@+id/textView_cphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="收货人电话"
+            android:textSize="@dimen/normal_font_size" />
+
+        <TextView
+            android:id="@+id/textView_caddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_cname"
+            android:text="收货地址"
+            android:textSize="@dimen/normal_font_size" />
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/relativeLayout4">
+        <TextView
+                android:id="@+id/textView_paysum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="付款额"
+                android:textSize="@dimen/normal_font_size"
+                android:layout_centerVertical="true"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提交"
+                android:id="@+id/button_order"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dip"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout2"
+            android:layout_above="@+id/relativeLayout4">
+
+<!--         <ImageView -->
+<!--             android:id="@+id/imageView_goods" -->
+<!--             android:layout_width="64dip" -->
+<!--             android:layout_height="64dip" -->
+<!--             android:src="@drawable/add" /> -->
+
+<!--         <TextView -->
+<!--             android:id="@+id/textView_goods_name" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_marginLeft="14dp" -->
+<!--             android:text="商品名称" /> -->
+
+        <ListView
+            android:id="@+id/listView_goods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

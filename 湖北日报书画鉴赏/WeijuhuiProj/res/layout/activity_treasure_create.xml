@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        >
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建"
+            android:id="@+id/button_create"
+            android:layout_margin="10dip"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:id="@+id/button_cancel"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dip"/>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_create"
+            android:id="@+id/scrollView2"
+            android:layout_margin="10dp">
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="宝物名称"
+                    android:id="@+id/textView_treasure_name"
+                    android:layout_marginTop="20dp"/>
+
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_treasure_name"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignBottom="@+id/textView_treasure_name"
+                    android:layout_toRightOf="@+id/textView_treasure_name"
+                    android:layout_toEndOf="@+id/textView_treasure_name"
+                    android:layout_marginTop="10dp"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="宝物描述"
+                    android:id="@+id/textView_treasure_desc"
+                    android:layout_below="@+id/textView_treasure_name"
+                    android:layout_alignLeft="@+id/textView_treasure_name"
+                    android:layout_alignStart="@+id/textView_treasure_name"
+                    android:layout_marginTop="10dp"/>
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/editText_treasure_desc"
+                    android:layout_below="@+id/textView_treasure_desc"
+                    android:layout_margin="10dp"
+                    android:minLines="2"/>
+
+            <ImageSwitcher
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:id="@+id/imageSwitcher"
+                    android:layout_below="@+id/editText_treasure_desc"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/camera"
+                    android:layout_alignParentLeft="true"/>
+
+                <com.pineapple.mobilecraft.widget.ExpandGridView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/gridView_image"
+
+                        android:layout_toRightOf="@+id/imageSwitcher"
+                        android:layout_toEndOf="@+id/imageSwitcher"
+                        android:numColumns="3"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/editText_treasure_desc"
+                        />
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
