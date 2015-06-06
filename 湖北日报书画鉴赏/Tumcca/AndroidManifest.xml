@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pineapple.mobilecraft"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.pineapple.mobilecraft" />
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:name="com.pineapple.mobilecraft.DemoApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:name="com.pineapple.mobilecraft.app.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.CreateActivityActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.EntryActivity"
+            android:theme="@style/horizontal_slide" >
+
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.RegisterActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.AlertDialog"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" >
+
+
+        </activity>
+
+        <service android:name="com.pineapple.mobilecraft.service.ContactChangeService" />
+        <service android:name="com.pineapple.mobilecraft.service.MessageService" />
+        <service android:name="com.pineapple.mobilecraft.service.StateMonitorService"/>
+        <!-- 设置环信应用的appkey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="weijuhui#weijuhui" />
+        <!-- 声明sdk所需的service -->
+        <service android:name="com.easemob.chat.EMChatService" />
+
+        <activity
+            android:name="com.pineapple.mobilecraft.app.ActivityDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.AddContactActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity android:name="com.pineapple.mobilecraft.app.NewFriendsMsgActivity" >
+        </activity>
+
+        <uses-library android:name="android.test.runner" />
+
+        <activity
+            android:name="com.pineapple.mobilecraft.app.ActivityMembersActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.CreateActivityActivity2"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.CustomActivityActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.DateActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.PhotoSelectActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity android:name="com.pineapple.mobilecraft.app.ActivityPayment" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.app.MessagesActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity android:name="com.pineapple.mobilecraft.app.ActivityListActivity" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.shop.app.GoodsListActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity
+            android:name="com.pineapple.mobilecraft.shop.app.GoodsActivity"
+            android:theme="@style/horizontal_slide" >
+        </activity>
+        <activity android:name="com.pineapple.mobilecraft.shop.app.ChartActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+
+        <activity android:name="com.pineapple.mobilecraft.shop.app.OrderListActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+
+        <activity android:name="com.pineapple.mobilecraft.shop.app.OrderActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+
+        <activity android:name="com.pineapple.mobilecraft.shop.app.PayActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+        <activity android:name="com.pineapple.mobilecraft.shop.app.ShopMainActivity"
+                  android:theme="@style/horizontal_slide">
+        </activity>
+        
+        <activity android:name="com.pineapple.mobilecraft.app.EntryTest" android:theme="@style/horizontal_slide">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name="com.pineapple.mobilecraft.app.TreasureDetailActivity" android:theme="@style/horizontal_slide"/>
+        <activity
+                android:name="com.pineapple.mobilecraft.app.TreasureCreateActivity"
+                android:label="test"
+                android:theme="@style/horizontal_slide"/>
+        <activity android:name=".AllTreasureActivity" android:theme="@style/horizontal_slide"/>
+        <activity android:name=".app.TreasuresEntryActivity" android:theme="@style/horizontal_slide"/>
+                <activity
+            android:name="com.pineapple.mobilecraft.util.logic.ImgFileListActivity"
+            android:label="@string/app_name" > 
+        </activity>
+        
+        <activity
+            android:name="com.pineapple.mobilecraft.util.logic.ImgsActivity"
+            android:label="@string/app_name" > 
+        </activity>
+        <activity android:name=".tumcca.app.CalligraphyDetailActivity" android:theme="@style/horizontal_slide">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".tumcca.app.LoginActivity" android:theme="@style/horizontal_slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".tumcca.app.HomeActivity"/>
+
+        <activity android:name=".tumcca.app.SplashActivity" android:theme="@style/Theme.Splash"
+                  android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="Test Activty"
+        android:targetPackage="com.pineapple.mobilecraft" />
+
+</manifest>
