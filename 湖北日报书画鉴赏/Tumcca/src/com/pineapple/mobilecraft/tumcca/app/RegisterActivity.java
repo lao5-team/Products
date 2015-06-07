@@ -21,11 +21,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.app.BaseActivity;
 import com.pineapple.mobilecraft.data.MyUser;
+import com.pineapple.mobilecraft.tumcca.data.User;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IRegister;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
@@ -52,6 +54,7 @@ public class RegisterActivity extends Activity implements IRegister {
 		addUsernameView();
 		addPasswordView();
 		addConfirmPasswordView();
+		addBackView();
 
 		Button btn_register = (Button)findViewById(R.id.button_register);
 		btn_register.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +107,10 @@ public class RegisterActivity extends Activity implements IRegister {
 						else {
 							registerResult = new IUserServer.RegisterResult();
 						}
+						if(registerResult.message.equals(IUserServer.REGISTER_SUCCESS)){
+							UserManager.getInstance().login(username, pwd);
+							UserManager.getInstance().saveLoginInfo(username, pwd);
+						}
 						runOnUiThread(new Runnable() {
 							public void run() {
 								if (!RegisterActivity.this.isFinishing())
@@ -111,6 +118,7 @@ public class RegisterActivity extends Activity implements IRegister {
 								// 保存用户名
 								if(registerResult.message.equals(IUserServer.REGISTER_SUCCESS)){
 									Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
+									setResult(RESULT_OK);
 									finish();
 								}
 								else if(registerResult.message.equals(IUserServer.REGISTER_ACCOUNT_EXIST)){
@@ -159,5 +167,16 @@ public class RegisterActivity extends Activity implements IRegister {
 	@Override
 	public void cancel() {
 		finish();
+	}
+
+	public void addBackView(){
+		LinearLayout layoutback = (LinearLayout)findViewById(R.id.layout_back);
+		layoutback.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setResult(RESULT_CANCELED);
+				finish();
+			}
+		});
 	}
 }

@@ -1,9 +1,11 @@
 package com.pineapple.mobilecraft.tumcca.manager;
 
 import android.text.TextUtils;
+import android.util.Base64;
 import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.cache.temp.JSONCache;
 import com.pineapple.mobilecraft.data.DbOpenHelper;
 import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.data.message.TreasureMessage;
@@ -13,6 +15,9 @@ import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.User;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
+import junit.framework.Assert;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +27,9 @@ public class UserManager {
 	private MyUser mCurrentUser = MyUser.NULL;
 	private UserServer mUserServer = null;
 	private LoginStateListener mLoginStateListener = null;
-	
-	
-	
+	private String mCurrentUid = "";
+	private String mCurrentToken = "";
+
 	public static interface LoginStateListener
 	{	
 		public void onDisconnected();
@@ -61,7 +66,19 @@ public class UserManager {
 	 */
 	public IUserServer.LoginResult login(String userName, String password)
 	{
-		return mUserServer.login(userName, password);
+		IUserServer.LoginResult loginResult =  mUserServer.login(userName, password);
+		if(null!=loginResult.uid){
+			mCurrentUid = loginResult.uid;
+			mCurrentToken = loginResult.token;
+			return loginResult;
+		}
+		else {
+			return null;
+		}
+	}
+
+	public boolean isLogin(){
+		return (!TextUtils.isEmpty(mCurrentToken)&&!TextUtils.isEmpty(mCurrentUid));
 	}
 	
 	/**登出用户
@@ -69,6 +86,7 @@ public class UserManager {
 	 */
 	public boolean logout()
 	{
+
 		return true;
 	}
 	
@@ -115,6 +133,69 @@ public class UserManager {
 
 	public void updateUserList(List<User> userList){
 
+	}
+
+	public void saveLoginInfo(String username, String password)
+	{
+		Assert.assertNotNull(username);
+		Assert.assertNotNull(password);
+		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put("username", username);
+			jsonObject.put("password", android.util.Base64.encodeToString(password.getBytes(), Base64.DEFAULT));
+			jsonCache.putItem(username, jsonObject);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 获取当前缓存的用户名
+	 * @return 如果没有缓存用户名，则返回""
+	 */
+	public String getCachedUsername()
+	{
+		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+		List<JSONObject> jsonList = jsonCache.getAllItems();
+		String username = "";
+		if(null!=jsonList && jsonList.size()>0)
+		{
+			JSONObject jsonObject = jsonList.get(0);
+			if(jsonObject.has("username"))
+			{
+				try {
+					username = jsonObject.getString("username");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return username;
+	}
+
+	/**
+	 * 获取当前缓存的密码
+	 * @return 如果没有缓存密码，则返回""
+	 */
+	public String getCachedPassword()
+	{
+		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+		List<JSONObject> jsonList = jsonCache.getAllItems();
+		String username = "";
+		if(null!=jsonList && jsonList.size()>0)
+		{
+			JSONObject jsonObject = jsonList.get(0);
+			if(jsonObject.has("password"))
+			{
+				try {
+					username = new String(android.util.Base64.decode(jsonObject.getString("password"), Base64.DEFAULT));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return username;
 	}
 
 	private UserManager(){

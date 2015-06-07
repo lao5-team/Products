@@ -165,7 +165,7 @@
             <!--<action android:name="android.intent.action.MAIN" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".tumcca.app.HomeActivity" android:theme="@style/horizontal_slide"/>
+        <activity android:name=".tumcca.app.HomeActivity" android:theme="@style/AppTheme"/>
 
         <activity android:name=".tumcca.app.SplashActivity" android:theme="@style/Theme.Splash"
                   android:noHistory="true">

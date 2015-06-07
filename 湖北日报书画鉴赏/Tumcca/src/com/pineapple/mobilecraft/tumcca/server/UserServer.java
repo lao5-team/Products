@@ -3,6 +3,7 @@ package com.pineapple.mobilecraft.tumcca.server;
 import com.google.gson.Gson;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.User;
+import com.pineapple.mobilecraft.utils.SyncHttpDelete;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
@@ -163,6 +164,13 @@ public class UserServer implements IUserServer{
 
     @Override
     public String deleteUser(String id) {
+        //String url = /api/artists/
+        SyncHttpDelete<String> delete = new SyncHttpDelete<String>() {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        }
         return null;
     }
 }

@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 
 /**
  * Created by yihao on 15/5/20.
@@ -23,11 +25,12 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 Looper.prepare();
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    String username = UserManager.getInstance().getCachedUsername();
+                    String password = UserManager.getInstance().getCachedPassword();
+                    if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
+                        UserManager.getInstance().login(username, password);
+                    }
+                    //Thread.sleep(1500);
 
             }
         });

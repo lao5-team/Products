@@ -15,29 +15,21 @@ package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
 import com.easemob.util.HanziToPinyin;
 import com.pineapple.mobilecraft.Constant;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.app.BaseActivity;
-import com.pineapple.mobilecraft.app.EntryActivity;
 import com.pineapple.mobilecraft.app.RegisterActivity;
-import com.pineapple.mobilecraft.data.UserDao;
 import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
@@ -51,10 +43,6 @@ import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.exception.WeiboException;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 登陆页面
@@ -66,16 +54,11 @@ public class LoginActivity extends BaseActivity {
 	
 	private EditText usernameEditText;
 	private EditText passwordEditText;
-
 	private boolean progressShow;
 	private LoginButton mLoginButton;
-
 	private AuthListener mLoginListener = new AuthListener();
-
 	private AuthInfo mAuthInfo;
-
 	private Button mBtnTraveler;
-
 	public static final int REQ_LOGIN = 0;
 
 	public static void startActivity(Activity activity){
@@ -91,22 +74,6 @@ public class LoginActivity extends BaseActivity {
 
 		usernameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
-		usernameEditText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				//passwordEditText.setText(null);
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-
-			}
-		});
 
 		mAuthInfo = new AuthInfo(this, WeiboUtils.APP_KEY, WeiboUtils.REDIRECT_URL, WeiboUtils.SCOPE);
 		mLoginButton = (LoginButton)findViewById(R.id.login_button_default);
@@ -158,8 +125,10 @@ public class LoginActivity extends BaseActivity {
 						@Override
 						public void run() {
 							pd.dismiss();
-							if(null != loginResult.token){
+							if(null != loginResult){
 								Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+								UserManager.getInstance().saveLoginInfo(username, password);
+								setResult(RESULT_OK);
 								finish();
 							}
 							else {

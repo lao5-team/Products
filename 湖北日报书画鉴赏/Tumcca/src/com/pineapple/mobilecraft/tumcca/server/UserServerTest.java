@@ -14,6 +14,8 @@ public class UserServerTest extends AndroidTestCase{
     protected void setUp() throws Exception {
         super.setUp();
         mUserServer = UserServer.getInstance();
+
+
     }
 
     public void testRegister(){
