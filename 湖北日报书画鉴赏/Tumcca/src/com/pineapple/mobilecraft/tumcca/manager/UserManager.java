@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.manager;
 
+import android.text.TextUtils;
 import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 import com.pineapple.mobilecraft.DemoApplication;
@@ -10,6 +11,8 @@ import com.pineapple.mobilecraft.server.BmobServerManager;
 import com.pineapple.mobilecraft.server.MyServerManager;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.User;
+import com.pineapple.mobilecraft.tumcca.server.IUserServer;
+import com.pineapple.mobilecraft.tumcca.server.UserServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ import java.util.List;
 public class UserManager {
 	private static UserManager mInstance = null;
 	private MyUser mCurrentUser = MyUser.NULL;
-	
+	private UserServer mUserServer = null;
 	private LoginStateListener mLoginStateListener = null;
 	
 	
@@ -36,14 +39,18 @@ public class UserManager {
 		}
 		return mInstance;
 	}
-	
-	/** 注册用户
-	 * @param user
+
+	/**
+	 *
+	 * @param phone valid phone number of null
+	 * @param email valid email or null
+	 * @param password
 	 * @return
 	 */
-	public void register(String username, String password)
+	public IUserServer.RegisterResult register(String phone, String email, String password)
 	{
-
+		IUserServer.RegisterResult registerResult = mUserServer.register(phone, email, password);
+		return registerResult;
 	}
 
 	
@@ -52,9 +59,9 @@ public class UserManager {
 	 * @param password
 	 * @return
 	 */
-	public MyUser login(String userName, String password)
+	public IUserServer.LoginResult login(String userName, String password)
 	{
-		return MyUser.NULL;
+		return mUserServer.login(userName, password);
 	}
 	
 	/**登出用户
@@ -108,6 +115,10 @@ public class UserManager {
 
 	public void updateUserList(List<User> userList){
 
+	}
+
+	private UserManager(){
+		mUserServer = UserServer.getInstance();
 	}
 	
 

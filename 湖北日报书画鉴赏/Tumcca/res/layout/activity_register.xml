@@ -15,7 +15,7 @@
             android:layout_width="45dp"
             android:layout_height="match_parent"
             android:background="@drawable/common_tab_bg"
-            android:onClick="back" >
+            android:onClick="back" android:id="@+id/layout_back">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_toRightOf="@id/iv_username"
                 android:layout_marginLeft="11dp"
                 android:background="@null"
-                android:hint="用户名"
+                android:hint="邮箱/手机号"
                 android:singleLine="true"
                 android:textSize="18sp" />
 
@@ -156,12 +156,11 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_register_bg"
-                android:onClick="register"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
                 android:text="注册"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp" android:id="@+id/button_register"/>
         </LinearLayout>
 
     </LinearLayout>

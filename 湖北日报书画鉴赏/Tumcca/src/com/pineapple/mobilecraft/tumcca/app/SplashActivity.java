@@ -1,11 +1,13 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
 
 /**
@@ -40,6 +42,16 @@ public class SplashActivity extends Activity {
             public void onClick(View v) {
                 imageView.setImageResource(imageIds[++mCurrentIndex%imageIds.length]);
                 imageView.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash));
+            }
+        });
+
+        TextView tv_skip = (TextView)findViewById(R.id.textView_skip);
+        tv_skip.setClickable(true);
+        tv_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                startActivity(intent);
             }
         });
 

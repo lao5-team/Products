@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="11dp"
             android:layout_toRightOf="@id/iv_username"
-            android:hint="用户名"
+            android:hint="邮箱/手机号"
             android:background="@null"
             android:singleLine="true"
             android:textSize="18sp" />
@@ -104,23 +104,6 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginBottom="10dip"
-            android:layout_marginRight="5dip"
-            android:layout_weight="3"
-            android:background="@drawable/button_register_bg"
-            android:onClick="register"
-            android:paddingBottom="7dp"
-            android:paddingTop="7dp"
-            android:text="注册"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="5dip"
             android:layout_marginTop="10dip"
             android:layout_marginRight="5dip"
@@ -138,8 +121,9 @@
 
     <com.pineapple.mobilecraft.utils.LoginButton
             android:id="@+id/login_button_default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="18dip" android:layout_marginRight="18dip"/>
 
     <Button
             android:layout_width="match_parent"

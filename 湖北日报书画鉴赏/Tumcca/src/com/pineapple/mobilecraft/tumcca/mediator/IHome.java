@@ -9,4 +9,6 @@ public interface IHome {
     public void addTrendsTab();
 
     public void onTabSelect();
+
+    public void addAccountView();
 }

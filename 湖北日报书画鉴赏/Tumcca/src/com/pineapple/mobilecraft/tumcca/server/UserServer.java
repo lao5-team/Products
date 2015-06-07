@@ -37,7 +37,7 @@ public class UserServer implements IUserServer{
      * @param mobile a valid mobile number or null
      * @param email  a valid email account or null
      * @param password
-     * @return userid, uid or "failed"
+     * @return @link IUserServer.RegisterResult
      */
     @Override
     public RegisterResult register(String mobile, String email, String password) {
