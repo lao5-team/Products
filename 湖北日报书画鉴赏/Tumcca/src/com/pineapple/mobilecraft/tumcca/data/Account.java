@@ -1,23 +1,21 @@
 package com.pineapple.mobilecraft.tumcca.data;
 
+import com.google.gson.Gson;
+
 /**
  * Created by yihao on 15/5/26.
  */
 public class Account {
     /**
-     * 用户名
+     * 手机
      */
-    public String username;
+    public String mobile;
 
     /**
-     * 密码
+     * 权限
      */
-    public String password;
+    public String authority;
 
-    /**
-     * 手机号
-     */
-    public String phone;
 
     /**
      * 邮箱
@@ -28,5 +26,10 @@ public class Account {
 
     public static Account createTestAccount(){
         return null;
+    }
+
+    public static Account fromJSON(String str){
+        Gson gson = new Gson();
+        return gson.fromJson(str, Account.class);
     }
 }

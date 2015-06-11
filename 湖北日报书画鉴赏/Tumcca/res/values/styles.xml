@@ -183,4 +183,31 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="my_edittext_style" parent="@android:style/Widget.EditText">
+
+        <item name="android:background">@drawable/edittext_bg</item>
+
+    </style>
+
+    <style name="my_button_style" parent="@android:style/Widget.Button">
+
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
+    <style name="my_dialog_activity_style" parent="@android:style/Theme.Holo.Light.Dialog">
+
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="android:background">#00000000</item>-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <item name="android:windowFrame">@null</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowAnimationStyle">@null</item>-->
+        <!--<item name="android:backgroundDimEnabled">false</item>-->
+        <item name="android:windowBackground">@drawable/corner_border</item>
+        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+
+
+    </style>
 </resources>

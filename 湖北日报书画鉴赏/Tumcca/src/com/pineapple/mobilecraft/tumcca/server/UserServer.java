@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.User;
 import com.pineapple.mobilecraft.utils.SyncHttpDelete;
+import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,8 +88,15 @@ public class UserServer implements IUserServer{
     }
 
     @Override
-    public Account getAccount(String username) {
-        return null;
+    public Account getAccount(String token) {
+        String url = mHost + "/api/artists/account";
+        SyncHttpGet<Account> caller = new SyncHttpGet<Account>(url, token) {
+            @Override
+            public Account postExcute(String result) {
+                return Account.fromJSON(result);
+            }
+        };
+        return caller.execute();
     }
 
     /**
@@ -116,14 +125,40 @@ public class UserServer implements IUserServer{
     }
 
     @Override
-    public User getUser(String username) {
+    public User getUser(String uid, String token) {
         //HttpGet
-        return null;
+        String url = mHost + "/api/artists/" + uid + "/profile";
+        SyncHttpGet<User> get = new SyncHttpGet<User>(url, token) {
+            @Override
+            public User postExcute(String result) {
+                User user = User.fromJSON(result);
+                return user;
+            }
+        };
+        return get.execute();
     }
 
     @Override
-    public String updateUser(User user) {
-        return null;
+    public String updateUser(User user, String token) {
+        String url = mHost + "/api/artists/profile";
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, User.toJSON(user)) {
+            @Override
+            public String postExcute(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if(jsonObject.has("uid")){
+                        return IUserServer.COMMON_SUCCESS;
+                    }
+                    else{
+                        return jsonObject.getString("code");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return IUserServer.COMMON_FAILED;
+            }
+        };
+        return post.execute();
     }
 
     @Override
@@ -162,15 +197,45 @@ public class UserServer implements IUserServer{
         return false;
     }
 
+    /**
+     *
+     * @param id
+     * @return 返回删除结果
+     */
     @Override
     public String deleteUser(String id) {
-        //String url = /api/artists/
-        SyncHttpDelete<String> delete = new SyncHttpDelete<String>() {
+        String url = mHost + "/api/artists/" + id;
+        SyncHttpDelete<String> delete = new SyncHttpDelete<String>(url) {
             @Override
             public String postExcute(String result) {
-                return null;
+                return "success";
             }
-        }
-        return null;
+        };
+        return delete.execute();
     }
+
+    @Override
+    public String getAvatarUrl(int avatarId){
+        return ("/api/avatars/download/" + avatarId);
+    }
+
+    public int uploadAvatar(File file){
+        String url = mHost + "/api/avatars/upload";
+        SyncHttpPost<Integer> post = new SyncHttpPost<Integer>(url, null, null) {
+            @Override
+            public Integer postExcute(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    return jsonObject.getInt("id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return -1;
+            }
+        };
+        return post.execute(file);
+    }
+
+
 }

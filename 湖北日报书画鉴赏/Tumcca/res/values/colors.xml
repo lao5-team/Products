@@ -35,4 +35,6 @@
     <color name="grid_state_focused">#80000000</color>
     <color name="gray_light">#e0e0e0</color>
     <color name="bule_overlay">#660D92DD</color>
+    <color name="button_normal_red">#FFAF001E</color>
+    <color name="button_pressed_red">#FF6A001C</color>
 </resources>

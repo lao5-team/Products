@@ -27,25 +27,26 @@ public class StubUserServer implements IUserServer {
 
     @Override
     public RegisterResult register(String username, String password, String checkCode) {
-        if(username.equals(mTestAccount.username)){
-            return null;
-        }
-        else {
-            mAnotherAccount = new Account();
-            mAnotherAccount.username = username;
-            mAnotherAccount.password = password;
-            return null;
-        }
+//        if(username.equals(mTestAccount.username)){
+//            return null;
+//        }
+//        else {
+//            mAnotherAccount = new Account();
+//            mAnotherAccount.username = username;
+//            mAnotherAccount.password = password;
+//            return null;
+//        }
+        return null;
     }
 
     @Override
-    public Account getAccount(String username) {
-        if(username.equals(mTestAccount.username)){
-            return mTestAccount;
-        }
-        if(username.equals(mAnotherAccount.username)){
-            return mAnotherAccount;
-        }
+    public Account getAccount(String token) {
+//        if(username.equals(mTestAccount.username)){
+//            return mTestAccount;
+//        }
+//        if(username.equals(mAnotherAccount.username)){
+//            return mAnotherAccount;
+//        }
         return Account.NULL;
     }
 
@@ -54,16 +55,16 @@ public class StubUserServer implements IUserServer {
         return null;
     }
 
-
     @Override
-    public User getUser(String username) {
+    public User getUser(String uid, String token) {
         return null;
     }
 
     @Override
-    public String updateUser(User user) {
+    public String updateUser(User user, String token) {
         return null;
     }
+
 
     @Override
     public String logout(String uid, String token) {
@@ -82,6 +83,11 @@ public class StubUserServer implements IUserServer {
 
     @Override
     public String deleteUser(String id) {
+        return null;
+    }
+
+    @Override
+    public String getAvatarUrl(int avatarId) {
         return null;
     }
 

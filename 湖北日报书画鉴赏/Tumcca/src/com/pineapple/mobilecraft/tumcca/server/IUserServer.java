@@ -9,7 +9,8 @@ import com.pineapple.mobilecraft.tumcca.data.User;
  * Created by yihao on 15/5/26.
  */
 public interface IUserServer {
-
+    public static final String COMMON_SUCCESS = "success";
+    public static final String COMMON_FAILED = "failed";
     public static final String REGISTER_SUCCESS = "register_success";
     public static final String REGISTER_FAILED = "register_failed";
     public static final String REGISTER_ACCOUNT_EXIST = "register_account_exist";
@@ -41,13 +42,13 @@ public interface IUserServer {
 
     public RegisterResult register(String mobile, String email, String password);
 
-    public Account getAccount(String username);
+    public Account getAccount(String token);
 
     public LoginResult login(String username, String password);
 
-    public User getUser(String username);
+    public User getUser(String uid, String token);
 
-    public String updateUser(User user);
+    public String updateUser(User user, String token);
 
     public String logout(String uid, String token);
 
@@ -56,4 +57,7 @@ public interface IUserServer {
     public boolean isPhoneExist(String phone);
 
     public String deleteUser(String id);
+
+    public String getAvatarUrl(int avatarId);
+
 }

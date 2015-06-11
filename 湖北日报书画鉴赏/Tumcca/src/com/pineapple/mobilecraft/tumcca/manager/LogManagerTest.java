@@ -20,7 +20,7 @@ public class LogManagerTest extends AndroidTestCase{
         }
 
 
-        SyncHttpGet<String> get = new SyncHttpGet<String>("http://120.26.202.114/api/logs/android/size/10") {
+        SyncHttpGet<String> get = new SyncHttpGet<String>("http://120.26.202.114/api/logs/android/size/10", null) {
             @Override
             public String postExcute(String result) {
                 Log.v("tumcca", result);

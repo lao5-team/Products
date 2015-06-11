@@ -113,4 +113,17 @@
     <string name="nan">男</string>
     <string name="buxian">不限</string>
     <string name="daiguimi">对方可携带一名闺蜜</string>
+    <string name="avatar">头像</string>
+    <string name="gender">性别</string>
+    <string name="gender_value"/>
+    <string name="male">男</string>
+    <string name="pseudonym">斋号</string>
+    <string name="user_intro">介绍</string>
+    <string name="user_title">头衔</string>
+    <string name="hobbies">爱好</string>
+    <string name="forte">专长</string>
+    <string name="region">地区</string>
+    <string name="female">女</string>
+
+
 </resources>

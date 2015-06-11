@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:baselineAligned="false" android:background="#ffdcdcdc">
+
+    <LinearLayout
+            android:layout_width="fill_parent" android:orientation="vertical"
+            android:layout_height="fill_parent" android:id="@+id/group_account"
+            android:baselineAligned="false" android:background="@drawable/corner_border"
+            android:layout_weight="4" android:layout_marginLeft="15dp" android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp">
+        <RelativeLayout android:orientation="horizontal" android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp" android:background="#ffffffff" android:layout_weight="1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/avatar"
+                      android:layout_centerVertical="true"
+                      android:layout_marginLeft="15dip"/>
+            <ImageView android:layout_width="64dip" android:layout_height="64dip" android:id="@+id/imageView4"
+                       android:layout_alignParentEnd="false" android:layout_centerVertical="true"
+                       android:layout_alignParentRight="true" android:layout_marginRight="10dp"
+                       android:src="@drawable/avatar_samle"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                      android:background="#ffc6c6c6"/>
+        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffffff" android:layout_weight="1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/gender"
+                      android:id="@+id/textView9" android:layout_centerVertical="true"
+                      android:layout_marginLeft="15dip"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/male"
+                      android:id="@+id/textView_gender" android:layout_alignParentRight="true"
+                      android:layout_centerVertical="true" android:layout_marginRight="10dp"
+                      android:textColor="#ff868686"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                      android:background="#ffc6c6c6"/>
+        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffffff"
+                        android:layout_weight="1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/pseudonym"
+                      android:id="@+id/textView11" android:layout_centerVertical="true"
+                      android:layout_marginLeft="15dip"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="令狐冲"
+                      android:id="@+id/textView_pseudonym" android:layout_centerVertical="true"
+                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
+                      android:textColor="#ff868686"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                      android:background="#ffc6c6c6"/>
+        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffffff" android:layout_weight="1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/user_title"
+                      android:id="@+id/textView13" android:layout_centerVertical="true"
+                      android:layout_marginLeft="15dip"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="书画协会会员"
+                      android:id="@+id/textView8" android:layout_centerVertical="true"
+                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
+                      android:textColor="#ff868686"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1px"
+                      android:background="#ffc6c6c6"/>
+        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:id="@+id/relativeLayout"
+                        android:background="#ffffffff" android:layout_weight="1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/user_intro"
+                      android:id="@+id/textView_intro_label" android:layout_centerVertical="true"
+                      android:layout_marginLeft="15dip"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="书画极客"
+                      android:id="@+id/textView_intro" android:layout_centerVertical="true"
+                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
+                      android:textColor="#ff868686"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="fill_parent" android:orientation="vertical"
+            android:layout_height="fill_parent" android:id="@+id/group_other"
+            android:layout_margin="15dp" android:background="@drawable/corner_border" android:layout_weight="6">
+        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffffff" android:layout_marginTop="5dp" android:layout_weight="1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/hobbies"
+                      android:layout_centerVertical="true" android:layout_marginLeft="15dip"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="琴棋书画"
+                      android:id="@+id/textView_hobbies" android:layout_centerVertical="true"
+                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
+                      android:textColor="#ff868686"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                      android:background="#ffc6c6c6"/>
+        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffffff" android:layout_weight="1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/forte"
+                      android:id="@+id/textView14" android:layout_centerVertical="true"
+                      android:layout_marginLeft="15dip"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/textView_forte"
+                      android:text="互联网分析" android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                      android:layout_marginRight="10dp" android:textColor="#ff868686"/>
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                      android:background="#ffc6c6c6"/>
+        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:id="@+id/relativeLayout5"
+                        android:background="#ffffffff" android:layout_weight="1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/region"
+                      android:id="@+id/textView15" android:layout_centerVertical="true"
+                      android:layout_marginLeft="15dip"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="中国"
+                      android:id="@+id/textView_country" android:layout_centerVertical="true"
+                      android:layout_toLeftOf="@+id/textView_province" android:layout_marginRight="5dp"
+                      android:textColor="#ff868686"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="湖北"
+                      android:id="@+id/textView_province" android:layout_centerVertical="true"
+                      android:layout_toLeftOf="@+id/textView10" android:layout_marginRight="5dp"
+                      android:textColor="#ff868686"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="武汉"
+                      android:id="@+id/textView10" android:layout_centerVertical="true"
+                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
+                      android:textColor="#ff868686"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

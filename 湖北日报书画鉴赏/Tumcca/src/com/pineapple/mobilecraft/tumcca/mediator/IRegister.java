@@ -8,8 +8,6 @@ public interface IRegister {
 
     public void addPasswordView();
 
-    public void addConfirmPasswordView();
-
     public void confirm();
 
     public void cancel();

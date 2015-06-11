@@ -39,7 +39,7 @@ public class RegisterActivity extends BaseActivity {
 		setContentView(R.layout.activity_register);
 		userNameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
-		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
+		//confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
 	}
 
 	/**

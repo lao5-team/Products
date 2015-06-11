@@ -48,7 +48,7 @@ import java.text.SimpleDateFormat;
  * 登陆页面
  * 
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends Activity {
 	
 
 	
@@ -76,17 +76,17 @@ public class LoginActivity extends BaseActivity {
 		passwordEditText = (EditText) findViewById(R.id.password);
 
 		mAuthInfo = new AuthInfo(this, WeiboUtils.APP_KEY, WeiboUtils.REDIRECT_URL, WeiboUtils.SCOPE);
-		mLoginButton = (LoginButton)findViewById(R.id.login_button_default);
-		mLoginButton.setWeiboAuthInfo(mAuthInfo, mLoginListener);
+//		mLoginButton = (LoginButton)findViewById(R.id.button_login);
+//		mLoginButton.setWeiboAuthInfo(mAuthInfo, mLoginListener);
 
-		mBtnTraveler = (Button)findViewById(R.id.login_as_traveler);
-		mBtnTraveler.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(LoginActivity.this, CalligraphyDetailActivity.class);
-				startActivity(intent);
-			}
-		});
+//		mBtnTraveler = (Button)findViewById(R.id.login_as_traveler);
+//		mBtnTraveler.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(LoginActivity.this, CalligraphyDetailActivity.class);
+//				startActivity(intent);
+//			}
+//		});
 
 	}
 

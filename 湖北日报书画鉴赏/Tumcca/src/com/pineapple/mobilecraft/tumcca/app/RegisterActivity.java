@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ import com.pineapple.mobilecraft.tumcca.data.User;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IRegister;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
+import com.pineapple.mobilecraft.utils.PATextUtils;
 
 /**
  * 注册页
@@ -50,11 +52,10 @@ public class RegisterActivity extends Activity implements IRegister {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_register);
 		addUsernameView();
 		addPasswordView();
-		addConfirmPasswordView();
-		addBackView();
 
 		Button btn_register = (Button)findViewById(R.id.button_register);
 		btn_register.setOnClickListener(new View.OnClickListener() {
@@ -73,8 +74,8 @@ public class RegisterActivity extends Activity implements IRegister {
 		final String username = userNameEditText.getText().toString().trim();
 		final String pwd = passwordEditText.getText().toString().trim();
 		String confirm_pwd = confirmPwdEditText.getText().toString().trim();
-		if (TextUtils.isEmpty(username)) {
-			Toast.makeText(this, "用户名不能为空！", Toast.LENGTH_SHORT).show();
+		if (!PATextUtils.isValidEmail(username)&&!PATextUtils.isValidPhoneNumber(username)) {
+			Toast.makeText(this, "请填写正确的手机号或者邮箱", Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
 			return;
 		} else if (TextUtils.isEmpty(pwd)) {
@@ -98,10 +99,10 @@ public class RegisterActivity extends Activity implements IRegister {
 				public void run() {
 					try {
 						final IUserServer.RegisterResult registerResult;
-						if(username.contains("@")&&username.contains(".")){
+						if(PATextUtils.isValidEmail(username)){
 							registerResult = UserManager.getInstance().register(null, username, pwd);
 						}
-						else if(Integer.valueOf(username)>0){
+						else if(PATextUtils.isValidPhoneNumber(username)){
 							registerResult = UserManager.getInstance().register(username, null, pwd);
 						}
 						else {
@@ -154,10 +155,6 @@ public class RegisterActivity extends Activity implements IRegister {
 		passwordEditText = (EditText) findViewById(R.id.password);
 	}
 
-	@Override
-	public void addConfirmPasswordView() {
-		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
-	}
 
 	@Override
 	public void confirm() {
@@ -170,13 +167,13 @@ public class RegisterActivity extends Activity implements IRegister {
 	}
 
 	public void addBackView(){
-		LinearLayout layoutback = (LinearLayout)findViewById(R.id.layout_back);
-		layoutback.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setResult(RESULT_CANCELED);
-				finish();
-			}
-		});
+//		LinearLayout layoutback = (LinearLayout)findViewById(R.id.layout_back);
+//		layoutback.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				setResult(RESULT_CANCELED);
+//				finish();
+//			}
+//		});
 	}
 }

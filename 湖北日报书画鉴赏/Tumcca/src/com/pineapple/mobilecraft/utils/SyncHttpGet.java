@@ -22,8 +22,8 @@ import java.util.concurrent.Future;
  * Created by yihao on 15/6/5.
  */
 public abstract class SyncHttpGet<T> extends SyncHTTPCaller<T> {
-    public SyncHttpGet(String URL) {
-        super(URL);
+    public SyncHttpGet(String URL, String token) {
+        super(URL, token);
     }
 
     public T execute()
@@ -33,7 +33,10 @@ public abstract class SyncHttpGet<T> extends SyncHTTPCaller<T> {
             public T call() throws Exception {
                 T result = null;
                 HttpGet get = new HttpGet(mURL);
-
+                get.addHeader("Content-Type",  "application/json");
+                if(null!=mToken){
+                    get.addHeader("Authorization", "Bearer " + mToken);
+                }
                 HttpResponse httpResponse;
                 try {
                     httpResponse = new DefaultHttpClient().execute(get);

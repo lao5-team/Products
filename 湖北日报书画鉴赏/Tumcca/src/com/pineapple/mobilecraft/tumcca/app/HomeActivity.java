@@ -1,6 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -60,6 +61,11 @@ public class HomeActivity extends FragmentActivity implements IHome{
             @Override
             public void onClick(View v) {
                 LoginActivity.startActivity(HomeActivity.this);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+//
+//                builder.setView(getLayoutInflater().inflate(R.layout.dialog_register, null));
+//
+//                builder.create().show();
             }
         });
 
@@ -68,6 +74,8 @@ public class HomeActivity extends FragmentActivity implements IHome{
             @Override
             public void onClick(View v) {
                 RegisterActivity.startActivity(HomeActivity.this);
+                //RegisterFragment fragment = new RegisterFragment();
+                //getFragmentManager().beginTransaction().add(fragment, "register").commit();
             }
         });
     }
@@ -82,6 +90,8 @@ public class HomeActivity extends FragmentActivity implements IHome{
             setTitle(UserManager.getInstance().getCachedUsername());
             RelativeLayout layout = (RelativeLayout)findViewById(R.id.layout_account);
             layout.setVisibility(View.GONE);
+
+
         }
         //super.onActivityResult();
     }
