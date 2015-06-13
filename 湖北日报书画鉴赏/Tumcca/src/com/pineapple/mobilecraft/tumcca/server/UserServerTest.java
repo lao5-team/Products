@@ -2,12 +2,19 @@ package com.pineapple.mobilecraft.tumcca.server;
 
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
+import android.util.Log;
 import com.pineapple.mobilecraft.shop.mediator.IShopEntryMediator;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.utils.PATextUtils;
 import junit.framework.Assert;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by yihao on 15/6/6.
@@ -63,6 +70,12 @@ public class UserServerTest extends AndroidTestCase{
         //getContext().getAssets().
         Assert.assertTrue((avatarid = mUserServer.uploadAvatar(new File("mnt/sdcard/yh.jpg")))>=0);
 
+
+
+    }
+
+
+    public void testWebsocket() throws URISyntaxException {
 
 
     }

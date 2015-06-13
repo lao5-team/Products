@@ -80,7 +80,7 @@ public abstract class SyncHttpPost<T> extends SyncHTTPCaller<T> {
 
     }
 
-    public T execute(final File fileEntity){
+    public T execute(final String payload, final File fileEntity){
         Callable<T> callable = new Callable<T>() {
             @Override
             public T call() throws Exception {
@@ -99,7 +99,7 @@ public abstract class SyncHttpPost<T> extends SyncHTTPCaller<T> {
                 if(null!=fileEntity){
                     MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                     builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-                    builder.addBinaryBody("avatar", fileEntity, ContentType.create("image/jpeg"), fileEntity.getName());
+                    builder.addBinaryBody(payload, fileEntity, ContentType.create("image/jpeg"), fileEntity.getName());
                     builder.setLaxMode().setBoundary("----WebKitFormBoundaryf6LDyP9jaAlS571g").setCharset(Charset.forName("UTF-8"));
                     post.setEntity(builder.build());
                 }

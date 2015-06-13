@@ -4,6 +4,6 @@
 
     <solid android:color="@color/button_pressed_red" />
 
-    <corners android:radius="5dp" />
+    <corners android:radius="@dimen/small_corner_radius" />
 
 </shape>

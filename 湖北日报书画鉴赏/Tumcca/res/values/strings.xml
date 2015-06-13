@@ -124,6 +124,8 @@
     <string name="forte">专长</string>
     <string name="region">地区</string>
     <string name="female">女</string>
+    <string name="phone">手机号</string>
+    <string name="email">邮箱</string>
 
 
 </resources>

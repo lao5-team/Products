@@ -18,4 +18,10 @@
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="normal_font_size">20dp</dimen>
     <dimen name="large_font_size">30dp</dimen>
+
+    <!--for tumcca-->
+    <dimen name="normal_corner_radius">10dp</dimen>
+    <dimen name="small_corner_radius">5dp</dimen>
+    <dimen name="edittext_stroke_width">1dp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
 </resources>

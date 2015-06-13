@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.server;
 
+import android.util.Log;
 import com.google.gson.Gson;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.User;
@@ -8,10 +9,14 @@ import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,8 +239,10 @@ public class UserServer implements IUserServer{
                 return -1;
             }
         };
-        return post.execute(file);
+        return post.execute("avatar", file);
     }
+
+
 
 
 }

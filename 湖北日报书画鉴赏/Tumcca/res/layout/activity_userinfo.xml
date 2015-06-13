@@ -1,143 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:baselineAligned="false" android:background="#ffdcdcdc">
+              android:layout_height="match_parent" android:baselineAligned="false" android:background="#ffdcdcdc"
+              tools:context=".tumcca.app.UserInfoActivity">
 
-    <LinearLayout
-            android:layout_width="fill_parent" android:orientation="vertical"
-            android:layout_height="fill_parent" android:id="@+id/group_account"
-            android:baselineAligned="false" android:background="@drawable/corner_border"
-            android:layout_weight="4" android:layout_marginLeft="15dp" android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp">
-        <RelativeLayout android:orientation="horizontal" android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp" android:background="#ffffffff" android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/avatar"
-                      android:layout_centerVertical="true"
-                      android:layout_marginLeft="15dip"/>
-            <ImageView android:layout_width="64dip" android:layout_height="64dip" android:id="@+id/imageView4"
-                       android:layout_alignParentEnd="false" android:layout_centerVertical="true"
-                       android:layout_alignParentRight="true" android:layout_marginRight="10dp"
-                       android:src="@drawable/avatar_samle"/>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:background="@color/pure_white">
+        <RelativeLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp" android:id="@+id/layout_back" android:background="@drawable/back"
+                android:padding="10dp" android:layout_margin="10dp">
         </RelativeLayout>
-        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
-                      android:background="#ffc6c6c6"/>
-        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#ffffffff" android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/gender"
-                      android:id="@+id/textView9" android:layout_centerVertical="true"
-                      android:layout_marginLeft="15dip"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/male"
-                      android:id="@+id/textView_gender" android:layout_alignParentRight="true"
-                      android:layout_centerVertical="true" android:layout_marginRight="10dp"
-                      android:textColor="#ff868686"/>
-        </RelativeLayout>
-        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
-                      android:background="#ffc6c6c6"/>
-        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#ffffffff"
-                        android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/pseudonym"
-                      android:id="@+id/textView11" android:layout_centerVertical="true"
-                      android:layout_marginLeft="15dip"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="令狐冲"
-                      android:id="@+id/textView_pseudonym" android:layout_centerVertical="true"
-                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
-                      android:textColor="#ff868686"/>
-        </RelativeLayout>
-        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
-                      android:background="#ffc6c6c6"/>
-        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#ffffffff" android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/user_title"
-                      android:id="@+id/textView13" android:layout_centerVertical="true"
-                      android:layout_marginLeft="15dip"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="书画协会会员"
-                      android:id="@+id/textView8" android:layout_centerVertical="true"
-                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
-                      android:textColor="#ff868686"/>
-        </RelativeLayout>
-        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1px"
-                      android:background="#ffc6c6c6"/>
-        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                        android:layout_height="wrap_content" android:id="@+id/relativeLayout"
-                        android:background="#ffffffff" android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/user_intro"
-                      android:id="@+id/textView_intro_label" android:layout_centerVertical="true"
-                      android:layout_marginLeft="15dip"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="书画极客"
-                      android:id="@+id/textView_intro" android:layout_centerVertical="true"
-                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
-                      android:textColor="#ff868686"/>
-        </RelativeLayout>
-    </LinearLayout>
-    <LinearLayout
-            android:layout_width="fill_parent" android:orientation="vertical"
-            android:layout_height="fill_parent" android:id="@+id/group_other"
-            android:layout_margin="15dp" android:background="@drawable/corner_border" android:layout_weight="6">
-        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#ffffffff" android:layout_marginTop="5dp" android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/hobbies"
-                      android:layout_centerVertical="true" android:layout_marginLeft="15dip"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="琴棋书画"
-                      android:id="@+id/textView_hobbies" android:layout_centerVertical="true"
-                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
-                      android:textColor="#ff868686"/>
-        </RelativeLayout>
-        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
-                      android:background="#ffc6c6c6"/>
-        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#ffffffff" android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/forte"
-                      android:id="@+id/textView14" android:layout_centerVertical="true"
-                      android:layout_marginLeft="15dip"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/textView_forte"
-                      android:text="互联网分析" android:layout_centerVertical="true" android:layout_alignParentRight="true"
-                      android:layout_marginRight="10dp" android:textColor="#ff868686"/>
-        </RelativeLayout>
-        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
-                      android:background="#ffc6c6c6"/>
-        <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                        android:layout_height="wrap_content" android:id="@+id/relativeLayout5"
-                        android:background="#ffffffff" android:layout_weight="1">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/region"
-                      android:id="@+id/textView15" android:layout_centerVertical="true"
-                      android:layout_marginLeft="15dip"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="中国"
-                      android:id="@+id/textView_country" android:layout_centerVertical="true"
-                      android:layout_toLeftOf="@+id/textView_province" android:layout_marginRight="5dp"
-                      android:textColor="#ff868686"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="湖北"
-                      android:id="@+id/textView_province" android:layout_centerVertical="true"
-                      android:layout_toLeftOf="@+id/textView10" android:layout_marginRight="5dp"
-                      android:textColor="#ff868686"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="武汉"
-                      android:id="@+id/textView10" android:layout_centerVertical="true"
-                      android:layout_alignParentRight="true" android:layout_marginRight="10dp"
-                      android:textColor="#ff868686"/>
-        </RelativeLayout>
-    </LinearLayout>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用户设置"
+                android:id="@+id/textView19"
+                android:textSize="@dimen/text_size_normal" android:gravity="center|right"
+                android:layout_centerVertical="true" android:layout_toRightOf="@+id/layout_back"
+                android:layout_toEndOf="@+id/layout_back" android:layout_marginLeft="20dp"/>
+    </RelativeLayout>
+    <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView4">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="基本信息"
+                    android:id="@+id/textView20" android:layout_marginLeft="30dp"
+                    android:textColor="@color/edittext_bg_selected" android:paddingTop="15dp"
+                    android:textSize="@dimen/text_size_normal"/>
+            <LinearLayout
+                    android:layout_width="fill_parent" android:orientation="vertical"
+                    android:layout_height="fill_parent" android:id="@+id/group_account"
+                    android:baselineAligned="false" android:background="@drawable/corner_border_dialog"
+                    android:layout_weight="4" android:layout_marginLeft="15dp" android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp">
+                <RelativeLayout android:orientation="horizontal" android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp" android:background="#ffffffff" android:layout_weight="1">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/avatar"
+                              android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <ImageView android:layout_width="48dip" android:layout_height="48dip" android:id="@+id/imageView4"
+                               android:layout_alignParentEnd="false" android:layout_centerVertical="true"
+                               android:layout_alignParentRight="true" android:layout_marginRight="15dp"
+                               android:src="@drawable/avatar_samle"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
+                              android:layout_height="1dip" android:background="@color/line_gray"/>
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:background="#ffffffff"
+                                android:layout_weight="1" android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp" android:id="@+id/layout_phone">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/phone"
+                              android:id="@+id/textView24" android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium"
+                              android:id="@+id/textView25" android:layout_alignParentRight="true"
+                              android:layout_centerVertical="true" android:layout_marginRight="15dp"
+                              android:textColor="@color/edittext_bg_selected" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
+                              android:layout_height="1dip" android:background="@color/line_gray"/>
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:background="#ffffffff"
+                                android:layout_weight="1" android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp" android:id="@+id/layout_email">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/email"
+                              android:id="@+id/textView26" android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium"
+                              android:id="@+id/textView27" android:layout_alignParentRight="true"
+                              android:layout_centerVertical="true" android:layout_marginRight="15dp"
+                              android:textColor="@color/edittext_bg_selected" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
+                              android:layout_height="1dip" android:background="@color/line_gray"/>
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#ffffffff" android:layout_weight="1"
+                                android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/gender"
+                              android:id="@+id/textView9" android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/male"
+                              android:id="@+id/textView_gender" android:layout_alignParentRight="true"
+                              android:layout_centerVertical="true" android:layout_marginRight="15dp"
+                              android:textColor="@color/edittext_bg_selected"
+                              android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                              android:background="@color/line_gray"/>
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#ffffffff"
+                                android:layout_weight="1" android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/pseudonym"
+                              android:id="@+id/textView11" android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="令狐冲"
+                              android:id="@+id/textView_pseudonym" android:layout_centerVertical="true"
+                              android:layout_alignParentRight="true" android:layout_marginRight="15dp"
+                              android:textColor="@color/edittext_bg_selected"
+                              android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                              android:background="@color/line_gray"/>
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#ffffffff" android:layout_weight="1"
+                                android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/user_title"
+                              android:id="@+id/textView13" android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="书画协会会员"
+                              android:id="@+id/textView8" android:layout_centerVertical="true"
+                              android:layout_alignParentRight="true" android:layout_marginRight="15dp"
+                              android:textColor="@color/edittext_bg_selected"
+                              android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                              android:background="@color/line_gray"/>
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:id="@+id/relativeLayout"
+                                android:background="#ffffffff" android:layout_weight="1"
+                                android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/user_intro"
+                              android:id="@+id/textView_intro_label" android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="书画极客"
+                              android:id="@+id/textView_intro" android:layout_centerVertical="true"
+                              android:layout_alignParentRight="true" android:layout_marginRight="15dp"
+                              android:textColor="@color/edittext_bg_selected"
+                              android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                </RelativeLayout>
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="扩展信息"
+                      android:id="@+id/textView21" android:layout_marginLeft="30dp"
+                      android:textColor="@color/edittext_bg_selected" android:paddingTop="15dp"
+                      android:textSize="@dimen/text_size_normal"/>
+            <LinearLayout
+                    android:layout_width="fill_parent" android:orientation="vertical"
+                    android:layout_height="fill_parent" android:id="@+id/group_other"
+                    android:layout_margin="15dp" android:background="@drawable/corner_border_dialog" android:layout_weight="6">
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#ffffffff" android:layout_marginTop="10dp" android:layout_weight="1"
+                                android:layout_marginBottom="10dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/hobbies"
+                              android:layout_centerVertical="true" android:layout_marginLeft="15dip"
+                              android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="琴棋书画"
+                              android:id="@+id/textView_hobbies" android:layout_centerVertical="true"
+                              android:layout_alignParentRight="true" android:layout_marginRight="15dp"
+                              android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
+                              android:textSize="@dimen/text_size_normal"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                              android:background="#ffc6c6c6"/>
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:background="#ffffffff" android:layout_weight="1"
+                                android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/forte"
+                              android:id="@+id/textView14" android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/textView_forte"
+                              android:text="互联网分析" android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                              android:layout_marginRight="15dp" android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
+                              android:textSize="@dimen/text_size_normal"/>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
+                              android:background="#ffc6c6c6"/>
+                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:id="@+id/relativeLayout5"
+                                android:background="#ffffffff" android:layout_weight="1"
+                                android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/region"
+                              android:id="@+id/textView15" android:layout_centerVertical="true"
+                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
+                              android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="中国"
+                              android:id="@+id/textView_country" android:layout_centerVertical="true"
+                              android:layout_toLeftOf="@+id/textView_province" android:layout_marginRight="5dp"
+                              android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
+                              android:textSize="@dimen/text_size_normal"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="湖北"
+                              android:id="@+id/textView_province" android:layout_centerVertical="true"
+                              android:layout_toLeftOf="@+id/textView10" android:layout_marginRight="5dp"
+                              android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
+                              android:textSize="@dimen/text_size_normal"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="武汉"
+                              android:id="@+id/textView10" android:layout_centerVertical="true"
+                              android:layout_alignParentRight="true" android:layout_marginRight="10dp"
+                              android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
+                              android:textSize="@dimen/text_size_normal"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
