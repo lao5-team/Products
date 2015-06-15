@@ -1,15 +1,13 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.ActionBar;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
+import android.view.*;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -18,15 +16,6 @@ import de.tavendo.autobahn.WebSocket;
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketConnectionHandler;
 import de.tavendo.autobahn.WebSocketException;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_17;
-import org.java_websocket.drafts.Draft_76;
-import org.java_websocket.handshake.ServerHandshake;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * Created by yihao on 15/6/4.
@@ -34,10 +23,19 @@ import java.net.URISyntaxException;
 public class HomeActivity extends FragmentActivity implements IHome{
     Button mBtnLogin = null;
     Button mBtnRegister = null;
+    ImageView mIVAccount = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
+        final ActionBar mActionBar = getActionBar();
+
+        mActionBar.setDisplayHomeAsUpEnabled(false);
+
+        //mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        mActionBar.setTitle("Test");
+        //mActionBar.
         setContentView(R.layout.activity_home);
         if(UserManager.getInstance().isLogin()){
             setTitle(UserManager.getInstance().getCachedUsername());
@@ -100,6 +98,16 @@ public class HomeActivity extends FragmentActivity implements IHome{
                 //getFragmentManager().beginTransaction().add(fragment, "register").commit();
             }
         });
+
+        mIVAccount = (ImageView)findViewById(R.id.imageView_account);
+        mIVAccount.setClickable(true);
+        mIVAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserActivity.startActivity(HomeActivity.this);
+
+            }
+        });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -146,5 +154,30 @@ public class HomeActivity extends FragmentActivity implements IHome{
 
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        /*
+         * 将actionBar的HomeButtonEnabled设为ture，
+         *
+         * 将会执行此case
+         */
+            case R.id.account:
+                UserActivity.startActivity(HomeActivity.this);
+                break;
+            // 其他省略...
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

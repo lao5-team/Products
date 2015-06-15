@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- action items -->
+    <!-- showAsAction默认为never -->
+    <item
+            android:id="@+id/account"
+            android:icon="@drawable/account"
+            android:showAsAction="always"
+            android:title="用户"/>
+    <!--<item-->
+            <!--android:id="@+id/add"-->
+            <!--android:icon="@android:drawable/ic_menu_add"-->
+            <!--android:showAsAction="ifRoom"-->
+            <!--android:title="添加">-->
+    <!--</item>-->
+    <!--<item-->
+            <!--android:id="@+id/delete2"-->
+            <!--android:icon="@android:drawable/ic_menu_edit"-->
+            <!--android:showAsAction="ifRoom"-->
+            <!--android:title="编辑"/>-->
+    <!--<item-->
+            <!--android:id="@+id/share"-->
+            <!--android:icon="@android:drawable/ic_menu_share"-->
+            <!--android:showAsAction="never"-->
+            <!--android:title="分享"/>-->
+    <!--<item-->
+            <!--android:id="@+id/call"-->
+            <!--android:icon="@android:drawable/ic_menu_call"-->
+            <!--android:showAsAction="never"-->
+            <!--android:title="呼叫"/>-->
+    <!--<item-->
+            <!--android:id="@+id/delete3"-->
+            <!--android:icon="@android:drawable/ic_menu_help"-->
+            <!--android:showAsAction="never"-->
+            <!--android:title="帮助"/>-->
+
+    <!--&lt;!&ndash; action views &ndash;&gt;-->
+    <!--<item-->
+            <!--android:id="@+id/search"-->
+            <!--android:actionViewClass="android.widget.SearchView"-->
+            <!--android:showAsAction="always"-->
+            <!--android:title="查询"/>-->
+
+
+
+</menu>

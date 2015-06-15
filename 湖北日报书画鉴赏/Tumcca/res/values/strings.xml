@@ -126,6 +126,16 @@
     <string name="female">女</string>
     <string name="phone">手机号</string>
     <string name="email">邮箱</string>
+    <string name="account_settings">用户设置</string>
+    <string name="boards">专辑</string>
+    <string name="works">作品</string>
+    <string name="likes">赞过</string>
+    <string name="subscribes">收藏</string>
+    <string name="following">关注</string>
+    <string name="followers">粉丝</string>
+    <string name="base_info">基本信息</string>
+    <string name="ext_info">扩展信息</string>
+
 
 
 </resources>

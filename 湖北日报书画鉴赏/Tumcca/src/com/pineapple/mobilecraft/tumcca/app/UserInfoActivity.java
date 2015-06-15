@@ -1,6 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -26,7 +27,10 @@ public class UserInfoActivity extends Activity implements IUserInfo{
     private TextView mTvCity;
     private User mUser;
 
+    public static void startActivity(Activity activity){
+        activity.startActivity(new Intent(activity, UserInfoActivity.class));
 
+    }
 
 
     @Override

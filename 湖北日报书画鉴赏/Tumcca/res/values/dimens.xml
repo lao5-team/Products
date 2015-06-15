@@ -24,4 +24,5 @@
     <dimen name="small_corner_radius">5dp</dimen>
     <dimen name="edittext_stroke_width">1dp</dimen>
     <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
 </resources>
