@@ -43,7 +43,9 @@
                     android:baselineAligned="false" android:background="@drawable/corner_border_dialog"
                     android:layout_weight="4" android:layout_marginLeft="15dp" android:layout_marginTop="10dp"
                     android:layout_marginRight="15dp">
-                <RelativeLayout android:orientation="horizontal" android:layout_width="match_parent"
+                <RelativeLayout
+                        android:id="@+id/avatarLay"
+                        android:orientation="horizontal" android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp" android:background="#ffffffff" android:layout_weight="1">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -69,7 +71,7 @@
                               android:textStyle="bold" android:textColor="@color/pure_black"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textAppearance="?android:attr/textAppearanceMedium"
-                              android:id="@+id/textView25" android:layout_alignParentRight="true"
+                              android:id="@+id/textView_phone" android:layout_alignParentRight="true"
                               android:layout_centerVertical="true" android:layout_marginRight="15dp"
                               android:textColor="@color/edittext_bg_selected" android:textSize="@dimen/text_size_normal"
                               android:textStyle="bold"/>

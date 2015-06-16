@@ -3,8 +3,11 @@ package com.pineapple.mobilecraft.tumcca.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.User;
@@ -14,7 +17,9 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by yihao on 15/6/8.
  */
-public class UserInfoActivity extends Activity implements IUserInfo{
+public class UserInfoActivity extends FragmentActivity implements IUserInfo, View.OnClickListener{
+    private RelativeLayout avatarLay;
+    private RelativeLayout phoneLay;
     private ImageView mIvAvatar;
     private TextView mTvGender;
     private TextView mTvPseudonym;
@@ -22,6 +27,26 @@ public class UserInfoActivity extends Activity implements IUserInfo{
     private TextView mTvIntro;
     private TextView mTvHobby;
     private TextView mTvForte;
+
+    private UserInfoPhone userInfoPhone;
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.avatarLay:
+
+                break;
+            case R.id.layout_phone:
+                if(userInfoPhone == null)
+                {
+                    userInfoPhone = new UserInfoPhone();
+                }
+                userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
+                break;
+        }
+    }
+
     private TextView mTvCountry;
     private TextView mTvProvince;
     private TextView mTvCity;
@@ -37,6 +62,7 @@ public class UserInfoActivity extends Activity implements IUserInfo{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userinfo);
+        initView();
         addAvatarView();
         addGenderView();
         addPseudonymView();
@@ -47,12 +73,19 @@ public class UserInfoActivity extends Activity implements IUserInfo{
         addRegionView();
     }
 
-    @Override
-    public void addAvatarView() {
-        mIvAvatar = (ImageView)findViewById(R.id.imageView_avatar);
-    }
+
 
     @Override
+    public void addAvatarView() {
+        avatarLay = (RelativeLayout)findViewById(R.id.avatarLay);
+        mIvAvatar = (ImageView)findViewById(R.id.imageView_avatar);
+        avatarLay.setOnClickListener(this);
+    }
+
+    private void initView() {
+        phoneLay = (RelativeLayout)this.findViewById(R.id.layout_phone);
+        phoneLay.setOnClickListener(this);
+    }
     public void addGenderView() {
         mTvGender = (TextView)findViewById(R.id.textView_gender);
     }

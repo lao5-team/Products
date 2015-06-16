@@ -25,4 +25,8 @@
     <dimen name="edittext_stroke_width">1dp</dimen>
     <dimen name="text_size_normal">16sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
+
+    <!--for DialogFragment -->
+    <dimen name="dialogfragment_marginleft">30dp</dimen>
+    <dimen name="dialogfragment_title_height">55dp</dimen>
 </resources>
