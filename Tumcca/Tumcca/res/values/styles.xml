@@ -189,6 +189,10 @@
 
     </style>
 
+    <style name="my_edittext_smallstyle" parent="@android:style/Widget.EditText">
+
+    </style>
+
     <style name="my_button_style" parent="@android:style/Widget.Button">
 
         <item name="android:background">@drawable/button_bg</item>

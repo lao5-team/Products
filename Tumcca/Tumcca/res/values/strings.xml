@@ -137,5 +137,6 @@
     <string name="ext_info">扩展信息</string>
 
     <string name="editphone">编辑您的手机号</string>
+    <string name="editemail">编辑您的邮箱</string>
 
 </resources>

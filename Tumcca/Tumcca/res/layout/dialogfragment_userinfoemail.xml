@@ -16,7 +16,7 @@
             >
         <TextView android:layout_width="match_parent"
                   android:layout_height="@dimen/dialogfragment_title_height"
-                  android:text="@string/editphone"
+                  android:text="@string/editemail"
                   android:gravity="center_vertical"
                   android:layout_marginLeft="16dp"
                   android:textStyle="bold"
@@ -43,7 +43,7 @@
                     style="@style/my_edittext_style"
                     android:paddingLeft="14dp"
                     android:textSize="16sp"
-                    android:text="13120362396"
+                    android:text="122290130@qq.com"
                     />
         </RelativeLayout>
 

@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 public class UserInfoActivity extends FragmentActivity implements IUserInfo, View.OnClickListener{
     private RelativeLayout avatarLay;
     private RelativeLayout phoneLay;
+    private RelativeLayout emailLay;
     private ImageView mIvAvatar;
     private TextView mTvGender;
     private TextView mTvPseudonym;
@@ -29,6 +30,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private TextView mTvForte;
 
     private UserInfoPhone userInfoPhone;
+    private UserInfoEmail userInfoEmail;
 
     @Override
     public void onClick(View view) {
@@ -43,6 +45,13 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                     userInfoPhone = new UserInfoPhone();
                 }
                 userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
+                break;
+            case R.id.layout_email:
+                if(userInfoEmail == null)
+                {
+                    userInfoEmail = new UserInfoEmail();
+                }
+                userInfoEmail.show(getSupportFragmentManager(), "UserInfoEmail");
                 break;
         }
     }
@@ -84,7 +93,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     private void initView() {
         phoneLay = (RelativeLayout)this.findViewById(R.id.layout_phone);
+        emailLay = (RelativeLayout)this.findViewById(R.id.layout_email);
         phoneLay.setOnClickListener(this);
+        emailLay.setOnClickListener(this);
     }
     public void addGenderView() {
         mTvGender = (TextView)findViewById(R.id.textView_gender);
