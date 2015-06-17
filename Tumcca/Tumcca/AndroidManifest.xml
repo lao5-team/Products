@@ -169,13 +169,17 @@
 
         <activity android:name=".tumcca.app.SplashActivity" android:theme="@style/Theme.Splash"
                   android:noHistory="true">
+
+        </activity>
+        <activity android:name=".tumcca.app.UserInfoActivity" android:theme="@style/my_activity_style"/>
+        <activity android:name=".tumcca.app.UserActivity" android:theme="@style/StyledIndicators"/>
+        <activity android:name=".tumcca.app.PictureDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".tumcca.app.UserInfoActivity" android:theme="@style/my_activity_style"/>
-        <activity android:name=".tumcca.app.UserActivity" android:theme="@style/StyledIndicators"/>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
