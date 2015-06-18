@@ -13,7 +13,6 @@ import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.User;
 import com.pineapple.mobilecraft.tumcca.mediator.IUserInfo;
 import com.squareup.picasso.Picasso;
-import org.xbill.DNS.RelativeNameException;
 
 /**
  * Created by yihao on 15/6/8.
@@ -22,11 +21,6 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private RelativeLayout avatarLay;
     private RelativeLayout phoneLay;
     private RelativeLayout emailLay;
-    private RelativeLayout pseudonymLay;
-    private RelativeLayout hobbyLay;
-    private RelativeLayout introLay;
-    private RelativeLayout forteLay;
-    private RelativeLayout regionLay;
     private ImageView mIvAvatar;
     private TextView mTvGender;
     private TextView mTvPseudonym;
@@ -37,10 +31,30 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     private UserInfoPhone userInfoPhone;
     private UserInfoEmail userInfoEmail;
-    private UserInfoPseudonym userInfoPseudonym;
-    private UserInfoIntro userInfoIntro;
-    private UserInfoHobby userInfoHobby;
-    private UserInfoForte userInfoForte;
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.avatarLay:
+
+                break;
+            case R.id.layout_phone:
+                if(userInfoPhone == null)
+                {
+                    userInfoPhone = new UserInfoPhone();
+                }
+                userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
+                break;
+            case R.id.layout_email:
+                if(userInfoEmail == null)
+                {
+                    userInfoEmail = new UserInfoEmail();
+                }
+                userInfoEmail.show(getSupportFragmentManager(), "UserInfoEmail");
+                break;
+        }
+    }
 
     private TextView mTvCountry;
     private TextView mTvProvince;
@@ -80,72 +94,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private void initView() {
         phoneLay = (RelativeLayout)this.findViewById(R.id.layout_phone);
         emailLay = (RelativeLayout)this.findViewById(R.id.layout_email);
-        pseudonymLay = (RelativeLayout)this.findViewById(R.id.pseudonymLay);
-        introLay = (RelativeLayout)this.findViewById(R.id.introLay);
-        hobbyLay= (RelativeLayout)this.findViewById(R.id.hobbyLay);
-        forteLay = (RelativeLayout)this.findViewById(R.id.forteLay);
-
         phoneLay.setOnClickListener(this);
         emailLay.setOnClickListener(this);
-        pseudonymLay.setOnClickListener(this);
-        introLay.setOnClickListener(this);
-        hobbyLay.setOnClickListener(this);
-        forteLay.setOnClickListener(this);
     }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId())
-        {
-            case R.id.avatarLay:
-
-                break;
-            case R.id.layout_phone:
-                if(userInfoPhone == null)
-                {
-                    userInfoPhone = new UserInfoPhone();
-                }
-                userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
-                break;
-            case R.id.layout_email:
-                if(userInfoEmail == null)
-                {
-                    userInfoEmail = new UserInfoEmail();
-                }
-                userInfoEmail.show(getSupportFragmentManager(), "UserInfoEmail");
-                break;
-            case R.id.pseudonymLay:
-                if(userInfoPseudonym == null)
-                {
-                    userInfoPseudonym = new UserInfoPseudonym();
-                }
-                userInfoPseudonym.show(getSupportFragmentManager(), "UserInfoPseudonym");
-                break;
-            case R.id.introLay:
-                if(userInfoIntro == null)
-                {
-                    userInfoIntro = new UserInfoIntro();
-                }
-                userInfoIntro.show(getSupportFragmentManager(), "UserInfoIntro");
-                break;
-            case R.id.hobbyLay:
-                if(userInfoIntro == null)
-                {
-                    userInfoIntro = new UserInfoIntro();
-                }
-                userInfoIntro.show(getSupportFragmentManager(), "UserInfoIntro");
-                break;
-            case R.id.forteLay:
-                if(userInfoForte == null)
-                {
-                    userInfoForte = new UserInfoForte();
-                }
-                userInfoForte.show(getSupportFragmentManager(), "UserInfoIntro");
-                break;
-        }
-    }
-
-
     public void addGenderView() {
         mTvGender = (TextView)findViewById(R.id.textView_gender);
     }

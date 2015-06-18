@@ -28,6 +28,7 @@ public class UserInfoEmail extends DialogFragment implements View.OnClickListene
         super.onStart();
         if (getDialog() != null) {
 
+            getDialog().setCanceledOnTouchOutside(false);
             int fullWidth = getDialog().getWindow().getAttributes().width;
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
