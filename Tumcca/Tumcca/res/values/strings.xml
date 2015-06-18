@@ -138,5 +138,10 @@
 
     <string name="editphone">编辑您的手机号</string>
     <string name="editemail">编辑您的邮箱</string>
+    <string name="editpseudonym">编辑您的斋号</string>
+    <string name="editintro">编辑您的自我介绍</string>
+    <string name="edithobby">编辑您的爱好</string>
+    <string name="editforte">编辑您的专长</string>
+    <string name="editregion">编辑您的地区</string>
 
 </resources>

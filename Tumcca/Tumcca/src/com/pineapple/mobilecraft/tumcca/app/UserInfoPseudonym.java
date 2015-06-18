@@ -8,9 +8,10 @@ import android.view.*;
 import com.pineapple.mobilecraft.R;
 
 /**
- * Created by jiankun on 2015/6/17.
+ * Created by liujiankun007 on 2015/6/16.
  */
-public class UserInfoEmail extends DialogFragment implements View.OnClickListener {
+public class UserInfoPseudonym extends DialogFragment implements View.OnClickListener {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getDialog() != null)
@@ -18,7 +19,7 @@ public class UserInfoEmail extends DialogFragment implements View.OnClickListene
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
-        View root = inflater.inflate(R.layout.dialogfragment_userinfoemail, container, false);
+        View root = inflater.inflate(R.layout.dialogfragment_userinfopseudonym, container, false);
 
         return root;
     }
