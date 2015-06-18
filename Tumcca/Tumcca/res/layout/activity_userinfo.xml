@@ -114,7 +114,9 @@
                 </RelativeLayout>
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
                               android:background="@color/line_gray"/>
-                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                <RelativeLayout
+                        android:id="@+id/pseudonymLay"
+                        android:orientation="horizontal" android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#ffffffff"
                                 android:layout_weight="1" android:layout_marginTop="10dp"
@@ -152,7 +154,7 @@
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
                               android:background="@color/line_gray"/>
                 <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                                android:layout_height="wrap_content" android:id="@+id/relativeLayout"
+                                android:layout_height="wrap_content" android:id="@+id/introLay"
                                 android:background="#ffffffff" android:layout_weight="1"
                                 android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -176,7 +178,9 @@
                     android:layout_width="fill_parent" android:orientation="vertical"
                     android:layout_height="fill_parent" android:id="@+id/group_other"
                     android:layout_margin="15dp" android:background="@drawable/corner_border_dialog" android:layout_weight="6">
-                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                <RelativeLayout
+                        android:id="@+id/hobbyLay"
+                        android:orientation="horizontal" android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#ffffffff" android:layout_marginTop="10dp" android:layout_weight="1"
                                 android:layout_marginBottom="10dp">
@@ -193,7 +197,9 @@
                 </RelativeLayout>
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
                               android:background="#ffc6c6c6"/>
-                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                <RelativeLayout
+                        android:id="@+id/forteLay"
+                        android:orientation="horizontal" android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#ffffffff" android:layout_weight="1"
                                 android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
@@ -210,8 +216,9 @@
                 </RelativeLayout>
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
                               android:background="#ffc6c6c6"/>
-                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                                android:layout_height="wrap_content" android:id="@+id/relativeLayout5"
+                <RelativeLayout
+                        android:orientation="horizontal" android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" android:id="@+id/regionLay"
                                 android:background="#ffffffff" android:layout_weight="1"
                                 android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"

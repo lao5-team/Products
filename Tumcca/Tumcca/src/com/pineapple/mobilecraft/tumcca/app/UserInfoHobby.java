@@ -5,12 +5,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.*;
+import android.widget.EditText;
+import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
 
 /**
- * Created by jiankun on 2015/6/17.
+ * Created by liujiankun007 on 2015/6/16.
  */
-public class UserInfoEmail extends DialogFragment implements View.OnClickListener {
+public class UserInfoHobby extends DialogFragment implements View.OnClickListener {
+
+    private TextView tvTitle;
+    private EditText etContent;
+    private TextView tvSave;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getDialog() != null)
@@ -18,8 +25,11 @@ public class UserInfoEmail extends DialogFragment implements View.OnClickListene
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
-        View root = inflater.inflate(R.layout.dialogfragment_userinfoemail, container, false);
-
+        View root = inflater.inflate(R.layout.dialogfragment_userinfo, container, false);
+        tvTitle = (TextView)root.findViewById(R.id.tvTitle);
+        etContent = (EditText)root.findViewById(R.id.etContent);
+        tvSave = (TextView)root.findViewById(R.id.tvSave);
+        tvTitle.setText("更改您的爱好");
         return root;
     }
 
@@ -51,6 +61,11 @@ public class UserInfoEmail extends DialogFragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.tvSave:
 
+                break;
+        }
     }
 }
