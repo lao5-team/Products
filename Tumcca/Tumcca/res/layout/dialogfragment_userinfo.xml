@@ -14,9 +14,11 @@
             android:layout_marginLeft="@dimen/dialogfragment_marginleft"
             android:layout_marginRight="@dimen/dialogfragment_marginleft"
             >
-        <TextView android:layout_width="match_parent"
+        <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
                   android:layout_height="@dimen/dialogfragment_title_height"
-                  android:text="@string/editphone"
+                  android:text="@string/editemail"
                   android:gravity="center_vertical"
                   android:layout_marginLeft="16dp"
                   android:textStyle="bold"
@@ -25,7 +27,7 @@
 
         <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:background="#eeeeee"
                 />
 
@@ -38,28 +40,30 @@
                 android:paddingBottom="14dp"
                 >
             <EditText
+                    android:id="@+id/etContent"
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
                     style="@style/my_edittext_style"
                     android:paddingLeft="14dp"
                     android:textSize="16sp"
-                    android:text="13120362396"
+                    android:text="122290130@qq.com"
                     />
         </RelativeLayout>
 
         <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:background="#eeeeee"
                 />
 
         <TextView
+                android:id="@+id/tvSave"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:text="保存"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:textStyle="bold"/>
+                />
 
     </LinearLayout>
 
