@@ -137,5 +137,6 @@
     <string name="ext_info">扩展信息</string>
 
     <string name="editphone">编辑您的手机号</string>
+    <string name="editgender">编辑您的性别</string>
 
 </resources>

@@ -206,7 +206,7 @@
         <!--<item name="android:windowAnimationStyle">@null</item>-->
         <!--<item name="android:backgroundDimEnabled">false</item>-->
         <item name="android:windowBackground">@drawable/corner_border_dialog</item>
-        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:windowCloseOnTouchOutside">true</item>
 
 
     </style>

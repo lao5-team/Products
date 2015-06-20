@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.data.Calligraphy;
+import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.mediator.ICalligraphyList;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     }
 
     @Override
-    public void setCalligraphyList(List<Calligraphy> calligraphyList) {
+    public void setCalligraphyList(List<Works> calligraphyList) {
 
     }
 
@@ -31,7 +31,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     }
 
     @Override
-    public void openCalligraphy(Calligraphy calligraphy) {
+    public void openCalligraphy(Works calligraphy) {
 
     }
 }

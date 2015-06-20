@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:layout_width="40dip"
+            android:layout_height="match_parent" android:id="@+id/layout_tools">
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton_magnifier" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" android:src="@android:drawable/ic_menu_search"/>
+    </RelativeLayout>
+    <view
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.pineapple.mobilecraft.tumcca.view.MyHorizontalScrollView"
+            android:id="@+id/scrollView" android:visibility="visible" android:layout_toRightOf="@+id/layout_tools"
+            >
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:background="@drawable/sample_land"
+                android:id="@+id/layout_picture" android:longClickable="true">
+
+        </RelativeLayout>
+    </view>
+</RelativeLayout>

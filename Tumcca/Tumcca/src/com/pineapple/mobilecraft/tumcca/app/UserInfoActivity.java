@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.User;
 import com.pineapple.mobilecraft.tumcca.mediator.IUserInfo;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by yihao on 15/6/8.
@@ -20,6 +19,7 @@ import com.squareup.picasso.Picasso;
 public class UserInfoActivity extends FragmentActivity implements IUserInfo, View.OnClickListener{
     private RelativeLayout avatarLay;
     private RelativeLayout phoneLay;
+    private RelativeLayout mGenderLay;
     private ImageView mIvAvatar;
     private TextView mTvGender;
     private TextView mTvPseudonym;
@@ -28,7 +28,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private TextView mTvHobby;
     private TextView mTvForte;
 
-    private UserInfoPhone userInfoPhone;
+    private UserInfoPhone mUserInfoPhone;
+    private UserInfoGender mUserInfoGender;
 
     @Override
     public void onClick(View view) {
@@ -38,11 +39,17 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
                 break;
             case R.id.layout_phone:
-                if(userInfoPhone == null)
+                if(mUserInfoPhone == null)
                 {
-                    userInfoPhone = new UserInfoPhone();
+                    mUserInfoPhone = new UserInfoPhone();
                 }
-                userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
+                mUserInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
+            case R.id.layout_gender:
+                if(mUserInfoPhone == null)
+                {
+                    mUserInfoGender = new UserInfoGender();
+                }
+                mUserInfoGender.show(getSupportFragmentManager(), "UserInfoGender");
                 break;
         }
     }
@@ -88,6 +95,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     }
     public void addGenderView() {
         mTvGender = (TextView)findViewById(R.id.textView_gender);
+        mGenderLay = (RelativeLayout)findViewById(R.id.layout_gender);
+        mGenderLay.setOnClickListener(this);
     }
 
     @Override

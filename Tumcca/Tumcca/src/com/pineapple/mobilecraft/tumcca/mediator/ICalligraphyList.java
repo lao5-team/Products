@@ -1,6 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.mediator;
 
-import com.pineapple.mobilecraft.tumcca.data.Calligraphy;
+import com.pineapple.mobilecraft.tumcca.data.Works;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface ICalligraphyList {
 
-    public void setCalligraphyList(List<Calligraphy> calligraphyList);
+    public void setCalligraphyList(List<Works> calligraphyList);
 
     public void addCalligraphyListView();
 
-    public void openCalligraphy(Calligraphy calligraphy);
+    public void openCalligraphy(Works calligraphy);
 }

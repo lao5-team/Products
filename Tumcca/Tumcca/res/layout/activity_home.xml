@@ -36,7 +36,7 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="240dp" android:id="@+id/layout_page" android:background="@drawable/splash_2">
+            android:layout_height="120dp" android:id="@+id/layout_page" android:background="@drawable/splash_2">
     </LinearLayout>
     <LinearLayout
             android:orientation="vertical"
@@ -81,17 +81,23 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
-            <ImageView
+            <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:id="@+id/imageView2" android:layout_weight="1" android:layout_marginLeft="10dip"-->
+                    <!--android:layout_marginRight="5dip"-->
+                    <!--android:scaleType="centerCrop" android:src="@drawable/sample1"/>-->
+            <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:id="@+id/imageView3" android:layout_weight="1" android:layout_marginLeft="5dip"-->
+                    <!--android:layout_marginRight="10dip" android:scaleType="centerCrop" android:src="@drawable/sample2"/>-->
+            <com.huewu.pla.lib.MultiColumnPullToRefreshListView
+                    android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/imageView2" android:layout_weight="1" android:layout_marginLeft="10dip"
-                    android:layout_marginRight="5dip"
-                    android:scaleType="centerCrop" android:src="@drawable/sample1"/>
-            <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/imageView3" android:layout_weight="1" android:layout_marginLeft="5dip"
-                    android:layout_marginRight="10dip" android:scaleType="centerCrop" android:src="@drawable/sample2"/>
+                    >
+            </com.huewu.pla.lib.MultiColumnPullToRefreshListView>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
