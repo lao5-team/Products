@@ -41,7 +41,8 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:id="@+id/layout_bottom" android:background="#ffe3e5e3">
+            android:layout_height="fill_parent" android:id="@+id/layout_bottom" android:background="#ffe3e5e3"
+            android:visibility="gone" android:measureWithLargestChild="false">
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" android:layout_margin="10dip" android:id="@+id/layout_account"

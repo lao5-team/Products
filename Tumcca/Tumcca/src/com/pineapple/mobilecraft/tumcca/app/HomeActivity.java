@@ -24,6 +24,8 @@ import de.tavendo.autobahn.WebSocket;
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketConnectionHandler;
 import de.tavendo.autobahn.WebSocketException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -189,11 +191,20 @@ public class HomeActivity extends FragmentActivity implements IHome{
 
     private void testWebsocket(){
         try {
-            mConnection.connect("ws://120.26.202.114:6696/follow/ws", new WebSocketConnectionHandler() {
+            mConnection.connect("http://120.26.202.114/ws/follow", new WebSocketConnectionHandler() {
                 @Override
                 public void onOpen() {
                     Log.d("Websocket", "onOpen");
-                    mConnection.sendTextMessage("Hello");
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("follower", 1);
+                        jsonObject.put("toFollow", 3);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    mConnection.sendTextMessage(jsonObject.toString());
                 }
 
                 @Override
