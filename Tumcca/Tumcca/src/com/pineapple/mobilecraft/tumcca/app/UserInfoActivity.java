@@ -2,7 +2,9 @@ package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,15 +12,23 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.Utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.User;
 import com.pineapple.mobilecraft.tumcca.mediator.IUserInfo;
 import com.squareup.picasso.Picasso;
 import org.xbill.DNS.RelativeNameException;
 
+import java.io.File;
+
 /**
  * Created by yihao on 15/6/8.
  */
-public class UserInfoActivity extends FragmentActivity implements IUserInfo, View.OnClickListener{
+public class UserInfoActivity extends FragmentActivity implements IUserInfo, View.OnClickListener {
+
+    public static final int FROMCAMERA = 0;
+    public static final int FROMGALLERY = 1;
+    public static final int CROP_REQUEST_CODE = 2;
+
     private RelativeLayout avatarLay;
     private RelativeLayout phoneLay;
     private RelativeLayout mGenderLay;
@@ -40,6 +50,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private UserInfoGender mUserInfoGender;
 
 
+    private UserInfoPhotoChoose userInfoPhotoChoose;
     private UserInfoPhone userInfoPhone;
     private UserInfoEmail userInfoEmail;
     private UserInfoPseudonym userInfoPseudonym;
@@ -52,11 +63,12 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private TextView mTvCity;
     private User mUser;
 
-    public static void startActivity(Activity activity){
+    public Uri mUri;
+    public Uri mCropUri;
+
+    public static void startActivity(Activity activity) {
         activity.startActivity(new Intent(activity, UserInfoActivity.class));
-
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,21 +86,20 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     }
 
 
-
     @Override
     public void addAvatarView() {
-        avatarLay = (RelativeLayout)findViewById(R.id.avatarLay);
-        mIvAvatar = (ImageView)findViewById(R.id.imageView_avatar);
+        avatarLay = (RelativeLayout) findViewById(R.id.avatarLay);
+        mIvAvatar = (ImageView) findViewById(R.id.imageView_avatar);
         avatarLay.setOnClickListener(this);
     }
 
     private void initView() {
-        phoneLay = (RelativeLayout)this.findViewById(R.id.layout_phone);
-        emailLay = (RelativeLayout)this.findViewById(R.id.layout_email);
-        pseudonymLay = (RelativeLayout)this.findViewById(R.id.pseudonymLay);
-        introLay = (RelativeLayout)this.findViewById(R.id.introLay);
-        hobbyLay= (RelativeLayout)this.findViewById(R.id.hobbyLay);
-        forteLay = (RelativeLayout)this.findViewById(R.id.forteLay);
+        phoneLay = (RelativeLayout) this.findViewById(R.id.layout_phone);
+        emailLay = (RelativeLayout) this.findViewById(R.id.layout_email);
+        pseudonymLay = (RelativeLayout) this.findViewById(R.id.pseudonymLay);
+        introLay = (RelativeLayout) this.findViewById(R.id.introLay);
+        hobbyLay = (RelativeLayout) this.findViewById(R.id.hobbyLay);
+        forteLay = (RelativeLayout) this.findViewById(R.id.forteLay);
 
         phoneLay.setOnClickListener(this);
         emailLay.setOnClickListener(this);
@@ -100,93 +111,89 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.avatarLay:
-
+                if (userInfoPhotoChoose == null) {
+                    userInfoPhotoChoose = new UserInfoPhotoChoose();
+                }
+                userInfoPhotoChoose.show(getSupportFragmentManager(), "UserInfoPhotoChoose");
                 break;
             case R.id.layout_phone:
-                if(userInfoPhone == null)
-                {
+                if (userInfoPhone == null) {
                     userInfoPhone = new UserInfoPhone();
                 }
                 userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
                 break;
             case R.id.layout_email:
-                if(userInfoEmail == null)
-                {
+                if (userInfoEmail == null) {
                     userInfoEmail = new UserInfoEmail();
                 }
                 userInfoEmail.show(getSupportFragmentManager(), "UserInfoEmail");
                 break;
             case R.id.pseudonymLay:
-                if(userInfoPseudonym == null)
-                {
+                if (userInfoPseudonym == null) {
                     userInfoPseudonym = new UserInfoPseudonym();
                 }
                 userInfoPseudonym.show(getSupportFragmentManager(), "UserInfoPseudonym");
                 break;
             case R.id.introLay:
-                if(userInfoIntro == null)
-                {
+                if (userInfoIntro == null) {
                     userInfoIntro = new UserInfoIntro();
                 }
                 userInfoIntro.show(getSupportFragmentManager(), "UserInfoIntro");
                 break;
             case R.id.hobbyLay:
-                if(userInfoIntro == null)
-                {
-                    userInfoIntro = new UserInfoIntro();
+                if (userInfoHobby == null) {
+                    userInfoHobby = new UserInfoHobby();
                 }
-                userInfoIntro.show(getSupportFragmentManager(), "UserInfoIntro");
+                userInfoHobby.show(getSupportFragmentManager(), "UserInfoHobby");
                 break;
             case R.id.forteLay:
-                if(userInfoForte == null)
-                {
+                if (userInfoForte == null) {
                     userInfoForte = new UserInfoForte();
                 }
-                userInfoForte.show(getSupportFragmentManager(), "UserInfoIntro");
+                userInfoForte.show(getSupportFragmentManager(), "UserInfoForte");
                 break;
         }
     }
 
 
     public void addGenderView() {
-        mTvGender = (TextView)findViewById(R.id.textView_gender);
-        mGenderLay = (RelativeLayout)findViewById(R.id.layout_gender);
+        mTvGender = (TextView) findViewById(R.id.textView_gender);
+        mGenderLay = (RelativeLayout) findViewById(R.id.layout_gender);
         mGenderLay.setOnClickListener(this);
     }
 
     @Override
     public void addPseudonymView() {
-        mTvPseudonym = (TextView)findViewById(R.id.textView_pseudonym);
+        mTvPseudonym = (TextView) findViewById(R.id.textView_pseudonym);
     }
 
     @Override
     public void addTitleView() {
-        mTvTitle = (TextView)findViewById(R.id.textView_title);
+        mTvTitle = (TextView) findViewById(R.id.textView_title);
     }
 
     @Override
     public void addIntroView() {
-        mTvIntro = (TextView)findViewById(R.id.textView_intro);
+        mTvIntro = (TextView) findViewById(R.id.textView_intro);
     }
 
     @Override
     public void addHobbyView() {
-        mTvHobby = (TextView)findViewById(R.id.textView_hobbies);
+        mTvHobby = (TextView) findViewById(R.id.textView_hobbies);
     }
 
     @Override
     public void addForteView() {
-        mTvForte = (TextView)findViewById(R.id.textView_forte);
+        mTvForte = (TextView) findViewById(R.id.textView_forte);
     }
 
     @Override
     public void addRegionView() {
-        mTvCountry = (TextView)findViewById(R.id.textView_country);
-        mTvProvince = (TextView)findViewById(R.id.textView_province);
-        mTvCity = (TextView)findViewById(R.id.textView_city);
+        mTvCountry = (TextView) findViewById(R.id.textView_country);
+        mTvProvince = (TextView) findViewById(R.id.textView_province);
+        mTvCity = (TextView) findViewById(R.id.textView_city);
     }
 
     @Override
@@ -198,15 +205,13 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void setGender(int genderIndex) {
-        if(genderIndex == 1){
+        if (genderIndex == 1) {
             mTvGender.setText(getString(R.string.male));
             mUser.gender = 1;
-        }
-        else if(genderIndex == 0){
+        } else if (genderIndex == 0) {
             mTvGender.setText(getString(R.string.female));
             mUser.gender = 0;
-        }
-        else{
+        } else {
             mTvGender.setText(getString(R.string.male));
             mUser.gender = 1;
         }
@@ -237,9 +242,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void setHobbies(String[] hobbies) {
-        if(hobbies.length>0){
+        if (hobbies.length > 0) {
             String str = hobbies[0];
-            for (int i=1; i<hobbies.length; i++){
+            for (int i = 1; i < hobbies.length; i++) {
                 str += "," + hobbies[i];
             }
             mTvHobby.setText(str);
@@ -251,9 +256,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void setForte(String[] forte) {
-        if(forte.length>0){
+        if (forte.length > 0) {
             String str = forte[0];
-            for (int i=1; i<forte.length; i++){
+            for (int i = 1; i < forte.length; i++) {
                 str += "," + forte[i];
             }
             mTvForte.setText(str);
@@ -265,15 +270,15 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void setRegion(String country, String province, String city) {
-        if(!TextUtils.isEmpty(country)){
+        if (!TextUtils.isEmpty(country)) {
             mTvCountry.setText(country);
             mUser.country = country;
         }
-        if(!TextUtils.isEmpty(province)){
+        if (!TextUtils.isEmpty(province)) {
             mTvProvince.setText(province);
             mUser.province = province;
         }
-        if(!TextUtils.isEmpty(city)){
+        if (!TextUtils.isEmpty(city)) {
             mTvCity.setText(city);
             mUser.city = city;
         }
@@ -288,5 +293,37 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void updateUser(User user) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case FROMCAMERA:
+                    startPhotoZoom(mUri);
+                    break;
+            }
+        }
+    }
+
+    private void startPhotoZoom(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // ÉèÖÃ²Ã¼ô
+        intent.putExtra("crop", "true");
+        // aspectX aspectY ÊÇ¿í¸ßµÄ±ÈÀý
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY ÊÇ²Ã¼ôÍ¼Æ¬¿í¸ß
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("scale", true);// ºÚ±ß
+        intent.putExtra("scaleUpIfNeeded", true);// ºÚ±ß
+        intent.putExtra("return-data", true);
+        File capturePath = new File(Utility.getTumccaImgPath(this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg");
+        mCropUri = Uri.fromFile(capturePath);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mCropUri);
+        startActivityForResult(intent, CROP_REQUEST_CODE);
     }
 }

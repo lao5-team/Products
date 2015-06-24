@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/corner_bordersmall_dialog"
+        android:layout_marginLeft="@dimen/dialogfragment_marginleft"
+        android:layout_marginRight="@dimen/dialogfragment_marginleft"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialogfragment_title_height"
+            android:text="@string/editphoto"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/pure_black"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#eeeeee"
+            />
+
+        <TextView
+            android:id="@+id/fromCamera"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="16dp"
+            android:text="从相机选择"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/fromGallery"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="16dp"
+            android:text="从图库选择"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
