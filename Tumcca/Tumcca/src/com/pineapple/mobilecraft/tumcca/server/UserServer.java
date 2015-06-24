@@ -9,8 +9,6 @@ import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -167,7 +165,7 @@ public class UserServer implements IUserServer{
     }
 
     @Override
-    public String logout(String uid, String token) {
+    public String logout(int uid, String token) {
         String url = mHost + "/api/sign-out";
         JSONObject jsonObject = new JSONObject();
         try {

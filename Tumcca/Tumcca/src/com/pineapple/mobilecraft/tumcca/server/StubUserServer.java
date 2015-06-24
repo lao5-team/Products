@@ -67,7 +67,7 @@ public class StubUserServer implements IUserServer {
 
 
     @Override
-    public String logout(String uid, String token) {
+    public String logout(int uid, String token) {
         return null;
     }
 

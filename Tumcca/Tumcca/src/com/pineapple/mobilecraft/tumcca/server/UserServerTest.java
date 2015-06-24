@@ -7,8 +7,6 @@ import com.pineapple.mobilecraft.shop.mediator.IShopEntryMediator;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.utils.PATextUtils;
 import junit.framework.Assert;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
 

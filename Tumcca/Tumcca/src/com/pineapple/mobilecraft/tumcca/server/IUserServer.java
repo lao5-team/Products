@@ -50,7 +50,7 @@ public interface IUserServer {
 
     public String updateUser(User user, String token);
 
-    public String logout(String uid, String token);
+    public String logout(int uid, String token);
 
     public boolean isEmailExist(String email);
 
