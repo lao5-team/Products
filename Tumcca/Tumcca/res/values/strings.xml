@@ -143,5 +143,7 @@
     <string name="edithobby">编辑您的爱好</string>
     <string name="editforte">编辑您的专长</string>
     <string name="editregion">编辑您的地区</string>
+    <string name="post_work">发送</string>
+    <string name="edit_description">编辑描述</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.mediator;
 
+import android.view.View;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
 
 import java.util.List;
@@ -9,15 +10,11 @@ import java.util.List;
  */
 public interface ICalligraphyCreate {
 
-    public void addTitleView();
+    public void addDescribeView(View view);
 
-    public void addDescribeView();
+    public void addPictureChooseView(View view);
 
-    public void addCreatorView();
-
-    public void addPictureChooseView();
-
-    public void addPictureDisplayView();
+    public void addPictureDisplayView(View view);
 
     public void setPictures(List<Picture> pictureList);
 
