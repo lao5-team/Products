@@ -11,6 +11,7 @@ import android.view.*;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.Utility.Utility;
+import com.pineapple.mobilecraft.util.logic.ImgFileListActivity;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -18,14 +19,22 @@ import java.io.File;
 /**
  * Created by jiankun on 2015/6/24.
  */
-public class UserInfoPhotoChoose extends DialogFragment implements View.OnClickListener {
+public class PhotoChoose extends DialogFragment implements View.OnClickListener {
 
-
+    public static final int FROMCAMERA = 0;
+    public static final int FROMGALLERY = 1;
 
     private TextView mTvFromCamera;
     private TextView mTvFromGallery;
+    private Uri mUri;
 
+    public PhotoChoose(){
+        mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + "Temp.jpg"));
+    }
 
+    public void setUri(Uri uri){
+        mUri = uri;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +78,7 @@ public class UserInfoPhotoChoose extends DialogFragment implements View.OnClickL
             int h = getDialog().getWindow().getAttributes().height;
 
             getDialog().getWindow().setLayout(w, h);
+
         }
     }
 
@@ -77,14 +87,18 @@ public class UserInfoPhotoChoose extends DialogFragment implements View.OnClickL
         switch (view.getId()) {
             case R.id.fromCamera:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                ((UserInfoActivity)getActivity()).mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, ((UserInfoActivity) getActivity()).mUri);
+                //((UserInfoActivity)getActivity()).mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-                getActivity().startActivityForResult(intent, UserInfoActivity.FROMCAMERA);
+                getActivity().startActivityForResult(intent, FROMCAMERA);
                 break;
             case R.id.fromGallery:
-
+                intent = new Intent();
+                intent.setClass(getActivity(), ImgFileListActivity.class);
+                getActivity().startActivityForResult(intent, FROMGALLERY);
                 break;
         }
+
+        dismiss();
     }
 }

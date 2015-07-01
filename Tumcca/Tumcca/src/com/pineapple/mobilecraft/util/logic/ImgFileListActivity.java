@@ -18,7 +18,8 @@ import com.pineapple.mobilecraft.R;
 
 public class ImgFileListActivity extends Activity implements OnItemClickListener{
 
-	public static int REQUEST_CODE_IMGS = 0;
+	//imgpath
+	public static int REQUEST_CODE_IMGS = 1;
 	ListView listView;
 	Util util;
 	ImgFileListAdapter listAdapter;
@@ -36,7 +37,7 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
 			bitmap=new Bitmap[locallist.size()];
 			for (int i = 0; i < locallist.size(); i++) {
 				HashMap<String, String> map=new HashMap<String, String>();
-				map.put("filecount", locallist.get(i).filecontent.size()+"��");
+				map.put("filecount", locallist.get(i).filecontent.size()+"个文件");
 				map.put("imgpath", locallist.get(i).filecontent.get(0)==null?null:(locallist.get(i).filecontent.get(0)));
 				map.put("filename", locallist.get(i).filename);
 				listdata.add(map);
@@ -62,10 +63,18 @@ public class ImgFileListActivity extends Activity implements OnItemClickListener
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == REQUEST_CODE_IMGS)
 		{
-			Bundle bundle= data.getExtras();
-			Intent intent = new Intent();
-			intent.putExtras(bundle);
-			setResult(RESULT_OK, intent);
+			if(null!=data){
+				Bundle bundle= data.getExtras();
+				Intent intent = new Intent();
+				intent.putExtras(bundle);
+				setResult(RESULT_OK, intent);
+			}
+			else{
+				setResult(RESULT_CANCELED, null);
+			}
+
+
+
 			finish();
 
 		}

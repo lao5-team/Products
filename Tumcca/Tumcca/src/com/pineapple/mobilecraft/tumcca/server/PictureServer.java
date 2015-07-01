@@ -10,7 +10,7 @@ import java.io.File;
  * Created by yihao on 15/6/12.
  */
 public class PictureServer {
-
+    public static final int INVALID_PICTURE_ID = -1;
     private static PictureServer mInstance = null;
     private final String mHost = "http://120.26.202.114";
     public static PictureServer getInstance(){
@@ -32,13 +32,13 @@ public class PictureServer {
                     e.printStackTrace();
                 }
 
-                return -1;
+                return INVALID_PICTURE_ID;
             }
         };
         return post.execute("works", file);
     }
 
-    public String getPicture(String token, String id){
+    public String getPicture(int id){
 
         return  mHost + "/api/pictures/download/" + id;
     }

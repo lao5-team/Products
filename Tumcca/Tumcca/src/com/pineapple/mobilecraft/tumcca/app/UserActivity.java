@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -22,9 +23,9 @@ public class UserActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
-        final ActionBar mActionBar = getActionBar();
+        //final ActionBar mActionBar = getActionBar();
         setContentView(R.layout.activity_user);
         addTabView();
 
@@ -44,12 +45,12 @@ public class UserActivity extends FragmentActivity {
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
-                return new Fragment();
+                return TestFragment.newInstance(getResources().getStringArray(R.array.user_activity_tabs)[i]);
             }
 
             @Override
             public int getCount() {
-                return 6;
+                return 7;
             }
 
             @Override
@@ -64,28 +65,30 @@ public class UserActivity extends FragmentActivity {
     public void addUserView(){
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_user_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.activity_user_menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//        /*
+//         * 将actionBar的HomeButtonEnabled设为ture，
+//         *
+//         * 将会执行此case
+//         */
+//            case R.id.account_settings:
+//                UserInfoActivity.startActivity(UserActivity.this);
+//                break;
+//            // 其他省略...
+//            default:
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        /*
-         * 将actionBar的HomeButtonEnabled设为ture，
-         *
-         * 将会执行此case
-         */
-            case R.id.account_settings:
-                UserInfoActivity.startActivity(UserActivity.this);
-                break;
-            // 其他省略...
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 }

@@ -81,6 +81,7 @@ public class ImgsActivity extends Activity {
 		imageView.setBackgroundResource(R.drawable.imgbg);
 		float alpha=100;
 		imageView.setAlpha(alpha);
+
 		util.imgExcute(imageView, imgCallBack, filepath);
 		imageView.setOnClickListener(new ImgOnclick(filepath,checkBox));
 		return imageView;
@@ -104,7 +105,7 @@ public class ImgsActivity extends Activity {
 		public void onClick(View arg0) {
 			checkBox.setChecked(false);
 			select_layout.removeView(arg0);
-			choise_button.setText("��ѡ��("+select_layout.getChildCount()+")��");
+			choise_button.setText("已选择"+select_layout.getChildCount()+"张图片");
 			filelist.remove(filepath);
 		}
 	}
@@ -117,7 +118,7 @@ public class ImgsActivity extends Activity {
 				checkBox.setChecked(false);
 				select_layout.removeView(hashImage.get(Position));
 				filelist.remove(filapath);
-				choise_button.setText("��ѡ��("+select_layout.getChildCount()+")��");
+				choise_button.setText("已选择"+select_layout.getChildCount()+"张图片");
 			}else {
 				try {
 					checkBox.setChecked(true);
@@ -127,7 +128,7 @@ public class ImgsActivity extends Activity {
 						hashImage.put(Position, imageView);
 						filelist.add(filapath);
 						select_layout.addView(imageView);
-						choise_button.setText("��ѡ��("+select_layout.getChildCount()+")��");
+						choise_button.setText("已选择"+select_layout.getChildCount()+"张图片");
 					}
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();

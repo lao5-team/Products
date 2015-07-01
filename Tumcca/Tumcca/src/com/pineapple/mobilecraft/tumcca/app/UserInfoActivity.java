@@ -13,10 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.Utility.Utility;
-import com.pineapple.mobilecraft.tumcca.data.User;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.mediator.IUserInfo;
-import com.squareup.picasso.Picasso;
-import org.xbill.DNS.RelativeNameException;
 
 import java.io.File;
 
@@ -25,8 +23,7 @@ import java.io.File;
  */
 public class UserInfoActivity extends FragmentActivity implements IUserInfo, View.OnClickListener {
 
-    public static final int FROMCAMERA = 0;
-    public static final int FROMGALLERY = 1;
+
     public static final int CROP_REQUEST_CODE = 2;
 
     private RelativeLayout avatarLay;
@@ -50,7 +47,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private UserInfoGender mUserInfoGender;
 
 
-    private UserInfoPhotoChoose userInfoPhotoChoose;
+    private PhotoChoose userInfoPhotoChoose;
     private UserInfoPhone userInfoPhone;
     private UserInfoEmail userInfoEmail;
     private UserInfoPseudonym userInfoPseudonym;
@@ -61,7 +58,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private TextView mTvCountry;
     private TextView mTvProvince;
     private TextView mTvCity;
-    private User mUser;
+    private Profile mProfile;
 
     public Uri mUri;
     public Uri mCropUri;
@@ -114,7 +111,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         switch (view.getId()) {
             case R.id.avatarLay:
                 if (userInfoPhotoChoose == null) {
-                    userInfoPhotoChoose = new UserInfoPhotoChoose();
+                    userInfoPhotoChoose = new PhotoChoose();
+                    mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+                    userInfoPhotoChoose.setUri(mUri);
                 }
                 userInfoPhotoChoose.show(getSupportFragmentManager(), "UserInfoPhotoChoose");
                 break;
@@ -199,44 +198,44 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void setAvatar(int avatarId) {
         //Picasso.with(this).load(imgUrl).into(mIvAvatar);
-        mUser.avatar = avatarId;
-        updateUser(mUser);
+        mProfile.avatar = avatarId;
+        updateUser(mProfile);
     }
 
     @Override
     public void setGender(int genderIndex) {
         if (genderIndex == 1) {
             mTvGender.setText(getString(R.string.male));
-            mUser.gender = 1;
+            mProfile.gender = 1;
         } else if (genderIndex == 0) {
             mTvGender.setText(getString(R.string.female));
-            mUser.gender = 0;
+            mProfile.gender = 0;
         } else {
             mTvGender.setText(getString(R.string.male));
-            mUser.gender = 1;
+            mProfile.gender = 1;
         }
-        updateUser(mUser);
+        updateUser(mProfile);
     }
 
     @Override
     public void setPseudonym(String pseudonym) {
         mTvPseudonym.setText(pseudonym);
-        mUser.pseudonym = pseudonym;
-        updateUser(mUser);
+        mProfile.pseudonym = pseudonym;
+        updateUser(mProfile);
     }
 
     @Override
     public void setTitle(String title) {
         mTvTitle.setText(title);
-        mUser.title = title;
-        updateUser(mUser);
+        mProfile.title = title;
+        updateUser(mProfile);
     }
 
     @Override
     public void setIntro(String intro) {
         mTvIntro.setText(intro);
-        mUser.introduction = intro;
-        updateUser(mUser);
+        mProfile.introduction = intro;
+        updateUser(mProfile);
 
     }
 
@@ -248,8 +247,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                 str += "," + hobbies[i];
             }
             mTvHobby.setText(str);
-            mUser.hobbies = str;
-            updateUser(mUser);
+            mProfile.hobbies = str;
+            updateUser(mProfile);
         }
 
     }
@@ -262,8 +261,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                 str += "," + forte[i];
             }
             mTvForte.setText(str);
-            mUser.forte = str;
-            updateUser(mUser);
+            mProfile.forte = str;
+            updateUser(mProfile);
         }
 
     }
@@ -272,26 +271,26 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     public void setRegion(String country, String province, String city) {
         if (!TextUtils.isEmpty(country)) {
             mTvCountry.setText(country);
-            mUser.country = country;
+            mProfile.country = country;
         }
         if (!TextUtils.isEmpty(province)) {
             mTvProvince.setText(province);
-            mUser.province = province;
+            mProfile.province = province;
         }
         if (!TextUtils.isEmpty(city)) {
             mTvCity.setText(city);
-            mUser.city = city;
+            mProfile.city = city;
         }
-        updateUser(mUser);
+        updateUser(mProfile);
     }
 
     @Override
-    public void setUser(User user) {
-        mUser = user;
+    public void setUser(Profile profile) {
+        mProfile = profile;
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(Profile profile) {
 
     }
 
@@ -300,7 +299,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case FROMCAMERA:
+                case PhotoChoose.FROMCAMERA:
                     startPhotoZoom(mUri);
                     break;
             }
@@ -310,16 +309,16 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-        // ÉèÖÃ²Ã¼ô
+        // ï¿½ï¿½ï¿½Ã²Ã¼ï¿½
         intent.putExtra("crop", "true");
-        // aspectX aspectY ÊÇ¿í¸ßµÄ±ÈÀý
+        // aspectX aspectY ï¿½Ç¿ï¿½ßµÄ±ï¿½ï¿½ï¿½
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        // outputX outputY ÊÇ²Ã¼ôÍ¼Æ¬¿í¸ß
+        // outputX outputY ï¿½Ç²Ã¼ï¿½Í¼Æ¬ï¿½ï¿½ï¿½
         intent.putExtra("outputX", 150);
         intent.putExtra("outputY", 150);
-        intent.putExtra("scale", true);// ºÚ±ß
-        intent.putExtra("scaleUpIfNeeded", true);// ºÚ±ß
+        intent.putExtra("scale", true);// ï¿½Ú±ï¿½
+        intent.putExtra("scaleUpIfNeeded", true);// ï¿½Ú±ï¿½
         intent.putExtra("return-data", true);
         File capturePath = new File(Utility.getTumccaImgPath(this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg");
         mCropUri = Uri.fromFile(capturePath);

@@ -1,7 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.mediator;
 
-import android.graphics.Bitmap;
-import com.pineapple.mobilecraft.tumcca.data.User;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
 
 /**
  * Created by yihao on 15/6/3.
@@ -39,9 +38,9 @@ public interface IUserInfo {
 
     public void setRegion(String country, String province, String city);
 
-    public void setUser(User user);
+    public void setUser(Profile profile);
 
-    public void updateUser(User user);
+    public void updateUser(Profile profile);
 
 
 

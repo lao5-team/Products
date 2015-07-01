@@ -3,7 +3,7 @@ package com.pineapple.mobilecraft.tumcca.server;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.pineapple.mobilecraft.tumcca.data.Account;
-import com.pineapple.mobilecraft.tumcca.data.User;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
 
 /**
  * Created by yihao on 15/5/26.
@@ -46,9 +46,9 @@ public interface IUserServer {
 
     public LoginResult login(String username, String password);
 
-    public User getUser(String uid, String token);
+    public Profile getUser(String uid, String token);
 
-    public String updateUser(User user, String token);
+    public String updateUser(Profile profile, String token);
 
     public String logout(int uid, String token);
 

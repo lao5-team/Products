@@ -4,20 +4,20 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent">
-        <ImageView
-                android:layout_width="48dip"
-                android:layout_height="48dip"
-                android:id="@+id/imageView_avatar" android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dip" android:layout_marginBottom="15dip"
-                android:src="@drawable/avatar_samle"/>
-    </RelativeLayout>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="易昊"
-            android:id="@+id/textView_username" android:layout_gravity="center_horizontal" android:textSize="20sp"
-            android:layout_marginBottom="20dip"/>
+    <!--<RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent">-->
+        <!--<ImageView-->
+                <!--android:layout_width="48dip"-->
+                <!--android:layout_height="48dip"-->
+                <!--android:id="@+id/imageView_avatar" android:layout_centerHorizontal="true"-->
+                <!--android:layout_marginTop="15dip" android:layout_marginBottom="15dip"-->
+                <!--android:src="@drawable/avatar_samle"/>-->
+    <!--</RelativeLayout>-->
+    <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="易昊"-->
+            <!--android:id="@+id/textView_username" android:layout_gravity="center_horizontal" android:textSize="20sp"-->
+            <!--android:layout_marginBottom="20dip"/>-->
     <view android:layout_width="match_parent"
           android:layout_height="wrap_content"
           class="com.viewpagerindicator.TabPageIndicator" android:id="@+id/view_tab"/>

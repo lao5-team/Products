@@ -85,8 +85,8 @@ public class TreasureCreateActivity extends Activity implements ITreasureCreateM
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setClass(TreasureCreateActivity.this,ImgFileListActivity.class);
-				startActivityForResult(intent, REQUEST_CODE_IMGS);
+                intent.setClass(TreasureCreateActivity.this,ImgFileListActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_IMGS);
 			}
 		});
 

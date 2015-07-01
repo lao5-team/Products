@@ -1,7 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.server;
 
 import com.pineapple.mobilecraft.tumcca.data.Account;
-import com.pineapple.mobilecraft.tumcca.data.User;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
 
 /**
  * Created by yihao on 15/5/26.
@@ -17,8 +17,8 @@ public class StubUserServer implements IUserServer {
 
     private Account mAnotherAccount = null;
 
-    private User mTestUser;
-    private User mAnotherUser;
+    private Profile mTestProfile;
+    private Profile mAnotherProfile;
 
     @Override
     public void sendPhoneCheckCode(String phoneNumber) {
@@ -56,12 +56,12 @@ public class StubUserServer implements IUserServer {
     }
 
     @Override
-    public User getUser(String uid, String token) {
+    public Profile getUser(String uid, String token) {
         return null;
     }
 
     @Override
-    public String updateUser(User user, String token) {
+    public String updateUser(Profile profile, String token) {
         return null;
     }
 

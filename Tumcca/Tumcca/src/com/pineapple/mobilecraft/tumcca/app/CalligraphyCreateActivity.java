@@ -3,53 +3,55 @@ package com.pineapple.mobilecraft.tumcca.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.google.gson.Gson;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.app.TreasuresEntryFragment;
-import com.pineapple.mobilecraft.data.Treasure;
-import com.pineapple.mobilecraft.manager.TreasureManager;
-import com.pineapple.mobilecraft.manager.UserManager;
-import com.pineapple.mobilecraft.mediator.ITreasureCreateMediator;
-import com.pineapple.mobilecraft.server.BmobServerManager;
+import com.pineapple.mobilecraft.domain.User;
+import com.pineapple.mobilecraft.tumcca.Utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
+import com.pineapple.mobilecraft.tumcca.data.Works;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.ICalligraphyCreate;
-import com.pineapple.mobilecraft.util.logic.ImgFileListActivity;
+import com.pineapple.mobilecraft.tumcca.server.PictureServer;
+import com.pineapple.mobilecraft.tumcca.server.UserServer;
+import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.util.logic.ImgsActivity;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by yihao on 15/3/12.
  */
-public class CalligraphyCreateActivity extends Activity implements ICalligraphyCreate {
+public class CalligraphyCreateActivity extends FragmentActivity implements ICalligraphyCreate {
+    public static final int CROP_REQUEST_CODE = 2;
 
-    public static int REQUEST_CODE_IMGS = 0;
-    private Button mBtnCreate;
-    private Button mBtnCancel;
-    private EditText mEtxTitle;
-    private EditText mEtxDesc;
-    private ImageSwitcher mISImages;
-    private GridView mGvImages;
     private ArrayList<String> mImgFiles = new ArrayList<String>();
 
-    private String mDescribe;
+    private String mDescription;
     private PictureAdapter mPictureAdapter;
     private List<Picture> mListPicture = new ArrayList<Picture>();
-    private int PIC_MAX_COUNT = 5;
     private GridView mGVPictures;
+    private PhotoChoose mPhotoChoose;
+    private Uri mUri;
+    private boolean mIsTestMode = true;
+
+
 
     public static void startActivity(Activity activity, Fragment fragment){
         Intent intent = new Intent(activity, CalligraphyCreateActivity.class);
@@ -59,36 +61,35 @@ public class CalligraphyCreateActivity extends Activity implements ICalligraphyC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImgsActivity.ImagesReceiver = CalligraphyCreateActivity.class;
-        setContentView(R.layout.activity_create_work);
-        mGVPictures = (GridView)findViewById(R.id.gridView_picture);
-
-            String[] paths = {"Che-Guevara.jpg", "smallest.jpg", "test0.jpg", "smallest.jpg", "test0.jpg"};
-            //file:///android_asset/文件名"
-            for(String path:paths){
-                mListPicture.add(new Picture(null, "mnt/sdcard/test/" + path));
-                File file = new File("mnt/sdcard/test/" + path);
-                Log.v("Tumcca", file.exists() + "");
+        if(mIsTestMode)
+        {
+            UserManager.getInstance().login("999", "999");
+            UserServer.getInstance().uploadProfile(UserManager.getInstance().getCurrentToken(), Profile.createTestProfile());
+            Profile profile = UserServer.getInstance().getProfile(UserManager.getInstance().getCurrentToken());
+            if(profile == Profile.NULL){
+                Toast.makeText(CalligraphyCreateActivity.this, "请先完成用户信息填写", Toast.LENGTH_SHORT).show();
             }
 
+        }
+        ImgsActivity.ImagesReceiver = CalligraphyCreateActivity.class;
         mPictureAdapter = new PictureAdapter();
-        mGVPictures.setAdapter(mPictureAdapter);
-//        addDescView();
-//        addImgsView();
-//        mBtnCreate = (Button)findViewById(R.id.button_create);
-//        mBtnCreate.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                confirm();
-//            }
-//        });
-//        mBtnCancel = (Button)findViewById(R.id.button_cancel);
-//        mBtnCancel.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                cancel();
-//            }
-//        });
+        mPhotoChoose = new PhotoChoose();
+        setContentView(R.layout.activity_create_work);
+        mGVPictures = (GridView)findViewById(R.id.gridView_picture);
+        addPictureDisplayView(mGVPictures);
+
+        EditText etxDesc = (EditText)findViewById(R.id.editText_description);
+        addDescribeView(etxDesc);
+
+        Button btnSubmit = (Button)findViewById(R.id.button_submit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
+
+
     }
 
 
@@ -108,7 +109,7 @@ public class CalligraphyCreateActivity extends Activity implements ICalligraphyC
 
             @Override
             public void afterTextChanged(Editable s) {
-                mDescribe = s.toString();
+                mDescription = s.toString();
             }
         });
     }
@@ -116,7 +117,16 @@ public class CalligraphyCreateActivity extends Activity implements ICalligraphyC
 
     @Override
     public void addPictureChooseView(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPhotoChoose = new PhotoChoose();
+                mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(CalligraphyCreateActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+                mPhotoChoose.setUri(mUri);
+                mPhotoChoose.show(getSupportFragmentManager(), "WorksPhotoChoose");
 
+            }
+        });
     }
 
     @Override
@@ -132,7 +142,29 @@ public class CalligraphyCreateActivity extends Activity implements ICalligraphyC
 
     @Override
     public void submit() {
-
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String token = UserManager.getInstance().getCurrentToken();
+                int pictureId = -1;
+                Works works = new Works();
+                for(Picture picture:mListPicture){
+                    pictureId = PictureServer.getInstance().uploadPicture(token, new File(picture.localPath));
+                    if(PictureServer.INVALID_PICTURE_ID!=pictureId){
+                        works.pictures.add(pictureId);
+                    }
+                }
+                works.description = mDescription;
+                if(mIsTestMode){
+                    works.category = 1;
+                    works.albumId = 0;
+                    //works.title = "test";
+                }
+                int id = WorksServer.uploadWorks(token, works);
+                showResult(id!=WorksServer.INVALID_WORKS_ID);
+            }
+        });
+        t.start();
     }
 
     @Override
@@ -145,17 +177,87 @@ public class CalligraphyCreateActivity extends Activity implements ICalligraphyC
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_IMGS)
+        if(requestCode == PhotoChoose.FROMGALLERY&&resultCode == RESULT_OK)
         {
             Bundle bundle = data.getExtras();
             mImgFiles = bundle.getStringArrayList("files");
-            BaseAdapter adapter = (BaseAdapter)mGvImages.getAdapter();
+            for(String path:mImgFiles){
+                mListPicture.add(new Picture(null, path));
+            }
+            BaseAdapter adapter = (BaseAdapter)mGVPictures.getAdapter();
+
+            mGVPictures.requestFocus();
+            mGVPictures.invalidate();
             adapter.notifyDataSetChanged();
+
+        }
+        if(requestCode == PhotoChoose.FROMCAMERA){
+            startPhotoZoom(mUri);
+        }
+        if(requestCode == CROP_REQUEST_CODE){
+            Bundle extras = data.getExtras();
+            if(extras != null ) {
+                Bitmap photo = extras.getParcelable("data");
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.JPEG, 75, stream);
+                //将流写入文件或者直接使用
+                FileOutputStream fos = null;
+                try {
+                    String localPath = Utility.getTumccaImgPath(CalligraphyCreateActivity.this) + "/" + mListPicture.size() + ".jpg";
+                    fos = new FileOutputStream(localPath);
+                    try {
+                        fos.write(stream.toByteArray());
+                        fos.close();
+                        mListPicture.add(new Picture(null, localPath));
+                        PictureAdapter adapter = (PictureAdapter)mGVPictures.getAdapter();
+
+                        mGVPictures.requestFocus();
+                        mGVPictures.invalidate();
+                        adapter.notifyDataSetChanged();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            }
 
         }
     }
 
-    private class PictureAdapter implements ListAdapter{
+    private void showResult(final boolean result){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(result){
+                    Toast.makeText(CalligraphyCreateActivity.this, "作品发布成功", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(CalligraphyCreateActivity.this, "作品发布失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void startPhotoZoom(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("scale", true);
+        intent.putExtra("scaleUpIfNeeded", true);
+        intent.putExtra("return-data", true);
+        File capturePath = new File(Utility.getTumccaImgPath(this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg");
+        Uri cropUri = Uri.fromFile(capturePath);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, cropUri);
+        startActivityForResult(intent, CROP_REQUEST_CODE);
+    }
+
+    private class PictureAdapter extends BaseAdapter{
 
         /**
          * Indicates whether all the items in this adapter are enabled. If the
@@ -187,26 +289,7 @@ public class CalligraphyCreateActivity extends Activity implements ICalligraphyC
             return false;
         }
 
-        /**
-         * Register an observer that is called when changes happen to the data used by this adapter.
-         *
-         * @param observer the object that gets notified when the data set changes.
-         */
-        @Override
-        public void registerDataSetObserver(DataSetObserver observer) {
 
-        }
-
-        /**
-         * Unregister an observer that has previously been registered with this
-         * adapter via {@link #registerDataSetObserver}.
-         *
-         * @param observer the object to unregister.
-         */
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver observer) {
-
-        }
 
         /**
          * How many items are in the data set represented by this Adapter.
@@ -289,7 +372,17 @@ public class CalligraphyCreateActivity extends Activity implements ICalligraphyC
 
             } else {
                 ImageView imageView = (ImageView) layout.findViewById(R.id.imageView_picture);
-                Picasso.with(CalligraphyCreateActivity.this).load(new File(mListPicture.get(position-1).localPath)).into(imageView);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(mListPicture.get(position - 1).localPath, options);
+
+                int inSampleSize = options.outHeight*options.outHeight/(item_width*item_width);
+                options = new  BitmapFactory.Options();
+                options.inSampleSize = inSampleSize;
+                //imageView.setImageBitmap(BitmapFactory.decodeFile(mListPicture.get(position - 1).localPath, options));
+
+                //imageView.setImageDrawable(new BitmapDrawable());
+                Picasso.with(CalligraphyCreateActivity.this).load(new File(mListPicture.get(position - 1).localPath)).resize(item_width, item_width).centerCrop().into(imageView);
             }
             return layout;
         }

@@ -2,17 +2,11 @@ package com.pineapple.mobilecraft.tumcca.manager;
 
 import android.text.TextUtils;
 import android.util.Base64;
-import com.easemob.chat.EMChatManager;
-import com.easemob.exceptions.EaseMobException;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.cache.temp.JSONCache;
-import com.pineapple.mobilecraft.data.DbOpenHelper;
 import com.pineapple.mobilecraft.data.MyUser;
-import com.pineapple.mobilecraft.data.message.TreasureMessage;
-import com.pineapple.mobilecraft.server.BmobServerManager;
-import com.pineapple.mobilecraft.server.MyServerManager;
 import com.pineapple.mobilecraft.tumcca.data.Account;
-import com.pineapple.mobilecraft.tumcca.data.User;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import junit.framework.Assert;
@@ -110,9 +104,9 @@ public class UserManager {
 	 * @param userName
 	 * @return
 	 */
-	public User getUser(String userName)
+	public Profile getUser(String userName)
 	{
-		return User.NULL;
+		return Profile.NULL;
 	}
 
 	public Account getAccount(String userName){
@@ -120,9 +114,9 @@ public class UserManager {
 	}
 	
 	/**更新一个已经存在的用户信息
-	 * @param user
+	 * @param profile
 	 */
-	public void updateUser(User user)
+	public void updateUser(Profile profile)
 	{
 	}
 
@@ -131,7 +125,7 @@ public class UserManager {
 		return new ArrayList<MyUser>();
 	}
 
-	public void updateUserList(List<User> userList){
+	public void updateUserList(List<Profile> profileList){
 
 	}
 
@@ -196,6 +190,10 @@ public class UserManager {
 			}
 		}
 		return username;
+	}
+
+	public String getCurrentToken(){
+		return mCurrentToken;
 	}
 
 	private UserManager(){

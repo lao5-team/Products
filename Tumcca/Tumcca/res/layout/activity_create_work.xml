@@ -2,41 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent" android:background="@color/btn_gray_normal">
 
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp" android:layout_weight="1">
+            android:layout_height="0dp" android:layout_weight="1" android:background="@color/gray_normal">
         <ImageView
                 android:layout_width="32dip"
                 android:layout_height="32dip"
-                android:id="@+id/imageView2" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" android:layout_margin="10dp"/>
+                android:id="@+id/imageView_back"  android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" android:layout_margin="10dp"
+                android:background="@drawable/back" android:layout_centerVertical="true" android:clickable="true"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/post_work"
-                android:id="@+id/button4" android:layout_alignParentRight="true"
-                android:layout_margin="5dip"/>
+                android:id="@+id/button_submit" android:layout_alignParentRight="true"
+                android:layout_margin="15dip" android:layout_centerVertical="true" style="@style/my_button_style"
+                android:textSize="@dimen/text_size_normal"/>
     </RelativeLayout>
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dip" android:layout_weight="2">
+            android:layout_height="wrap_content"
+            android:background="@drawable/corner_border_dialog" android:layout_marginBottom="0dip"
+            android:layout_marginLeft="15dip" android:layout_marginTop="15dip" android:layout_marginRight="15dip"
+            android:focusable="true" android:focusableInTouchMode="true">
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText_description" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" android:hint="@string/edit_description"
-                android:textAlignment="center"/>
+                android:textAlignment="center" style="@style/my_edittext_style" android:padding="10dip"
+                />
     </RelativeLayout>
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp" android:layout_weight="5" >
+            android:layout_height="0dp" android:layout_weight="3" android:background="@drawable/corner_border_dialog"
+            android:layout_marginTop="10dip" android:layout_marginLeft="15dip" android:layout_marginRight="15dip"
+            android:layout_marginBottom="15dip">
         <GridView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/gridView_picture" android:layout_alignParentTop="false" android:layout_alignParentLeft="false"
                 android:layout_alignParentStart="false" android:columnWidth="3dp" android:numColumns="3"
                 android:choiceMode="multipleChoice"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip" android:layout_weight="2" android:background="@drawable/corner_border_dialog"
+            android:layout_marginLeft="15dip" android:layout_marginRight="15dip" android:layout_marginBottom="15dip">
+        <ImageView
+                android:layout_width="64dip"
+                android:layout_height="64dip"
+                android:id="@+id/imageView_album" android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" android:layout_marginLeft="20dp"
+                android:layout_marginStart="43dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="创建专辑"
+                android:id="@+id/textView_album" android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView_album" android:layout_toEndOf="@+id/imageView_album"
+                android:textSize="@dimen/text_size_large" android:layout_marginLeft="10dip"/>
     </RelativeLayout>
 </LinearLayout>

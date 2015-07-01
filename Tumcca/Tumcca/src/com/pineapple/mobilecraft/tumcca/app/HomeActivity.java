@@ -11,15 +11,16 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import com.huewu.pla.lib.MultiColumnListView;
-import com.huewu.pla.lib.MultiColumnPullToRefreshListView;
-import com.huewu.pla.lib.internal.PLA_AdapterView;
-import com.huewu.pla.sample.WaterfallAdapter;
+//import com.huewu.pla.lib.MultiColumnListView;
+//import com.huewu.pla.lib.MultiColumnPullToRefreshListView;
+//import com.huewu.pla.lib.internal.PLA_AdapterView;
+//import com.huewu.pla.sample.WaterfallAdapter;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IHome;
+import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.squareup.picasso.Picasso;
 import de.tavendo.autobahn.WebSocket;
 import de.tavendo.autobahn.WebSocketConnection;
@@ -43,7 +44,7 @@ public class HomeActivity extends FragmentActivity implements IHome{
     Button mBtnLogin = null;
     Button mBtnRegister = null;
     ImageView mIVAccount = null;
-    private MultiColumnPullToRefreshListView waterfallView;//可以把它当成�?��listView
+    //private MultiColumnPullToRefreshListView waterfallView;//可以把它当成�?��listView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,46 +74,18 @@ public class HomeActivity extends FragmentActivity implements IHome{
         t.start();
 
 
-        //mAdapterView = (MultiColumnListView)
-        waterfallView = (MultiColumnPullToRefreshListView) findViewById(R.id.list);
-//        ArrayList<String> imageList = new ArrayList<String>();
-//        imageList.add("http://www.ziweizhai.cn/upimg/allimg/100608/1_100608093822_1.jpg");
-//        imageList.add("http://pic12.nipic.com/20101231/49928_001443509114_2.jpg");
-//        imageList.add("http://www.hihey.com/images/201211/goods_img/6209_P_1353042334002.jpg");
-//        imageList.add("http://www.yuebaozhai.net/upFile/pic/2012_9_22_356953.jpg");
-//        imageList.add("http://img25.artxun.com/sdd/oldimg/5d2e/5d2ecd6cd032e503256b9ce433496311.jpg");
-//        imageList.add("http://www.daqiangallery.com.cn/uploadfile/2010213121920wuzhongqi.jpg");
-//        imageList.add("http://ctc.cuepa.cn/newspic/332981/s_fc03d461e6d5a071e15558ad34df76d6182099.jpg");
-//        WaterfallAdapter adapter = new WaterfallAdapter(imageList, this);
-//        waterfallView.setAdapter(adapter);
-//        waterfallView.setOnRefreshListener(new MultiColumnPullToRefreshListView.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                // TODO Auto-generated method stub
-//                //下拉刷新要做的事
-//
-//                //刷新完成后记得调用这�?
-//                waterfallView.onRefreshComplete();
-//            }
-//        });
+        //waterfallView = (MultiColumnPullToRefreshListView) findViewById(R.id.list);
 
         ArrayList<Works> workList = new ArrayList<Works>();
-        workList.add(new Works("http://www.ziweizhai.cn/upimg/allimg/100608/1_100608093822_1.jpg"));
-        workList.add(new Works("http://pic12.nipic.com/20101231/49928_001443509114_2.jpg"));
-        workList.add(new Works("http://www.hihey.com/images/201211/goods_img/6209_P_1353042334002.jpg"));
-        workList.add(new Works("http://www.yuebaozhai.net/upFile/pic/2012_9_22_356953.jpg"));
-        workList.add(new Works("http://img25.artxun.com/sdd/oldimg/5d2e/5d2ecd6cd032e503256b9ce433496311.jpg"));
-        workList.add(new Works("http://www.daqiangallery.com.cn/uploadfile/2010213121920wuzhongqi.jpg"));
-        workList.add(new Works("http://ctc.cuepa.cn/newspic/332981/s_fc03d461e6d5a071e15558ad34df76d6182099.jpg"));
         WorksAdapter worksAdapter = new WorksAdapter(workList, this);
-        waterfallView.setAdapter(worksAdapter);
-        waterfallView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(HomeActivity.this, PictureDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+        //waterfallView.setAdapter(worksAdapter);
+        //waterfallView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(HomeActivity.this, PictureDetailActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
 
@@ -311,7 +284,7 @@ public class HomeActivity extends FragmentActivity implements IHome{
         }
     }
 
-    private MultiColumnListView mAdapterView = null;
+    //private MultiColumnListView mAdapterView = null;
     private MySimpleAdapter mAdapter = null;
 
     private class WorksAdapter extends BaseAdapter{
@@ -389,8 +362,8 @@ public class HomeActivity extends FragmentActivity implements IHome{
             View view = layoutInflater.inflate(R.layout.item_works, null);
 
             ImageView iv = (ImageView)view.findViewById(R.id.imageView_picture);
-            Picasso.with(mContext).load(mWorksList.get(position).mPicUrl).into(iv);
-            File file = new File("mnt/sdcard/Tumcca/" + mWorksList.get(position).mPicUrl);
+            Picasso.with(mContext).load(PictureServer.getInstance().getPicture(mWorksList.get(position).pictures.get(0))).into(iv);
+            File file = new File("mnt/sdcard/Tumcca/" + mWorksList.get(position).pictures.get(0));
             try {
                 FileOutputStream fos = new FileOutputStream(file);
                 ((BitmapDrawable)iv.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);

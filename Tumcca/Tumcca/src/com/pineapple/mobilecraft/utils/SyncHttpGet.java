@@ -22,6 +22,11 @@ import java.util.concurrent.Future;
  * Created by yihao on 15/6/5.
  */
 public abstract class SyncHttpGet<T> extends SyncHTTPCaller<T> {
+    /**
+     *
+     * @param URL
+     * @param token
+     */
     public SyncHttpGet(String URL, String token) {
         super(URL, token);
     }
@@ -40,10 +45,8 @@ public abstract class SyncHttpGet<T> extends SyncHTTPCaller<T> {
                 HttpResponse httpResponse;
                 try {
                     httpResponse = new DefaultHttpClient().execute(get);
-                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                        String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
-                        result = postExcute(str);
-                    }
+                    String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+                    result = postExcute(str);
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

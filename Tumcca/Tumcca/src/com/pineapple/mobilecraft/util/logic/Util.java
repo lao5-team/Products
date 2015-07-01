@@ -25,10 +25,7 @@ public class Util {
 		this.context=context;
 	}
 	
-	/**
-	 * ��ȡȫ��ͼƬ��ַ
-	 * @return
-	 */
+
 	public ArrayList<String>  listAlldir(){
     	Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
     	Uri uri = intent.getData();
@@ -75,40 +72,23 @@ public class Util {
 		return data;
 	}
 	
-	//��ʾԭ��ͼƬ�ߴ��С
 	public Bitmap getPathBitmap(Uri imageFilePath,int dw,int dh)throws FileNotFoundException{
-		//��ȡ��Ļ�Ŀ�͸�  
-        /** 
-         * Ϊ�˼������ŵı���������Ҫ��ȡ���ͼƬ�ĳߴ磬����ͼƬ 
-         * BitmapFactory.Options������һ�������ͱ���inJustDecodeBounds����������Ϊtrue 
-         * �������ǻ�ȡ���ľ���ͼƬ�ĳߴ磬���ü���ͼƬ�ˡ� 
-         * �������������ֵ��ʱ�����ǽ��žͿ��Դ�BitmapFactory.Options��outWidth��outHeight�л�ȡ��ֵ 
-         */  
-        BitmapFactory.Options op = new BitmapFactory.Options();  
+        BitmapFactory.Options op = new BitmapFactory.Options();
         op.inJustDecodeBounds = true;  
-        //����ʹ����MediaStore�洢��������URI��ȡ����������ʽ    
-        Bitmap pic = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(imageFilePath),  
+        Bitmap pic = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(imageFilePath),
                 null, op);
         
-        int wRatio = (int) Math.ceil(op.outWidth / (float) dw); //�����ȱ���  
-        int hRatio = (int) Math.ceil(op.outHeight / (float) dh); //����߶ȱ���
+        int wRatio = (int) Math.ceil(op.outWidth / (float) dw);
+        int hRatio = (int) Math.ceil(op.outHeight / (float) dh);
         
-        /** 
-         * �����������Ǿ���Ҫ�ж��Ƿ���Ҫ�����Լ����׶Կ?�Ǹ߽������š� 
-         * ���ߺͿ?��ȫ����������Ļ����ô�������š� 
-         * ���ߺͿ?��������Ļ��С�������ѡ�������ء� 
-         * ����Ҫ�ж�wRatio��hRatio�Ĵ�С 
-         * ���һ���������ţ���Ϊ���Ŵ��ʱ��С��Ӧ���Զ�����ͬ�������š� 
-         * ����ʹ�õĻ���inSampleSize���� 
-         */  
-        if (wRatio > 1 && hRatio > 1) {  
+        if (wRatio > 1 && hRatio > 1) {
             if (wRatio > hRatio) {  
                 op.inSampleSize = wRatio;  
             } else {  
                 op.inSampleSize = hRatio;  
             }  
         }  
-        op.inJustDecodeBounds = false; //ע�����һ��Ҫ����Ϊfalse����Ϊ�������ǽ�������Ϊtrue����ȡͼƬ�ߴ���  
+        op.inJustDecodeBounds = false;
         pic = BitmapFactory.decodeStream(context.getContentResolver()  
                 .openInputStream(imageFilePath), null, op);  
         

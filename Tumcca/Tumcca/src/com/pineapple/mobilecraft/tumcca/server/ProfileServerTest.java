@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
 /**
  * Created by yihao on 15/6/6.
  */
-public class UserServerTest extends AndroidTestCase{
+public class ProfileServerTest extends AndroidTestCase{
     UserServer mUserServer;
 
     @Override

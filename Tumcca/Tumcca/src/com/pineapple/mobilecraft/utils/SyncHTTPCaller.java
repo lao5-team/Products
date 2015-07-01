@@ -47,6 +47,7 @@ public abstract class SyncHTTPCaller<T> {
 
 
 	public abstract T postExcute(String result);
+	//public abstract T postExcute(int code, String result);
 
 	public T execute()
 	{

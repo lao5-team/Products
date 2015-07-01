@@ -1,22 +1,14 @@
 package com.pineapple.mobilecraft.tumcca.server;
 
-import android.util.Log;
-import com.google.gson.Gson;
 import com.pineapple.mobilecraft.tumcca.data.Account;
-import com.pineapple.mobilecraft.tumcca.data.User;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.utils.SyncHttpDelete;
 import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yihao on 15/6/5.
@@ -128,23 +120,23 @@ public class UserServer implements IUserServer{
     }
 
     @Override
-    public User getUser(String uid, String token) {
+    public Profile getUser(String uid, String token) {
         //HttpGet
         String url = mHost + "/api/artists/" + uid + "/profile";
-        SyncHttpGet<User> get = new SyncHttpGet<User>(url, token) {
+        SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
             @Override
-            public User postExcute(String result) {
-                User user = User.fromJSON(result);
-                return user;
+            public Profile postExcute(String result) {
+                Profile profile = Profile.fromJSON(result);
+                return profile;
             }
         };
         return get.execute();
     }
 
     @Override
-    public String updateUser(User user, String token) {
+    public String updateUser(Profile profile, String token) {
         String url = mHost + "/api/artists/profile";
-        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, User.toJSON(user)) {
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, Profile.toJSON(profile)) {
             @Override
             public String postExcute(String result) {
                 try {
@@ -240,6 +232,49 @@ public class UserServer implements IUserServer{
         return post.execute("avatar", file);
     }
 
+    public Profile getProfile(String token){
+        String url = mHost + "/api/artists/profile";
+        SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
+            @Override
+            public Profile postExcute(String result) {
+                Profile profile = Profile.fromJSON(result);
+                if(profile.gender !=-1){
+                    return profile;
+                }
+                else{
+                    return Profile.NULL;
+                }
+            }
+        };
+
+        return get.execute();
+    }
+
+    /**
+     *
+     * 上传用户的profile信息
+     * @param token
+     * @param profile
+     * @return profile关联的uid
+     */
+    public String uploadProfile(String token ,Profile profile){
+        String url = mHost + "/api/artists/profile";
+
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, Profile.toJSON(profile).toString()) {
+            @Override
+            public String postExcute(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    return jsonObject.getString("uid");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return "fail";
+                }
+            }
+        };
+        return post.execute();
+
+    }
 
 
 
