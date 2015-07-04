@@ -1,6 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
@@ -20,10 +21,9 @@ import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.app.TreasuresEntryFragment;
 import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.tumcca.Utility.Utility;
-import com.pineapple.mobilecraft.tumcca.data.Picture;
-import com.pineapple.mobilecraft.tumcca.data.Profile;
-import com.pineapple.mobilecraft.tumcca.data.Works;
+import com.pineapple.mobilecraft.tumcca.data.*;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.mediator.ICalligraphyCreate;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
@@ -47,15 +47,21 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     private PictureAdapter mPictureAdapter;
     private List<Picture> mListPicture = new ArrayList<Picture>();
     private GridView mGVPictures;
+    private RelativeLayout mLayoutAlbum;
     private PhotoChoose mPhotoChoose;
     private Uri mUri;
-    private boolean mIsTestMode = true;
+    private boolean mIsTestMode = false;
+
+    private Album mAlbum = null;
+    private TextView mTvAlbumTitle;
+    private ImageView mIvAlbumSample;
 
 
 
-    public static void startActivity(Activity activity, Fragment fragment){
+    public static void startActivity(Activity activity){
         Intent intent = new Intent(activity, CalligraphyCreateActivity.class);
-        fragment.startActivityForResult(intent, TreasuresEntryFragment.REQUEST_CREATE_TREASURE);
+        //fragment.startActivityForResult(intent, TreasuresEntryFragment.REQUEST_CREATE_TREASURE);
+        activity.startActivity(intent);
     }
 
     @Override
@@ -89,7 +95,16 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             }
         });
 
-
+        mLayoutAlbum = (RelativeLayout)findViewById(R.id.layout_album);
+        mLayoutAlbum.setClickable(true);
+        mLayoutAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlbumSelect();
+            }
+        });
+        mTvAlbumTitle = (TextView)findViewById(R.id.textView_album_title);
+        mIvAlbumSample = (ImageView)findViewById(R.id.imageView_album);
     }
 
 
@@ -142,6 +157,9 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
 
     @Override
     public void submit() {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setTitle("正在发布作品");
+        dialog.show();
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -157,11 +175,25 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                 works.description = mDescription;
                 if(mIsTestMode){
                     works.category = 1;
-                    works.albumId = 0;
+                    //works.albumId = 0;
                     //works.title = "test";
                 }
+                works.category = 1;
+                if(null!=mAlbum){
+                    works.albumId = mAlbum.id;
+                }
+                else{
+                    works.albumId = 0;
+                }
                 int id = WorksServer.uploadWorks(token, works);
+
                 showResult(id!=WorksServer.INVALID_WORKS_ID);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                });
             }
         });
         t.start();
@@ -191,8 +223,14 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             adapter.notifyDataSetChanged();
 
         }
-        if(requestCode == PhotoChoose.FROMCAMERA){
-            startPhotoZoom(mUri);
+        if(requestCode == PhotoChoose.FROMCAMERA&&resultCode == RESULT_OK){
+
+            mListPicture.add(new Picture(null, mUri.getPath()));
+            PictureAdapter adapter = (PictureAdapter)mGVPictures.getAdapter();
+            mGVPictures.requestFocus();
+            mGVPictures.invalidate();
+            adapter.notifyDataSetChanged();
+            //startPhotoZoom(mUri);
         }
         if(requestCode == CROP_REQUEST_CODE){
             Bundle extras = data.getExtras();
@@ -227,6 +265,8 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     }
 
     private void showResult(final boolean result){
+        List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), mAlbum.id, 1, 20, 1);
+        WorksManager.getInstance().putAlbumWorks(mAlbum.id, worksInfoList);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -255,6 +295,26 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
         Uri cropUri = Uri.fromFile(capturePath);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, cropUri);
         startActivityForResult(intent, CROP_REQUEST_CODE);
+    }
+
+    private void showAlbumSelect(){
+        AlbumSelectFragment fragment = new AlbumSelectFragment();
+        fragment.setAlbumSelectListener(new AlbumSelectFragment.OnAlbumSelectListener() {
+            @Override
+            public void onAlbumSelect(Album album) {
+                mAlbum = album;
+                mTvAlbumTitle.setText(mAlbum.title);
+                if(null!=mAlbum.worksInfoList&&mAlbum.worksInfoList.size()>0){
+                    PictureInfo pictureInfo = mAlbum.worksInfoList.get(0).picInfo;
+                    if(pictureInfo!=null){
+                        Picasso.with(CalligraphyCreateActivity.this).load(PictureServer.getInstance().getPictureUrl(pictureInfo.id)).resize(48,48).centerCrop().into(mIvAlbumSample);
+                    }
+                }
+            }
+        });
+        //getFragmentManager().beginTransaction().add(fragment, "album_select").commit();
+        fragment.show(getFragmentManager(), "album_select");
+
     }
 
     private class PictureAdapter extends BaseAdapter{
@@ -361,13 +421,13 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             GridView gridView = mGVPictures;
             int item_width = gridView.getWidth() / 3;
 
-            LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.item_picture, null);
+            LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.item_picture, null);
             AbsListView.LayoutParams param = new AbsListView.LayoutParams(
                     item_width, item_width);
             layout.setLayoutParams(param);
             if (position == 0) {
                 ImageView imageView = (ImageView) layout.findViewById(R.id.imageView_picture);
-                imageView.setImageResource(R.drawable.take_photo);
+                imageView.setImageResource(R.drawable.add_photo);
                 addPictureChooseView(imageView);
 
             } else {

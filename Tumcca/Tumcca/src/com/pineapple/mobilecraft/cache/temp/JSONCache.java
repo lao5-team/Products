@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.pineapple.mobilecraft.cache.temp.IListCache;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,9 +34,15 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		ArrayList<JSONObject> valueList = new ArrayList<JSONObject>();
 		if(null!=this.getWritableDatabase())
 		{
-			loadAll(keyList, valueList);
+			loadAll();
 		}
 		
+	}
+
+	//这个方法不会被外部类用到，也不要在内部调用它
+	private JSONCache()
+	{
+		super(null, null , null, 1);
 	}
 
 //	@Override
@@ -188,20 +195,12 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 
 	/**
 	 * 从数据库载入所有数据
-	 * @param keyList
-	 * @param valueList
 	 */
-	private void loadAll(ArrayList<String> keyList, ArrayList<JSONObject> valueList)
-	{		
-		if(null == keyList)
-		{
-			throw new IllegalArgumentException("keyList is null!");
-		}
-		if(null == valueList)
-		{
-	 		throw new IllegalArgumentException("valueList is null!");
-		}
-		
+	private void loadAll()
+	{
+		ArrayList<String> keyList = new ArrayList<String>();
+		ArrayList<JSONObject> valueList = new ArrayList<JSONObject>();
+
 		SQLiteDatabase db = this.getWritableDatabase();	
 		Cursor cursor = db.query(mName, new String[]{"id, value"}, null, null, null, null, null);		
 		while(cursor.moveToNext())
@@ -212,6 +211,7 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 				JSONObject item = new JSONObject(value);
 				keyList.add(key);
 				valueList.add(item);
+				mMap.put(key, item);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -391,7 +391,7 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 	/**
 	 * 通过id获取一个item
 	 * @param id
-	 * @return 正常情况返回一个JSONObject否则返回null
+	 * @return 如果数据存在返回一个JSONObject否则返回null
 	 */
 	public JSONObject getItem(String id)
 	{
@@ -419,6 +419,22 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		putItems(listIds, listJSON);
 	}
 	
+	public int getSize()
+	{
+		return mMap.size();
+	}
+
+	/**
+	 * 清除缓存
+	 */
+	public void clear()
+	{
+		mMap.clear();
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(mName, null, null);
+		db.close();
+	}
+
 	private void put(String key, JSONObject value) {
 		if(null == key)
 		{
@@ -432,9 +448,5 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		
 		mMap.put(key, value);
 		putByDB(key, value);
-		
 	}
-	
-	
-
 }

@@ -186,6 +186,9 @@
     <style name="my_edittext_style" parent="@android:style/Widget.EditText">
 
         <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:padding">5dip</item>
+
 
     </style>
 
@@ -194,10 +197,8 @@
     </style>
 
     <style name="my_button_style" parent="@android:style/Widget.Button">
-
         <item name="android:background">@drawable/button_bg</item>
         <item name="android:textColor">@android:color/white</item>
-
     </style>
 
     <style name="my_dialog_activity_style" parent="@android:style/Theme.Holo.Light.Dialog">

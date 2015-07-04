@@ -38,7 +38,12 @@ public class PictureServer {
         return post.execute("works", file);
     }
 
-    public String getPicture(int id){
+    /**
+     *
+     * @param id
+     * @return 图片的url
+     */
+    public String getPictureUrl(int id){
 
         return  mHost + "/api/pictures/download/" + id;
     }

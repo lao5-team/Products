@@ -56,7 +56,7 @@
                     <ImageView android:layout_width="48dip" android:layout_height="48dip" android:id="@+id/imageView_avatar"
                                android:layout_alignParentEnd="false" android:layout_centerVertical="true"
                                android:layout_alignParentRight="true" android:layout_marginRight="15dp"
-                               android:src="@drawable/avatar_samle"/>
+                               android:src="@drawable/default_avatar"/>
                 </RelativeLayout>
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
                               android:layout_height="1dip" android:background="@color/line_gray"/>
@@ -236,12 +236,12 @@
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textAppearance="?android:attr/textAppearanceMedium" android:text="湖北"
                               android:id="@+id/textView_province" android:layout_centerVertical="true"
-                              android:layout_toLeftOf="@+id/textView10" android:layout_marginRight="5dp"
+                              android:layout_toLeftOf="@+id/textView_city" android:layout_marginRight="5dp"
                               android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
                               android:textSize="@dimen/text_size_normal"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textAppearance="?android:attr/textAppearanceMedium" android:text="武汉"
-                              android:id="@+id/textView10" android:layout_centerVertical="true"
+                              android:id="@+id/textView_city" android:layout_centerVertical="true"
                               android:layout_alignParentRight="true" android:layout_marginRight="10dp"
                               android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
                               android:textSize="@dimen/text_size_normal"/>

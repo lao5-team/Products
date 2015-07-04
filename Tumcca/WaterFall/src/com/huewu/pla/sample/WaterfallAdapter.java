@@ -17,7 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.huewu.pla.R;
-import com.squareup.picasso.Picasso;
 
 
 public class WaterfallAdapter extends BaseAdapter {
@@ -66,7 +65,7 @@ public class WaterfallAdapter extends BaseAdapter {
 		}
 		
 		String url = list.get(position);
-		Picasso.with(context).load(url).into(holder.ivIcon);
+		//Picasso.with(context).load(url).into(holder.ivIcon);
 //		ImageLoader.getInstance().displayImage(url, holder.ivIcon);
 //		ImageLoader.getInstance().displayImage(url, holder.ivIcon,
 //				new ImageLoadingListener() {

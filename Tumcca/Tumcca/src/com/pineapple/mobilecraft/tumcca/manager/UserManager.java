@@ -64,6 +64,7 @@ public class UserManager {
 		if(null!=loginResult.uid){
 			mCurrentUid = loginResult.uid;
 			mCurrentToken = loginResult.token;
+			saveLoginInfo(userName, password);
 			return loginResult;
 		}
 		else {
@@ -98,6 +99,10 @@ public class UserManager {
 			}
 		}
 		return mCurrentUser;
+	}
+
+	public int getCurrentUserId(){
+		return new Integer(mCurrentUid);
 	}
 	
 	/**读取某个用户的信息

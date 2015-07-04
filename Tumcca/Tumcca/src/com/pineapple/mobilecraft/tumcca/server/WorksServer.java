@@ -2,10 +2,16 @@ package com.pineapple.mobilecraft.tumcca.server;
 
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Works;
+import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
 import org.apache.http.client.methods.HttpPost;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yihao on 15/6/26.
@@ -59,6 +65,66 @@ public class WorksServer {
             }
         };
 
+        return post.execute();
+    }
+
+
+    /**
+     * 获取当前用户发布的专辑
+     * @param token
+     * @return
+     */
+    public static List<Album> getMyAlbumList(String token){
+        String url = host + "/api/album";
+        SyncHttpGet<List<Album>> get = new SyncHttpGet<List<Album>>(url, token) {
+            @Override
+            public List<Album> postExcute(String result) {
+                List<Album> albumList = new ArrayList<Album>();
+                try {
+                    JSONArray array = new JSONArray(result);
+
+                    for(int i=0; i<array.length(); i++){
+                        albumList.add(Album.fromJSON(array.getJSONObject(i)));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return albumList;
+            }
+        };
+        return get.execute();
+    }
+
+    /**
+     * 获取专辑下面的作品
+     * @param token
+     * @param albumId 专辑id
+     * @param page 页数
+     * @param size 数量
+     * @param width 宽度
+     * @return
+     */
+    public static List<WorksInfo> getWorksOfAlbum(String token, final int albumId, int page, int size, int width){
+        String url = host + "/api/album/" + albumId + "/workses/page/" + page + "/size/" +
+                size + "/width/" + width;
+        SyncHttpPost<List<WorksInfo>> post = new SyncHttpPost<List<WorksInfo>>(url, token, null) {
+            @Override
+            public List<WorksInfo> postExcute(String result) {
+                List<WorksInfo> worksInfoList = new ArrayList<WorksInfo>();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("results");
+                    for(int i=0; i<array.length(); i++){
+                        worksInfoList.add(WorksInfo.fromJSON(array.getJSONObject(i)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return worksInfoList;
+            }
+        };
         return post.execute();
     }
 

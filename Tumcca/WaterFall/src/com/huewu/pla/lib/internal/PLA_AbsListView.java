@@ -448,9 +448,9 @@ ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListe
         initAbsListView();
 
         setVerticalScrollBarEnabled(true);
-        TypedArray a = context.obtainStyledAttributes(R.styleable.View);
-        initializeScrollbars(a);
-        a.recycle();
+//        TypedArray a = context.obtainStyledAttributes(R.styleable.PLA_View);
+//        initializeScrollbars(a);
+//        a.recycle();
     }
 
     public PLA_AbsListView(Context context, AttributeSet attrs) {
@@ -461,34 +461,34 @@ ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListe
         super(context, attrs, defStyle);
         initAbsListView();
 
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.AbsListView, defStyle, 0);
+//        TypedArray a = context.obtainStyledAttributes(attrs,
+//                R.styleable.PLA_AbsListView, defStyle, 0);
 
-        Drawable d = a.getDrawable(R.styleable.AbsListView_listSelector);
-        if (d != null) {
-            setSelector(d);
-        }
-
-        mDrawSelectorOnTop = a.getBoolean(
-                R.styleable.AbsListView_drawSelectorOnTop, false);
-
-        boolean stackFromBottom = a.getBoolean(R.styleable.AbsListView_stackFromBottom, false);
-        setStackFromBottom(stackFromBottom);
-
-        boolean scrollingCacheEnabled = a.getBoolean(R.styleable.AbsListView_scrollingCache, true);
-        setScrollingCacheEnabled(scrollingCacheEnabled);
-
-        int transcriptMode = a.getInt(R.styleable.AbsListView_transcriptMode,
-                TRANSCRIPT_MODE_DISABLED);
-        setTranscriptMode(transcriptMode);
-
-        int color = a.getColor(R.styleable.AbsListView_cacheColorHint, 0);
-        setCacheColorHint(color);
-
-        boolean smoothScrollbar = a.getBoolean(R.styleable.AbsListView_smoothScrollbar, true);
-        setSmoothScrollbarEnabled(smoothScrollbar);
-
-        a.recycle();
+//        Drawable d = a.getDrawable(R.styleable.PLA_AbsListView_listSelector);
+//        if (d != null) {
+//            setSelector(d);
+//        }
+//
+//        mDrawSelectorOnTop = a.getBoolean(
+//                R.styleable.PLA_AbsListView_drawSelectorOnTop, false);
+//
+//        boolean stackFromBottom = a.getBoolean(R.styleable.PLA_AbsListView_stackFromBottom, false);
+//        setStackFromBottom(stackFromBottom);
+//
+//        boolean scrollingCacheEnabled = a.getBoolean(R.styleable.PLA_AbsListView_scrollingCache, true);
+//        setScrollingCacheEnabled(scrollingCacheEnabled);
+//
+//        int transcriptMode = a.getInt(R.styleable.PLA_AbsListView_transcriptMode,
+//                TRANSCRIPT_MODE_DISABLED);
+//        setTranscriptMode(transcriptMode);
+//
+//        int color = a.getColor(R.styleable.PLA_AbsListView_cacheColorHint, 0);
+//        setCacheColorHint(color);
+//
+//        boolean smoothScrollbar = a.getBoolean(R.styleable.PLA_AbsListView_smoothScrollbar, true);
+//        setSmoothScrollbarEnabled(smoothScrollbar);
+//
+//        a.recycle();
     }
 
     private void initAbsListView() {

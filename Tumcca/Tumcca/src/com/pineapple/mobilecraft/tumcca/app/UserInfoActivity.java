@@ -11,10 +11,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.Utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IUserInfo;
+import com.pineapple.mobilecraft.tumcca.server.PictureServer;
+import com.pineapple.mobilecraft.tumcca.server.UserServer;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -45,8 +50,6 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     private UserInfoPhone mUserInfoPhone;
     private UserInfoGender mUserInfoGender;
-
-
     private PhotoChoose userInfoPhotoChoose;
     private UserInfoPhone userInfoPhone;
     private UserInfoEmail userInfoEmail;
@@ -54,14 +57,15 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private UserInfoIntro userInfoIntro;
     private UserInfoHobby userInfoHobby;
     private UserInfoForte userInfoForte;
-
     private TextView mTvCountry;
     private TextView mTvProvince;
     private TextView mTvCity;
+
     private Profile mProfile;
 
     public Uri mUri;
     public Uri mCropUri;
+
 
     public static void startActivity(Activity activity) {
         activity.startActivity(new Intent(activity, UserInfoActivity.class));
@@ -70,6 +74,15 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String token = UserManager.getInstance().getCurrentToken();
+        if(TextUtils.isEmpty(token)){
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else{
+            mProfile = UserServer.getInstance().getProfile(token);
+        }
+
         setContentView(R.layout.activity_userinfo);
         initView();
         addAvatarView();
@@ -87,6 +100,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     public void addAvatarView() {
         avatarLay = (RelativeLayout) findViewById(R.id.avatarLay);
         mIvAvatar = (ImageView) findViewById(R.id.imageView_avatar);
+        if(mProfile.avatar!=-1){
+            Picasso.with(this).load(UserServer.getInstance().getAvatarUrl(mProfile.avatar));
+        }
         avatarLay.setOnClickListener(this);
     }
 
@@ -159,6 +175,12 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     public void addGenderView() {
         mTvGender = (TextView) findViewById(R.id.textView_gender);
+        if(mProfile.gender == 1){
+            mTvGender.setText(getString(R.string.male));
+        }
+        else{
+            mTvGender.setText(getString(R.string.female));
+        }
         mGenderLay = (RelativeLayout) findViewById(R.id.layout_gender);
         mGenderLay.setOnClickListener(this);
     }
@@ -166,6 +188,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void addPseudonymView() {
         mTvPseudonym = (TextView) findViewById(R.id.textView_pseudonym);
+        mTvPseudonym.setText(mProfile.pseudonym);
     }
 
     @Override
@@ -176,23 +199,29 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void addIntroView() {
         mTvIntro = (TextView) findViewById(R.id.textView_intro);
+        mTvIntro.setText(mProfile.introduction);
     }
 
     @Override
     public void addHobbyView() {
         mTvHobby = (TextView) findViewById(R.id.textView_hobbies);
+        mTvHobby.setText(mProfile.hobbies);
     }
 
     @Override
     public void addForteView() {
         mTvForte = (TextView) findViewById(R.id.textView_forte);
+        mTvForte.setText(mProfile.forte);
     }
 
     @Override
     public void addRegionView() {
         mTvCountry = (TextView) findViewById(R.id.textView_country);
+        mTvCountry.setText(mProfile.country);
         mTvProvince = (TextView) findViewById(R.id.textView_province);
+        mTvProvince.setText(mProfile.province);
         mTvCity = (TextView) findViewById(R.id.textView_city);
+        mTvCity.setText(mProfile.city);
     }
 
     @Override

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@android:color/transparent">
+
+    <!--暂时不需要分类-->
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent" android:background="@drawable/corner_bordersmall_dialog"
+            android:layout_height="fill_parent" android:layout_marginLeft="30dip" android:layout_marginRight="30dip">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_album"
+                    android:id="@+id/textView_create_album"
+                    android:textSize="@dimen/text_size_normal" android:textStyle="bold"
+                    android:layout_marginBottom="10dip" android:layout_marginLeft="15dip"
+                    android:layout_marginTop="10dip" android:layout_marginRight="15dip"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" android:background="@color/line_gray">
+        </RelativeLayout>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_title" android:layout_marginTop="10dip"
+                    android:layout_marginRight="15dip" android:layout_marginBottom="10dip" style="@style/my_edittext_style"
+                    android:layout_marginLeft="15dip" android:hint="@string/title"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText_description" android:layout_below="@+id/editText_title"
+                    android:layout_marginLeft="15dip" android:layout_marginRight="15dip"
+                    style="@style/my_edittext_style" android:minLines="2"
+                    android:hint="@string/contentDescription" android:gravity="top"/>
+        </RelativeLayout>
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:visibility="gone">
+            <ExpandableListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dip"
+                    android:id="@+id/expandableListView_category" android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"/>
+
+        </RelativeLayout>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="38dip"
+                android:text="@string/create"
+                android:id="@+id/button_create"
+                style="@style/my_button_style" android:singleLine="true" android:layout_gravity="right"
+                android:layout_marginRight="15dip" android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"/>
+    </LinearLayout>
+</LinearLayout>

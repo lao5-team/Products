@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="@drawable/corner_border_activity">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:visibility="gone">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pick_album"
+                android:id="@+id/textView0" android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" android:layout_margin="15dip"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dip" android:background="@color/btn_gray_normal">
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+            android:id="@+id/layout_create">
+        <ImageView
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:id="@+id/imageView_add_album" android:layout_margin="15dip" android:src="@drawable/add_photo"
+                android:layout_centerVertical="true"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/create_album"
+                android:id="@+id/textView1"
+                android:layout_toRightOf="@+id/imageView_add_album" android:layout_toEndOf="@+id/imageView_add_album"
+                android:textSize="@dimen/text_size_normal" android:textStyle="bold"
+                android:layout_centerVertical="true" android:layout_marginTop="15dip"
+                android:layout_marginRight="15dip" android:layout_marginBottom="15dip"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+            android:background="@color/edittext_bg_normal">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/all_albums"
+                android:id="@+id/textView2" android:textSize="@dimen/text_size_normal" android:layout_margin="15dip"
+                android:textColor="@color/gray_pressed" android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listView_albums" android:divider="@color/divider_list" android:dividerHeight="1dip"/>
+</LinearLayout>

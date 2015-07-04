@@ -51,18 +51,30 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip" android:layout_weight="2" android:background="@drawable/corner_border_dialog"
             android:layout_marginLeft="15dip" android:layout_marginRight="15dip" android:layout_marginBottom="15dip">
-        <ImageView
-                android:layout_width="64dip"
-                android:layout_height="64dip"
-                android:id="@+id/imageView_album" android:layout_centerVertical="true" android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" android:layout_marginLeft="20dp"
-                android:layout_marginStart="43dp"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="创建专辑"
-                android:id="@+id/textView_album" android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/imageView_album" android:layout_toEndOf="@+id/imageView_album"
-                android:textSize="@dimen/text_size_large" android:layout_marginLeft="10dip"/>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:layout_marginTop="10dip" android:id="@+id/layout_album">
+            <ImageView
+                    android:layout_width="48dip"
+                    android:layout_height="48dip"
+                    android:id="@+id/imageView_album" android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" android:layout_marginLeft="20dp"
+                    android:layout_marginStart="43dp" android:background="@color/edittext_bg_normal"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择专辑"
+                    android:id="@+id/textView_album"
+                    android:layout_toRightOf="@+id/imageView_album" android:layout_toEndOf="@+id/imageView_album"
+                    android:textSize="@dimen/text_size_normal" android:layout_marginLeft="10dip" android:gravity="top"
+                    android:layout_marginTop="5dip"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="专辑名称"
+                    android:id="@+id/textView_album_title" android:gravity="bottom"
+                    android:layout_alignParentBottom="false" android:layout_below="@+id/textView_album"
+                    android:layout_alignLeft="@+id/textView_album" android:textColor="@color/pure_black"/>
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -38,7 +38,7 @@
                     android:text="0"
                     android:id="@+id/textView_like"
                     android:layout_marginRight="10dip" android:layout_toRightOf="@+id/imageView_like"
-                    android:layout_marginLeft="10dip"/>
+                    android:layout_marginLeft="5dip"/>
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                     android:text="0"
                     android:id="@+id/textView_comment"
                      android:layout_marginRight="10dip" android:layout_toRightOf="@+id/imageView_comment"
-                    android:layout_marginLeft="10dip"/>
+                    android:layout_marginLeft="5dip"/>
         </RelativeLayout>
     </RelativeLayout>
     </RelativeLayout>

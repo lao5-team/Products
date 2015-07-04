@@ -144,7 +144,17 @@
     <string name="edithobby">编辑您的爱好</string>
     <string name="editforte">编辑您的专长</string>
     <string name="editregion">编辑您的地区</string>
-    <string name="post_work">发送</string>
+    <string name="post_work">发布</string>
     <string name="edit_description">编辑描述</string>
+    <string name="pick_album">选择一个专辑</string>
+    <string name="create_album">创建一个专辑</string>
+    <string name="all_albums">全部专辑</string>
+    <string name="create">创建</string>
+    <string name="default_album">默认专辑</string>
+
+    <string name="ptr_pull_to_refresh">Pull to refresh</string>
+    <string name="ptr_release_to_refresh">Release to refresh</string>
+    <string name="ptr_loading">Loading</string>
+    <string name="ptr_last_updated">Updated: %1$s</string>
 
 </resources>

@@ -3,10 +3,10 @@ package com.pineapple.mobilecraft.cache.temp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pineapple.mobilecraft.cache.temp.ISwapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.pineapple.mobilecraft.data.UserDao;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.*;
 import android.widget.*;
 //import com.huewu.pla.lib.MultiColumnListView;
@@ -21,20 +20,17 @@ import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IHome;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
+import com.pineapple.mobilecraft.widget.waterfall.MultiColumnPullToRefreshListView;
+import com.pineapple.mobilecraft.widget.waterfall.WaterfallSmartView;
 import com.squareup.picasso.Picasso;
 import de.tavendo.autobahn.WebSocket;
 import de.tavendo.autobahn.WebSocketConnection;
-import de.tavendo.autobahn.WebSocketConnectionHandler;
-import de.tavendo.autobahn.WebSocketException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,7 +40,7 @@ public class HomeActivity extends FragmentActivity implements IHome{
     Button mBtnLogin = null;
     Button mBtnRegister = null;
     ImageView mIVAccount = null;
-    //private MultiColumnPullToRefreshListView waterfallView;//可以把它当成�?��listView
+    private MultiColumnPullToRefreshListView waterfallView;//可以把它当成�?��listView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,16 +64,25 @@ public class HomeActivity extends FragmentActivity implements IHome{
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                testWebsocket();
+                //testWebsocket();
             }
         });
         t.start();
 
 
-        //waterfallView = (MultiColumnPullToRefreshListView) findViewById(R.id.list);
+        waterfallView = (MultiColumnPullToRefreshListView) findViewById(R.id.list);
 
-        ArrayList<Works> workList = new ArrayList<Works>();
+        ArrayList<Picture> workList = new ArrayList<Picture>();
+        workList.add(new Picture("http://www.ziweizhai.cn/upimg/allimg/100608/1_100608093822_1.jpg", null));
+        workList.add(new Picture("http://pic12.nipic.com/20101231/49928_001443509114_2.jpg", null));
+        workList.add(new Picture("http://www.hihey.com/images/201211/goods_img/6209_P_1353042334002.jpg", null));
+        workList.add(new Picture("http://www.yuebaozhai.net/upFile/pic/2012_9_22_356953.jpg", null));
+        workList.add(new Picture("http://img25.artxun.com/sdd/oldimg/5d2e/5d2ecd6cd032e503256b9ce433496311.jpg", null));
+        workList.add(new Picture("http://www.daqiangallery.com.cn/uploadfile/2010213121920wuzhongqi.jpg", null));
+        workList.add(new Picture("http://ctc.cuepa.cn/newspic/332981/s_fc03d461e6d5a071e15558ad34df76d6182099.jpg", null));
+        workList.add(new Picture("http://bbscache3.artron.net/forum/day_120507/12050711125c3f495d63b2490d.jpg", null));
         WorksAdapter worksAdapter = new WorksAdapter(workList, this);
+        waterfallView.setAdapter(worksAdapter);
         //waterfallView.setAdapter(worksAdapter);
         //waterfallView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
 //            @Override
@@ -111,7 +116,17 @@ public class HomeActivity extends FragmentActivity implements IHome{
     @Override
     public void addAccountView() {
         RelativeLayout layout = (RelativeLayout)findViewById(R.id.layout_account);
-        layout.setVisibility(View.VISIBLE);
+        String username = UserManager.getInstance().getCachedUsername();
+        String password = UserManager.getInstance().getCachedPassword();
+
+        if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
+            UserManager.getInstance().login(username, password);
+            layout.setVisibility(View.GONE);
+        }
+        else{
+            layout.setVisibility(View.VISIBLE);
+        }
+
         mBtnLogin = (Button)findViewById(R.id.button_login);
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,6 +285,9 @@ public class HomeActivity extends FragmentActivity implements IHome{
             case R.id.account:
                 UserActivity.startActivity(HomeActivity.this);
                 break;
+            case R.id.add:
+                CalligraphyCreateActivity.startActivity(HomeActivity.this);
+                break;
             // 其他省略...
             default:
                 break;
@@ -298,9 +316,9 @@ public class HomeActivity extends FragmentActivity implements IHome{
 
         }
 
-        List<Works> mWorksList;
+        List<Picture> mWorksList;
         Context mContext;
-        public WorksAdapter(List<Works> worksList, Context context){
+        public WorksAdapter(List<Picture> worksList, Context context){
             mWorksList = worksList;
             mContext = context;
         }
@@ -362,19 +380,19 @@ public class HomeActivity extends FragmentActivity implements IHome{
             View view = layoutInflater.inflate(R.layout.item_works, null);
 
             ImageView iv = (ImageView)view.findViewById(R.id.imageView_picture);
-            Picasso.with(mContext).load(PictureServer.getInstance().getPicture(mWorksList.get(position).pictures.get(0))).into(iv);
-            File file = new File("mnt/sdcard/Tumcca/" + mWorksList.get(position).pictures.get(0));
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                ((BitmapDrawable)iv.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            Picasso.with(mContext).load(mWorksList.get(position).url).into(iv);
+//            File file = new File("mnt/sdcard/Tumcca/" + mWorksList.get(position).url);
+//            try {
+//                FileOutputStream fos = new FileOutputStream(file);
+//                ((BitmapDrawable)iv.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+//                try {
+//                    fos.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
 
             return view;
         }

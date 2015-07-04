@@ -2,6 +2,7 @@ package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -9,10 +10,12 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.view.MyHorizontalScrollView;
 import com.pineapple.mobilecraft.tumcca.view.MyScrollView;
 import com.pineapple.mobilecraft.tumcca.view.MyVerticalScrollView;
 import com.pineapple.mobilecraft.tumcca.view.ZoomImageView;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by yihao on 15/6/16.
@@ -29,6 +32,13 @@ public class PictureDetailActivity extends Activity {
     private boolean mIsMagnifierMode = false;
     private ImageButton mIBMagnifier ;
     private ZoomImageView mZoomImageView;
+
+    public static void startActivity(Activity activity, int picId){
+        Intent intent = new Intent(activity, PictureDetailActivity.class);
+        intent.putExtra("id", picId);
+        activity.startActivity(intent);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +54,7 @@ public class PictureDetailActivity extends Activity {
                 mScrollView.setMagnifierMode(mIsMagnifierMode);
             }
         });
-        resBitmap = ((BitmapDrawable)view.getBackground()).getBitmap();
+        //resBitmap = ((BitmapDrawable)view.getBackground()).getBitmap();
 
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -104,6 +114,9 @@ public class PictureDetailActivity extends Activity {
         popupWindow = new PopupWindow(mMagnifier, RADIUS*2, RADIUS*2);
 
         mZoomImageView = (ZoomImageView)findViewById(R.id.zoom_view);
+
+        Picasso.with(this).load(PictureServer.getInstance().getPictureUrl(
+                getIntent().getIntExtra("id", -1))).into(mZoomImageView);
     }
 
     public class Magnifier extends View

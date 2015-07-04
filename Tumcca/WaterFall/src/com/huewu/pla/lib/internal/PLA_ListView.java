@@ -131,38 +131,38 @@ public class PLA_ListView extends PLA_AbsListView {
     public PLA_ListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.ListView, defStyle, 0);
-
-        //        final Drawable d = a.getDrawable(android.R.drawable.divider_horizontal_bright);
-        //        if (d != null) {
-        //            // If a divider is specified use its intrinsic height for divider height
-        //            setDivider(d);
-        //        }
-
-        final Drawable osHeader = a.getDrawable(
-                R.styleable.ListView_overScrollHeader);
-        if (osHeader != null) {
-            setOverscrollHeader(osHeader);
-        }
-
-        final Drawable osFooter = a.getDrawable(
-                R.styleable.ListView_overScrollFooter);
-        if (osFooter != null) {
-            setOverscrollFooter(osFooter);
-        }
-
-        // Use the height specified, zero being the default
-        final int dividerHeight = a.getDimensionPixelSize(
-                R.styleable.ListView_dividerHeight, 0);
-        if (dividerHeight != 0) {
-            setDividerHeight(dividerHeight);
-        }
-
-        mHeaderDividersEnabled = a.getBoolean(R.styleable.ListView_headerDividersEnabled, true);
-        mFooterDividersEnabled = a.getBoolean(R.styleable.ListView_footerDividersEnabled, true);
-
-        a.recycle();
+//        TypedArray a = context.obtainStyledAttributes(attrs,
+//                R.styleable.PLA_ListView, defStyle, 0);
+//
+//        //        final Drawable d = a.getDrawable(android.R.drawable.divider_horizontal_bright);
+//        //        if (d != null) {
+//        //            // If a divider is specified use its intrinsic height for divider height
+//        //            setDivider(d);
+//        //        }
+//
+//        final Drawable osHeader = a.getDrawable(
+//                R.styleable.PLA_ListView_overScrollHeader);
+//        if (osHeader != null) {
+//            setOverscrollHeader(osHeader);
+//        }
+//
+//        final Drawable osFooter = a.getDrawable(
+//                R.styleable.PLA_ListView_overScrollFooter);
+//        if (osFooter != null) {
+//            setOverscrollFooter(osFooter);
+//        }
+//
+//        // Use the height specified, zero being the default
+//        final int dividerHeight = a.getDimensionPixelSize(
+//                R.styleable.PLA_ListView_dividerHeight, 0);
+//        if (dividerHeight != 0) {
+//            setDividerHeight(dividerHeight);
+//        }
+//
+//        mHeaderDividersEnabled = a.getBoolean(R.styleable.PLA_ListView_headerDividersEnabled, true);
+//        mFooterDividersEnabled = a.getBoolean(R.styleable.PLA_ListView_footerDividersEnabled, true);
+//
+//        a.recycle();
     }
 
     /**
