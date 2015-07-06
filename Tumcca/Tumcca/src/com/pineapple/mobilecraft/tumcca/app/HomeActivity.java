@@ -1,6 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -76,11 +77,11 @@ public class HomeActivity extends FragmentActivity implements IHome{
         workList.add(new Picture("http://www.ziweizhai.cn/upimg/allimg/100608/1_100608093822_1.jpg", null));
         workList.add(new Picture("http://pic12.nipic.com/20101231/49928_001443509114_2.jpg", null));
         workList.add(new Picture("http://www.hihey.com/images/201211/goods_img/6209_P_1353042334002.jpg", null));
-        workList.add(new Picture("http://www.yuebaozhai.net/upFile/pic/2012_9_22_356953.jpg", null));
-        workList.add(new Picture("http://img25.artxun.com/sdd/oldimg/5d2e/5d2ecd6cd032e503256b9ce433496311.jpg", null));
-        workList.add(new Picture("http://www.daqiangallery.com.cn/uploadfile/2010213121920wuzhongqi.jpg", null));
-        workList.add(new Picture("http://ctc.cuepa.cn/newspic/332981/s_fc03d461e6d5a071e15558ad34df76d6182099.jpg", null));
-        workList.add(new Picture("http://bbscache3.artron.net/forum/day_120507/12050711125c3f495d63b2490d.jpg", null));
+//        workList.add(new Picture("http://www.yuebaozhai.net/upFile/pic/2012_9_22_356953.jpg", null));
+//        workList.add(new Picture("http://img25.artxun.com/sdd/oldimg/5d2e/5d2ecd6cd032e503256b9ce433496311.jpg", null));
+//        workList.add(new Picture("http://www.daqiangallery.com.cn/uploadfile/2010213121920wuzhongqi.jpg", null));
+//        workList.add(new Picture("http://ctc.cuepa.cn/newspic/332981/s_fc03d461e6d5a071e15558ad34df76d6182099.jpg", null));
+//        workList.add(new Picture("http://bbscache3.artron.net/forum/day_120507/12050711125c3f495d63b2490d.jpg", null));
         WorksAdapter worksAdapter = new WorksAdapter(workList, this);
         waterfallView.setAdapter(worksAdapter);
         //waterfallView.setAdapter(worksAdapter);
@@ -132,11 +133,11 @@ public class HomeActivity extends FragmentActivity implements IHome{
             @Override
             public void onClick(View v) {
                 LoginActivity.startActivity(HomeActivity.this);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-//
-//                builder.setView(getLayoutInflater().inflate(R.layout.dialog_register, null));
-//
-//                builder.create().show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+
+                builder.setView(getLayoutInflater().inflate(R.layout.dialog_register, null));
+
+                builder.create().show();
             }
         });
 
@@ -145,8 +146,8 @@ public class HomeActivity extends FragmentActivity implements IHome{
             @Override
             public void onClick(View v) {
                 RegisterActivity.startActivity(HomeActivity.this);
-                //RegisterFragment fragment = new RegisterFragment();
-                //getFragmentManager().beginTransaction().add(fragment, "register").commit();
+                RegisterFragment fragment = new RegisterFragment();
+                getFragmentManager().beginTransaction().add(fragment, "register").commit();
             }
         });
 

@@ -1,7 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
@@ -22,6 +21,7 @@ import com.pineapple.mobilecraft.app.TreasuresEntryFragment;
 import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.tumcca.Utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.*;
+import com.pineapple.mobilecraft.tumcca.data.Notification;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.mediator.ICalligraphyCreate;
@@ -158,8 +158,9 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     @Override
     public void submit() {
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setTitle("正在发布作品");
-        dialog.show();
+        //dialog.setTitle("正在发布作品");
+        //dialog.show();
+        showNotification("");
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -186,14 +187,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                     works.albumId = 0;
                 }
                 int id = WorksServer.uploadWorks(token, works);
-
                 showResult(id!=WorksServer.INVALID_WORKS_ID);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.dismiss();
-                    }
-                });
             }
         });
         t.start();
@@ -265,6 +259,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     }
 
     private void showResult(final boolean result){
+        hideNotification();
         List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), mAlbum.id, 1, 20, 1);
         WorksManager.getInstance().putAlbumWorks(mAlbum.id, worksInfoList);
         runOnUiThread(new Runnable() {
@@ -272,8 +267,10 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             public void run() {
                 if(result){
                     Toast.makeText(CalligraphyCreateActivity.this, "作品发布成功", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 else{
+
                     Toast.makeText(CalligraphyCreateActivity.this, "作品发布失败", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -497,5 +494,23 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
         public boolean isEmpty() {
             return false;
         }
+    }
+
+    private void showNotification(String notifyString) {
+        android.app.Notification notification = new android.app.Notification.Builder(this)
+                .setContentTitle(notifyString)
+                .setContentText("正在发送......")
+                .setAutoCancel(true)
+                .setTicker("正在发送......")
+                .setOngoing(true)
+                .setSmallIcon(R.drawable.icon)
+                .build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
+    }
+
+    private void hideNotification(){
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(0);
     }
 }

@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
@@ -15,7 +18,6 @@ import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.widget.ExpandGridView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,42 +177,38 @@ public class UserAlbumsFragment extends Fragment {
             Album album = mAlbumList.get(position);
             tvTitle.setText(album.title);
             ImageView imageView_0 = (ImageView)view.findViewById(R.id.imageView_0);
-//            int item_width = parent.getWidth()/2 - 30;
-//            int item_height = item_width/3*2;
-//            RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
-//                    item_width, item_height);
-//            imageView_0.setLayoutParams(param);
-
             ImageView imageView_1 = (ImageView)view.findViewById(R.id.imageView_1);
-//            item_width = item_width/3;
-//            LinearLayout.LayoutParams param1 = new LinearLayout.LayoutParams(
-//                    item_width, item_width);
-//            imageView_1.setLayoutParams(param1);
             ImageView imageView_2 = (ImageView)view.findViewById(R.id.imageView_2);
-//            param1 = new LinearLayout.LayoutParams(
-//                    item_width, item_width);
-//            imageView_2.setLayoutParams(param1);
             ImageView imageView_3 = (ImageView)view.findViewById(R.id.imageView_3);
-//            param1 = new LinearLayout.LayoutParams(
-//                    item_width, item_width);
-//            imageView_3.setLayoutParams(param1);
+            int parent_width = parent.getWidth();
             if(album.worksInfoList!=null){
                 if(album.worksInfoList.size()>0){
-                    Picasso.with(mContext).load(PictureServer.getInstance()
-                            .getPictureUrl(album.worksInfoList.get(0).picInfo.id)).into(imageView_0);
+                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                            .displayer(new RoundedBitmapDisplayer(10))
+                            .build();
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(0).picInfo.id, parent_width/2, 1), imageView_0, imageOptions);
                 }
                 if(album.worksInfoList.size() > 1) {
-
-                    Picasso.with(mContext).load(PictureServer.getInstance()
-                            .getPictureUrl(album.worksInfoList.get(1).picInfo.id)).into(imageView_1);
+                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                            .displayer(new RoundedBitmapDisplayer(5))
+                            .build();
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(1).picInfo.id, parent_width/6, 1), imageView_1, imageOptions);
                 }
                 if (album.worksInfoList.size()>2){
-                    Picasso.with(mContext).load(PictureServer.getInstance()
-                            .getPictureUrl(album.worksInfoList.get(2).picInfo.id)).into(imageView_2);
+                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                            .displayer(new RoundedBitmapDisplayer(5))
+                            .build();
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(2).picInfo.id, parent_width/6, 1), imageView_2, imageOptions);
                 }
                 if (album.worksInfoList.size()>3){
-                    Picasso.with(mContext).load(PictureServer.getInstance()
-                            .getPictureUrl(album.worksInfoList.get(3).picInfo.id)).into(imageView_3);
+                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                            .displayer(new RoundedBitmapDisplayer(5))
+                            .build();
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(3).picInfo.id, parent_width/6, 1), imageView_3, imageOptions);
                 }
             }
             return view;

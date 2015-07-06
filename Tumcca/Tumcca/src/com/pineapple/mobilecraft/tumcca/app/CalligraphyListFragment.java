@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
@@ -96,8 +99,14 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
             View view = layoutInflater.inflate(R.layout.item_works, null);
 
             ImageView iv = (ImageView)view.findViewById(R.id.imageView_picture);
-            Picasso.with(mContext).load(PictureServer.getInstance().getPictureUrl(
-                    mWorksInfoList.get(position).picInfo.id)).into(iv);
+//            Picasso.with(mContext).load(PictureServer.getInstance().getPictureUrl(
+//                    mWorksInfoList.get(position).picInfo.id)).into(iv);
+            DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                    .displayer(new RoundedBitmapDisplayer(10))
+                    .build();
+            ImageLoader imageLoader = ImageLoader.getInstance();
+            imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(
+                    mWorksInfoList.get(position).picInfo.id), iv, imageOptions);
             return view;
         }
     }

@@ -48,6 +48,10 @@ public class PictureServer {
         return  mHost + "/api/pictures/download/" + id;
     }
 
+    public String getPictureUrl(int id, int width, int height){
+        return  mHost + "/api/pictures/download/" + id + "/thumb/" + width + "/" + height;
+    }
+
     public void deletePicture(String token, File file){
 
     }
