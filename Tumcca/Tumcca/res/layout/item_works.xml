@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:adjustViewBounds="true"
-            android:id="@+id/imageView_picture" android:src="@drawable/sample1"/>
+            android:id="@+id/imageView_picture" android:background="@drawable/corner_border_imageview_large"/>
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

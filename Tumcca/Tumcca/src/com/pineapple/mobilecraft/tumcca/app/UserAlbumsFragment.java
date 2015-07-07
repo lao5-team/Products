@@ -28,7 +28,7 @@ import java.util.List;
 public class UserAlbumsFragment extends Fragment {
     private final int PAGE_COUNT = 1;
     private final int PAGE_SIZE = 20;
-    private final int WIDTH = 1;
+    private final int WIDTH = 400;
     private int mUserId = -1;
     private List<Album> mAlbumList = new ArrayList<Album>();
     private ExpandGridView mEGVAlbumView = null;

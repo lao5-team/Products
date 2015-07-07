@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.mediator.ICalligraphyList;
@@ -97,10 +100,13 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             View view = layoutInflater.inflate(R.layout.item_works, null);
+            PictureInfo pictureInfo = mWorksInfoList.get(position).picInfo;
+            //预先用图片的尺寸对imageView进行布局
+            RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
+                    parent.getWidth()/2, parent.getWidth()*pictureInfo.height/(2*pictureInfo.width));
 
             ImageView iv = (ImageView)view.findViewById(R.id.imageView_picture);
-//            Picasso.with(mContext).load(PictureServer.getInstance().getPictureUrl(
-//                    mWorksInfoList.get(position).picInfo.id)).into(iv);
+            iv.setLayoutParams(param);
             DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                     .displayer(new RoundedBitmapDisplayer(10))
                     .build();
