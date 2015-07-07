@@ -211,7 +211,7 @@ public class UserServer implements IUserServer{
 
     @Override
     public String getAvatarUrl(int avatarId){
-        return ("/api/avatars/download/" + avatarId);
+        return (mHost + "/api/avatars/download/" + avatarId);
     }
 
     public int uploadAvatar(File file){
