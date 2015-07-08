@@ -155,6 +155,12 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                         mProfile.forte = forte;
                         updateUser(mProfile);
                         break;
+                    case MSG_CHANGE_SEX:
+                        bundle = msg.getData();
+                        int gender = bundle.getInt("gender");
+                        mProfile.gender = gender;
+                        updateUser(mProfile);
+                        break;
                 }
             }
         };
@@ -179,7 +185,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         introLay = (RelativeLayout) this.findViewById(R.id.introLay);
         hobbyLay = (RelativeLayout) this.findViewById(R.id.hobbyLay);
         forteLay = (RelativeLayout) this.findViewById(R.id.forteLay);
+        mGenderLay = (RelativeLayout)this.findViewById(R.id.layout_gender);
 
+        mGenderLay.setOnClickListener(this);
         phoneLay.setOnClickListener(this);
         emailLay.setOnClickListener(this);
         pseudonymLay.setOnClickListener(this);
@@ -234,6 +242,12 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                     userInfoForte = new UserInfoForte();
                 }
                 userInfoForte.show(getSupportFragmentManager(), "UserInfoForte");
+                break;
+            case R.id.layout_gender:
+                if (mUserInfoGender == null) {
+                    mUserInfoGender = new UserInfoGender();
+                }
+                mUserInfoGender.show(getSupportFragmentManager(), "UserInfoGender");
                 break;
         }
     }

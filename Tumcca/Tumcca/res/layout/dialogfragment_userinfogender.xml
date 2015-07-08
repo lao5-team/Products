@@ -37,19 +37,26 @@
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
                 android:orientation="horizontal" android:layout_weight="1">
-            <RadioButton
-                    android:layout_width="wrap_content"
+            <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/male"
-                    android:id="@+id/radioButton"
-                    android:layout_weight="1" android:checked="true" android:textStyle="bold"
-                    android:textSize="@dimen/text_size_normal"/>
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/female"
-                    android:id="@+id/radioButton2"
-                    android:layout_weight="1" android:textStyle="bold" android:textSize="@dimen/text_size_normal"/>
+                    android:orientation="horizontal"
+                    >
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/male"
+                        android:id="@+id/rbMale"
+                        android:layout_weight="1" android:checked="true" android:textStyle="bold"
+                        android:textSize="@dimen/text_size_normal"/>
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female"
+                        android:id="@+id/rbFemale"
+                        android:layout_weight="1" android:textStyle="bold" android:textSize="@dimen/text_size_normal"/>
+            </RadioGroup>
         </LinearLayout>
 
         <View
@@ -59,6 +66,7 @@
                 android:layout_weight="1"/>
 
         <TextView
+                android:id="@+id/tvSave"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:text="保存"

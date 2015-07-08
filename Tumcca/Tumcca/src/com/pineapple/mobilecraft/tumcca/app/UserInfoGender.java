@@ -1,22 +1,41 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.view.*;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
 
 /**
  * Created by yihao on 15/6/17.
  */
-public class UserInfoGender extends DialogFragment {
+public class UserInfoGender extends DialogFragment implements View.OnClickListener {
+
+    private TextView tvSave;
+    private RadioButton rbMale;
+    private RadioButton rbFemale;
+    private int isMale =1;
+    private RadioGroup radioGroup;
+    private Handler mHandler;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.setStyle(android.app.DialogFragment.STYLE_NO_TITLE, R.style.my_dialog_activity_style);
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mHandler = ((UserInfoActivity)activity).mHandler;
     }
 
     @Override
@@ -27,7 +46,25 @@ public class UserInfoGender extends DialogFragment {
             getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
         View root = inflater.inflate(R.layout.dialogfragment_userinfogender, container, false);
-
+        tvSave = (TextView)root.findViewById(R.id.tvSave);
+        rbMale = (RadioButton)root.findViewById(R.id.rbMale);
+        rbFemale = (RadioButton)root.findViewById(R.id.rbFemale);
+        radioGroup = (RadioGroup)root.findViewById(R.id.radioGroup);
+//        rbMale.setOnClickListener(new );
+        tvSave.setOnClickListener(this);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (i == R.id.rbMale)
+                {
+                    isMale = 1;
+                }
+                else
+                {
+                    isMale = 0;
+                }
+            }
+        });
         return root;
     }
 
@@ -58,4 +95,18 @@ public class UserInfoGender extends DialogFragment {
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.tvSave:
+                Message msg = mHandler.obtainMessage(UserInfoActivity.MSG_CHANGE_SEX);
+                Bundle bundle = new Bundle();
+                bundle.putInt("gender", isMale);
+                msg.setData(bundle);
+                mHandler.sendMessage(msg);
+                this.dismiss();
+                break;
+        }
+    }
 }
