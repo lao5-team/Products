@@ -93,8 +93,11 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
                 getActivity().startActivityForResult(intent, FROMCAMERA);
                 break;
             case R.id.fromGallery:
+//                intent = new Intent();
+//                intent.setClass(getActivity(), ImgFileListActivity.class);
                 intent = new Intent();
-                intent.setClass(getActivity(), ImgFileListActivity.class);
+                intent.setAction(Intent.ACTION_PICK);// Pick an item fromthe
+                intent.setType("image/*");// 从所有图片中进行选择
                 getActivity().startActivityForResult(intent, FROMGALLERY);
                 break;
         }

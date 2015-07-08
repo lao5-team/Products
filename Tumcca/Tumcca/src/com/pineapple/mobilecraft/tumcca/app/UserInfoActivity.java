@@ -358,6 +358,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                 case PhotoChoose.FROMCAMERA:
                     startPhotoZoom(mUri);
                     break;
+                case PhotoChoose.FROMGALLERY:
+                    startPhotoZoom(data.getData());
+                    break;
                 case CROP_REQUEST_CODE:
                     File file = null;
                     try {
