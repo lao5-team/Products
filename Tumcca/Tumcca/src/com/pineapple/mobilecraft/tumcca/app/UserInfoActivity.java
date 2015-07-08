@@ -40,6 +40,14 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     public static final int CROP_REQUEST_CODE = 2;
 
     private static final int MSG_SHOW_AVATAR = 0;
+    public static final int MSG_CHANGE_PHONE = 1;
+    public static final int MSG_CHANGE_EMAIL = 2;
+    public static final int MSG_CHANGE_PSEUDONYM = 3;
+    public static final int MSG_CHANGE_INTRO = 4;
+    public static final int MSG_CHANGE_HOBBY = 5;
+    public static final int MSG_CHANGE_REGION = 6;
+    public static final int MSG_CHANGE_FORTE = 7;
+    public static final int MSG_CHANGE_SEX = 8;
 
     private RelativeLayout avatarLay;
     private RelativeLayout phoneLay;
@@ -75,7 +83,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     public Uri mUri;
     public Uri mCropUri;
-    private Handler mHandler;
+    public Handler mHandler;
     DisplayImageOptions imageOptions = null;
 
     public static void startActivity(Activity activity) {
@@ -96,19 +104,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         else{
             mProfile = UserServer.getInstance().getProfile(token);
         }
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what)
-                {
-                    case MSG_SHOW_AVATAR:
-                        int avatarId = msg.arg1;
-                        ImageLoader.getInstance().displayImage(UserServer.getInstance().getAvatarUrl(avatarId), mIvAvatar, imageOptions);
-                        break;
-                }
-            }
-        };
+        initHandler();
+
         setContentView(R.layout.activity_userinfo);
         initView();
         addAvatarView();
@@ -119,6 +116,48 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         addHobbyView();
         addForteView();
         addRegionView();
+        refreshData();
+    }
+
+    private void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Bundle bundle = null;
+                switch (msg.what)
+                {
+                    case MSG_SHOW_AVATAR:
+                        int avatarId = msg.arg1;
+                        ImageLoader.getInstance().displayImage(UserServer.getInstance().getAvatarUrl(avatarId), mIvAvatar, imageOptions);
+                        break;
+                    case MSG_CHANGE_PSEUDONYM:
+                        bundle = msg.getData();
+                        String strPseudonym = bundle.getString("pseudonym");
+                        mProfile.pseudonym = strPseudonym;
+                        updateUser(mProfile);
+                        break;
+                    case MSG_CHANGE_INTRO:
+                        bundle = msg.getData();
+                        String intro = bundle.getString("intro");
+                        mProfile.introduction = intro;
+                        updateUser(mProfile);
+                        break;
+                    case MSG_CHANGE_HOBBY:
+                        bundle = msg.getData();
+                        String hobby = bundle.getString("hobby");
+                        mProfile.hobbies = hobby;
+                        updateUser(mProfile);
+                        break;
+                    case MSG_CHANGE_FORTE:
+                        bundle = msg.getData();
+                        String forte = bundle.getString("forte");
+                        mProfile.forte = forte;
+                        updateUser(mProfile);
+                        break;
+                }
+            }
+        };
     }
 
 
@@ -199,15 +238,25 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         }
     }
 
-
-    public void addGenderView() {
-        mTvGender = (TextView) findViewById(R.id.textView_gender);
+    private void refreshData()
+    {
         if(mProfile.gender == 1){
             mTvGender.setText(getString(R.string.male));
         }
         else{
             mTvGender.setText(getString(R.string.female));
         }
+        mTvPseudonym.setText(mProfile.pseudonym);
+        mTvIntro.setText(mProfile.introduction);
+        mTvHobby.setText(mProfile.hobbies);
+        mTvForte.setText(mProfile.forte);
+        mTvCountry.setText(mProfile.country);
+        mTvProvince.setText(mProfile.province);
+        mTvCity.setText(mProfile.city);
+    }
+
+    public void addGenderView() {
+        mTvGender = (TextView) findViewById(R.id.textView_gender);
         mGenderLay = (RelativeLayout) findViewById(R.id.layout_gender);
         mGenderLay.setOnClickListener(this);
     }
@@ -215,7 +264,6 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void addPseudonymView() {
         mTvPseudonym = (TextView) findViewById(R.id.textView_pseudonym);
-        mTvPseudonym.setText(mProfile.pseudonym);
     }
 
     @Override
@@ -226,29 +274,23 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void addIntroView() {
         mTvIntro = (TextView) findViewById(R.id.textView_intro);
-        mTvIntro.setText(mProfile.introduction);
     }
 
     @Override
     public void addHobbyView() {
         mTvHobby = (TextView) findViewById(R.id.textView_hobbies);
-        mTvHobby.setText(mProfile.hobbies);
     }
 
     @Override
     public void addForteView() {
         mTvForte = (TextView) findViewById(R.id.textView_forte);
-        mTvForte.setText(mProfile.forte);
     }
 
     @Override
     public void addRegionView() {
         mTvCountry = (TextView) findViewById(R.id.textView_country);
-        mTvCountry.setText(mProfile.country);
         mTvProvince = (TextView) findViewById(R.id.textView_province);
-        mTvProvince.setText(mProfile.province);
         mTvCity = (TextView) findViewById(R.id.textView_city);
-        mTvCity.setText(mProfile.city);
     }
 
     @Override
@@ -270,28 +312,28 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             mTvGender.setText(getString(R.string.male));
             mProfile.gender = 1;
         }
-        updateUser(mProfile);
+//        updateUser(mProfile);
     }
 
     @Override
     public void setPseudonym(String pseudonym) {
         mTvPseudonym.setText(pseudonym);
         mProfile.pseudonym = pseudonym;
-        updateUser(mProfile);
+//        updateUser(mProfile);
     }
 
     @Override
     public void setTitle(String title) {
         mTvTitle.setText(title);
         mProfile.title = title;
-        updateUser(mProfile);
+//        updateUser(mProfile);
     }
 
     @Override
     public void setIntro(String intro) {
         mTvIntro.setText(intro);
         mProfile.introduction = intro;
-        updateUser(mProfile);
+//        updateUser(mProfile);
 
     }
 
@@ -304,7 +346,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             }
             mTvHobby.setText(str);
             mProfile.hobbies = str;
-            updateUser(mProfile);
+//            updateUser(mProfile);
         }
 
     }
@@ -318,7 +360,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             }
             mTvForte.setText(str);
             mProfile.forte = str;
-            updateUser(mProfile);
+//            updateUser(mProfile);
         }
 
     }
@@ -337,7 +379,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             mTvCity.setText(city);
             mProfile.city = city;
         }
-        updateUser(mProfile);
+//        updateUser(mProfile);
     }
 
     @Override
@@ -347,7 +389,12 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void updateUser(Profile profile) {
-
+        String result = UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken());
+        if (!"fail".equals(result))
+        {
+            refreshData();
+           Toast.makeText(this, "更新信息成功", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

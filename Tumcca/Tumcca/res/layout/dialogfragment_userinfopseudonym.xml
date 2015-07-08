@@ -38,6 +38,7 @@
                 android:paddingBottom="14dp"
                 >
             <EditText
+                    android:id="@+id/pseudonym"
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
                     style="@style/my_edittext_style"
@@ -54,6 +55,7 @@
                 />
 
         <TextView
+                android:id="@+id/tvSave"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:text="保存"

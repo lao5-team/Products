@@ -1,16 +1,30 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
+import android.app.Activity;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.*;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
+
+import java.util.Objects;
 
 /**
  * Created by liujiankun007 on 2015/6/16.
  */
 public class UserInfoPseudonym extends DialogFragment implements View.OnClickListener {
+
+    private Handler mHandler;
+
+    private TextView tvSave;
+    private EditText pseudonym;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -20,8 +34,16 @@ public class UserInfoPseudonym extends DialogFragment implements View.OnClickLis
             getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
         View root = inflater.inflate(R.layout.dialogfragment_userinfopseudonym, container, false);
-
+        tvSave = (TextView)root.findViewById(R.id.tvSave);
+        pseudonym = (EditText)root.findViewById(R.id.pseudonym);
+        tvSave.setOnClickListener(this);
         return root;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mHandler = ((UserInfoActivity)activity).mHandler;
     }
 
     @Override
@@ -52,6 +74,25 @@ public class UserInfoPseudonym extends DialogFragment implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId())
+        {
+            case R.id.tvSave:
+                if(TextUtils.isEmpty(pseudonym.getText()))
+                {
+                    Toast.makeText(getActivity(), "Õ«ºÅ²»ÄÜÎª¿Õ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else
+                {
+                    String editPseudonym = pseudonym.getText().toString();
+                    Message msg = mHandler.obtainMessage(UserInfoActivity.MSG_CHANGE_PSEUDONYM);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("pseudonym", editPseudonym);
+                    msg.setData(bundle);
+                    mHandler.sendMessage(msg);
+                    this.dismiss();
+                }
+                break;
+        }
     }
 }

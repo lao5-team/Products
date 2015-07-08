@@ -1,12 +1,17 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
+import android.app.Activity;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.*;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
 
 /**
@@ -17,6 +22,7 @@ public class UserInfoForte extends DialogFragment implements View.OnClickListene
     private TextView tvTitle;
     private EditText etContent;
     private TextView tvSave;
+    private Handler mHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,7 +36,14 @@ public class UserInfoForte extends DialogFragment implements View.OnClickListene
         etContent = (EditText)root.findViewById(R.id.etContent);
         tvSave = (TextView)root.findViewById(R.id.tvSave);
         tvTitle.setText("更改您的专长");
+        tvSave.setOnClickListener(this);
         return root;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mHandler = ((UserInfoActivity)activity).mHandler;
     }
 
     @Override
@@ -64,7 +77,21 @@ public class UserInfoForte extends DialogFragment implements View.OnClickListene
         switch (view.getId())
         {
             case R.id.tvSave:
-
+                if(TextUtils.isEmpty(etContent.getText()))
+                {
+                    Toast.makeText(getActivity(), "专长不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else
+                {
+                    String editPseudonym = etContent.getText().toString();
+                    Message msg = mHandler.obtainMessage(UserInfoActivity.MSG_CHANGE_FORTE);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("forte", editPseudonym);
+                    msg.setData(bundle);
+                    mHandler.sendMessage(msg);
+                    this.dismiss();
+                }
                 break;
         }
     }
