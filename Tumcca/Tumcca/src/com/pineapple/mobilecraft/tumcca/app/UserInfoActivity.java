@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
@@ -12,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.Utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
@@ -22,6 +27,9 @@ import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.LogRecord;
 
 /**
  * Created by yihao on 15/6/8.
@@ -30,6 +38,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
 
     public static final int CROP_REQUEST_CODE = 2;
+
+    private static final int MSG_SHOW_AVATAR = 0;
 
     private RelativeLayout avatarLay;
     private RelativeLayout phoneLay;
@@ -65,7 +75,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     public Uri mUri;
     public Uri mCropUri;
-
+    private Handler mHandler;
+    DisplayImageOptions imageOptions = null;
 
     public static void startActivity(Activity activity) {
         activity.startActivity(new Intent(activity, UserInfoActivity.class));
@@ -74,6 +85,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imageOptions = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer(10))
+                .build();
         String token = UserManager.getInstance().getCurrentToken();
         if(TextUtils.isEmpty(token)){
             Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
@@ -82,7 +96,19 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         else{
             mProfile = UserServer.getInstance().getProfile(token);
         }
-
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what)
+                {
+                    case MSG_SHOW_AVATAR:
+                        int avatarId = msg.arg1;
+                        ImageLoader.getInstance().displayImage(UserServer.getInstance().getAvatarUrl(avatarId), mIvAvatar, imageOptions);
+                        break;
+                }
+            }
+        };
         setContentView(R.layout.activity_userinfo);
         initView();
         addAvatarView();
@@ -101,7 +127,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         avatarLay = (RelativeLayout) findViewById(R.id.avatarLay);
         mIvAvatar = (ImageView) findViewById(R.id.imageView_avatar);
         if(mProfile.avatar!=-1){
-            Picasso.with(this).load(UserServer.getInstance().getAvatarUrl(mProfile.avatar));
+//            Picasso.with(this).load(UserServer.getInstance().getAvatarUrl(mProfile.avatar));
+            ImageLoader.getInstance().displayImage(UserServer.getInstance().getAvatarUrl(mProfile.avatar), mIvAvatar, imageOptions);
         }
         avatarLay.setOnClickListener(this);
     }
@@ -330,6 +357,34 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             switch (requestCode) {
                 case PhotoChoose.FROMCAMERA:
                     startPhotoZoom(mUri);
+                    break;
+                case CROP_REQUEST_CODE:
+                    File file = null;
+                    try {
+                        file = new File(new URI(mCropUri.toString()));
+                    }
+                    catch (URISyntaxException e)
+                    {}
+                    final File temp = file;
+                    Thread t = new Thread(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    String token = UserManager.getInstance().getCurrentToken();
+                                    int pictureId = -1;
+                                    pictureId = UserServer.getInstance().uploadAvatar(temp);
+                                    mProfile.avatar = pictureId;
+                                    String result = UserServer.getInstance().updateUser(mProfile, token);
+                                    if (!"fail".equals(result))
+                                    {
+                                        Message msg = mHandler.obtainMessage(MSG_SHOW_AVATAR);
+                                        msg.arg1 = pictureId;
+                                        mHandler.sendMessage(msg);
+                                    }
+                                }
+                            }
+                    );
+                    t.start();
                     break;
             }
         }

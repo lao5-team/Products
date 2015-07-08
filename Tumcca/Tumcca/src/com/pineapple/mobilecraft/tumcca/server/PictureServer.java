@@ -38,6 +38,24 @@ public class PictureServer {
         return post.execute("works", file);
     }
 
+    public int uploadAvatar(String token, File file)
+    {
+        String url =  mHost + "/api/avatars/upload";
+        SyncHttpPost<Integer> post = new SyncHttpPost<Integer>(url, token, null) {
+            @Override
+            public Integer postExcute(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    return jsonObject.getInt("id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+        return post.execute("avatar", file);
+    }
+
     /**
      *
      * @param id
