@@ -37,7 +37,7 @@ public class UserInfoIntro extends DialogFragment implements View.OnClickListene
         tvTitle = (TextView)root.findViewById(R.id.tvTitle);
         etContent = (EditText)root.findViewById(R.id.etContent);
         tvSave = (TextView)root.findViewById(R.id.tvSave);
-        tvTitle.setText("更改您的介绍");
+        tvTitle.setText("鏇存敼鎮ㄧ殑浠嬬粛");
         tvSave.setOnClickListener(this);
         return root;
     }
@@ -81,7 +81,7 @@ public class UserInfoIntro extends DialogFragment implements View.OnClickListene
             case R.id.tvSave:
                 if(TextUtils.isEmpty(etContent.getText()))
                 {
-                    Toast.makeText(getActivity(), "介绍不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "浠嬬粛涓嶈兘涓虹┖", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else

@@ -35,7 +35,7 @@ public class UserInfoForte extends DialogFragment implements View.OnClickListene
         tvTitle = (TextView)root.findViewById(R.id.tvTitle);
         etContent = (EditText)root.findViewById(R.id.etContent);
         tvSave = (TextView)root.findViewById(R.id.tvSave);
-        tvTitle.setText("更改您的专长");
+        tvTitle.setText("鏇存敼鎮ㄧ殑涓撻暱");
         tvSave.setOnClickListener(this);
         return root;
     }
@@ -79,7 +79,7 @@ public class UserInfoForte extends DialogFragment implements View.OnClickListene
             case R.id.tvSave:
                 if(TextUtils.isEmpty(etContent.getText()))
                 {
-                    Toast.makeText(getActivity(), "专长不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "涓撻暱涓嶈兘涓虹┖", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else
