@@ -17,7 +17,7 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/layout_tab">
+            android:layout_height="wrap_content" android:id="@+id/layout_tab" android:visibility="gone">
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,8 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="120dp" android:id="@+id/layout_page" android:background="@drawable/splash_2">
+            android:layout_height="120dp" android:id="@+id/layout_page" android:background="@drawable/splash_2"
+            android:visibility="gone">
     </LinearLayout>
     <LinearLayout
             android:orientation="vertical"

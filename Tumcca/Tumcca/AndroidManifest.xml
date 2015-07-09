@@ -148,7 +148,7 @@
             android:name="com.pineapple.mobilecraft.util.logic.ImgsActivity"
             android:label="@string/app_name" > 
         </activity>
-        <activity android:name=".tumcca.app.CalligraphyDetailActivity" android:theme="@style/horizontal_slide">
+        <activity android:name=".tumcca.app.CalligraphyDetailActivity" android:theme="@style/horizontal_slide" android:screenOrientation="portrait">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
@@ -168,7 +168,7 @@
             <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".tumcca.app.HomeActivity" android:theme="@android:style/Theme.Holo.Light">
+        <activity android:name=".tumcca.app.HomeActivity" android:theme="@android:style/Theme.Holo.Light" android:screenOrientation="portrait">
             <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>
@@ -179,8 +179,8 @@
                   android:noHistory="true">
 
         </activity>
-        <activity android:name=".tumcca.app.UserInfoActivity" android:theme="@style/my_activity_style"/>
-        <activity android:name=".tumcca.app.UserActivity" android:theme="@style/StyledIndicators" >
+        <activity android:name=".tumcca.app.UserInfoActivity" android:theme="@style/my_activity_style" android:screenOrientation="portrait"/>
+        <activity android:name=".tumcca.app.UserActivity" android:theme="@style/StyledIndicators" android:screenOrientation="portrait" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>

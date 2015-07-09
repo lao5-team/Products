@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -12,10 +13,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -29,7 +27,11 @@ public class AlbumCreateFragment extends DialogFragment {
     EditText mEtxTitle;
     EditText mEtxDesc;
     Button mBtnCreate;
-
+    Activity mContext;
+    OnAlbumCreateListener mAlbumCreateListener = null;
+    public interface OnAlbumCreateListener{
+        public void onResult(boolean result);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +39,19 @@ public class AlbumCreateFragment extends DialogFragment {
 
     }
 
+    public void setAlbumCreateListener(OnAlbumCreateListener listener){
+        mAlbumCreateListener = listener;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mContext = getActivity();
         if (getDialog() != null)
         {
             //getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
+
         View view = inflater.inflate(R.layout.fragment_album_create, container, false);
         mEtxTitle = (EditText)view.findViewById(R.id.editText_title);
 
@@ -59,16 +67,30 @@ public class AlbumCreateFragment extends DialogFragment {
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Album album = new Album(
+                        final Album album = new Album(
                                 mEtxTitle.getText().toString(), mEtxDesc.getText().toString(), -1);
-                        WorksServer.uploadAlbum(UserManager.getInstance().getCurrentToken(), album
+                        final int new_album_id = WorksServer.uploadAlbum(UserManager.getInstance().getCurrentToken(), album
                         );
-                        WorksManager.getInstance().setLatestAlbum(album);
+
+
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
                                     Thread.currentThread().sleep(500);
+                                    if(new_album_id!=WorksServer.INVALID_WORKS_ID){
+                                        WorksManager.getInstance().setLatestAlbum(album);
+                                        Toast.makeText(mContext, "专辑创建成功", Toast.LENGTH_SHORT).show();
+                                        if(null!=mAlbumCreateListener){
+                                            mAlbumCreateListener.onResult(true);
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(mContext, "专辑创建失败", Toast.LENGTH_SHORT).show();
+                                        if(null!=mAlbumCreateListener){
+                                            mAlbumCreateListener.onResult(true);
+                                        }
+                                    }
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -86,7 +108,6 @@ public class AlbumCreateFragment extends DialogFragment {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override

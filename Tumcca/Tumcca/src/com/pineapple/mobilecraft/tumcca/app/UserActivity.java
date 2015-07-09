@@ -14,8 +14,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.data.Album;
+import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
+import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.viewpagerindicator.TabPageIndicator;
+
+import java.util.List;
 
 /**
  * Created by yihao on 15/6/15.
@@ -35,6 +41,25 @@ public class UserActivity extends FragmentActivity {
         final ActionBar mActionBar = getActionBar();
         setContentView(R.layout.activity_user);
         addTabView();
+
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
+//                albumList.add(0, Album.DEFAULT_ALBUM);
+//                for(Album album:albumList){
+//                    List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
+//                    if(worksInfoList.size()>0){
+//                        album.sampleImageId = worksInfoList.get(0).picInfo.id;
+//                    }
+//                    worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
+//                    album.worksInfoList = worksInfoList;
+//
+//
+//                    WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+//                }
+//            }
+//        });
 
     }
 
@@ -60,7 +85,7 @@ public class UserActivity extends FragmentActivity {
 
             @Override
             public int getCount() {
-                return 6;
+                return 1;
             }
 
             @Override

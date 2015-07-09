@@ -188,7 +188,7 @@ public class TreasureDetailActivity extends Activity implements ITreasureDetailM
 
     @Override
     public void addDescView() {
-        mTvDesc = (TextView)findViewById(R.id.editText_treasure_desc);
+        mTvDesc = (TextView)findViewById(R.id.textView_desc);
 
     }
 

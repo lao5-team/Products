@@ -121,7 +121,8 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
         listView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-                PictureDetailActivity.startActivity(mContext, mWorksInfoList.get(position -1).picInfo.id);
+                //PictureDetailActivity.startActivity(mContext, mWorksInfoList.get(position -1).picInfo.id);
+                CalligraphyDetailActivity.startActivity(mWorksInfoList.get(position -1), mContext);
             }
         });
         //listView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true ,true));
@@ -176,6 +177,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
         TextView tvDesc;
         ImageView ivAuthor;
         TextView tvAuthorName;
+        boolean isLayout = false;
     }
 
     private class PictureAdapter extends BaseAdapter{
@@ -214,9 +216,13 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
             viewHolder = (ViewHolder) convertView.getTag();
             PictureInfo pictureInfo = mWorksInfoList.get(position).picInfo;
             //预先用图片的尺寸对imageView进行布局
-            RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
-                    parent.getWidth()/2, parent.getWidth()*pictureInfo.height/(2*pictureInfo.width));
-            viewHolder.imageView.setLayoutParams(param);
+            if(!viewHolder.isLayout){
+                RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
+                        parent.getWidth()/2, parent.getWidth()*pictureInfo.height/(2*pictureInfo.width));
+                viewHolder.imageView.setLayoutParams(param);
+                viewHolder.isLayout = true;
+            }
+
             mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(
                     mWorksInfoList.get(position).picInfo.id), viewHolder.imageView, mImageOptions);
 

@@ -8,5 +8,5 @@
     <view android:layout_width="match_parent"
           android:layout_height="match_parent"
           class="com.pineapple.mobilecraft.widget.waterfall.MultiColumnPullToRefreshListView" android:id="@+id/list"
-          />
+          android:paddingLeft="15dp" android:paddingRight="15dp"/>
 </LinearLayout>

@@ -72,7 +72,7 @@ public class TreasureCreateActivity extends Activity implements ITreasureCreateM
 
     @Override
     public void addDescView() {
-        mEtxDesc = (EditText)findViewById(R.id.editText_treasure_desc);
+        mEtxDesc = (EditText)findViewById(R.id.textView_desc);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.manager;
 
+import android.util.Log;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.cache.temp.JSONCache;
 import com.pineapple.mobilecraft.tumcca.data.Album;
@@ -54,7 +55,9 @@ public class WorksManager {
         JSONArray jsonArray = new JSONArray();
         for(WorksInfo worksInfo:listWorksInfo){
             jsonArray.put(WorksInfo.toJSON(worksInfo));
+
         }
+        Log.v("Tumcca", jsonArray.toString());
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("albumWorks", jsonArray);
@@ -102,6 +105,10 @@ public class WorksManager {
             return Album.NULL;
         }
     }
+
+//    public void putAlbumList(List<>){
+//
+//    }
 
 
 

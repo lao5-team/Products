@@ -3,11 +3,16 @@ package com.pineapple.mobilecraft.tumcca.app;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
@@ -35,7 +40,7 @@ public class AlbumSelectFragment extends DialogFragment {
     Activity mContext = null;
     private final int PAGE_COUNT = 1;
     private final int PAGE_SIZE = 20;
-    private final int WIDTH = 1;
+    private final int WIDTH = 400;
     public interface OnAlbumSelectListener{
         public void onAlbumSelect(Album album);
     }
@@ -43,6 +48,12 @@ public class AlbumSelectFragment extends DialogFragment {
     public AlbumSelectFragment(){
         mAlbumCreateFragment = new AlbumCreateFragment();
         mAlbumAdapter = new AlbumAdapter();
+        mAlbumCreateFragment.setAlbumCreateListener(new AlbumCreateFragment.OnAlbumCreateListener() {
+            @Override
+            public void onResult(boolean result) {
+                loadMyAlbums();
+            }
+        });
 
 
     }
@@ -103,49 +114,42 @@ public class AlbumSelectFragment extends DialogFragment {
                 getFragmentManager().beginTransaction().remove(AlbumSelectFragment.this).commit();
             }
         });
+        loadMyAlbums();
+
+        return view;
+    }
+
+    private void loadMyAlbums(){
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 mAlbumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
                 mAlbumList.add(0, Album.DEFAULT_ALBUM);
+                for(Album album:mAlbumList){
+                    List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
+                    if(worksInfoList.size()>0){
+                        album.sampleImageId = worksInfoList.get(0).picInfo.id;
+                    }
+                    worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
+                    album.worksInfoList = worksInfoList;
+
+
+                    WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+                }
                 mContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAlbumAdapter.notifyDataSetChanged();
-                        mAlbumListView.invalidate();
-
-
+                        //mAlbumListView.invalidate();
                     }
                 });
-                for(Album album:mAlbumList){
-                    List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
-//                    if(worksInfoList.size()>0){
-//                        album.worksInfoList = worksInfoList;
-//                    }
-//                    else{
-                        worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
-                        album.worksInfoList = worksInfoList;
-                        WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-//                    }
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAlbumAdapter.notifyDataSetChanged();
-                            mAlbumListView.invalidate();
-                        }
-                    });
-                }
 
             }
         });
         t.start();
-
-        return view;
     }
 
     private void showAlbumCreate(){
-//        getChildFragmentManager().beginTransaction().add(mAlbumCreateFragment, "create_album")
-//                .commit();
         mAlbumCreateFragment.show(getFragmentManager(), "create_album");
     }
 
@@ -220,7 +224,13 @@ public class AlbumSelectFragment extends DialogFragment {
             if(null!=worksInfoList&&worksInfoList.size()>0){
                 PictureInfo pictureInfo = worksInfoList.get(0).picInfo;
                 if(null!=pictureInfo){
-                    Picasso.with(mContext).load(PictureServer.getInstance().getPictureUrl(pictureInfo.id)).resize(48,48).centerCrop().into(imageView);
+                    //Picasso.with(mContext).load(PictureServer.getInstance().getPictureUrl(pictureInfo.id)).resize(48,48).centerCrop().into(imageView);
+                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                            .build();
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(pictureInfo.id, 48, 1), imageView, imageOptions);
+
                 }
             }
             return view;

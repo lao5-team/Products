@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:id="@+id/editText_treasure_desc"
+                    android:id="@+id/textView_desc"
                     android:layout_below="@+id/textView_treasure_desc"
                     android:layout_margin="10dp"
                     android:minLines="2"/>
@@ -74,7 +74,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:id="@+id/imageSwitcher"
-                    android:layout_below="@+id/editText_treasure_desc"
+                    android:layout_below="@+id/textView_desc"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -90,7 +90,7 @@
                         android:layout_toEndOf="@+id/imageSwitcher"
                         android:numColumns="3"
                         android:layout_marginTop="10dp"
-                        android:layout_below="@+id/editText_treasure_desc"
+                        android:layout_below="@+id/textView_desc"
                         />
 
         </RelativeLayout>

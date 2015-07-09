@@ -4,67 +4,91 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        >
+        android:background="@color/edittext_bg_normal">
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dip"
             android:id="@+id/scrollView3" android:layout_weight="10">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:padding="15dip">
+                        android:layout_height="match_parent" android:padding="10dip">
 
 
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"  android:id="@+id/layout_works"
+                            android:layout_height="wrap_content"
+                            android:background="@color/pure_white">
                 <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imageView_works"
+                        android:scaleType="fitCenter" android:adjustViewBounds="true" android:layout_margin="10dip"/>
+                <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"  android:id="@+id/layout_divider_bottom"
+                        android:layout_below="@+id/imageView_works" android:background="@color/edittext_bg_normal">
+                </RelativeLayout>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/textView_desc"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:minLines="2"
+                        android:layout_below="@+id/layout_divider_bottom"
+                        android:layout_margin="10dip" android:textSize="@dimen/text_size_normal"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip" android:layout_below="@+id/layout_works"
+                    android:background="@color/edittext_bg_normal" android:id="@+id/layout_divider">
+            </RelativeLayout>
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent" android:id="@+id/layout_author"
+                        android:layout_height="wrap_content" android:padding="15dip"
+                        android:background="@color/pure_white" android:layout_below="@+id/layout_divider">
+            <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:id="@+id/imageView_author"
                     android:background="@drawable/default_avatar" android:layout_alignParentLeft="true"/>
 
-                <TextView
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Medium Text"
                     android:id="@+id/textView_author"
                     android:layout_alignTop="@+id/imageView_author"
                     android:layout_toRightOf="@+id/imageView_author"
-                    android:textSize="@dimen/normal_font_size"
+                    android:textSize="@dimen/text_size_normal"
                     android:layout_marginLeft="10dp"/>
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/imageView_calligraphy" android:layout_below="@+id/imageView_author"
-                        android:src="@drawable/sample1"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:id="@+id/editText_treasure_desc"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:minLines="2"
-                    android:layout_marginTop="10dp" android:layout_below="@+id/imageView_author"/>
+        </RelativeLayout>
 
 
         </RelativeLayout>
+
     </ScrollView>
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_alignParentBottom="false" android:id="@+id/bottom"
-            android:gravity="bottom" android:layout_below="@+id/scrollView3" android:padding="10dip">
+            android:gravity="bottom" android:layout_below="@+id/scrollView3" android:padding="10dip"
+            android:focusable="true" android:focusableInTouchMode="true"
+            android:background="@drawable/corner_border_dialog" android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip">
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="38dip"
                 android:id="@+id/editText" android:layout_toLeftOf="@+id/submit"
                 android:layout_alignParentBottom="false" style="@style/my_edittext_style"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip" android:hint="@string/input_comment"/>
+                android:hint="@string/input_comment"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="42dip"
                 android:text="@string/submit"
-                android:id="@+id/submit" android:layout_alignParentRight="true" android:layout_marginRight="5dip"
+                android:id="@+id/submit" android:layout_alignParentRight="true"
                 android:textSize="@dimen/text_size_normal" android:layout_alignParentBottom="false"
                 android:layout_marginTop="5dip"
                 android:layout_centerVertical="true" style="@style/my_button_style" android:layout_marginLeft="5dip"/>

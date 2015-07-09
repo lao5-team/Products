@@ -55,7 +55,7 @@ public class UserAlbumsFragment extends Fragment {
                     @Override
                     public void run() {
                         addCountView(mTvAlbumCount);
-                        mAlbumsAdapter.notifyDataSetChanged();
+                        //mAlbumsAdapter.notifyDataSetChanged();
                     }
                 });
                 for(Album album:mAlbumList){
@@ -68,13 +68,14 @@ public class UserAlbumsFragment extends Fragment {
                         album.worksInfoList = worksInfoList;
                         WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
                     }
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAlbumsAdapter.notifyDataSetChanged();
-                        }
-                    });
+
                 }
+                mContext.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAlbumsAdapter.notifyDataSetChanged();
+                    }
+                });
 
             }
         });

@@ -12,7 +12,7 @@
                 android:text="New Text"
                 android:id="@+id/textView_album_title" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" android:textSize="@dimen/text_size_normal"
-                android:layout_weight="1" android:layout_marginLeft="15dip"
+                android:layout_weight="0.7" android:layout_marginLeft="15dip"
                 android:layout_marginRight="15dip" android:layout_marginBottom="5dip"
                 android:gravity="center_vertical"/>
         <ImageView
