@@ -200,6 +200,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".tumcca.app.CalligraphyListActivity" android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style" android:screenOrientation="portrait"/>
+        <activity android:name=".tumcca.app.UserCity"/>
 
     </application>
 

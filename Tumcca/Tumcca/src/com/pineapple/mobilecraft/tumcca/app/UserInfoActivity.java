@@ -72,6 +72,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private UserInfoIntro userInfoIntro;
     private UserInfoHobby userInfoHobby;
     private UserInfoForte userInfoForte;
+    private UserCity userCity;
     private TextView mTvCountry;
     private TextView mTvProvince;
     private TextView mTvCity;
@@ -158,6 +159,14 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                         mProfile.gender = gender;
                         updateUser(mProfile);
                         break;
+                    case MSG_CHANGE_REGION:
+                        bundle = msg.getData();
+                        String provincename = bundle.getString("province");
+                        String cityname = bundle.getString("city");
+                        mProfile.province = provincename;
+                        mProfile.city = cityname;
+                        updateUser(mProfile);
+                        break;
                 }
             }
         };
@@ -183,6 +192,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         hobbyLay = (RelativeLayout) this.findViewById(R.id.hobbyLay);
         forteLay = (RelativeLayout) this.findViewById(R.id.forteLay);
         mGenderLay = (RelativeLayout)this.findViewById(R.id.layout_gender);
+        regionLay = (RelativeLayout)this.findViewById(R.id.regionLay);
 
         mGenderLay.setOnClickListener(this);
         phoneLay.setOnClickListener(this);
@@ -191,6 +201,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         introLay.setOnClickListener(this);
         hobbyLay.setOnClickListener(this);
         forteLay.setOnClickListener(this);
+        regionLay.setOnClickListener(this);
     }
 
     @Override
@@ -245,6 +256,10 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                     mUserInfoGender = new UserInfoGender();
                 }
                 mUserInfoGender.show(getSupportFragmentManager(), "UserInfoGender");
+                break;
+            case R.id.regionLay:
+                userCity = new UserCity();
+                userCity.show(getSupportFragmentManager(), "UserCity");
                 break;
         }
     }

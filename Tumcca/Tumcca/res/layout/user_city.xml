@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.pineapple.mobilecraft.tumcca.view.PinnedHeaderExpandableListView
+        android:id="@+id/expandablelist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@null"
+        android:background="#ebebeb"
+        android:divider="@null"
+        android:childIndicatorLeft="0dp"
+        android:dividerHeight="0dp"
+        android:groupIndicator="@null"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        >
+
+    </com.pineapple.mobilecraft.tumcca.view.PinnedHeaderExpandableListView>
+
+</LinearLayout>
