@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.view.MyHorizontalScrollView;
@@ -32,6 +34,9 @@ public class PictureDetailActivity extends Activity {
     private boolean mIsMagnifierMode = false;
     private ImageButton mIBMagnifier ;
     private ZoomImageView mZoomImageView;
+
+    DisplayImageOptions mImageOptions;
+    ImageLoader mImageLoader;
 
     public static void startActivity(Activity activity, int picId){
         Intent intent = new Intent(activity, PictureDetailActivity.class);
@@ -115,8 +120,15 @@ public class PictureDetailActivity extends Activity {
 
         mZoomImageView = (ZoomImageView)findViewById(R.id.zoom_view);
 
-        Picasso.with(this).load(PictureServer.getInstance().getPictureUrl(
-                getIntent().getIntExtra("id", -1))).into(mZoomImageView);
+//        Picasso.with(this).load(PictureServer.getInstance().getPictureUrl(
+//                getIntent().getIntExtra("id", -1))).into(mZoomImageView);
+
+        mImageOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        mImageLoader = ImageLoader.getInstance();
+        mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(getIntent().getIntExtra("id", -1)), mZoomImageView, mImageOptions);
+
     }
 
     public class Magnifier extends View

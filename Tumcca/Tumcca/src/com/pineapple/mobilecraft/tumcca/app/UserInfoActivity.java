@@ -10,10 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
@@ -76,6 +73,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private TextView mTvCountry;
     private TextView mTvProvince;
     private TextView mTvCity;
+    private TextView mTvLogout;
 
     private Profile mProfile;
 
@@ -115,6 +113,15 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         addForteView();
         addRegionView();
         refreshData();
+
+        mTvLogout = (TextView)findViewById(R.id.btn_logout);
+        mTvLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserManager.getInstance().logout();
+                finish();
+            }
+        });
     }
 
     private void initHandler() {

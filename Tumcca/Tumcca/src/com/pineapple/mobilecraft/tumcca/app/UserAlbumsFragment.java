@@ -50,12 +50,10 @@ public class UserAlbumsFragment extends Fragment {
             public void run() {
                 mAlbumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
                 mAlbumList.add(0, Album.DEFAULT_ALBUM);
-
                 mContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         addCountView(mTvAlbumCount);
-                        //mAlbumsAdapter.notifyDataSetChanged();
                     }
                 });
                 for(Album album:mAlbumList){
@@ -110,8 +108,8 @@ public class UserAlbumsFragment extends Fragment {
         albumsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                CalligraphyListActivity.startActivity(mContext, mAlbumList.get(position).id);
+                Album album = mAlbumList.get(position);
+                AlbumCalligraphyListActivity.startActivity(mContext, album.id, album.title);
             }
         });
     }

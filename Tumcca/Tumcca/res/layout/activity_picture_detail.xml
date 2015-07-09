@@ -25,15 +25,14 @@
 
         </RelativeLayout>
     </view>
-    <ScrollView
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/scrollView6" android:background="@color/edittext_bg_normal">
         <view android:layout_width="match_parent"
               android:layout_height="match_parent"
               class="com.pineapple.mobilecraft.tumcca.view.ZoomImageView" android:id="@+id/zoom_view"
-              android:layout_below="@+id/layout_tools" android:layout_toRightOf="@+id/scrollView"
-              android:layout_toEndOf="@+id/scrollView"
-              android:scaleType="centerCrop" android:adjustViewBounds="true"/>
-    </ScrollView>
+
+              android:scaleType="fitStart" android:adjustViewBounds="true"/>
+    </RelativeLayout>
 </RelativeLayout>

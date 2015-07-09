@@ -260,7 +260,7 @@
                     android:textSize="16sp"
                     android:layout_centerInParent="true"
                     android:text="退出登录"
-                    />
+                    android:clickable="true"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -84,7 +84,10 @@ public class UserManager {
 	 */
 	public boolean logout()
 	{
-
+		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+		jsonCache.remove("cache_account");
+		mCurrentUid = "";
+		mCurrentToken = "";
 		return true;
 	}
 	
@@ -159,7 +162,7 @@ public class UserManager {
 		try {
 			jsonObject.put("username", username);
 			jsonObject.put("password", android.util.Base64.encodeToString(password.getBytes(), Base64.DEFAULT));
-			jsonCache.putItem(username, jsonObject);
+			jsonCache.putItem("cache_account", jsonObject);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -172,18 +175,27 @@ public class UserManager {
 	public String getCachedUsername()
 	{
 		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
-		List<JSONObject> jsonList = jsonCache.getAllItems();
+//		List<JSONObject> jsonList = jsonCache.getAllItems();
+//		String username = "";
+//		if(null!=jsonList && jsonList.size()>0)
+//		{
+//			JSONObject jsonObject = jsonList.get(0);
+//			if(jsonObject.has("username"))
+//			{
+//				try {
+//					username = jsonObject.getString("username");
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 		String username = "";
-		if(null!=jsonList && jsonList.size()>0)
-		{
-			JSONObject jsonObject = jsonList.get(0);
-			if(jsonObject.has("username"))
-			{
-				try {
-					username = jsonObject.getString("username");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+		JSONObject jsonObject = jsonCache.getItem("cache_account");
+		if(null!=jsonObject){
+			try {
+				username = jsonObject.getString("username");
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 		}
 		return username;
@@ -196,21 +208,33 @@ public class UserManager {
 	public String getCachedPassword()
 	{
 		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
-		List<JSONObject> jsonList = jsonCache.getAllItems();
-		String username = "";
-		if(null!=jsonList && jsonList.size()>0)
-		{
-			JSONObject jsonObject = jsonList.get(0);
-			if(jsonObject.has("password"))
-			{
-				try {
-					username = new String(android.util.Base64.decode(jsonObject.getString("password"), Base64.DEFAULT));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+//		List<JSONObject> jsonList = jsonCache.getAllItems();
+//		String username = "";
+//		if(null!=jsonList && jsonList.size()>0)
+//		{
+//			JSONObject jsonObject = jsonList.get(0);
+//			if(jsonObject.has("password"))
+//			{
+//				try {
+//					username = new String(android.util.Base64.decode(jsonObject.getString("password"), Base64.DEFAULT));
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		return username;
+		String password = "";
+		JSONObject jsonObject = jsonCache.getItem("cache_account");
+
+		if(null!=jsonObject){
+			try {
+				password = new String(android.util.Base64.decode(jsonObject.getString("password"), Base64.DEFAULT));
+			} catch (JSONException e) {
+				e.printStackTrace();
+				password = "";
 			}
 		}
-		return username;
+		return password;
 	}
 
 	public String getCurrentToken(){
