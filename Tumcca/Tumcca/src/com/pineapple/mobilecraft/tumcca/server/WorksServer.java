@@ -3,6 +3,7 @@ package com.pineapple.mobilecraft.tumcca.server;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
 import org.apache.http.client.methods.HttpPost;
@@ -110,6 +111,28 @@ public class WorksServer {
         String url = host + "/api/album/" + albumId + "/workses/page/" + page + "/size/" +
                 size + "/width/" + width;
         SyncHttpPost<List<WorksInfo>> post = new SyncHttpPost<List<WorksInfo>>(url, token, null) {
+            @Override
+            public List<WorksInfo> postExcute(String result) {
+                List<WorksInfo> worksInfoList = new ArrayList<WorksInfo>();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("results");
+                    for(int i=0; i<array.length(); i++){
+                        worksInfoList.add(WorksInfo.fromJSON(array.getJSONObject(i)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return worksInfoList;
+            }
+        };
+        return post.execute();
+    }
+
+    public static List<WorksInfo> getWorksInHome(int page, int size, int width){
+        String url = host + "/api/works/homepage/page/" + page + "/size/" + size + "/width/" + width;
+        String token = UserManager.getInstance().getCurrentToken();
+        SyncHttpGet<List<WorksInfo>> post = new SyncHttpGet<List<WorksInfo>>(url, token) {
             @Override
             public List<WorksInfo> postExcute(String result) {
                 List<WorksInfo> worksInfoList = new ArrayList<WorksInfo>();

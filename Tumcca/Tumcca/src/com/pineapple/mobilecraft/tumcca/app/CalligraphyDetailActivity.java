@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.*;
 import com.pineapple.mobilecraft.R;
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by yihao on 15/6/3.
  * 用来查看宝物详情
  */
-public class CalligraphyDetailActivity extends Activity implements ITreasureDetailMediator {
+public class CalligraphyDetailActivity extends FragmentActivity implements ITreasureDetailMediator {
 
     private TextView mTvUser;
     private ImageView mIvUser;
@@ -89,50 +90,50 @@ public class CalligraphyDetailActivity extends Activity implements ITreasureDeta
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_treasuredetail);
-        addTitleView();
-        addDescView();
-        addImagesView();
-        addCommentsView();
-        addProfCommentsView();
-        addUserView();
-        addCommentControl();
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = getIntent();
-                String treasureID = intent.getStringExtra(INTENT_TREASURE_ID);
-                if (true == intent.getBooleanExtra("fromNotification", false)) {
-                    TreasureManager.getInstance().clearUserMessage(UserManager.getInstance().getCurrentUser().mName);
-                }
-                List<String> ids = new ArrayList<String>();
-                ids.add(treasureID);
-                final List<Treasure> treasures = TreasureManager.getInstance().getTreasuresByIds(ids);
-                if (treasures.size() > 0) {
-                    mUser = MyServerManager.getInstance().getUserInfo(treasures.get(0).mOwnerName);
-                    mListComment = BmobServerManager.getInstance().getTreasureComments(treasures.get(0).mCommentIds);
-                    mListProfComment = BmobServerManager.getInstance().getTreasureProfComment(treasures.get(0).mIdentifies);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setTreasure(treasures.get(0));
-                            setUser(mUser);
-                            setComments(mListComment, mListProfComment);
-                        }
-                    });
-                } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            finish();
-                        }
-                    });
-
-                }
-            }
-        });
-        t.start();
+        setContentView(R.layout.activity_calligraphy_detail);
+//        addTitleView();
+//        addDescView();
+//        addImagesView();
+//        addCommentsView();
+//        addProfCommentsView();
+//        addUserView();
+//        addCommentControl();
+//
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = getIntent();
+//                String treasureID = intent.getStringExtra(INTENT_TREASURE_ID);
+//                if (true == intent.getBooleanExtra("fromNotification", false)) {
+//                    TreasureManager.getInstance().clearUserMessage(UserManager.getInstance().getCurrentUser().mName);
+//                }
+//                List<String> ids = new ArrayList<String>();
+//                ids.add(treasureID);
+//                final List<Treasure> treasures = TreasureManager.getInstance().getTreasuresByIds(ids);
+//                if (treasures.size() > 0) {
+//                    mUser = MyServerManager.getInstance().getUserInfo(treasures.get(0).mOwnerName);
+//                    mListComment = BmobServerManager.getInstance().getTreasureComments(treasures.get(0).mCommentIds);
+//                    mListProfComment = BmobServerManager.getInstance().getTreasureProfComment(treasures.get(0).mIdentifies);
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            setTreasure(treasures.get(0));
+//                            setUser(mUser);
+//                            setComments(mListComment, mListProfComment);
+//                        }
+//                    });
+//                } else {
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            finish();
+//                        }
+//                    });
+//
+//                }
+//            }
+//        });
+//        t.start();
     }
 
     @Override
@@ -162,8 +163,8 @@ public class CalligraphyDetailActivity extends Activity implements ITreasureDeta
 
     @Override
     public void addUserView() {
-        mTvUser = (TextView) findViewById(R.id.textView_owner_name);
-        mIvUser = (ImageView) findViewById(R.id.imageView_owner);
+        mTvUser = (TextView) findViewById(R.id.textView_author);
+        mIvUser = (ImageView) findViewById(R.id.imageView_author);
     }
 
     @Override

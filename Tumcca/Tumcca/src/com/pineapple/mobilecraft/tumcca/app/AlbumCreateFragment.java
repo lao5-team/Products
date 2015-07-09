@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 
 /**
@@ -58,9 +59,11 @@ public class AlbumCreateFragment extends DialogFragment {
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        WorksServer.uploadAlbum(UserManager.getInstance().getCurrentToken(), new Album(
-                                        mEtxTitle.getText().toString(), mEtxDesc.getText().toString(), -1)
+                        Album album = new Album(
+                                mEtxTitle.getText().toString(), mEtxDesc.getText().toString(), -1);
+                        WorksServer.uploadAlbum(UserManager.getInstance().getCurrentToken(), album
                         );
+                        WorksManager.getInstance().setLatestAlbum(album);
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

@@ -23,6 +23,9 @@ public class UserManager {
 	private LoginStateListener mLoginStateListener = null;
 	private String mCurrentUid = "";
 	private String mCurrentToken = "";
+	private Profile mCurrentProfile = Profile.NULL;
+
+	JSONCache mProfileCache = null;
 
 	public static interface LoginStateListener
 	{	
@@ -106,11 +109,24 @@ public class UserManager {
 	}
 	
 	/**读取某个用户的信息
-	 * @param userName
+	 * @param userId
 	 * @return
 	 */
-	public Profile getUser(String userName)
+	public Profile getUserProfile(int userId)
 	{
+		String id = String.valueOf(userId);
+		JSONObject jsonObject = mProfileCache.getItem(id);
+		Profile profile;
+		if(jsonObject == null){
+			profile = UserServer.getInstance().getUserProfile(userId);
+			if(profile!=Profile.NULL){
+				mProfileCache.putItem(id, Profile.toJSON(profile));
+				return profile;
+			}
+		}
+		else{
+			return Profile.fromJSON(jsonObject);
+		}
 		return Profile.NULL;
 	}
 
@@ -203,6 +219,8 @@ public class UserManager {
 
 	private UserManager(){
 		mUserServer = UserServer.getInstance();
+
+		mProfileCache = new JSONCache(DemoApplication.applicationContext, "profile");
 	}
 	
 

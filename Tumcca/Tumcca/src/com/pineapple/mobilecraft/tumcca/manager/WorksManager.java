@@ -2,6 +2,7 @@ package com.pineapple.mobilecraft.tumcca.manager;
 
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.cache.temp.JSONCache;
+import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
@@ -19,7 +20,7 @@ public class WorksManager {
     private static WorksManager mInstance = null;
     JSONCache mAlbumWorksCache = new JSONCache(DemoApplication.applicationContext, "album_works");
     JSONCache mWorksCache = new JSONCache(DemoApplication.applicationContext, "works");
-
+    JSONCache mAlbumCache = new JSONCache(DemoApplication.applicationContext, "album");
     public static WorksManager getInstance(){
         if(mInstance==null){
             mInstance = new WorksManager();
@@ -41,6 +42,13 @@ public class WorksManager {
             return worksInfo;
         }
     }
+
+    public void putWorksList(List<WorksInfo> worksInfoList){
+
+    }
+
+
+
 
     public void putAlbumWorks(int albumId, List<WorksInfo> listWorksInfo){
         JSONArray jsonArray = new JSONArray();
@@ -79,6 +87,20 @@ public class WorksManager {
         }
         return result;
 
+    }
+
+    public void setLatestAlbum(Album album){
+        mAlbumCache.putItem("latest", Album.toJSON(album));
+    }
+
+    public Album getLatestAlbum(){
+        JSONObject jsonObject = mAlbumCache.getItem("latest");
+        if(null!=jsonObject){
+            return Album.fromJSON(jsonObject);
+        }
+        else{
+            return Album.NULL;
+        }
     }
 
 

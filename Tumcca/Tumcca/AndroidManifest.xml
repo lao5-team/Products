@@ -153,6 +153,9 @@
                 <!--<action android:name="android.intent.action.MAIN" />-->
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity android:name=".tumcca.app.LoginActivity" android:theme="@style/my_dialog_activity_style">
@@ -188,6 +191,7 @@
                 <!--<action android:name="android.intent.action.MAIN"/>-->
                 <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
+
         </activity>
         <activity android:name=".tumcca.app.CalligraphyCreateActivity" android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style" android:screenOrientation="portrait">
             <intent-filter>

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="张三"
-            android:id="@+id/textView_owner_name"
+            android:id="@+id/textView_author"
             android:layout_alignTop="@+id/imageView_user"
             android:layout_toRightOf="@+id/imageView_user"
             android:layout_toEndOf="@+id/imageView_user"
@@ -33,8 +33,8 @@
             android:gravity="center_horizontal"
             android:textSize="@dimen/normal_font_size"
             android:layout_alignBottom="@+id/imageView_user"
-            android:layout_alignLeft="@+id/textView_owner_name"
-            android:layout_alignStart="@+id/textView_owner_name"/>
+            android:layout_alignLeft="@+id/textView_author"
+            android:layout_alignStart="@+id/textView_author"/>
 
     <ImageView
             android:layout_width="96dp"

@@ -3,45 +3,48 @@ package com.pineapple.mobilecraft.tumcca.app;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.*;
 import android.widget.*;
-//import com.huewu.pla.lib.MultiColumnListView;
-//import com.huewu.pla.lib.MultiColumnPullToRefreshListView;
-//import com.huewu.pla.lib.internal.PLA_AdapterView;
-//import com.huewu.pla.sample.WaterfallAdapter;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
-import com.pineapple.mobilecraft.tumcca.data.Works;
+import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IHome;
-import com.pineapple.mobilecraft.tumcca.server.PictureServer;
+import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.widget.waterfall.MultiColumnPullToRefreshListView;
-import com.pineapple.mobilecraft.widget.waterfall.WaterfallSmartView;
 import com.squareup.picasso.Picasso;
 import de.tavendo.autobahn.WebSocket;
 import de.tavendo.autobahn.WebSocketConnection;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by yihao on 15/6/4.
  */
-public class HomeActivity extends FragmentActivity implements IHome{
-    Button mBtnLogin = null;
-    Button mBtnRegister = null;
-    ImageView mIVAccount = null;
-    private MultiColumnPullToRefreshListView waterfallView;//可以把它当成�?��listView
+public class HomeActivity extends FragmentActivity implements IHome {
+
+    private static final int WORKS_WIDTH = 400;
+    private static final int PAGE_SIZE = 5;
+
+    private Button mBtnLogin = null;
+    private Button mBtnRegister = null;
+    private ImageView mIVAccount = null;
+    private CalligraphyListFragment mWorksListFragment;
+    private int mCurrentPageIndex = 1;
+    private Thread mDataThread = null;
+    private Handler mDataHandler = null;
+    private Object mLock = new Object();
+
+    private boolean mIsLoadBottom = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,50 +54,73 @@ public class HomeActivity extends FragmentActivity implements IHome{
 
         mActionBar.setDisplayHomeAsUpEnabled(false);
 
-        //mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        mActionBar.setTitle("Test");
-        //mActionBar.
         setContentView(R.layout.activity_home);
-        if(UserManager.getInstance().isLogin()){
+        if (UserManager.getInstance().isLogin()) {
             setTitle(UserManager.getInstance().getCachedUsername());
-        }
-        else{
-            setTitle("书法+");
+        } else {
+            setTitle(getString(R.string.app_name));
             addAccountView();
         }
+
+        mWorksListFragment = new CalligraphyListFragment();
+        addWorkList(mWorksListFragment);
+        mDataThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                mDataHandler = new Handler();
+                while(true){
+                    try {
+                        Thread.currentThread().sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        mDataThread.start();
+        mWorksListFragment.setBottomScrollListener(new CalligraphyListFragment.OnBottomScrollListener() {
+            @Override
+            public void onBottom() {
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsLoadBottom = true;
+                        final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
+                        if(worksInfoList.size() >0 ){
+                            mCurrentPageIndex++;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mWorksListFragment.addWorkList(worksInfoList);
+
+                                }
+                            });
+                        }
+                        mIsLoadBottom = false;
+                    }
+                });
+                if(!mIsLoadBottom){
+                    t.start();
+                }
+
+
+            }
+        });
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                //testWebsocket();
+                final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mWorksListFragment.setWorksList(worksInfoList);
+                    }
+                });
             }
         });
-        t.start();
-
-
-        waterfallView = (MultiColumnPullToRefreshListView) findViewById(R.id.list);
-
-        ArrayList<Picture> workList = new ArrayList<Picture>();
-        workList.add(new Picture("http://www.ziweizhai.cn/upimg/allimg/100608/1_100608093822_1.jpg", null));
-        workList.add(new Picture("http://pic12.nipic.com/20101231/49928_001443509114_2.jpg", null));
-        workList.add(new Picture("http://www.hihey.com/images/201211/goods_img/6209_P_1353042334002.jpg", null));
-//        workList.add(new Picture("http://www.yuebaozhai.net/upFile/pic/2012_9_22_356953.jpg", null));
-//        workList.add(new Picture("http://img25.artxun.com/sdd/oldimg/5d2e/5d2ecd6cd032e503256b9ce433496311.jpg", null));
-//        workList.add(new Picture("http://www.daqiangallery.com.cn/uploadfile/2010213121920wuzhongqi.jpg", null));
-//        workList.add(new Picture("http://ctc.cuepa.cn/newspic/332981/s_fc03d461e6d5a071e15558ad34df76d6182099.jpg", null));
-//        workList.add(new Picture("http://bbscache3.artron.net/forum/day_120507/12050711125c3f495d63b2490d.jpg", null));
-        WorksAdapter worksAdapter = new WorksAdapter(workList, this);
-        waterfallView.setAdapter(worksAdapter);
-        //waterfallView.setAdapter(worksAdapter);
-        //waterfallView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(HomeActivity.this, PictureDetailActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-
-
+       //t.start();
 
 
     }
@@ -116,32 +142,31 @@ public class HomeActivity extends FragmentActivity implements IHome{
 
     @Override
     public void addAccountView() {
-        RelativeLayout layout = (RelativeLayout)findViewById(R.id.layout_account);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_account);
         String username = UserManager.getInstance().getCachedUsername();
         String password = UserManager.getInstance().getCachedPassword();
 
-        if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
             UserManager.getInstance().login(username, password);
             layout.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             layout.setVisibility(View.VISIBLE);
         }
 
-        mBtnLogin = (Button)findViewById(R.id.button_login);
+        mBtnLogin = (Button) findViewById(R.id.button_login);
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoginActivity.startActivity(HomeActivity.this);
-                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-
-                builder.setView(getLayoutInflater().inflate(R.layout.dialog_register, null));
-
-                builder.create().show();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+//
+//                builder.setView(getLayoutInflater().inflate(R.layout.dialog_register, null));
+//
+//                builder.create().show();
             }
         });
 
-        mBtnRegister = (Button)findViewById(R.id.button_register);
+        mBtnRegister = (Button) findViewById(R.id.button_register);
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +176,7 @@ public class HomeActivity extends FragmentActivity implements IHome{
             }
         });
 
-        mIVAccount = (ImageView)findViewById(R.id.imageView_account);
+        mIVAccount = (ImageView) findViewById(R.id.imageView_account);
         mIVAccount.setClickable(true);
         mIVAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,111 +187,19 @@ public class HomeActivity extends FragmentActivity implements IHome{
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == LoginActivity.REQ_LOGIN&&resultCode == RESULT_OK){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LoginActivity.REQ_LOGIN && resultCode == RESULT_OK) {
             setTitle(UserManager.getInstance().getCachedUsername());
-            RelativeLayout layout = (RelativeLayout)findViewById(R.id.layout_account);
+            RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_account);
             layout.setVisibility(View.GONE);
         }
-        if(requestCode == RegisterActivity.REQ_REGISTER&&resultCode == RESULT_OK){
+        if (requestCode == RegisterActivity.REQ_REGISTER && resultCode == RESULT_OK) {
             setTitle(UserManager.getInstance().getCachedUsername());
-            RelativeLayout layout = (RelativeLayout)findViewById(R.id.layout_account);
+            RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_account);
             layout.setVisibility(View.GONE);
-
-
         }
-        //super.onActivityResult();
     }
-    private final WebSocket mConnection = new WebSocketConnection();
 
-    private void testWebsocket(){
-//        try {
-//            mConnection.connect("http://120.26.202.114/ws/follow", new WebSocketConnectionHandler() {
-//                @Override
-//                public void onOpen() {
-//                    Log.d("Websocket", "onOpen");
-//                    JSONObject jsonObject = new JSONObject();
-//                    try {
-//                        jsonObject.put("follower", 1);
-//                        jsonObject.put("toFollow", 3);
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    mConnection.sendTextMessage(jsonObject.toString());
-//                }
-//
-//                @Override
-//                public void onTextMessage(String payload) {
-//                    Log.d("Websocket", payload);
-//
-//                }
-//
-//                @Override
-//                public void onClose(int code, String reason) {
-//                }
-//            });
-//        } catch (WebSocketException e) {
-//
-//            Log.d("Websocket", e.toString());
-//        }
-
-//        Client client = ClientFactory.getDefault().newClient();
-//
-//        RequestBuilder request = client.newRequestBuilder()
-//                .method(Request.METHOD.GET)
-//                .uri("http://120.26.202.114/ws/follow")
-//                .encoder(new Encoder<String, String>() {
-//                    @Override
-//                    public String encode(String data) {
-//                            return data;
-//                    }
-//                })
-//                .decoder(new Decoder<String, String>() {
-//                    @Override
-//                    public String decode(Event event, String s) {
-//                        return null;
-//                    }
-//                })
-//                .transport(Request.TRANSPORT.WEBSOCKET);
-//
-//        final org.atmosphere.wasync.Socket socket = client.create();
-//        try {
-//            socket.on("NOTIFY", new Function<String>() {
-//                @Override
-//                public void on(final String t) {
-//                    Log.v("Tumcca", t);
-//                }
-//            }).on(new Function<Throwable>() {
-//
-//                @Override
-//                public void on(Throwable t) {
-//                    //tv.setText("ERROR 3: " + t.getMessage());
-//                    t.printStackTrace();
-//                }
-//
-//            }).open(request.build());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        try {
-//
-//                    JSONObject jsonObject = new JSONObject();
-//                    try {
-//                        jsonObject.put("follower", 1);
-//                        jsonObject.put("toFollow", 3);
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//            socket.fire(jsonObject.toString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -296,106 +229,30 @@ public class HomeActivity extends FragmentActivity implements IHome{
         return super.onOptionsItemSelected(item);
     }
 
-    private class MySimpleAdapter extends ArrayAdapter<String> {
 
-        public MySimpleAdapter(Context context, int layoutRes) {
-            super(context, layoutRes, android.R.id.text1);
-        }
+    public void addWorkList(CalligraphyListFragment fragment) {
+        getFragmentManager().beginTransaction().add(R.id.layout_works, mWorksListFragment).commit();
     }
 
-    //private MultiColumnListView mAdapterView = null;
-    private MySimpleAdapter mAdapter = null;
-
-    private class WorksAdapter extends BaseAdapter{
-
-        private class ViewHolder{
-            ImageView mImageView;
-            TextView mTvAuthor;
-            TextView mTitle;
-            TextView mLikes;
-            TextView mComments;
-
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        super.onKeyDown(keyCode, event);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            View view = getLayoutInflater().inflate(R.layout.dialog_exit, null);
+            AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+            dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    System.exit(0);
+                }
+            });
+            dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
         }
-
-        List<Picture> mWorksList;
-        Context mContext;
-        public WorksAdapter(List<Picture> worksList, Context context){
-            mWorksList = worksList;
-            mContext = context;
-        }
-
-        /**
-         * How many items are in the data set represented by this Adapter.
-         *
-         * @return Count of items.
-         */
-        @Override
-        public int getCount() {
-            return mWorksList.size();
-        }
-
-        /**
-         * Get the data item associated with the specified position in the data set.
-         *
-         * @param position Position of the item whose data we want within the adapter's
-         *                 data set.
-         * @return The data at the specified position.
-         */
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        /**
-         * Get the row id associated with the specified position in the list.
-         *
-         * @param position The position of the item within the adapter's data set whose row id we want.
-         * @return The id of the item at the specified position.
-         */
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        /**
-         * Get a View that displays the data at the specified position in the data set. You can either
-         * create a View manually or inflate it from an XML layout file. When the View is inflated, the
-         * parent View (GridView, ListView...) will apply default layout parameters unless you use
-         * {@link android.view.LayoutInflater#inflate(int, android.view.ViewGroup, boolean)}
-         * to specify a root view and to prevent attachment to the root.
-         *
-         * @param position    The position of the item within the adapter's data set of the item whose view
-         *                    we want.
-         * @param convertView The old view to reuse, if possible. Note: You should check that this view
-         *                    is non-null and of an appropriate type before using. If it is not possible to convert
-         *                    this view to display the correct data, this method can create a new view.
-         *                    Heterogeneous lists can specify their number of view types, so that this View is
-         *                    always of the right type (see {@link #getViewTypeCount()} and
-         *                    {@link #getItemViewType(int)}).
-         * @param parent      The parent that this view will eventually be attached to
-         * @return A View corresponding to the data at the specified position.
-         */
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            View view = layoutInflater.inflate(R.layout.item_works, null);
-
-            ImageView iv = (ImageView)view.findViewById(R.id.imageView_picture);
-            Picasso.with(mContext).load(mWorksList.get(position).url).into(iv);
-//            File file = new File("mnt/sdcard/Tumcca/" + mWorksList.get(position).url);
-//            try {
-//                FileOutputStream fos = new FileOutputStream(file);
-//                ((BitmapDrawable)iv.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
-//                try {
-//                    fos.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-
-            return view;
-        }
+        return false;
     }
 }

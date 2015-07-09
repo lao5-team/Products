@@ -183,13 +183,15 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="my_textview_style" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:layout_height">@dimen/textview_height</item>
+    </style>
     <style name="my_edittext_style" parent="@android:style/Widget.EditText">
 
         <item name="android:background">@drawable/edittext_bg</item>
         <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:padding">5dip</item>
-
-
     </style>
 
     <style name="my_edittext_smallstyle" parent="@android:style/Widget.EditText">

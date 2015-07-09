@@ -177,17 +177,20 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		String []keys = new String[keyList.size()];
 		Cursor cursor = db.query(mName, new String[]{"value"}, "id=?", keyList.toArray(keys), null, null, null);
 		ArrayList<JSONObject> result = new ArrayList<JSONObject>();
-		while(cursor.moveToNext())
-		{
-			String value = cursor.getString(cursor.getColumnIndex("value"));
-			try {
-				JSONObject item = new JSONObject(value);
-				result.add(item);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+		if(cursor.getCount()>0){
+			while(cursor.moveToNext())
+			{
+				String value = cursor.getString(cursor.getColumnIndex("value"));
+				try {
+					JSONObject item = new JSONObject(value);
+					result.add(item);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 
+			}
 		}
+
 		db.close();
 		cursor.close();
 		return result;

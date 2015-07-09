@@ -128,7 +128,7 @@ public class TreasureListFragment extends ListFragment {
 						holder.mTvName = (TextView) view
 								.findViewById(R.id.textView_treasure_name);
 						holder.mTvUsername = (TextView) view
-								.findViewById(R.id.textView_owner_name);
+								.findViewById(R.id.textView_author);
 						holder.mIvImage = (ImageView) view
 								.findViewById(R.id.imageView_treasure);
 						

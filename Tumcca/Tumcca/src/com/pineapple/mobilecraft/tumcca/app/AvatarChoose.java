@@ -11,13 +11,15 @@ import android.view.*;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.Utility.Utility;
+import com.pineapple.mobilecraft.util.logic.ImgFileListActivity;
+import org.w3c.dom.Text;
 
 import java.io.File;
 
 /**
  * Created by jiankun on 2015/6/24.
  */
-public class PhotoChoose extends DialogFragment implements View.OnClickListener {
+public class AvatarChoose extends DialogFragment implements View.OnClickListener {
 
     public static final int FROMCAMERA = 0;
     public static final int FROMGALLERY = 1;
@@ -26,7 +28,7 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
     private TextView mTvFromGallery;
     private Uri mUri;
 
-    public PhotoChoose(){
+    public AvatarChoose(){
         mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + "Temp.jpg"));
     }
 

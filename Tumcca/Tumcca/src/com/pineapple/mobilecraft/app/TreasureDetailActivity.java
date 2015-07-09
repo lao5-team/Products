@@ -170,8 +170,8 @@ public class TreasureDetailActivity extends Activity implements ITreasureDetailM
 
     @Override
     public void addUserView() {
-        mTvUser = (TextView)findViewById(R.id.textView_owner_name);
-        mIvUser = (ImageView)findViewById(R.id.imageView_owner);
+        mTvUser = (TextView)findViewById(R.id.textView_author);
+        mIvUser = (ImageView)findViewById(R.id.imageView_author);
     }
 
     @Override

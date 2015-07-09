@@ -13,15 +13,13 @@
             android:clickable="true"
             android:adjustViewBounds="true"
             android:id="@+id/imageView_picture" android:background="@drawable/corner_border_imageview_large"/>
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="文字说明"
-            android:id="@+id/textView_title" android:layout_below="@+id/imageView_picture"
-            android:layout_marginLeft="10dip" android:layout_marginTop="5dip"/>
-    <RelativeLayout
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="文字说明"
+                  android:id="@+id/textView_describe" android:layout_below="@+id/imageView_picture"
+                  android:layout_marginLeft="10dip" android:layout_marginTop="5dip" android:textSize="@dimen/text_size_small"
+                  android:layout_marginRight="10dip"/>
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_below="@+id/textView_title">
+            android:layout_height="wrap_content" android:id="@+id/foo" android:layout_below="@+id/textView_describe">
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,7 +28,7 @@
                     android:layout_width="12dip"
                     android:layout_height="12dip"
                     android:id="@+id/imageView_like" android:src="@drawable/like" android:layout_marginLeft="10dip"
-                    android:layout_marginTop="3dip"/>
+                    android:layout_marginTop="3dip" android:layout_marginBottom="3dip"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -55,5 +53,28 @@
                     android:layout_marginLeft="5dip"/>
         </RelativeLayout>
     </RelativeLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" android:layout_below="@+id/foo" android:id="@+id/divider"
+                android:background="@color/edittext_bg_normal">
+        </LinearLayout>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:layout_below="@+id/foo" android:padding="5dip">
+            <ImageView
+                    android:layout_width="32dip"
+                    android:layout_height="32dip"
+                    android:id="@+id/imageView_avatar"
+                    android:background="@drawable/corner_border_imageview" android:layout_marginLeft="5dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/textView_author" android:layout_alignTop="@+id/imageView_avatar"
+                    android:layout_toRightOf="@+id/imageView_avatar" android:layout_toEndOf="@+id/imageView_avatar"
+                    android:textSize="@dimen/text_size_small" android:textStyle="bold"
+                    android:textColor="@color/pure_black" android:layout_marginLeft="5dip" android:maxWidth="200dip"/>
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

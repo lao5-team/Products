@@ -1,6 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -184,28 +185,28 @@ public class UserAlbumsFragment extends Fragment {
             if(album.worksInfoList!=null){
                 if(album.worksInfoList.size()>0){
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(10))
+                            .displayer(new RoundedBitmapDisplayer(10)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                             .build();
                     ImageLoader imageLoader = ImageLoader.getInstance();
                     imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(0).picInfo.id, parent_width/2, 1), imageView_0, imageOptions);
                 }
                 if(album.worksInfoList.size() > 1) {
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5))
+                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                             .build();
                     ImageLoader imageLoader = ImageLoader.getInstance();
                     imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(1).picInfo.id, parent_width/6, 1), imageView_1, imageOptions);
                 }
                 if (album.worksInfoList.size()>2){
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5))
+                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                             .build();
                     ImageLoader imageLoader = ImageLoader.getInstance();
                     imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(2).picInfo.id, parent_width/6, 1), imageView_2, imageOptions);
                 }
                 if (album.worksInfoList.size()>3){
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5))
+                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                             .build();
                     ImageLoader imageLoader = ImageLoader.getInstance();
                     imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(3).picInfo.id, parent_width/6, 1), imageView_3, imageOptions);

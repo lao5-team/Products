@@ -22,14 +22,11 @@ import com.pineapple.mobilecraft.tumcca.Utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IUserInfo;
-import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.logging.LogRecord;
 
 /**
  * Created by yihao on 15/6/8.
@@ -68,7 +65,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     private UserInfoPhone mUserInfoPhone;
     private UserInfoGender mUserInfoGender;
-    private PhotoChoose userInfoPhotoChoose;
+    private AvatarChoose userInfoAvatarChoose;
     private UserInfoPhone userInfoPhone;
     private UserInfoEmail userInfoEmail;
     private UserInfoPseudonym userInfoPseudonym;
@@ -102,7 +99,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             finish();
         }
         else{
-            mProfile = UserServer.getInstance().getProfile(token);
+            mProfile = UserServer.getInstance().getCurrentUserProfile(token);
         }
         initHandler();
 
@@ -200,12 +197,12 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.avatarLay:
-                if (userInfoPhotoChoose == null) {
-                    userInfoPhotoChoose = new PhotoChoose();
+                if (userInfoAvatarChoose == null) {
+                    userInfoAvatarChoose = new AvatarChoose();
                     mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
-                    userInfoPhotoChoose.setUri(mUri);
+                    userInfoAvatarChoose.setUri(mUri);
                 }
-                userInfoPhotoChoose.show(getSupportFragmentManager(), "UserInfoPhotoChoose");
+                userInfoAvatarChoose.show(getSupportFragmentManager(), "UserInfoPhotoChoose");
                 break;
             case R.id.layout_phone:
                 if (userInfoPhone == null) {
@@ -416,10 +413,10 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case PhotoChoose.FROMCAMERA:
+                case AvatarChoose.FROMCAMERA:
                     startPhotoZoom(mUri);
                     break;
-                case PhotoChoose.FROMGALLERY:
+                case AvatarChoose.FROMGALLERY:
                     startPhotoZoom(data.getData());
                     break;
                 case CROP_REQUEST_CODE:

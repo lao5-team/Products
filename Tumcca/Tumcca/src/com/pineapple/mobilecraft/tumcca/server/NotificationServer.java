@@ -104,8 +104,94 @@ public class NotificationServer {
         };
 
         post.execute();
-
-
     }
+//    private void testWebsocket(){
+//        try {
+//            mConnection.connect("http://120.26.202.114/ws/follow", new WebSocketConnectionHandler() {
+//                @Override
+//                public void onOpen() {
+//                    Log.d("Websocket", "onOpen");
+//                    JSONObject jsonObject = new JSONObject();
+//                    try {
+//                        jsonObject.put("follower", 1);
+//                        jsonObject.put("toFollow", 3);
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    mConnection.sendTextMessage(jsonObject.toString());
+//                }
+//
+//                @Override
+//                public void onTextMessage(String payload) {
+//                    Log.d("Websocket", payload);
+//
+//                }
+//
+//                @Override
+//                public void onClose(int code, String reason) {
+//                }
+//            });
+//        } catch (WebSocketException e) {
+//
+//            Log.d("Websocket", e.toString());
+//        }
+
+//        Client client = ClientFactory.getDefault().newClient();
+//
+//        RequestBuilder request = client.newRequestBuilder()
+//                .method(Request.METHOD.GET)
+//                .uri("http://120.26.202.114/ws/follow")
+//                .encoder(new Encoder<String, String>() {
+//                    @Override
+//                    public String encode(String data) {
+//                            return data;
+//                    }
+//                })
+//                .decoder(new Decoder<String, String>() {
+//                    @Override
+//                    public String decode(Event event, String s) {
+//                        return null;
+//                    }
+//                })
+//                .transport(Request.TRANSPORT.WEBSOCKET);
+//
+//        final org.atmosphere.wasync.Socket socket = client.create();
+//        try {
+//            socket.on("NOTIFY", new Function<String>() {
+//                @Override
+//                public void on(final String t) {
+//                    Log.v("Tumcca", t);
+//                }
+//            }).on(new Function<Throwable>() {
+//
+//                @Override
+//                public void on(Throwable t) {
+//                    //tv.setText("ERROR 3: " + t.getMessage());
+//                    t.printStackTrace();
+//                }
+//
+//            }).open(request.build());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        try {
+//
+//                    JSONObject jsonObject = new JSONObject();
+//                    try {
+//                        jsonObject.put("follower", 1);
+//                        jsonObject.put("toFollow", 3);
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//            socket.fire(jsonObject.toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

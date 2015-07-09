@@ -1,6 +1,8 @@
 package com.pineapple.mobilecraft.tumcca.data;
 
 import com.google.gson.Gson;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by yihao on 15/5/26.
@@ -128,13 +130,18 @@ public class Profile {
         return profile;
     }
 
-    public static Profile fromJSON(String json){
+    public static Profile fromJSON(JSONObject json){
         Gson gson = new Gson();
-        return gson.fromJson(json, Profile.class);
+        return gson.fromJson(json.toString(), Profile.class);
     }
 
-    public static String toJSON(Profile profile){
+    public static JSONObject toJSON(Profile profile){
         Gson gson = new Gson();
-        return gson.toJson(profile);
+        try {
+            return new JSONObject(gson.toJson(profile));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

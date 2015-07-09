@@ -1,163 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView3">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView3" android:layout_weight="10">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:padding="15dip">
+
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:id="@+id/imageView_author"
+                    android:background="@drawable/default_avatar" android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medium Text"
+                    android:id="@+id/textView_author"
+                    android:layout_alignTop="@+id/imageView_author"
+                    android:layout_toRightOf="@+id/imageView_author"
+                    android:textSize="@dimen/normal_font_size"
+                    android:layout_marginLeft="10dp"/>
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView_calligraphy" android:layout_below="@+id/imageView_author"
+                        android:src="@drawable/sample1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/editText_treasure_desc"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:minLines="2"
+                    android:layout_marginTop="10dp" android:layout_below="@+id/imageView_author"/>
+
+
+        </RelativeLayout>
+    </ScrollView>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_alignParentBottom="false" android:id="@+id/bottom"
+            android:gravity="bottom" android:layout_below="@+id/scrollView3" android:padding="10dip">
+        <EditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="38dip"
+                android:id="@+id/editText" android:layout_toLeftOf="@+id/submit"
+                android:layout_alignParentBottom="false" style="@style/my_edittext_style"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip" android:hint="@string/input_comment"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="42dip"
+                android:text="@string/submit"
+                android:id="@+id/submit" android:layout_alignParentRight="true" android:layout_marginRight="5dip"
+                android:textSize="@dimen/text_size_normal" android:layout_alignParentBottom="false"
+                android:layout_marginTop="5dip"
+                android:layout_centerVertical="true" style="@style/my_button_style" android:layout_marginLeft="5dip"/>
+    </RelativeLayout>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="宝物主人"
-            android:id="@+id/textView_owner"
-            android:layout_margin="10dp"
-            android:textSize="@dimen/normal_font_size"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="宝物名称"
-            android:id="@+id/textView_treasure_name"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_margin="10dp"
-            android:layout_below="@+id/imageView_owner"
-            />
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText_treasure_name"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/textView_treasure_name"
-            android:layout_toEndOf="@+id/textView_treasure_name"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight = "true"
-            android:layout_margin="10dp"
-            android:layout_alignBaseline="@+id/textView_treasure_name"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="宝物描述"
-            android:id="@+id/textView_treasure_desc"
-            android:layout_below="@+id/textView_treasure_name"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"/>
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/editText_treasure_desc"
-            android:layout_below="@+id/textView_treasure_desc"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:minLines="2"
-            android:layout_marginTop="10dp"/>
-
-
-    <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView_calligraphy" android:layout_below="@+id/editText_treasure_desc"/>
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="用户评论"
-            android:id="@+id/button_comment"
-            android:layout_below="@+id/imageView_calligraphy"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"/>
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="专家点评"
-            android:id="@+id/button_profcomment"
-            android:layout_alignTop="@+id/button_comment"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"/>
-
-
-
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText_comment"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/button_send"
-            android:layout_toStartOf="@+id/button_send"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发送"
-            android:id="@+id/button_send"
-            android:layout_alignTop="@+id/editText_comment"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"/>
-
-
-    <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listView_comment"
-            android:layout_below="@+id/button_comment"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_above="@+id/checkBox_identify"
-            android:layout_marginBottom="10dp"/>
-
-    <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:id="@+id/imageView_owner"
-            android:layout_alignTop="@+id/textView_owner"
-            android:layout_alignLeft="@+id/editText_treasure_name"
-            android:layout_alignStart="@+id/editText_treasure_name"
-            android:background="@drawable/default_avatar"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:id="@+id/textView_owner_name"
-            android:layout_alignTop="@+id/imageView_owner"
-            android:layout_toRightOf="@+id/imageView_owner"
-            android:textSize="@dimen/normal_font_size"
-            android:layout_marginLeft="10dp"/>
-
-    <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="真"
-            android:id="@+id/checkBox_identify"
-            android:layout_above="@+id/editText_comment"
-            android:layout_alignLeft="@+id/editText_comment"
-            android:layout_alignStart="@+id/editText_comment"
-            android:singleLine="true"
-            android:visibility="gone"/>
-
-
-
-</RelativeLayout>
-</ScrollView>
+</LinearLayout>

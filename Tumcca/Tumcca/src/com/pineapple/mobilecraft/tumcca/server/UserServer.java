@@ -2,6 +2,7 @@ package com.pineapple.mobilecraft.tumcca.server;
 
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.utils.SyncHttpDelete;
 import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
@@ -126,7 +127,12 @@ public class UserServer implements IUserServer{
         SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
             @Override
             public Profile postExcute(String result) {
-                Profile profile = Profile.fromJSON(result);
+                Profile profile = null;
+                try {
+                    profile = Profile.fromJSON(new JSONObject(result));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 return profile;
             }
         };
@@ -136,7 +142,7 @@ public class UserServer implements IUserServer{
     @Override
     public String updateUser(Profile profile, String token) {
         String url = mHost + "/api/artists/profile";
-        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, Profile.toJSON(profile)) {
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, Profile.toJSON(profile).toString()) {
             @Override
             public String postExcute(String result) {
                 try {
@@ -232,12 +238,17 @@ public class UserServer implements IUserServer{
         return post.execute("avatar", file);
     }
 
-    public Profile getProfile(String token){
+    public Profile getCurrentUserProfile(String token){
         String url = mHost + "/api/artists/profile";
         SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
             @Override
             public Profile postExcute(String result) {
-                Profile profile = Profile.fromJSON(result);
+                Profile profile = null;
+                try {
+                    profile = Profile.fromJSON(new JSONObject(result));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if(profile.gender !=-1){
                     return profile;
                 }
@@ -274,6 +285,30 @@ public class UserServer implements IUserServer{
         };
         return post.execute();
 
+    }
+
+    public Profile getUserProfile(int id){
+        String url = mHost + "/api/artists/" + id + "/profile";
+        String token = UserManager.getInstance().getCurrentToken();
+        SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
+            @Override
+            public Profile postExcute(String result) {
+                Profile profile = null;
+                try {
+                    profile = Profile.fromJSON(new JSONObject(result));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(profile.gender !=-1){
+                    return profile;
+                }
+                else{
+                    return Profile.NULL;
+                }
+            }
+        };
+
+        return get.execute();
     }
 
 

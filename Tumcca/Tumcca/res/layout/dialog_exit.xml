@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:background="@drawable/corner_border_dialog">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="38dip"
+            android:text="@string/sure_exit"
+            android:id="@+id/textView10" android:textSize="@dimen/text_size_normal" style="@style/my_textview_style"
+            android:gravity="center_vertical|center_horizontal"/>
+</RelativeLayout>

@@ -151,10 +151,13 @@
     <string name="all_albums">全部专辑</string>
     <string name="create">创建</string>
     <string name="default_album">默认专辑</string>
+    <string name="sure_exit">您是否要退出应用？</string>
 
     <string name="ptr_pull_to_refresh">Pull to refresh</string>
     <string name="ptr_release_to_refresh">Release to refresh</string>
     <string name="ptr_loading">Loading</string>
     <string name="ptr_last_updated">Updated: %1$s</string>
+    <string name="submit">发送</string>
+    <string name="input_comment">输入评论</string>
 
 </resources>
