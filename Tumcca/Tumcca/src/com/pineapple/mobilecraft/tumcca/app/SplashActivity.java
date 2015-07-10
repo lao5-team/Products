@@ -24,29 +24,37 @@ public class SplashActivity extends Activity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+                //
                 Looper.prepare();
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                     String username = UserManager.getInstance().getCachedUsername();
                     String password = UserManager.getInstance().getCachedPassword();
                     if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
                         UserManager.getInstance().login(username, password);
                     }
-                    //Thread.sleep(1500);
+                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                startActivity(intent);
+
 
             }
         });
         t.start();
         final ImageView imageView = (ImageView)findViewById(R.id.imageView_splash);
-        imageView.setImageResource(R.drawable.splash_1);
+        imageView.setImageResource(R.drawable.splash);
         imageView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.splash));
-        final int imageIds[] = {R.drawable.splash_1, R.drawable.splash_2,R.drawable.splash_3, R.drawable.splash_4};
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageView.setImageResource(imageIds[++mCurrentIndex%imageIds.length]);
-                imageView.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash));
-            }
-        });
+//        final int imageIds[] = {R.drawable.splash_1, R.drawable.splash_2,R.drawable.splash_3, R.drawable.splash_4};
+//
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                imageView.setImageResource(imageIds[++mCurrentIndex%imageIds.length]);
+//                imageView.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash));
+//            }
+//        });
 
         TextView tv_skip = (TextView)findViewById(R.id.textView_skip);
         tv_skip.setClickable(true);

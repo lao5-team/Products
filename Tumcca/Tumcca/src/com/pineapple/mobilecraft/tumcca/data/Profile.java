@@ -106,16 +106,6 @@ public class Profile {
     public static Profile NULL = new Profile();
 
     public static Profile createTestProfile(){
-//        "pseudonym": "令狐冲",
-//                "gender": 1,
-//                "introduction": "书画极客",
-//                "title": "书画协会会员",
-//                "hobbies": "书画, 健身",
-//                "forte": "互联网分析",
-//                "avatar": 0,
-//                "country": "中国",
-//                "province": "湖北",
-//                "city": "武汉"
         Profile profile = new Profile();
         profile.pseudonym = "任我行";
         profile.gender = 1;
@@ -123,6 +113,21 @@ public class Profile {
         profile.introduction = "书画极客";
         profile.hobbies = "书画, 健身";
         profile.forte = "互联网分析";
+        profile.avatar = 0;
+        profile.country = "中国";
+        profile.province = "湖北";
+        profile.city = "武汉";
+        return profile;
+    }
+
+    public static Profile createDefaultProfile(){
+        Profile profile = new Profile();
+        profile.pseudonym = "";
+        profile.gender = 1;
+        profile.title = "书画协会会员";
+        profile.introduction = "书画爱好者";
+        profile.hobbies = "";
+        profile.forte = "";
         profile.avatar = 0;
         profile.country = "中国";
         profile.province = "湖北";

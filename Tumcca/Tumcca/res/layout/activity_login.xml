@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:id="@+id/layout_3rd"
-        android:background="#ffffffff" android:layout_margin="15dp">
+        android:background="#ffffffff" android:layout_margin="15dp" android:visibility="gone">
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:clickable="true">
@@ -61,7 +61,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="1dp" android:background="#ffe6e6e6"
-        >
+        android:visibility="gone">
 </LinearLayout>
 <LinearLayout
         android:layout_width="match_parent"
@@ -126,7 +126,7 @@
                   android:id="@+id/textView18"
                   android:textColor="#ff9f9f9f" android:gravity="center_vertical|left" android:textSize="12sp"
                   android:layout_centerVertical="true" android:layout_alignParentLeft="true"
-                  android:layout_alignParentStart="true" android:clickable="true"/>
+                  android:layout_alignParentStart="true" android:clickable="true" android:visibility="gone"/>
     </RelativeLayout>
 
 </LinearLayout>

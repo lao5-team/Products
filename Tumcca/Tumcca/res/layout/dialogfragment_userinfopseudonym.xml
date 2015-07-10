@@ -44,7 +44,7 @@
                     style="@style/my_edittext_style"
                     android:paddingLeft="14dp"
                     android:textSize="16sp"
-                    android:text="令狐冲"
+                    android:text=""
                     />
         </RelativeLayout>
 

@@ -99,7 +99,7 @@ public class UserServer implements IUserServer{
      *
      * @param username
      * @param password
-     * @return 一个
+     * @return 登录结果，或者为null
      */
     @Override
     public LoginResult login(String username, String password) {

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public class UserActivity extends FragmentActivity {
     UserAlbumsFragment mUserAlbumsFragment;
-    boolean mIsTestMode = true;
+    boolean mIsTestMode = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,12 @@ public class UserActivity extends FragmentActivity {
         if(mIsTestMode) {
             UserManager.getInstance().login("999", "999");
         }
-        mUserAlbumsFragment.setUser(UserManager.getInstance().getCurrentUserId());
+        int userId = UserManager.getInstance().getCurrentUserId();
+        if(-1 == userId){
+            Toast.makeText(this, "不存在此用户", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        mUserAlbumsFragment.setUser(userId);
         final ActionBar mActionBar = getActionBar();
         setContentView(R.layout.activity_user);
         addTabView();

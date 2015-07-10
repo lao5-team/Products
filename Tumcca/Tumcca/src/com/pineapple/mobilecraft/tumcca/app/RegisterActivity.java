@@ -17,26 +17,32 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IRegister;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
+import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.utils.PATextUtils;
 
 /**
  * 注册页
  * 
  */
-public class RegisterActivity extends Activity implements IRegister {
+public class RegisterActivity extends Activity implements IRegister, TextWatcher {
 	private EditText userNameEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
+	private EditText pseudonymEditText;
+	private Button registerButton;
 
 	public static final int REQ_REGISTER = 0;
 	public static void startActivity(Activity activity){
@@ -51,9 +57,10 @@ public class RegisterActivity extends Activity implements IRegister {
 		setContentView(R.layout.activity_register);
 		addUsernameView();
 		addPasswordView();
-
-		Button btn_register = (Button)findViewById(R.id.button_register);
-		btn_register.setOnClickListener(new View.OnClickListener() {
+		addPseudonymView();
+		registerButton = (Button)findViewById(R.id.button_register);
+		registerButton.setEnabled(false);
+		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				confirm();
@@ -68,7 +75,7 @@ public class RegisterActivity extends Activity implements IRegister {
 	public void register() {
 		final String username = userNameEditText.getText().toString().trim();
 		final String pwd = passwordEditText.getText().toString().trim();
-		String confirm_pwd = confirmPwdEditText.getText().toString().trim();
+		//String confirm_pwd = confirmPwdEditText.getText().toString().trim();
 		if (!PATextUtils.isValidEmail(username)&&!PATextUtils.isValidPhoneNumber(username)) {
 			Toast.makeText(this, "请填写正确的手机号或者邮箱", Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
@@ -77,15 +84,7 @@ public class RegisterActivity extends Activity implements IRegister {
 			Toast.makeText(this, "密码不能为空！", Toast.LENGTH_SHORT).show();
 			passwordEditText.requestFocus();
 			return;
-		} else if (TextUtils.isEmpty(confirm_pwd)) {
-			Toast.makeText(this, "确认密码不能为空！", Toast.LENGTH_SHORT).show();
-			confirmPwdEditText.requestFocus();
-			return;
-		} else if (!pwd.equals(confirm_pwd)) {
-			Toast.makeText(this, "两次输入的密码不一致，请重新输入！", Toast.LENGTH_SHORT).show();
-			return;
 		}
-
 		if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pwd)) {
 			final ProgressDialog pd = new ProgressDialog(this);
 			pd.setMessage("正在注册...");
@@ -106,6 +105,12 @@ public class RegisterActivity extends Activity implements IRegister {
 						if(registerResult.message.equals(IUserServer.REGISTER_SUCCESS)){
 							UserManager.getInstance().login(username, pwd);
 							UserManager.getInstance().saveLoginInfo(username, pwd);
+
+							Profile profile = Profile.createDefaultProfile();
+							profile.pseudonym = pseudonymEditText.getEditableText().toString();
+							profile.introduction = "书画爱好者";
+							profile.title = "书画协会会员";
+							UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken());
 						}
 						runOnUiThread(new Runnable() {
 							public void run() {
@@ -143,13 +148,22 @@ public class RegisterActivity extends Activity implements IRegister {
 	@Override
 	public void addUsernameView() {
 		userNameEditText = (EditText) findViewById(R.id.username);
+		userNameEditText.addTextChangedListener(this);
 	}
 
 	@Override
 	public void addPasswordView() {
 		passwordEditText = (EditText) findViewById(R.id.password);
+		passwordEditText.addTextChangedListener(this);
+
 	}
 
+	public void addPseudonymView(){
+		pseudonymEditText = (EditText)findViewById(R.id.pseudonym);
+		pseudonymEditText.addTextChangedListener(this);
+
+
+	}
 
 	@Override
 	public void confirm() {
@@ -170,5 +184,26 @@ public class RegisterActivity extends Activity implements IRegister {
 //				finish();
 //			}
 //		});
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		if((userNameEditText.getEditableText().length()>0)&&(passwordEditText.getEditableText().length()>0)
+				&&(pseudonymEditText.getEditableText().length()>0)){
+			registerButton.setEnabled(true);
+		}
+		else{
+			registerButton.setEnabled(false);
+		}
 	}
 }

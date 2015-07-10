@@ -4,8 +4,6 @@
     <solid android:color="@color/pure_white" />
     <!-- 设置按钮的四个角为弧形 -->
     <!-- android:radius 弧形的半径 -->
+    <corners android:radius="@dimen/normal_corner_radius" />
 
-    <corners
-            android:topLeftRadius="@dimen/normal_corner_radius"
-            android:topRightRadius="@dimen/normal_corner_radius"/>
 </shape>

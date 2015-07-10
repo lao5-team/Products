@@ -106,6 +106,12 @@ public class WorksManager {
         }
     }
 
+    public void clearCache(){
+        mAlbumWorksCache.clear();
+        mWorksCache.clear();
+        mAlbumCache.clear();
+    }
+
 //    public void putAlbumList(List<>){
 //
 //    }

@@ -64,14 +64,14 @@ public class UserManager {
 	public IUserServer.LoginResult login(String userName, String password)
 	{
 		IUserServer.LoginResult loginResult =  mUserServer.login(userName, password);
-		if(null!=loginResult.uid){
+		if(null!=loginResult&&null!=loginResult.uid){
 			mCurrentUid = loginResult.uid;
 			mCurrentToken = loginResult.token;
 			saveLoginInfo(userName, password);
 			return loginResult;
 		}
 		else {
-			return null;
+			return IUserServer.LoginResult.NULL;
 		}
 	}
 
@@ -107,8 +107,20 @@ public class UserManager {
 		return mCurrentUser;
 	}
 
+	/**
+	 * 返回当前用户id
+	 * @return 如果当前用户不存在，返回-1
+	 */
 	public int getCurrentUserId(){
-		return new Integer(mCurrentUid);
+		Integer id = -1;
+		try{
+			id = new Integer(mCurrentUid);
+		}catch (NumberFormatException exp)
+		{
+			exp.printStackTrace();
+		}
+		return id;
+
 	}
 	
 	/**读取某个用户的信息
@@ -118,19 +130,20 @@ public class UserManager {
 	public Profile getUserProfile(int userId)
 	{
 		String id = String.valueOf(userId);
-		JSONObject jsonObject = mProfileCache.getItem(id);
+		//JSONObject jsonObject = mProfileCache.getItem(id);
 		Profile profile;
-		if(jsonObject == null){
-			profile = UserServer.getInstance().getUserProfile(userId);
-			if(profile!=Profile.NULL){
-				mProfileCache.putItem(id, Profile.toJSON(profile));
-				return profile;
-			}
-		}
-		else{
-			return Profile.fromJSON(jsonObject);
-		}
-		return Profile.NULL;
+		profile = UserServer.getInstance().getUserProfile(userId);
+//		if(jsonObject == null){
+//			profile = UserServer.getInstance().getUserProfile(userId);
+//			if(profile!=Profile.NULL){
+//				mProfileCache.putItem(id, Profile.toJSON(profile));
+//				return profile;
+//			}
+//		}
+//		else{
+//			return Profile.fromJSON(jsonObject);
+//		}
+		return profile;
 	}
 
 	public Account getAccount(String userName){

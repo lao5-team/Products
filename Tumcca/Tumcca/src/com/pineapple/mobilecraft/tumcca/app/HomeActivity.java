@@ -2,9 +2,7 @@ package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -12,10 +10,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
+import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IHome;
@@ -50,57 +50,61 @@ public class HomeActivity extends FragmentActivity implements IHome {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
-        final ActionBar mActionBar = getActionBar();
+        //final ActionBar mActionBar = getActionBar();
 
-        mActionBar.setDisplayHomeAsUpEnabled(false);
+        //mActionBar.setDisplayHomeAsUpEnabled(false);
 
         setContentView(R.layout.activity_home);
+        String username = UserManager.getInstance().getCachedUsername();
+        String password = UserManager.getInstance().getCachedPassword();
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+            UserManager.getInstance().login(username, password);
+        }
         if (UserManager.getInstance().isLogin()) {
-            setTitle(UserManager.getInstance().getCachedUsername());
+            int userId = UserManager.getInstance().getCurrentUserId();
+            setTitle(UserManager.getInstance().getUserProfile(userId).pseudonym);
         } else {
             setTitle(getString(R.string.app_name));
-            addAccountView();
+
         }
+        addAccountView();
 
         mWorksListFragment = new CalligraphyListFragment();
         addWorkList(mWorksListFragment);
-        mDataThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                mDataHandler = new Handler();
-                while(true){
-                    try {
-                        Thread.currentThread().sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        mDataThread.start();
+
+//        mDataThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Looper.prepare();
+//                mDataHandler = new Handler();
+//                while(true){
+//                    try {
+//                        Thread.currentThread().sleep(50);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+//        mDataThread.start();
         mWorksListFragment.setBottomScrollListener(new CalligraphyListFragment.OnBottomScrollListener() {
             @Override
             public void onBottom() {
+
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         mIsLoadBottom = true;
                         final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
-                        if(worksInfoList.size() >0 ){
+                        if(null!=worksInfoList&&worksInfoList.size() >0 ){
                             mCurrentPageIndex++;
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mWorksListFragment.addWorkList(worksInfoList);
-
-                                }
-                            });
+                            mWorksListFragment.addWorkList(worksInfoList);
                         }
                         mIsLoadBottom = false;
                     }
                 });
                 if(!mIsLoadBottom){
+                    Log.v("Tumcca", "onBottom");
                     t.start();
                 }
 
@@ -108,20 +112,23 @@ public class HomeActivity extends FragmentActivity implements IHome {
             }
         });
 
-        Thread t = new Thread(new Runnable() {
+        registerReceiver(new BroadcastReceiver() {
             @Override
-            public void run() {
+            public void onReceive(Context context, Intent intent) {
+                mCurrentPageIndex = 1;
                 final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mWorksListFragment.setWorksList(worksInfoList);
-                    }
-                });
-            }
-        });
-       //t.start();
+                if(null!=worksInfoList&&worksInfoList.size() >0 ){
+                    mCurrentPageIndex++;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWorksListFragment.setWorksList(worksInfoList);
 
+                        }
+                    });
+                }
+            }
+        }, new IntentFilter("upload_works"));
 
     }
 
@@ -143,13 +150,12 @@ public class HomeActivity extends FragmentActivity implements IHome {
     @Override
     public void addAccountView() {
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_account);
-        String username = UserManager.getInstance().getCachedUsername();
-        String password = UserManager.getInstance().getCachedPassword();
-
-        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-            UserManager.getInstance().login(username, password);
+        if(UserManager.getInstance().isLogin())
+        {
             layout.setVisibility(View.GONE);
-        } else {
+        }
+        else
+        {
             layout.setVisibility(View.VISIBLE);
         }
 
@@ -158,11 +164,6 @@ public class HomeActivity extends FragmentActivity implements IHome {
             @Override
             public void onClick(View v) {
                 LoginActivity.startActivity(HomeActivity.this);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-//
-//                builder.setView(getLayoutInflater().inflate(R.layout.dialog_register, null));
-//
-//                builder.create().show();
             }
         });
 
@@ -171,8 +172,6 @@ public class HomeActivity extends FragmentActivity implements IHome {
             @Override
             public void onClick(View v) {
                 RegisterActivity.startActivity(HomeActivity.this);
-                RegisterFragment fragment = new RegisterFragment();
-                getFragmentManager().beginTransaction().add(fragment, "register").commit();
             }
         });
 
@@ -188,13 +187,16 @@ public class HomeActivity extends FragmentActivity implements IHome {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        UserManager userManager = UserManager.getInstance();
+        int userid = userManager.getCurrentUserId();
+        Profile profile = userManager.getUserProfile(userid);
         if (requestCode == LoginActivity.REQ_LOGIN && resultCode == RESULT_OK) {
-            setTitle(UserManager.getInstance().getCachedUsername());
+            setTitle(profile.pseudonym);
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_account);
             layout.setVisibility(View.GONE);
         }
         if (requestCode == RegisterActivity.REQ_REGISTER && resultCode == RESULT_OK) {
-            setTitle(UserManager.getInstance().getCachedUsername());
+            setTitle(profile.pseudonym);
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_account);
             layout.setVisibility(View.GONE);
         }
@@ -242,7 +244,9 @@ public class HomeActivity extends FragmentActivity implements IHome {
             dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    //
                     System.exit(0);
+                    //finish();
                 }
             });
             dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {

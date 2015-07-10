@@ -16,5 +16,5 @@
             android:id="@+id/textView_skip"
             android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
             android:layout_marginBottom="32dp" android:background="#80606060" android:paddingLeft="20dip"
-            android:paddingRight="20dip"/>
+            android:paddingRight="20dip" android:visibility="gone"/>
 </RelativeLayout>

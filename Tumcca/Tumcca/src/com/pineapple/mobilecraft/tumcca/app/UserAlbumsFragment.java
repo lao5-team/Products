@@ -48,7 +48,8 @@ public class UserAlbumsFragment extends Fragment {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                mAlbumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
+                List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
+                mAlbumList.addAll(albumList);
                 mAlbumList.add(0, Album.DEFAULT_ALBUM);
                 mContext.runOnUiThread(new Runnable() {
                     @Override
@@ -100,6 +101,7 @@ public class UserAlbumsFragment extends Fragment {
 
 
     public void addCountView(TextView countView){
+
         countView.setText("您有" + mAlbumList.size() + "个专辑");
     }
 

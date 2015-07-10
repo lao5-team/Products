@@ -18,6 +18,7 @@ import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.Utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IUserInfo;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 
@@ -119,7 +120,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             @Override
             public void onClick(View v) {
                 UserManager.getInstance().logout();
-                finish();
+                WorksManager.getInstance().clearCache();
+                Intent intent = new Intent(UserInfoActivity.this, HomeActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -297,6 +300,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void addPseudonymView() {
         mTvPseudonym = (TextView) findViewById(R.id.textView_pseudonym);
+        mTvPseudonym.setText(mProfile.pseudonym);
     }
 
     @Override
@@ -425,7 +429,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         String result = UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken());
         if (!"fail".equals(result))
         {
-            refreshData();
+           refreshData();
            Toast.makeText(this, "更新信息成功", Toast.LENGTH_SHORT).show();
         }
     }

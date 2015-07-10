@@ -164,27 +164,20 @@
             <!--</intent-filter>-->
         </activity>
         <activity android:name=".tumcca.app.RegisterActivity" android:theme="@style/my_dialog_activity_style">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
-        <activity android:name=".tumcca.app.HomeActivity" android:theme="@android:style/Theme.Holo.Light" android:screenOrientation="portrait">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        <activity android:name=".tumcca.app.HomeActivity" android:theme="@style/my_activity_style" android:screenOrientation="portrait">
+
         </activity>
 
         <activity android:name=".tumcca.app.SplashActivity" android:theme="@style/Theme.Splash"
                   android:noHistory="true">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".tumcca.app.UserInfoActivity" android:theme="@style/my_activity_style" android:screenOrientation="portrait"/>
         <activity android:name=".tumcca.app.UserActivity" android:theme="@style/StyledIndicators" android:screenOrientation="portrait" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent-filter>
      </activity>
         <activity android:name=".tumcca.app.PictureDetailActivity" android:screenOrientation="unspecified">
             <!--<intent-filter>-->
@@ -194,13 +187,10 @@
 
         </activity>
         <activity android:name=".tumcca.app.CalligraphyCreateActivity" android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style" android:screenOrientation="portrait">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".tumcca.app.AlbumCalligraphyListActivity" android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style" android:screenOrientation="portrait"/>
         <activity android:name=".tumcca.app.UserCity"/>
+        <service android:name="com.pineapple.mobilecraft.tumcca.service.TumccaService"/>
 
     </application>
 

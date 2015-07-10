@@ -24,6 +24,7 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
 
     private TextView mTvFromCamera;
     private TextView mTvFromGallery;
+    private TextView mTvTitle;
     private Uri mUri;
 
     public PhotoChoose(){
@@ -48,7 +49,8 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
     private void initView(View root) {
         mTvFromCamera = (TextView) root.findViewById(R.id.fromCamera);
         mTvFromGallery = (TextView) root.findViewById(R.id.fromGallery);
-
+        mTvTitle = (TextView)root.findViewById(R.id.textView_title);
+        mTvTitle.setText("选择图片来源");
         mTvFromCamera.setOnClickListener(this);
         mTvFromGallery.setOnClickListener(this);
     }

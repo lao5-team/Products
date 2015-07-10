@@ -22,12 +22,14 @@ public interface IUserServer {
     }
 
     public static class LoginResult{
-        public String uid;
-        public String token;
+        public String uid = "";
+        public String token = "";
+
+        public static LoginResult NULL = new LoginResult();
 
         public static LoginResult fromJSON(String jsonObject){
             Gson gson = new Gson();
-            LoginResult result = null;
+            LoginResult result = NULL;
             try{
                 result = gson.fromJson(jsonObject, LoginResult.class);
             }

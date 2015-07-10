@@ -22,6 +22,7 @@ import cn.bmob.v3.Bmob;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -173,7 +174,7 @@ public class DemoApplication extends Application {
 
 		Bmob.initialize(this, "2bcee996bebe106a29ac7c8cde15078a");
 		
-		Intent intent = new Intent(this, StateMonitorService.class);
+		Intent intent = new Intent(this, TumccaService.class);
 		startService(intent);
 
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)

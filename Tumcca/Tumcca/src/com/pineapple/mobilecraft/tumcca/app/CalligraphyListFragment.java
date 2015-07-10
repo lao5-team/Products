@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
@@ -60,7 +63,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
 
     public void setWorksList(final List<WorksInfo> worksInfoList){
         mWorksInfoList = worksInfoList;
-        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyDataSetChanged();
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -83,7 +86,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
 
     public void addWorkList(final List<WorksInfo> worksInfoList){
         mWorksInfoList.addAll(worksInfoList);
-        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyDataSetChanged();
         //Thread t = new Thread(new Runnable() {
             //@Override
             //public void run() {
@@ -208,6 +211,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                 viewHolder = new ViewHolder();
                 convertView = layoutInflater.inflate(R.layout.item_works, null);
                 viewHolder.imageView = (ImageView)convertView.findViewById(R.id.imageView_picture);
+                //viewHolder.imageView.setAlpha(0);
                 viewHolder.tvDesc = (TextView)convertView.findViewById(R.id.textView_describe);
                 viewHolder.ivAuthor = (ImageView)convertView.findViewById(R.id.imageView_avatar);
                 viewHolder.tvAuthorName = (TextView)convertView.findViewById(R.id.textView_author);
@@ -224,7 +228,58 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
             }
 
             mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(
-                    mWorksInfoList.get(position).picInfo.id), viewHolder.imageView, mImageOptions);
+                    mWorksInfoList.get(position).picInfo.id), viewHolder.imageView, mImageOptions,
+                    new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+                            view.setAlpha(0);
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, final View view, Bitmap loadedImage) {
+                            //ImageView iv = (ImageView)view;
+                            //iv.setImageBitmap(loadedImage);
+                            Thread t = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    for (int i=0; i<20; i++){
+                                        final float value = 1.0f/20*i;
+                                        try {
+                                            mContext.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    view.setAlpha(value);
+                                                    view.invalidate();
+                                                }
+                                            });
+                                            Thread.currentThread().sleep(10);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            });
+                            t.start();
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
+                        }
+                    }, new ImageLoadingProgressListener() {
+                        @Override
+                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                            if(null!=view){
+                                view.setAlpha(0);
+                            }
+                        }
+                    });
 
             viewHolder.tvDesc.setText(mWorksInfoList.get(position).title);
 
