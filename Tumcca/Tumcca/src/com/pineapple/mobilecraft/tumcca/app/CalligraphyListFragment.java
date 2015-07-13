@@ -52,7 +52,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
         mMapProfile = new HashMap<Integer, Profile>();
         mAdapter = new PictureAdapter();
         mImageOptions = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(10)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new RoundedBitmapDisplayer(3)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
         mImageLoader = ImageLoader.getInstance();
     }

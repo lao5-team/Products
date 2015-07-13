@@ -4,14 +4,17 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 import cn.bmob.v3.BmobRealTimeData;
 import com.pineapple.mobilecraft.DemoApplication;
@@ -61,6 +64,7 @@ public class TumccaService extends Service {
 	@Override
 	public void onCreate()
 	{
+		mReceiver = new ConnectivityBroadcastReceiver();
 		Thread t = new Thread(new Runnable() {
 
 			@Override
@@ -68,31 +72,36 @@ public class TumccaService extends Service {
 				Looper.prepare();
 				mHandler = new Handler();
 				mainHandler = new Handler(Looper.getMainLooper());
-				while(true)
-				{
-					try {
-						ConnectivityManager mConnectivityManager = (ConnectivityManager)TumccaService.this
-								.getSystemService(Context.CONNECTIVITY_SERVICE);
-						NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-							if((mNetworkInfo == null||!mNetworkInfo.isAvailable())&&mIsConnected){
-								mIsConnected = false;
-								mainHandler.post(new Runnable() {
-									@Override
-									public void run() {
-										Toast.makeText(DemoApplication.applicationContext, "当前无网络连接，请检查网络",
-												Toast.LENGTH_SHORT).show();
-									}
-								});
-							}
-							else if(null!=mNetworkInfo&&mNetworkInfo.isAvailable()){
-								mIsConnected = true;
-							}
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+//				while(true)
+//				{
+//					try {
+//						ConnectivityManager mConnectivityManager = (ConnectivityManager)TumccaService.this
+//								.getSystemService(Context.CONNECTIVITY_SERVICE);
+//						NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+//							if((mNetworkInfo == null||!mNetworkInfo.isAvailable())&&mIsConnected){
+//								mIsConnected = false;
+//								mainHandler.post(new Runnable() {
+//									@Override
+//									public void run() {
+//										Toast.makeText(DemoApplication.applicationContext, "当前无网络连接，请检查网络",
+//												Toast.LENGTH_SHORT).show();
+//									}
+//								});
+//							}
+//							else if(null!=mNetworkInfo&&mNetworkInfo.isAvailable()){
+//								mIsConnected = true;
+//							}
+//						Thread.sleep(100);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+
+
+				IntentFilter filter = new IntentFilter();
+				filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+				registerReceiver(mReceiver, filter);
 			}
 		});
 		t.start();
@@ -157,6 +166,56 @@ public class TumccaService extends Service {
 		notificationManager.cancel(0);
 	}
 
+	private ConnectivityBroadcastReceiver mReceiver;
 
+	private class ConnectivityBroadcastReceiver extends BroadcastReceiver {
+		private NetworkInfo.State mState;
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+
+//			if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION) ||
+//					mListening == false) {
+//				Log.w(TAG, "onReceived() called with " + mState.toString() + " and " + intent);
+//				return;
+//			}
+
+			boolean noConnectivity =
+					intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+
+			if (noConnectivity) {
+				mState = NetworkInfo.State.DISCONNECTED;
+				Toast.makeText(DemoApplication.applicationContext, "当前无网络连接，请检查网络",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				mState = NetworkInfo.State.CONNECTED;
+
+			}
+
+//			mNetworkInfo = (NetworkInfo)
+//					intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+//			mOtherNetworkInfo = (NetworkInfo)
+//					intent.getParcelableExtra(ConnectivityManager.EXTRA_OTHER_NETWORK_INFO);
+//
+//			mReason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+//			mIsFailover =
+//					intent.getBooleanExtra(ConnectivityManager.EXTRA_IS_FAILOVER, false);
+
+//			if (DBG) {
+//				Log.d(TAG, "onReceive(): mNetworkInfo=" + mNetworkInfo +  " mOtherNetworkInfo = "
+//						+ (mOtherNetworkInfo == null ? "[none]" : mOtherNetworkInfo +
+//						" noConn=" + noConnectivity) + " mState=" + mState.toString());
+//			}
+
+			// Notifiy any handlers.
+//			Iterator<Handler> it = mHandlers.keySet().iterator();
+//			while (it.hasNext()) {
+//				Handler target = it.next();
+//				Message message = Message.obtain(target, mHandlers.get(target));
+//				target.sendMessage(message);
+//			}
+		}
+	};
 
 }
