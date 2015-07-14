@@ -1,4 +1,4 @@
-package com.pineapple.mobilecraft.tumcca.Utility;
+package com.pineapple.mobilecraft.tumcca.utility;
 
 import android.content.Context;
 import android.os.Environment;
@@ -14,7 +14,7 @@ public class Utility {
     private static final String IMGPATH = "images/";
 
     /**
-     * »ñÈ¡´æ´¢Â·¾¶ sd¿¨»òÕß
+     * ï¿½ï¿½È¡ï¿½æ´¢Â·ï¿½ï¿½ sdï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
      * @param context
      * @return
@@ -30,7 +30,7 @@ public class Utility {
     }
 
     /**
-     * »ñÈ¡tumccaÄ¿Â¼
+     * ï¿½ï¿½È¡tumccaÄ¿Â¼
      *
      * @param context
      * @return
@@ -48,7 +48,7 @@ public class Utility {
     }
 
     /**
-     * »ñÈ¡Í¼Æ¬´æ´¢Â·¾¶
+     * ï¿½ï¿½È¡Í¼Æ¬ï¿½æ´¢Â·ï¿½ï¿½
      * @param context
      * @return
      */

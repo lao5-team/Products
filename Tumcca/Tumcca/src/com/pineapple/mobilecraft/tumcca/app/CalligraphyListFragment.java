@@ -4,17 +4,21 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.etsy.android.grid.StaggeredGridView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.display.HalfRoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
@@ -24,14 +28,13 @@ import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.ICalligraphyList;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
-import com.pineapple.mobilecraft.widget.waterfall.MultiColumnPullToRefreshListView;
-import com.pineapple.mobilecraft.widget.waterfall.internal.PLA_AbsListView;
-import com.pineapple.mobilecraft.widget.waterfall.internal.PLA_AdapterView;
+import com.pineapple.mobilecraft.util.logic.Util;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by yihao on 15/6/4.
@@ -42,17 +45,23 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
         public void onBottom();
     }
     OnBottomScrollListener mBottomScrollListener = null;
-    List<WorksInfo> mWorksInfoList = new ArrayList<WorksInfo>();
+    CopyOnWriteArrayList<WorksInfo> mWorksInfoList = new CopyOnWriteArrayList<WorksInfo>();
     Activity mContext;
     PictureAdapter mAdapter;
-    DisplayImageOptions mImageOptions;
+    DisplayImageOptions mImageOptionsWorks;
+    DisplayImageOptions mImageOptionsAvatar;
     ImageLoader mImageLoader;
     HashMap<Integer, Profile> mMapProfile;
     public CalligraphyListFragment(){
         mMapProfile = new HashMap<Integer, Profile>();
         mAdapter = new PictureAdapter();
-        mImageOptions = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(3)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+        mImageOptionsAvatar = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 5))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+
+
+        mImageOptionsWorks = new DisplayImageOptions.Builder()
+                .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 5))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
         mImageLoader = ImageLoader.getInstance();
     }
@@ -62,7 +71,8 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     }
 
     public void setWorksList(final List<WorksInfo> worksInfoList){
-        mWorksInfoList = worksInfoList;
+        mWorksInfoList.clear();
+        mWorksInfoList.addAll(worksInfoList);
         //mAdapter.notifyDataSetChanged();
         Thread t = new Thread(new Runnable() {
             @Override
@@ -74,6 +84,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.v("Tumcca", "addWorkList");
                         mAdapter.notifyDataSetChanged();
                     }
                 });
@@ -85,7 +96,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     }
 
     public void addWorkList(final List<WorksInfo> worksInfoList){
-        mWorksInfoList.addAll(worksInfoList);
+
         //mAdapter.notifyDataSetChanged();
         //Thread t = new Thread(new Runnable() {
             //@Override
@@ -97,6 +108,8 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mWorksInfoList.addAll(worksInfoList);
+                        Log.v("Tumcca", "addWorkList");
                         mAdapter.notifyDataSetChanged();
                     }
                 });
@@ -119,22 +132,23 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calligraphy_list, container, false);
-        MultiColumnPullToRefreshListView listView = (MultiColumnPullToRefreshListView)view.findViewById(R.id.list);
+        StaggeredGridView listView = (StaggeredGridView)view.findViewById(R.id.list);
         listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //PictureDetailActivity.startActivity(mContext, mWorksInfoList.get(position -1).picInfo.id);
-                CalligraphyDetailActivity.startActivity(mWorksInfoList.get(position -1), mContext);
+                CalligraphyDetailActivity.startActivity(mWorksInfoList.get(position), mContext);
             }
         });
         //listView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true ,true));
-        listView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                         mImageLoader.resume();
+                        //mAdapter.notifyDataSetChanged();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                         mImageLoader.pause();
@@ -146,7 +160,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
             }
 
             @Override
-            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if(visibleItemCount+firstVisibleItem==totalItemCount){
                     //Log.e("log", "滑到底部");
                     if(null!=mBottomScrollListener){
@@ -207,7 +221,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             ViewHolder viewHolder;
-            //if(convertView==null){
+            if(convertView==null){
                 viewHolder = new ViewHolder();
                 convertView = layoutInflater.inflate(R.layout.item_works, null);
                 viewHolder.imageView = (ImageView)convertView.findViewById(R.id.imageView_picture);
@@ -216,70 +230,75 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                 viewHolder.ivAuthor = (ImageView)convertView.findViewById(R.id.imageView_avatar);
                 viewHolder.tvAuthorName = (TextView)convertView.findViewById(R.id.textView_author);
                 convertView.setTag(viewHolder);
-            //}
+            }
             viewHolder = (ViewHolder) convertView.getTag();
+            //return convertView;
+
             PictureInfo pictureInfo = mWorksInfoList.get(position).picInfo;
             //预先用图片的尺寸对imageView进行布局
-            if(!viewHolder.isLayout){
                 RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
                         parent.getWidth()/2, parent.getWidth()*pictureInfo.height/(2*pictureInfo.width));
                 viewHolder.imageView.setLayoutParams(param);
                 viewHolder.isLayout = true;
-            }
 
-            mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(
-                    mWorksInfoList.get(position).picInfo.id), viewHolder.imageView, mImageOptions,
-                    new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-                            view.setAlpha(0);
-                        }
+            String imageUrl = PictureServer.getInstance().getPictureUrl(mWorksInfoList.get(position).picInfo.id);
 
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                        }
-
-                        @Override
-                        public void onLoadingComplete(String imageUri, final View view, Bitmap loadedImage) {
-                            //ImageView iv = (ImageView)view;
-                            //iv.setImageBitmap(loadedImage);
-                            Thread t = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    for (int i=0; i<20; i++){
-                                        final float value = 1.0f/20*i;
-                                        try {
-                                            mContext.runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    view.setAlpha(value);
-                                                    view.invalidate();
-                                                }
-                                            });
-                                            Thread.currentThread().sleep(10);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-                            });
-                            t.start();
-
-                        }
-
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
-
-                        }
-                    }, new ImageLoadingProgressListener() {
-                        @Override
-                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                            if(null!=view){
+            if(viewHolder.ivAuthor.getTag() == null||!viewHolder.imageView.getTag().equals(imageUrl)){
+                mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(
+                                mWorksInfoList.get(position).picInfo.id), viewHolder.imageView, mImageOptionsWorks,
+                        new ImageLoadingListener() {
+                            @Override
+                            public void onLoadingStarted(String imageUri, View view) {
                                 view.setAlpha(0);
                             }
-                        }
-                    });
+
+                            @Override
+                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                            }
+
+                            @Override
+                            public void onLoadingComplete(String imageUri, final View view, Bitmap loadedImage) {
+
+                                Thread t = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        for (int i=0; i<20; i++){
+                                            final float value = 1.0f/20*i;
+                                            try {
+                                                mContext.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        view.setAlpha(value);
+                                                        view.invalidate();
+                                                    }
+                                                });
+                                                Thread.currentThread().sleep(10);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                });
+                                t.start();
+
+                            }
+
+                            @Override
+                            public void onLoadingCancelled(String imageUri, View view) {
+
+                            }
+                        }, new ImageLoadingProgressListener() {
+                            @Override
+                            public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                                if(null!=view){
+                                    view.setAlpha(0);
+                                }
+                            }
+                        });
+                viewHolder.imageView.setTag(imageUrl);
+            }
+
 
             viewHolder.tvDesc.setText(mWorksInfoList.get(position).title);
 
@@ -287,7 +306,11 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
             if(null!=profile){
                 viewHolder.tvAuthorName.setText(profile.pseudonym);
 
-                mImageLoader.displayImage(UserServer.getInstance().getAvatarUrl(profile.avatar), viewHolder.ivAuthor, mImageOptions);
+                String avatarUrl = UserServer.getInstance().getAvatarUrl(profile.avatar);
+                if(viewHolder.ivAuthor.getTag() == null||!viewHolder.ivAuthor.getTag().equals(avatarUrl)){
+                    mImageLoader.displayImage(avatarUrl, viewHolder.ivAuthor, mImageOptionsAvatar);
+                    viewHolder.ivAuthor.setTag(avatarUrl);
+                }
 
             }
             return convertView;

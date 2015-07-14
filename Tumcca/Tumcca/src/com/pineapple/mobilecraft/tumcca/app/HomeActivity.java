@@ -20,10 +20,6 @@ import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IHome;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
-import com.pineapple.mobilecraft.widget.waterfall.MultiColumnPullToRefreshListView;
-import com.squareup.picasso.Picasso;
-import de.tavendo.autobahn.WebSocket;
-import de.tavendo.autobahn.WebSocketConnection;
 
 import java.util.List;
 
@@ -72,21 +68,6 @@ public class HomeActivity extends FragmentActivity implements IHome {
         mWorksListFragment = new CalligraphyListFragment();
         addWorkList(mWorksListFragment);
 
-//        mDataThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Looper.prepare();
-//                mDataHandler = new Handler();
-//                while(true){
-//                    try {
-//                        Thread.currentThread().sleep(50);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
-//        mDataThread.start();
         mWorksListFragment.setBottomScrollListener(new CalligraphyListFragment.OnBottomScrollListener() {
             @Override
             public void onBottom() {

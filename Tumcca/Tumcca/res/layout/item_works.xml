@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp" android:paddingBottom="3dp" android:focusable="false"
+                android:paddingBottom="10dp" android:focusable="false"
                 android:focusableInTouchMode="false" android:clickable="false">
     <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:background="@drawable/corner_border_works"
-                    android:layout_margin="5dip">
+                    android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
+                    android:layout_marginBottom="15dp">
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -10,9 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.*;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.Utility.Utility;
-import com.pineapple.mobilecraft.util.logic.ImgFileListActivity;
-import org.w3c.dom.Text;
+import com.pineapple.mobilecraft.tumcca.utility.Utility;
 
 import java.io.File;
 
