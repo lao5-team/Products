@@ -160,4 +160,8 @@
     <string name="submit">发送</string>
     <string name="input_comment">输入评论</string>
 
+    <string name="coolyou_recommend">点赞</string>
+    <string name="coolyou_post_collection">收藏</string>
+    <string name="coolyou_post_comment">评论</string>
+
 </resources>

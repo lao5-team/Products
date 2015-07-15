@@ -3,12 +3,16 @@ package com.pineapple.mobilecraft.tumcca.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ReceiverCallNotAllowedException;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,14 +22,17 @@ import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.data.Treasure;
 import com.pineapple.mobilecraft.data.comment.TreasureComment;
 import com.pineapple.mobilecraft.manager.TreasureManager;
-import com.pineapple.mobilecraft.manager.UserManager;
 import com.pineapple.mobilecraft.mediator.ITreasureDetailMediator;
 import com.pineapple.mobilecraft.server.BmobServerManager;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.tumcca.mediator.IMyScrollViewListener;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
+import com.pineapple.mobilecraft.tumcca.server.WorksServer;
+import com.pineapple.mobilecraft.tumcca.view.ObservableScrollView;
 import com.pineapple.mobilecraft.widget.CommonAdapter;
 import com.pineapple.mobilecraft.widget.IAdapterItem;
 import com.squareup.picasso.Picasso;
@@ -39,7 +46,7 @@ import java.util.List;
  * Created by yihao on 15/6/3.
  * 用来查看宝物详情
  */
-public class CalligraphyDetailActivity extends FragmentActivity implements ITreasureDetailMediator {
+public class CalligraphyDetailActivity extends FragmentActivity implements ITreasureDetailMediator, View.OnClickListener, IMyScrollViewListener, AbsListView.OnScrollListener, View.OnTouchListener {
 
     private TextView mTvUser;
     private ImageView mIvUser;
@@ -50,6 +57,7 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
     private Button mBtnComments;
     private Button mBtnProfComments;
     private ListView mLvComments; //普通评论和专家点评用一个ListView，用两种不同的adapter
+    private ObservableScrollView scrollView;
     DisplayImageOptions mImageOptions;
     ImageLoader mImageLoader;
     CommonAdapter<TreasureComment> mAdapterComments = new CommonAdapter<TreasureComment>(new ArrayList<TreasureComment>(), new IAdapterItem<TreasureComment>() {
@@ -80,9 +88,19 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
         }
     });
     //发表评论的按钮和编辑框
+    private RelativeLayout bottom;
     private Button mBtnComment;
     private EditText mEtxComment;
     private CheckBox mCBIdentify;
+    private LinearLayout funcLay;
+    private RelativeLayout replyButton;
+    private RelativeLayout collectButton;
+    private RelativeLayout excellentButton;
+    private TextView replyNumTxt;
+    private TextView excellentNumTxt;
+    private ImageView excellentImg;
+    private TextView excellentTv;
+    private ImageView collectionImg;
     private Treasure mTreasure = Treasure.NULL;
     private MyUser mUser;
     private List<TreasureComment> mListComment;
@@ -119,6 +137,9 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
                 .build();
         mImageLoader = ImageLoader.getInstance();
 
+        scrollView = (ObservableScrollView)this.findViewById(R.id.scrollView);
+        scrollView.setMyScrollViewListener(this);
+        scrollView.setOnTouchListener(this);
         mTvUser = (TextView) findViewById(R.id.textView_author);
         mTvUser.setText(mProfile.pseudonym);
 
@@ -127,6 +148,20 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
 
         mTvTitle = (TextView) findViewById(R.id.textView_desc);
         mTvTitle.setText(mWorks.title);
+
+        //初始化底部功能栏
+        bottom = (RelativeLayout)this.findViewById(R.id.bottom);
+        funcLay = (LinearLayout)this.findViewById(R.id.funcLay);
+        replyButton = (RelativeLayout) findViewById(R.id.reply_layout);
+        collectButton = (RelativeLayout) findViewById(R.id.collection_layout);
+        excellentButton = (RelativeLayout) findViewById(R.id.excellent_layout);
+        replyNumTxt = (TextView) findViewById(R.id.relpy_num_text);
+        excellentNumTxt = (TextView) findViewById(R.id.excellent_num_text);
+        excellentImg = (ImageView) findViewById(R.id.excellent_img);
+        collectionImg = (ImageView) findViewById(R.id.collection_img);
+        replyButton.setOnClickListener(this);
+        collectButton.setOnClickListener(this);
+        excellentButton.setOnClickListener(this);
 
         WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
 
@@ -340,5 +375,73 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
             }
         });
         t.start();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.reply_layout:
+                bottom.setVisibility(View.VISIBLE);
+                funcLay.setVisibility(View.GONE);
+                break;
+            case R.id.collection_layout:
+
+                break;
+            case R.id.excellent_layout:
+                if(UserManager.getInstance().isLogin())
+                {
+                    int userId = UserManager.getInstance().getCurrentUserId();
+                    boolean ret = WorksServer.likeWorks(UserManager.getInstance().getCurrentToken(), String.valueOf(mWorks.id), String.valueOf(userId));
+                    if(ret)
+                    {
+                        excellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_recomment));
+                        Animation anim = AnimationUtils.loadAnimation(CalligraphyDetailActivity.this, R.anim.coolyou_zan_scale);
+                        excellentImg.startAnimation(anim);
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if(bottom.getVisibility() == View.VISIBLE)
+        {
+            bottom.setVisibility(View.GONE);
+            funcLay.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+        if(bottom.getVisibility() == View.VISIBLE)
+        {
+            bottom.setVisibility(View.GONE);
+            funcLay.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+        if(bottom.getVisibility() == View.VISIBLE)
+        {
+            bottom.setVisibility(View.GONE);
+            funcLay.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if(bottom.getVisibility() == View.VISIBLE)
+        {
+            bottom.setVisibility(View.GONE);
+            funcLay.setVisibility(View.VISIBLE);
+        }
+        return false;
     }
 }

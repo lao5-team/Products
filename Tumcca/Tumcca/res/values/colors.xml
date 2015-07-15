@@ -44,5 +44,7 @@
     <color name="pure_white">#FFFFFF</color>
     <color name="pure_black">#000000</color>
     <color name="line_gray">#e6e6e6</color>
+    <!--<color name="coolyou_listitem_press">#e0e0e0</color>-->
+    <color name="coolyou_listitem_press">#C0C0C0</color>
 
 </resources>

@@ -5,10 +5,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/edittext_bg_normal">
-    <ScrollView
+    <com.pineapple.mobilecraft.tumcca.view.ObservableScrollView
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:id="@+id/scrollView3" android:layout_weight="10">
+            android:id="@+id/scrollView" android:layout_weight="10">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" android:padding="10dip">
@@ -69,22 +69,32 @@
 
         </RelativeLayout>
 
-    </ScrollView>
+    </com.pineapple.mobilecraft.tumcca.view.ObservableScrollView>
+
     <RelativeLayout
+        android:id="@+id/bottomLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        >
+        <!--android:layout_below="@+id/scrollView3"-->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_alignParentBottom="false" android:id="@+id/bottom"
-            android:gravity="bottom" android:layout_below="@+id/scrollView3" android:padding="10dip"
+            android:gravity="bottom"  android:padding="10dip"
             android:focusable="true" android:focusableInTouchMode="true"
             android:background="@drawable/corner_border_dialog" android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip">
-        <EditText
+            android:layout_marginRight="10dip"
+            android:visibility="gone"
+            >
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="38dip"
                 android:id="@+id/editText" android:layout_toLeftOf="@+id/submit"
                 android:layout_alignParentBottom="false" style="@style/my_edittext_style"
                 android:layout_centerVertical="true"
                 android:hint="@string/input_comment"/>
-        <Button
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="42dip"
                 android:text="@string/submit"
@@ -92,6 +102,94 @@
                 android:textSize="@dimen/text_size_normal" android:layout_alignParentBottom="false"
                 android:layout_marginTop="5dip"
                 android:layout_centerVertical="true" style="@style/my_button_style" android:layout_marginLeft="5dip"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/funcLay"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            >
+
+            <RelativeLayout
+                android:id="@+id/reply_layout"
+                android:layout_width="64dip"
+                android:layout_height="64dip"
+                android:layout_marginRight="8dip"
+                android:background="@drawable/coolyou_post_bottom_press"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/reply_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/coolyou_post_reply" />
+
+                <TextView
+                    android:id="@+id/relpy_num_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reply_img"
+                    android:layout_centerInParent="true"
+                    android:text="@string/coolyou_post_comment"
+                    android:textColor="#6e6e6e"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/collection_layout"
+                android:layout_width="64dip"
+                android:layout_height="64dip"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="8dip"
+                android:background="@drawable/coolyou_post_bottom_press"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/collection_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/coolyou_post_collection" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/collection_img"
+                    android:layout_centerInParent="true"
+                    android:text="@string/coolyou_post_collection"
+                    android:textColor="#6e6e6e"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/excellent_layout"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginLeft="8dip"
+                android:background="@drawable/coolyou_post_bottom_press"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/excellent_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/coolyou_post_excellent" />
+
+                <TextView
+                    android:id="@+id/excellent_num_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/excellent_img"
+                    android:layout_centerInParent="true"
+                    android:text="@string/coolyou_recommend"
+                    android:textColor="#6e6e6e"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>
