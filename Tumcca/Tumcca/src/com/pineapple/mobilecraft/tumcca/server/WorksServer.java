@@ -4,6 +4,7 @@ import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.utils.SyncHttpDelete;
 import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
 import org.apache.http.client.methods.HttpPost;
@@ -149,6 +150,47 @@ public class WorksServer {
             }
         };
         return post.execute();
+    }
+
+    public static boolean likeWorks(String token, String worksID, String userID){
+        String url = host + "/api/like";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("works", worksID);
+            jsonObject.put("admirer", userID);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, jsonObject.toString()) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+        return true;
+    }
+
+    public static boolean cancellikeWorks(String token, String worksID, String userID){
+//        String url = host + "/api/like";
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put("works", worksID);
+//            jsonObject.put("admirer", userID);
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        SyncHttpDelete<String> delete = new SyncHttpDelete<String>(url, token, jsonObject.toString()) {
+//            @Override
+//            public String postExcute(String result) {
+//                return null;
+//            }
+//        };
+//        post.execute();
+//        return true;
+        return false;
     }
 
 }

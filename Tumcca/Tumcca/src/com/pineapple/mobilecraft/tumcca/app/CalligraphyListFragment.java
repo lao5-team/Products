@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     DisplayImageOptions mImageOptionsAvatar;
     ImageLoader mImageLoader;
     HashMap<Integer, Profile> mMapProfile;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     public CalligraphyListFragment(){
         mMapProfile = new HashMap<Integer, Profile>();
         mAdapter = new PictureAdapter();
@@ -64,6 +67,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                 .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 5))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
         mImageLoader = ImageLoader.getInstance();
+
     }
 
     public void setBottomScrollListener(OnBottomScrollListener listener){
@@ -167,6 +171,15 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                         mBottomScrollListener.onBottom();
                     }
                 }
+            }
+        });
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.button_normal_red);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 

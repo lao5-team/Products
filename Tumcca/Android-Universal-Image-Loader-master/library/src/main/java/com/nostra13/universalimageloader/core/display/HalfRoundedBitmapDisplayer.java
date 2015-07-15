@@ -52,25 +52,20 @@ public class HalfRoundedBitmapDisplayer implements BitmapDisplayer {
             path.lineTo(mRect.left, mRect.top + diameter);
 
             //A1绘制一个圆弧到A2
-            //path.moveTo(mRect.left, mRect.top + cornerRadius);
             RectF rectF = new RectF(mRect.left, mRect.top, mRect.left + diameter, mRect.top + diameter);
             path.arcTo(rectF, 180, 90);
 
             //A2绘制到B1
-            //path.moveTo(mRect.left + cornerRadius, mRect.top);
             path.lineTo(mRect.right - diameter, mRect.top);
 
             //B1绘制圆弧到B2
-            //path.moveTo(mRect.right - cornerRadius, mRect.top);
             rectF = new RectF(mRect.right - diameter, mRect.top, mRect.right, mRect.top + diameter);
             path.arcTo(rectF, 270, 90);
 
             //B2绘制直线到C
-            //path.moveTo(mRect.right, mRect.top + cornerRadius);
             path.lineTo(mRect.right, mRect.bottom);
 
             //C绘制直线到D
-            //path.moveTo(mRect.right, mRect.bottom);
             path.lineTo(mRect.left, mRect.bottom);
             canvas.drawPath(path, paint);
         }

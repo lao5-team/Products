@@ -165,7 +165,7 @@
         </activity>
         <activity android:name=".tumcca.app.RegisterActivity" android:theme="@style/my_dialog_activity_style">
         </activity>
-        <activity android:name=".tumcca.app.HomeActivity" android:theme="@android:style/Theme.Holo.Light" android:screenOrientation="portrait">
+        <activity android:name=".tumcca.app.HomeActivity" android:theme="@style/my_activity_style" android:screenOrientation="portrait">
 
         </activity>
 
