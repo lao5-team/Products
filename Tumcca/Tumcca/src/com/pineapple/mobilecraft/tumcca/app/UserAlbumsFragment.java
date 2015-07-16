@@ -83,13 +83,19 @@ public class UserAlbumsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onDestroy(){
+        super.onDestroy();
+        mAlbumList.clear();
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_albums, null);
         mEGVAlbumView = (ExpandGridView)view.findViewById(R.id.gridview_albums);
         addAlbumsView(mEGVAlbumView);
         mTvAlbumCount = (TextView)view.findViewById(R.id.textView_album_count);
         addCountView(mTvAlbumCount);
+
         return view;
     }
 
@@ -184,6 +190,9 @@ public class UserAlbumsFragment extends Fragment {
             ImageView imageView_2 = (ImageView)view.findViewById(R.id.imageView_2);
             ImageView imageView_3 = (ImageView)view.findViewById(R.id.imageView_3);
             int parent_width = parent.getWidth();
+            if(parent_width < 100){
+                parent_width = 800;
+            }
             if(album.worksInfoList!=null){
                 if(album.worksInfoList.size()>0){
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
@@ -216,6 +225,12 @@ public class UserAlbumsFragment extends Fragment {
             }
             return view;
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAlbumsAdapter.notifyDataSetChanged();
     }
 
 }

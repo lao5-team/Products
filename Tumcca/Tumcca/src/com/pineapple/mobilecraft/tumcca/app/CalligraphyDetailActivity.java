@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
@@ -123,6 +122,12 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
+        final ActionBar actionBar = getActionBar();
+        if(null!=actionBar){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         try {
             JSONObject jsonObject = new JSONObject(getIntent().getStringExtra("works"));
             mWorks = WorksInfo.fromJSON(jsonObject);
@@ -443,5 +448,17 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
             funcLay.setVisibility(View.VISIBLE);
         }
         return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

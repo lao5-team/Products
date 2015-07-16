@@ -15,10 +15,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -73,6 +73,23 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
+        final ActionBar actionBar = getActionBar();
+        if(null!=actionBar){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayOptions(
+                    ActionBar.DISPLAY_SHOW_CUSTOM,
+                    ActionBar.DISPLAY_SHOW_CUSTOM);
+            View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_calligrahy_create, null);
+            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            lp.gravity = Gravity.END;
+            actionBar.setCustomView(customActionBarView, lp);
+        }
+
+
         if(mIsTestMode)
         {
             UserManager.getInstance().login("999", "999");
@@ -124,14 +141,6 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             displaySelectedAlbum(album);
         }
 
-        mIvBack = (ImageView)findViewById(R.id.imageView_back);
-        mIvBack.setClickable(true);
-        mIvBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         listenConnection();
 
@@ -498,5 +507,17 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
         }
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

@@ -45,7 +45,7 @@ public class AlbumCalligraphyListActivity extends FragmentActivity {
         mTvTitle.setText(getIntent().getStringExtra("albumName"));
         CalligraphyListFragment fragment = new CalligraphyListFragment();
         fragment.setWorksList(worksInfoList);
-        getFragmentManager().beginTransaction().add(R.id.layout_container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout_container, fragment).commit();
 
     }
 }

@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.server;
 
+import android.util.Log;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,6 +68,9 @@ public class PictureServer {
     }
 
     public String getPictureUrl(int id, int width, int height){
+        if(width == 0){
+            Log.v("Tumcca", Log.getStackTraceString(new RuntimeException()));
+        }
         return  mHost + "/api/pictures/download/" + id + "/thumb/" + width + "/" + height;
     }
 

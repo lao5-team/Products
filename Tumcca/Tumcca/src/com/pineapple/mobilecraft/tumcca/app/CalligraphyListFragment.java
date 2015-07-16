@@ -1,8 +1,8 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Bitmap;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -70,6 +70,12 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
+
     public void setBottomScrollListener(OnBottomScrollListener listener){
         mBottomScrollListener = listener;
     }
@@ -85,13 +91,17 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                     Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
                     mMapProfile.put(worksInfoList.get(i).author, profile);
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.v("Tumcca", "addWorkList");
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
+                Activity activity = getActivity();
+                if(null!=activity){
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.v("Tumcca", "addWorkList");
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+
             }
         });
         t.start();
@@ -256,7 +266,7 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
 
             String imageUrl = PictureServer.getInstance().getPictureUrl(mWorksInfoList.get(position).picInfo.id);
 
-            if(viewHolder.ivAuthor.getTag() == null||!viewHolder.imageView.getTag().equals(imageUrl)){
+            if(viewHolder.imageView.getTag() == null||!viewHolder.imageView.getTag().equals(imageUrl)){
                 mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(
                                 mWorksInfoList.get(position).picInfo.id), viewHolder.imageView, mImageOptionsWorks,
                         new ImageLoadingListener() {

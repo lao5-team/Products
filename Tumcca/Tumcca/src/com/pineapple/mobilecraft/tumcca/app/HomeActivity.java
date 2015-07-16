@@ -214,7 +214,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
 
     public void addWorkList(CalligraphyListFragment fragment) {
-        getFragmentManager().beginTransaction().add(R.id.layout_works, mWorksListFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout_works, mWorksListFragment).commit();
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

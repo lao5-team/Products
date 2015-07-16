@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +10,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -90,6 +91,13 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
+        final ActionBar actionBar = getActionBar();
+        if(null!=actionBar){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         imageOptions = new DisplayImageOptions.Builder()
                 .displayer(new RoundedBitmapDisplayer(10))
                 .build();
@@ -495,5 +503,18 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         mCropUri = Uri.fromFile(capturePath);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mCropUri);
         startActivityForResult(intent, CROP_REQUEST_CODE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:gravity="right">
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/post_work"
+            android:id="@+id/button_submit" style="@style/my_button_style" android:layout_marginTop="5dip"
+            android:layout_marginBottom="5dip" android:layout_marginRight="5dip"/>
+</LinearLayout>

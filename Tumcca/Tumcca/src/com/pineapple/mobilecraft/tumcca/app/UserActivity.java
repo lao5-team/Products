@@ -4,15 +4,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.*;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.Window;
+import android.view.*;
 import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
@@ -28,13 +22,23 @@ import java.util.List;
  * Created by yihao on 15/6/15.
  */
 public class UserActivity extends FragmentActivity {
+    private static final int WORKS_WIDTH = 400;
+    private static final int PAGE_SIZE = 5;
     UserAlbumsFragment mUserAlbumsFragment;
+    CalligraphyListFragment mLikeCalligraphyFragment;
     boolean mIsTestMode = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
+        final ActionBar actionBar = getActionBar();
+        if(null!=actionBar){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         mUserAlbumsFragment = new UserAlbumsFragment();
+        mLikeCalligraphyFragment = new CalligraphyListFragment();
         if(mIsTestMode) {
             UserManager.getInstance().login("999", "999");
         }
@@ -78,11 +82,24 @@ public class UserActivity extends FragmentActivity {
         TabPageIndicator tabPageIndicator = (TabPageIndicator)findViewById(R.id.view_tab);
         ViewPager viewPager = (ViewPager)findViewById(R.id.view_viewPager);
 
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
-                if(i==0){
+                if(i == 0){
                     return mUserAlbumsFragment;
+                }
+                else if(i == 2){
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<WorksInfo> worksInfoList = WorksServer.getLikeWorks(
+                                    UserManager.getInstance().getCurrentToken(), 1, PAGE_SIZE, WORKS_WIDTH);
+                            mLikeCalligraphyFragment.setWorksList(worksInfoList);
+                        }
+                    });
+                    t.start();
+
+                    return mLikeCalligraphyFragment;
                 }
                 else{
                     return TestFragment.newInstance(getResources().getStringArray(R.array.user_activity_tabs)[i]);
@@ -116,11 +133,10 @@ public class UserActivity extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        /*
-         * 将actionBar的HomeButtonEnabled设为ture，
-         *
-         * 将会执行此case
-         */
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
             case R.id.account_settings:
                 UserInfoActivity.startActivity(UserActivity.this);
                 break;

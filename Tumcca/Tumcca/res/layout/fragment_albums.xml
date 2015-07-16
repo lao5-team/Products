@@ -23,7 +23,7 @@
                 android:layout_height="match_parent" android:background="@color/edittext_bg_normal"
                 android:layout_marginLeft="15dip" android:layout_marginRight="15dip">
             <view android:layout_width="match_parent"
-                  android:layout_height="match_parent"
+                  android:layout_height="500dp"
                   class="com.pineapple.mobilecraft.widget.ExpandGridView" android:id="@+id/gridview_albums"
                   android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                   android:layout_alignParentStart="true" android:numColumns="2"/>

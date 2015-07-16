@@ -5,23 +5,6 @@
               android:layout_height="match_parent" android:baselineAligned="false" android:background="#ffdcdcdc"
               tools:context=".tumcca.app.UserInfoActivity">
 
-    <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:background="@color/pure_white">
-        <RelativeLayout
-                android:layout_width="32dp"
-                android:layout_height="32dp" android:id="@+id/layout_back" android:background="@drawable/back"
-                android:padding="10dp" android:layout_margin="10dp">
-        </RelativeLayout>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/account_settings"
-                android:id="@+id/textView19"
-                android:textSize="@dimen/text_size_normal" android:gravity="center|right"
-                android:layout_centerVertical="true" android:layout_toRightOf="@+id/layout_back"
-                android:layout_toEndOf="@+id/layout_back" android:layout_marginLeft="20dp"/>
-    </RelativeLayout>
     <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -193,4 +193,36 @@ public class WorksServer {
         return false;
     }
 
+    /**
+     *
+     * @param token
+     * @param page
+     * @param size
+     * @param width
+     * @return
+     */
+    public static List<WorksInfo> getLikeWorks(String token, int page, int size, int width){
+        //http://120.26.202.114:80/api/like/works/page/1/size/5/width/400
+        String url = host + "/api/like/works/page/" + page + "/size/" + size + "/width/" + width;
+        SyncHttpGet<List<WorksInfo>> post = new SyncHttpGet<List<WorksInfo>>(url, token) {
+            @Override
+            public List<WorksInfo> postExcute(String result) {
+                List<WorksInfo> worksInfoList = new ArrayList<WorksInfo>();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("results");
+                    for(int i=0; i<array.length(); i++){
+                        worksInfoList.add(WorksInfo.fromJSON(array.getJSONObject(i)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return worksInfoList;
+            }
+        };
+        return post.execute();
+
+    }
+
+
 }
