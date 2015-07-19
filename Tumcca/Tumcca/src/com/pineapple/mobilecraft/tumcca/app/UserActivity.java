@@ -9,10 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.view.*;
 import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
-import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -25,7 +23,7 @@ public class UserActivity extends FragmentActivity {
     private static final int WORKS_WIDTH = 400;
     private static final int PAGE_SIZE = 5;
     UserAlbumsFragment mUserAlbumsFragment;
-    CalligraphyListFragment mLikeCalligraphyFragment;
+    WorksListFragment mLikeCalligraphyFragment;
     boolean mIsTestMode = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,7 @@ public class UserActivity extends FragmentActivity {
         }
 
         mUserAlbumsFragment = new UserAlbumsFragment();
-        mLikeCalligraphyFragment = new CalligraphyListFragment();
+        mLikeCalligraphyFragment = new WorksListFragment();
         if(mIsTestMode) {
             UserManager.getInstance().login("999", "999");
         }
@@ -92,9 +90,14 @@ public class UserActivity extends FragmentActivity {
                     Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            List<WorksInfo> worksInfoList = WorksServer.getLikeWorks(
+                            final List<WorksInfo> worksInfoList = WorksServer.getLikeWorks(
                                     UserManager.getInstance().getCurrentToken(), 1, PAGE_SIZE, WORKS_WIDTH);
-                            mLikeCalligraphyFragment.setWorksList(worksInfoList);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mLikeCalligraphyFragment.addWorksHead(worksInfoList);
+                                }
+                            });
                         }
                     });
                     t.start();

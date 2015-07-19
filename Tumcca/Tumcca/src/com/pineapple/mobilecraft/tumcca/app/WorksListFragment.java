@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.nostra13.universalimageloader.core.display.HalfRoundedBitmapDisplayer
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
@@ -27,11 +25,10 @@ import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
-import com.pineapple.mobilecraft.tumcca.mediator.ICalligraphyList;
+import com.pineapple.mobilecraft.tumcca.mediator.IWorksList;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.util.logic.Util;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,13 +38,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by yihao on 15/6/4.
  */
-public class CalligraphyListFragment extends Fragment implements ICalligraphyList{
+public class WorksListFragment extends Fragment implements IWorksList {
 
-    public static interface OnBottomScrollListener{
-        public void onBottom();
-    }
-    OnBottomScrollListener mBottomScrollListener = null;
-    CopyOnWriteArrayList<WorksInfo> mWorksInfoList = new CopyOnWriteArrayList<WorksInfo>();
+
+
+    static final int CORNER_RADIUS = 5;
+    OnScrollListener mScrollListener = null;
+    List<WorksInfo> mWorksInfoList = new ArrayList<WorksInfo>();
     Activity mContext;
     PictureAdapter mAdapter;
     DisplayImageOptions mImageOptionsWorks;
@@ -55,87 +52,19 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     ImageLoader mImageLoader;
     HashMap<Integer, Profile> mMapProfile;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    public CalligraphyListFragment(){
+    public WorksListFragment(){
         mMapProfile = new HashMap<Integer, Profile>();
         mAdapter = new PictureAdapter();
         mImageOptionsAvatar = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 5))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new RoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
-
         mImageOptionsWorks = new DisplayImageOptions.Builder()
-                .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 5))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
         mImageLoader = ImageLoader.getInstance();
 
     }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        mAdapter.notifyDataSetChanged();
-    }
-
-    public void setBottomScrollListener(OnBottomScrollListener listener){
-        mBottomScrollListener = listener;
-    }
-
-    public void setWorksList(final List<WorksInfo> worksInfoList){
-        mWorksInfoList.clear();
-        mWorksInfoList.addAll(worksInfoList);
-        //mAdapter.notifyDataSetChanged();
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i=0; i<mWorksInfoList.size(); i++){
-                    Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
-                    mMapProfile.put(worksInfoList.get(i).author, profile);
-                }
-                Activity activity = getActivity();
-                if(null!=activity){
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.v("Tumcca", "addWorkList");
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    });
-                }
-
-            }
-        });
-        t.start();
-
-
-    }
-
-    public void addWorkList(final List<WorksInfo> worksInfoList){
-
-        //mAdapter.notifyDataSetChanged();
-        //Thread t = new Thread(new Runnable() {
-            //@Override
-            //public void run() {
-                for (int i=0; i<worksInfoList.size(); i++){
-                    Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
-                    mMapProfile.put(worksInfoList.get(i).author, profile);
-                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mWorksInfoList.addAll(worksInfoList);
-                        Log.v("Tumcca", "addWorkList");
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
-            //}
-        //});
-       // t.start();
-
-
-
-    }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -144,31 +73,135 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calligraphy_list, container, false);
-        StaggeredGridView listView = (StaggeredGridView)view.findViewById(R.id.list);
+    public void onResume(){
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+    /**
+     * 解析数据
+     * @param worksInfoList
+     */
+    private void parseWorks(final List<WorksInfo> worksInfoList){
+        for (int i=0; i<worksInfoList.size(); i++){
+            Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
+            mMapProfile.put(worksInfoList.get(i).author, profile);
+        }
+    }
+
+    @Override
+    public void setScrollListener(OnScrollListener listener) {
+        mScrollListener = listener;
+    }
+
+    /**
+     * 将数据添加到底部，需要在主线程中调用
+     * 将数据添加到头部
+     * @param worksInfoList
+     */
+    @Override
+    public void addWorksHead(final List<WorksInfo> worksInfoList) {
+        if(mWorksInfoList.size()>0){
+            int topId = mWorksInfoList.get(0).id;
+            int index = worksInfoList.size();
+            for(int i=0; i<worksInfoList.size(); i++){
+                if(topId==worksInfoList.get(i).id){
+                    index = i;
+                    break;
+                }
+            }
+            if(worksInfoList.subList(0, index).size()==0){
+                Toast.makeText(mContext, "当前没有新作品发布", Toast.LENGTH_SHORT).show();
+
+            }
+            else{
+                Toast.makeText(mContext, "当前有" + worksInfoList.subList(0, index).size() + "个新作品发布", Toast.LENGTH_SHORT).show();
+                mWorksInfoList.addAll(0, worksInfoList.subList(0, index));
+            }
+
+        }
+        else{
+            mWorksInfoList.addAll(worksInfoList);
+        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                parseWorks(worksInfoList);
+                if(null!=mContext){
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.mListWorks.clear();
+                            mAdapter.mListWorks.addAll(mWorksInfoList);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+
+            }
+        });
+        thread.start();
+    }
+
+    /**
+     * 将数据添加到底部，需要在主线程中调用
+     * @param worksInfoList
+     */
+    @Override
+    public void addWorksTail(final List<WorksInfo> worksInfoList) {
+        mWorksInfoList.addAll(worksInfoList);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                parseWorks(worksInfoList);
+                if(null!=mContext){
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.mListWorks.clear();
+                            mAdapter.mListWorks.addAll(mWorksInfoList);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+
+            }
+        });
+        thread.start();
+    }
+
+    /**
+     * 将数据添加到底部，需要在主线程中调用
+     * 清空数据
+     */
+    public void clearWorks(){
+        mWorksInfoList.clear();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void addWorksListView(View view) {
+        StaggeredGridView listView = (StaggeredGridView)view;
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //PictureDetailActivity.startActivity(mContext, mWorksInfoList.get(position -1).picInfo.id);
-                CalligraphyDetailActivity.startActivity(mWorksInfoList.get(position), mContext);
+
+                openWorks(mWorksInfoList.get(position));
             }
         });
-        //listView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true ,true));
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                         mImageLoader.resume();
-                        //mAdapter.notifyDataSetChanged();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                         mImageLoader.pause();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                        //mImageLoader.pause();
                         break;
                 }
             }
@@ -176,19 +209,83 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if(visibleItemCount+firstVisibleItem==totalItemCount){
-                    //Log.e("log", "滑到底部");
-                    if(null!=mBottomScrollListener){
-                        mBottomScrollListener.onBottom();
+                    if(null!= mScrollListener){
+                        mScrollListener.onBottom();
                     }
                 }
             }
         });
+    }
+
+    @Override
+    public void openWorks(WorksInfo calligraphy) {
+        CalligraphyDetailActivity.startActivity(calligraphy, mContext);
+    }
+
+//    /**
+//     *
+//     * @param worksInfoList
+//     */
+//    public void setWorksList(final List<WorksInfo> worksInfoList){
+//        mWorksInfoList.clear();
+//        mWorksInfoList.addAll(worksInfoList);
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i=0; i<mWorksInfoList.size(); i++){
+//                    Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
+//                    mMapProfile.put(worksInfoList.get(i).author, profile);
+//                }
+//                if(null!=mContext){
+//                    mContext.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Log.v("Tumcca", "addWorkList");
+//                            mAdapter.notifyDataSetChanged();
+//                        }
+//                    });
+//                }
+//
+//            }
+//        });
+//        t.start();
+//
+//
+//    }
+
+//    public void addWorkList(final List<WorksInfo> worksInfoList) {
+//
+//        for (int i = 0; i < worksInfoList.size(); i++) {
+//            Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
+//            mMapProfile.put(worksInfoList.get(i).author, profile);
+//        }
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mWorksInfoList.addAll(worksInfoList);
+//                Log.v("Tumcca", "addWorkList");
+//                mAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//
+//    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_calligraphy_list, container, false);
+        StaggeredGridView listView = (StaggeredGridView)view.findViewById(R.id.list);
+        addWorksListView(listView);
+
 
         mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.button_normal_red);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if(null!= mScrollListener){
+                    mScrollListener.onTop();
+                }
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -196,20 +293,6 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
         return view;
     }
 
-    @Override
-    public void setCalligraphyList(List<Works> calligraphyList) {
-
-    }
-
-    @Override
-    public void addCalligraphyListView() {
-
-    }
-
-    @Override
-    public void openCalligraphy(Works calligraphy) {
-
-    }
 
 
     private static class ViewHolder{
@@ -221,11 +304,11 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
     }
 
     private class PictureAdapter extends BaseAdapter{
-
+        public List<WorksInfo> mListWorks = new ArrayList<WorksInfo>();
         @Override
         public int getCount() {
-            if(null!=mWorksInfoList){
-                return mWorksInfoList.size();
+            if(null!=mListWorks){
+                return mListWorks.size();
             }
             return 0;
         }
@@ -248,14 +331,12 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                 viewHolder = new ViewHolder();
                 convertView = layoutInflater.inflate(R.layout.item_works, null);
                 viewHolder.imageView = (ImageView)convertView.findViewById(R.id.imageView_picture);
-                //viewHolder.imageView.setAlpha(0);
                 viewHolder.tvDesc = (TextView)convertView.findViewById(R.id.textView_describe);
                 viewHolder.ivAuthor = (ImageView)convertView.findViewById(R.id.imageView_avatar);
                 viewHolder.tvAuthorName = (TextView)convertView.findViewById(R.id.textView_author);
                 convertView.setTag(viewHolder);
             }
             viewHolder = (ViewHolder) convertView.getTag();
-            //return convertView;
 
             PictureInfo pictureInfo = mWorksInfoList.get(position).picInfo;
             //预先用图片的尺寸对imageView进行布局
@@ -322,19 +403,19 @@ public class CalligraphyListFragment extends Fragment implements ICalligraphyLis
                 viewHolder.imageView.setTag(imageUrl);
             }
 
-
             viewHolder.tvDesc.setText(mWorksInfoList.get(position).title);
 
             Profile profile = mMapProfile.get(mWorksInfoList.get(position).author);
             if(null!=profile){
                 viewHolder.tvAuthorName.setText(profile.pseudonym);
 
-                String avatarUrl = UserServer.getInstance().getAvatarUrl(profile.avatar);
-                if(viewHolder.ivAuthor.getTag() == null||!viewHolder.ivAuthor.getTag().equals(avatarUrl)){
-                    mImageLoader.displayImage(avatarUrl, viewHolder.ivAuthor, mImageOptionsAvatar);
-                    viewHolder.ivAuthor.setTag(avatarUrl);
+                if(profile.avatar>PictureServer.INVALID_AVATAR_ID){
+                    String avatarUrl = UserServer.getInstance().getAvatarUrl(profile.avatar);
+                    if(viewHolder.ivAuthor.getTag() == null||!viewHolder.ivAuthor.getTag().equals(avatarUrl)){
+                        mImageLoader.displayImage(avatarUrl, viewHolder.ivAuthor, mImageOptionsAvatar);
+                        viewHolder.ivAuthor.setTag(avatarUrl);
+                    }
                 }
-
             }
             return convertView;
         }

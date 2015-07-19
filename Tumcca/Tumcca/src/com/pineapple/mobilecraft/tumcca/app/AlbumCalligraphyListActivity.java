@@ -43,8 +43,8 @@ public class AlbumCalligraphyListActivity extends FragmentActivity {
         });
 
         mTvTitle.setText(getIntent().getStringExtra("albumName"));
-        CalligraphyListFragment fragment = new CalligraphyListFragment();
-        fragment.setWorksList(worksInfoList);
+        WorksListFragment fragment = new WorksListFragment();
+        fragment.addWorksHead(worksInfoList);
         getSupportFragmentManager().beginTransaction().add(R.id.layout_container, fragment).commit();
 
     }

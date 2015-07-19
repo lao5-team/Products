@@ -1,20 +1,15 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.*;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.data.Picture;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -34,7 +29,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
     private Button mBtnLogin = null;
     private Button mBtnRegister = null;
     private ImageView mIVAccount = null;
-    private CalligraphyListFragment mWorksListFragment;
+    private WorksListFragment mWorksListFragment;
     private int mCurrentPageIndex = 1;
     private Thread mDataThread = null;
     private Handler mDataHandler = null;
@@ -65,10 +60,25 @@ public class HomeActivity extends FragmentActivity implements IHome {
         }
         addAccountView();
 
-        mWorksListFragment = new CalligraphyListFragment();
+        mWorksListFragment = new WorksListFragment();
         addWorkList(mWorksListFragment);
 
-        mWorksListFragment.setBottomScrollListener(new CalligraphyListFragment.OnBottomScrollListener() {
+        mWorksListFragment.setScrollListener(new WorksListFragment.OnScrollListener() {
+
+            @Override
+            public void onTop(){
+                final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1, PAGE_SIZE, WORKS_WIDTH);
+                if(null!=worksInfoList&&worksInfoList.size() >0 ){
+                    runOnUiThread(new Runnable(){
+                        @Override
+                        public void run() {
+                            mWorksListFragment.addWorksHead(worksInfoList);
+
+                        }
+                    });
+                }
+            }
+
             @Override
             public void onBottom() {
 
@@ -77,14 +87,19 @@ public class HomeActivity extends FragmentActivity implements IHome {
                     public void run() {
                         mIsLoadBottom = true;
                         final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
-                        if(null!=worksInfoList&&worksInfoList.size() >0 ){
+                        if (null != worksInfoList && worksInfoList.size() > 0) {
                             mCurrentPageIndex++;
-                            mWorksListFragment.addWorkList(worksInfoList);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mWorksListFragment.addWorksTail(worksInfoList);
+                                }
+                            });
                         }
                         mIsLoadBottom = false;
                     }
                 });
-                if(!mIsLoadBottom){
+                if (!mIsLoadBottom) {
                     Log.v("Tumcca", "onBottom");
                     t.start();
                 }
@@ -96,14 +111,12 @@ public class HomeActivity extends FragmentActivity implements IHome {
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                mCurrentPageIndex = 1;
-                final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
+                final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1, PAGE_SIZE, WORKS_WIDTH);
                 if(null!=worksInfoList&&worksInfoList.size() >0 ){
-                    mCurrentPageIndex++;
-                    runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable(){
                         @Override
                         public void run() {
-                            mWorksListFragment.setWorksList(worksInfoList);
+                            mWorksListFragment.addWorksHead(worksInfoList);
 
                         }
                     });
@@ -213,7 +226,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
     }
 
 
-    public void addWorkList(CalligraphyListFragment fragment) {
+    public void addWorkList(WorksListFragment fragment) {
         getSupportFragmentManager().beginTransaction().add(R.id.layout_works, mWorksListFragment).commit();
     }
 

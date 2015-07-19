@@ -118,29 +118,31 @@ public class TumccaService extends Service {
 					int pictureId = PictureServer.getInstance().uploadPicture(token, new File(picture.localPath));
 					if(PictureServer.INVALID_PICTURE_ID!=pictureId){
 						works.pictures.add(pictureId);
+						int id = WorksServer.uploadWorks(token, works);
+						if(id!=WorksServer.INVALID_WORKS_ID){
+							showNotification("作品发布成功");
+							List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(), works.albumId, 1, 20, 400);
+							WorksManager.getInstance().putAlbumWorks(works.albumId, worksInfoList);
+							hideNotification();
+							try {
+								Thread.currentThread().sleep(200);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							Intent intent = new Intent();
+							intent.setAction("upload_works");
+							sendBroadcast(intent);
+						}
+						else{
+							showNotification("作品发布失败");
+							hideNotification();
+						}
+					}
+					else{
+						showNotification("图片上传失败");
+						hideNotification();
 					}
 				}
-				int id = WorksServer.uploadWorks(token, works);
-				if(id!=WorksServer.INVALID_WORKS_ID){
-					showNotification("作品发布成功");
-					List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(), works.albumId, 1, 20, 400);
-					WorksManager.getInstance().putAlbumWorks(works.albumId, worksInfoList);
-					hideNotification();
-					try {
-						Thread.currentThread().sleep(200);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					Intent intent = new Intent();
-					intent.setAction("upload_works");
-					sendBroadcast(intent);
-				}
-				else{
-					showNotification("作品发布失败");
-					hideNotification();
-
-				}
-
 			}
 		});
 		t.start();
@@ -151,7 +153,6 @@ public class TumccaService extends Service {
 	private void showNotification(String notifyString) {
 		android.app.Notification notification = new android.app.Notification.Builder(this)
 				.setContentTitle(notifyString)
-				.setContentText(notifyString)
 				.setAutoCancel(true)
 				.setTicker(notifyString)
 				.setOngoing(true)
@@ -175,11 +176,6 @@ public class TumccaService extends Service {
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
 
-//			if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION) ||
-//					mListening == false) {
-//				Log.w(TAG, "onReceived() called with " + mState.toString() + " and " + intent);
-//				return;
-//			}
 
 			boolean noConnectivity =
 					intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
@@ -193,28 +189,7 @@ public class TumccaService extends Service {
 
 			}
 
-//			mNetworkInfo = (NetworkInfo)
-//					intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
-//			mOtherNetworkInfo = (NetworkInfo)
-//					intent.getParcelableExtra(ConnectivityManager.EXTRA_OTHER_NETWORK_INFO);
-//
-//			mReason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
-//			mIsFailover =
-//					intent.getBooleanExtra(ConnectivityManager.EXTRA_IS_FAILOVER, false);
 
-//			if (DBG) {
-//				Log.d(TAG, "onReceive(): mNetworkInfo=" + mNetworkInfo +  " mOtherNetworkInfo = "
-//						+ (mOtherNetworkInfo == null ? "[none]" : mOtherNetworkInfo +
-//						" noConn=" + noConnectivity) + " mState=" + mState.toString());
-//			}
-
-			// Notifiy any handlers.
-//			Iterator<Handler> it = mHandlers.keySet().iterator();
-//			while (it.hasNext()) {
-//				Handler target = it.next();
-//				Message message = Message.obtain(target, mHandlers.get(target));
-//				target.sendMessage(message);
-//			}
 		}
 	};
 

@@ -12,6 +12,7 @@ import java.io.File;
  */
 public class PictureServer {
     public static final int INVALID_PICTURE_ID = -1;
+    public static final int INVALID_AVATAR_ID = 0;
     private static PictureServer mInstance = null;
     private final String mHost = "http://120.26.202.114";
     public static PictureServer getInstance(){

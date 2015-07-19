@@ -55,7 +55,9 @@ public class Album {
     public static JSONObject toJSON(Album album){
         Gson gson = new Gson();
         try {
-            return new JSONObject(gson.toJson(album));
+            JSONObject jsonObject = new JSONObject(gson.toJson(album));
+            jsonObject.put("id", album.id);
+            return jsonObject;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

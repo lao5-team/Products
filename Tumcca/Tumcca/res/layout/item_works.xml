@@ -8,13 +8,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:background="@drawable/corner_border_works"
                     android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
-                    android:layout_marginBottom="15dp">
+                    android:layout_marginBottom="0dp">
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:adjustViewBounds="true"
-            android:id="@+id/imageView_picture" android:background="@drawable/corner_border_imageview_large"/>
+            android:id="@+id/imageView_picture" android:background="@drawable/corner_border_imageview_large"
+            />
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="文字说明"
                   android:id="@+id/textView_describe" android:layout_below="@+id/imageView_picture"
                   android:layout_marginLeft="10dip" android:layout_marginTop="5dip" android:textSize="@dimen/text_size_small"

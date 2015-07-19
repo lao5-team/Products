@@ -327,6 +327,11 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		return keyList;
 	}
 
+	/**
+	 * 获取一组key对应的value
+	 * @param keyList key列表
+	 * @return
+	 */
 	@Override
 	public List<JSONObject> getItems(List<String> keyList) {
 		if(null == keyList)
@@ -351,19 +356,19 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 				keyDBList.add(key);
 			}
 		}
-		List<JSONObject> listValue = getListByDB(keyDBList);
+		List<JSONObject> valueDBList = getListByDB(keyDBList);
 		try
 		{
 			for(int i=0; i<keyDBList.size(); i++)
 			{
-				mMap.put(keyDBList.get(i), listValue.get(i));
+				mMap.put(keyDBList.get(i), valueDBList.get(i));
 			}
 		}
 		catch(IndexOutOfBoundsException e)
 		{
 			e.printStackTrace();
 		}
-		result.addAll(listValue);
+		result.addAll(valueDBList);
 		return result;
 	}
 

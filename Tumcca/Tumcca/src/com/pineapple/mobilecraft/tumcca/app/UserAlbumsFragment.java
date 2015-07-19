@@ -22,6 +22,7 @@ import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.widget.ExpandGridView;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 /**
@@ -58,17 +59,20 @@ public class UserAlbumsFragment extends Fragment {
                         addCountView(mTvAlbumCount);
                     }
                 });
-                for(Album album:mAlbumList){
-                    List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
-                    if(worksInfoList.size()>0){
-                        album.worksInfoList = worksInfoList;
-                    }
-                    else{
-                        worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
-                        album.worksInfoList = worksInfoList;
-                        WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-                    }
+                try {
+                    for (Album album : mAlbumList) {
+                        List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
+                        if (worksInfoList.size() > 0) {
+                            album.worksInfoList = worksInfoList;
+                        } else {
+                            worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
+                            album.worksInfoList = worksInfoList;
+                            WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+                        }
 
+                    }
+                }catch (ConcurrentModificationException e){
+                    e.printStackTrace();
                 }
                 mContext.runOnUiThread(new Runnable() {
                     @Override

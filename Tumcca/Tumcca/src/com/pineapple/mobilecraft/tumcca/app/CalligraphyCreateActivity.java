@@ -17,12 +17,14 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.*;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.*;
@@ -33,6 +35,7 @@ import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import com.pineapple.mobilecraft.util.logic.ImgsActivity;
+import com.pineapple.mobilecraft.util.logic.Util;
 import com.squareup.picasso.Picasso;
 
 import java.io.*;
@@ -47,7 +50,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
 
     private ArrayList<String> mImgFiles = new ArrayList<String>();
 
-    private String mDescription;
+    private String mDescription = "";
     private PictureAdapter mPictureAdapter;
     private List<Picture> mListPicture = new ArrayList<Picture>();
     private GridView mGVPictures;
@@ -62,6 +65,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     private ImageView mIvBack;
     private Button mBtnSubmit;
     private TumccaService mService;
+    DisplayImageOptions mImageOptionsWorks;
 
 
     public static void startActivity(Activity activity){
@@ -74,7 +78,9 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-
+        mImageOptionsWorks = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 5))).cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
         final ActionBar actionBar = getActionBar();
         if(null!=actionBar){
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -249,22 +255,26 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     @Override
     public void submit() {
         final ProgressDialog dialog = new ProgressDialog(this);
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Works works = new Works();
-                works.title = mDescription;
-                works.category = 1;
-                works.albumId = mAlbum.id;
-                mService.uploadWorks(mListPicture, works);
-//                int id = WorksServer.uploadWorks(token, works);
-//                List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), mAlbum.id, 1, 20, 400);
-//                WorksManager.getInstance().putAlbumWorks(mAlbum.id, worksInfoList);
-                //showResult(id!=WorksServer.INVALID_WORKS_ID);
-            }
-        });
-        t.start();
-        finish();
+        if (TextUtils.isEmpty(mDescription)) {
+            Toast.makeText(CalligraphyCreateActivity.this, "请填写作品的描述信息", Toast.LENGTH_SHORT).show();
+        }else if(mListPicture.size()==0){
+            Toast.makeText(CalligraphyCreateActivity.this, "请选择作品图片", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Works works = new Works();
+                    works.title = mDescription;
+                    works.category = 1;
+                    works.albumId = mAlbum.id;
+                    mService.uploadWorks(mListPicture, works);
+                }
+            });
+            t.start();
+            finish();
+        }
+
     }
 
     @Override
@@ -298,6 +308,30 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             String imgSize = cursor.getString(2); // 图片大小
             String imgName = cursor.getString(3); // 图片文件名
             cursor.close();
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
+            if(options.outWidth * options.outHeight>(1920*1080)){
+                double scale = Math.pow(1920 * 1080 / (options.outWidth * options.outHeight + 0.0f), 0.5);
+                options.inSampleSize = (int)(1/scale);
+                options.inJustDecodeBounds = false;
+                bitmap = BitmapFactory.decodeFile(imgPath, options);
+                Bitmap bitmap1 = Bitmap.createScaledBitmap(bitmap, (int)(options.outWidth * scale), (int)(options.outHeight * scale), true);
+                FileOutputStream fos;
+                try {
+                    imgPath = Utility.getTumccaImgPath(CalligraphyCreateActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + "temp.jpg";
+                    fos = new FileOutputStream(imgPath);
+                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
             addPicture(new Picture(null, imgPath));
 //            mListPicture.add(new Picture(null, imgPath));
 //            PictureAdapter adapter = (PictureAdapter)mGVPictures.getAdapter();
@@ -308,7 +342,33 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
         }
         if(requestCode == AvatarChoose.FROMCAMERA&&resultCode == RESULT_OK){
 
-            addPicture(new Picture(null, mUri.getPath()));
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+
+
+            Bitmap bitmap = BitmapFactory.decodeFile(mUri.getPath(), options);
+            String imgPath = mUri.getPath();
+            if (options.outWidth * options.outHeight > (1920 * 1080)) {
+                double scale = Math.pow(1920 * 1080 / (options.outWidth * options.outHeight + 0.0f), 0.5);
+                options.inSampleSize = (int)(1/scale);
+                options.inJustDecodeBounds = false;
+                bitmap = BitmapFactory.decodeFile(mUri.getPath(), options);
+                Bitmap bitmap1 = Bitmap.createScaledBitmap(bitmap, (int) (options.outWidth * scale), (int) (options.outHeight * scale), true);
+                FileOutputStream fos;
+                try {
+                    imgPath = Utility.getTumccaImgPath(CalligraphyCreateActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + "temp.jpg";
+                    fos = new FileOutputStream(imgPath);
+                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            addPicture(new Picture(null, imgPath));
 //            mListPicture.add();
 //            PictureAdapter adapter = (PictureAdapter)mGVPictures.getAdapter();
 //            mGVPictures.requestFocus();
@@ -475,13 +535,17 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(mListPicture.get(position - 1).localPath, options);
 
-                int inSampleSize = options.outHeight*options.outHeight/(item_width*item_width);
-                options = new  BitmapFactory.Options();
+                int inSampleSize = options.outHeight * options.outHeight / (item_width * item_width);
+                options = new BitmapFactory.Options();
                 options.inSampleSize = inSampleSize;
                 //imageView.setImageBitmap(BitmapFactory.decodeFile(mListPicture.get(position - 1).localPath, options));
 
                 //imageView.setImageDrawable(new BitmapDrawable());
-                Picasso.with(CalligraphyCreateActivity.this).load(new File(mListPicture.get(position - 1).localPath)).resize(item_width, item_width).centerCrop().into(imageView);
+                //Picasso.with(CalligraphyCreateActivity.this).load(new File(mListPicture.get(position - 1).localPath)).resize(item_width, item_width).centerCrop().into(imageView);
+                ImageLoader mImageLoader;
+                mImageLoader = ImageLoader.getInstance();
+                String path = Uri.fromFile(new File(mListPicture.get(position - 1).localPath)).toString();
+                mImageLoader.displayImage(path, imageView, mImageOptionsWorks);
             }
             return layout;
         }
