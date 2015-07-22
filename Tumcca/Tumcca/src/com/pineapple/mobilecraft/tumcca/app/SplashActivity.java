@@ -5,12 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.data.Album;
+import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
+import com.pineapple.mobilecraft.tumcca.server.WorksServer;
+
+import java.util.List;
 
 /**
  * Created by yihao on 15/5/20.
@@ -20,6 +27,15 @@ public class SplashActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String test = null;
+        try{
+            Log.v("Tumcca", test.toString());
+
+        }
+        catch (NullPointerException exp){
+            exp.printStackTrace();
+        }
         setContentView(R.layout.activity_splash);
         Thread t = new Thread(new Runnable() {
             @Override
@@ -35,9 +51,24 @@ public class SplashActivity extends Activity {
                     String password = UserManager.getInstance().getCachedPassword();
                     if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
                         UserManager.getInstance().login(username, password);
+
+                        List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
+                        albumList.add(0, Album.DEFAULT_ALBUM);
+
+                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                        startActivity(intent);
+
+                        for(Album album:albumList){
+                            List<WorksInfo> worksInfoList;
+                            worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
+                            album.worksInfoList = worksInfoList;
+                            WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+                        }
+                        WorksManager.getInstance().setMyAlbumList(albumList);
+
                     }
-                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                startActivity(intent);
+
+
 
 
             }

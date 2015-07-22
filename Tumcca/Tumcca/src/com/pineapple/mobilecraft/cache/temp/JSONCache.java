@@ -224,11 +224,15 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		cursor.close();
 	}
 
+	/**
+	 *
+	 * @return 返回一个JSONObject数组
+	 */
 	public List<JSONObject> getAllItems()
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
 		List<JSONObject> valueList = new ArrayList<JSONObject>();
-		Cursor cursor = db.query(mName, null, null, null, null, null, "id ASC");
+		Cursor cursor = db.query(mName, null, null, null, null, null, null);
 		String value = null;
 
 		while(cursor.moveToNext())

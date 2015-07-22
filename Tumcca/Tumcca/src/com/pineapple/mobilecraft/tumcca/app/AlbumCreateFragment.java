@@ -80,6 +80,7 @@ public class AlbumCreateFragment extends DialogFragment {
                                     Thread.currentThread().sleep(500);
                                     if(new_album_id!=WorksServer.INVALID_WORKS_ID){
                                         WorksManager.getInstance().setLatestAlbum(album);
+                                        WorksManager.getInstance().addMyAlbum(album);
                                         Toast.makeText(mContext, "专辑创建成功", Toast.LENGTH_SHORT).show();
                                         if(null!=mAlbumCreateListener){
                                             mAlbumCreateListener.onResult(true);

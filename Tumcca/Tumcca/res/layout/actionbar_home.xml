@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/layout_profile">
+        <ImageView
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:id="@+id/imageView_avatar" android:layout_gravity="left" android:layout_marginLeft="10dip"
+                android:layout_marginBottom="5dp" android:layout_marginTop="5dip" android:layout_marginRight="5dip"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="甲乙丙丁户籍更新"
+                android:id="@+id/textView_user" android:maxLength="5" android:textSize="@dimen/text_size_normal"
+                android:layout_toRightOf="@+id/imageView_avatar" android:layout_centerVertical="true"
+                />
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="32dip"
+            android:layout_height="32dip" android:layout_alignParentTop="false"
+            android:layout_toRightOf="@+id/layout_profile"
+            android:layout_centerVertical="true" android:id="@+id/layout_login" android:background="@drawable/sign_in"
+            android:layout_marginLeft="10dip">
+    </RelativeLayout>
+</RelativeLayout>

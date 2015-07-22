@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by yihao on 15/5/26.
@@ -22,7 +24,7 @@ public interface IUserServer {
     }
 
     public static class LoginResult{
-        public String uid = "";
+        public String uid = "-1";
         public String token = "";
 
         public static LoginResult NULL = new LoginResult();
@@ -37,6 +39,16 @@ public interface IUserServer {
                 exception.printStackTrace();
             }
             return result;
+        }
+
+        public static JSONObject toJSON(LoginResult loginResult){
+            Gson gson = new Gson();
+            try {
+                return new JSONObject(gson.toJson(loginResult));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 

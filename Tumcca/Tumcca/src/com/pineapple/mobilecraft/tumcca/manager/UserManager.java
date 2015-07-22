@@ -68,6 +68,7 @@ public class UserManager {
 			mCurrentUid = loginResult.uid;
 			mCurrentToken = loginResult.token;
 			saveLoginInfo(userName, password);
+			mProfileCache.putItem("cache_login", IUserServer.LoginResult.toJSON(loginResult));
 			return loginResult;
 		}
 		else {
@@ -86,6 +87,7 @@ public class UserManager {
 	{
 		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
 		jsonCache.remove("cache_account");
+		jsonCache.remove("cache_login");
 		mCurrentUid = "";
 		mCurrentToken = "";
 		return true;
@@ -120,7 +122,6 @@ public class UserManager {
 			exp.printStackTrace();
 		}
 		return id;
-
 	}
 	
 	/**读取某个用户的信息
@@ -258,6 +259,10 @@ public class UserManager {
 		mUserServer = UserServer.getInstance();
 
 		mProfileCache = new JSONCache(DemoApplication.applicationContext, "profile");
+		IUserServer.LoginResult loginResult = IUserServer.LoginResult.fromJSON(mProfileCache.getItem("cache_login").toString());
+		mCurrentUid = loginResult.uid;
+		mCurrentToken = loginResult.token;
+
 	}
 	
 

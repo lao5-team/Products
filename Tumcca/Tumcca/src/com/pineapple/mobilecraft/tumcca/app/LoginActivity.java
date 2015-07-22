@@ -29,7 +29,6 @@ import com.pineapple.mobilecraft.Constant;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.app.BaseActivity;
-import com.pineapple.mobilecraft.app.RegisterActivity;
 import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
@@ -56,9 +55,9 @@ public class LoginActivity extends Activity {
 	private EditText passwordEditText;
 	private boolean progressShow;
 	private LoginButton mLoginButton;
+
 	private AuthListener mLoginListener = new AuthListener();
-	private AuthInfo mAuthInfo;
-	private Button mBtnTraveler;
+
 	public static final int REQ_LOGIN = 0;
 
 	public static void startActivity(Activity activity){
@@ -75,18 +74,7 @@ public class LoginActivity extends Activity {
 		usernameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
 
-		mAuthInfo = new AuthInfo(this, WeiboUtils.APP_KEY, WeiboUtils.REDIRECT_URL, WeiboUtils.SCOPE);
-//		mLoginButton = (LoginButton)findViewById(R.id.button_login);
-//		mLoginButton.setWeiboAuthInfo(mAuthInfo, mLoginListener);
-
-//		mBtnTraveler = (Button)findViewById(R.id.login_as_traveler);
-//		mBtnTraveler.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(LoginActivity.this, CalligraphyDetailActivity.class);
-//				startActivity(intent);
-//			}
-//		});
+		//mAuthInfo = new AuthInfo(this, WeiboUtils.APP_KEY, WeiboUtils.REDIRECT_URL, WeiboUtils.SCOPE);
 
 	}
 
@@ -151,7 +139,8 @@ public class LoginActivity extends Activity {
 	 * @param view
 	 */
 	public void register(View view) {
-		startActivityForResult(new Intent(this, RegisterActivity.class), 0);
+		RegisterActivity.startActivity(LoginActivity.this);
+		finish();
 	}
 
 	@Override
@@ -212,8 +201,6 @@ public class LoginActivity extends Activity {
 
 		@Override
 		public void onCancel() {
-			//Toast.makeText(LoginActivity.this,
-			//		R.string.weibosdk_demo_toast_auth_canceled, Toast.LENGTH_SHORT).show();
 		}
 	}
 	

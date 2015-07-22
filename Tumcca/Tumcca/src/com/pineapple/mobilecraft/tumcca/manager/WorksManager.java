@@ -7,9 +7,11 @@ import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
+import junit.framework.Assert;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbill.DNS.NULLRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class WorksManager {
     JSONCache mAlbumWorksCache = new JSONCache(DemoApplication.applicationContext, "album_works");
     JSONCache mWorksCache = new JSONCache(DemoApplication.applicationContext, "works");
     JSONCache mAlbumCache = new JSONCache(DemoApplication.applicationContext, "album");
+    JSONCache mMyAlbumsCache = new JSONCache(DemoApplication.applicationContext, "myAlbums");
     public static WorksManager getInstance(){
         if(mInstance==null){
             mInstance = new WorksManager();
@@ -47,8 +50,6 @@ public class WorksManager {
     public void putWorksList(List<WorksInfo> worksInfoList){
 
     }
-
-
 
 
     public void putAlbumWorks(int albumId, List<WorksInfo> listWorksInfo){
@@ -110,11 +111,46 @@ public class WorksManager {
         mAlbumWorksCache.clear();
         mWorksCache.clear();
         mAlbumCache.clear();
+        mMyAlbumsCache.clear();
     }
 
-//    public void putAlbumList(List<>){
-//
-//    }
+    public List<Album> getMyAlbumList(){
+        List<JSONObject> jsonObjectList = mMyAlbumsCache.getAllItems();
+        List<Album> albumList = new ArrayList<Album>();
+        for(JSONObject jsonObject:jsonObjectList){
+            albumList.add(Album.fromJSON(jsonObject));
+        }
+        return albumList;
+    }
+
+    public void setMyAlbumList(List<Album> albumList){
+        try{
+            mMyAlbumsCache.clear();
+            List<JSONObject> jsonObjectList = new ArrayList<JSONObject>();
+            List<String> idList = new ArrayList<String>();
+            for(Album album:albumList){
+                idList.add(String.valueOf(album.id));
+                jsonObjectList.add(Album.toJSON(album));
+            }
+            mMyAlbumsCache.putItems(idList, jsonObjectList);
+        }
+        catch (NullPointerException exp){
+            exp.printStackTrace();
+        }
+
+    }
+
+    public void addMyAlbum(Album album){
+        if(null!=album&&Album.NULL!=album){
+            mMyAlbumsCache.putItem(String.valueOf(album.id), Album.toJSON(album));
+        }
+    }
+
+    public void removeMyAlbum(Album album){
+        if(null!=album&&Album.NULL!=album){
+            mMyAlbumsCache.remove(String.valueOf(album.id));
+        }
+    }
 
 
 

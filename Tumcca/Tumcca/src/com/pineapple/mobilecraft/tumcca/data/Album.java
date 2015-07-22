@@ -14,7 +14,9 @@ import java.util.List;
 public class Album {
     public String title = "";
     public String description = "";
-    public transient int sampleImageId = -1;
+    //public int sampleImageId = -1;
+
+    public List<Integer> cover = null;
 
     /**
      * id 为0表示默认专辑

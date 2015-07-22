@@ -197,11 +197,18 @@
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".tumcca.app.HomeActivity"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".tumcca.app.AlbumCalligraphyListActivity"
                   android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style"
                   android:screenOrientation="portrait"/>
         <activity android:name=".tumcca.app.UserCity"/>
+        <activity android:name=".tumcca.app.PictureEditActivity" android:theme="@style/my_activity_style">
+
+                </activity>>
         <service android:name="com.pineapple.mobilecraft.tumcca.service.TumccaService"/>
 
     </application>

@@ -8,15 +8,7 @@ import org.json.JSONObject;
  * Created by yihao on 15/5/26.
  */
 public class Profile {
-//    /**
-//     * 用户id，同Account#username
-//     */
-//    public String id;
 
-//    /**
-//     * 用户应用内显示名
-//     */
-//    public String displayName;
 
     /**
      * 性别

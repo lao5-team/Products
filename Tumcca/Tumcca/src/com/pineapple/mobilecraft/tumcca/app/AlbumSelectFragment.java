@@ -123,24 +123,22 @@ public class AlbumSelectFragment extends DialogFragment {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                mAlbumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
-                mAlbumList.add(0, Album.DEFAULT_ALBUM);
-                for(Album album:mAlbumList){
-                    List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
-                    if(worksInfoList.size()>0){
-                        album.sampleImageId = worksInfoList.get(0).picInfo.id;
-                    }
-                    worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
-                    album.worksInfoList = worksInfoList;
 
+                mAlbumList = WorksManager.getInstance().getMyAlbumList();   // WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
 
-                    WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-                }
+                //mAlbumList.add(0, Album.DEFAULT_ALBUM);
+
+//                mContext.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mAlbumAdapter.notifyDataSetChanged();
+//                    }
+//                });
+
                 mContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mAlbumAdapter.notifyDataSetChanged();
-                        //mAlbumListView.invalidate();
                     }
                 });
 
@@ -214,26 +212,36 @@ public class AlbumSelectFragment extends DialogFragment {
             ImageView imageView = (ImageView)view.findViewById(R.id.imageView_album_sample);
 
             TextView textView = (TextView)view.findViewById(R.id.textView_album_title);
-            if(position == 0){
-                textView.setText(mContext.getString(R.string.default_album));
-            }
-            else{
+//            if(position == 0){
+//                textView.setText(mContext.getString(R.string.default_album));
+//            }
+//            else{
                 textView.setText(mAlbumList.get(position).title);
-            }
-            List<WorksInfo> worksInfoList = mAlbumList.get(position).worksInfoList;
-            if(null!=worksInfoList&&worksInfoList.size()>0){
-                PictureInfo pictureInfo = worksInfoList.get(0).picInfo;
-                if(null!=pictureInfo){
-                    //Picasso.with(mContext).load(PictureServer.getInstance().getPictureUrl(pictureInfo.id)).resize(48,48).centerCrop().into(imageView);
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(pictureInfo.id, 48, 1), imageView, imageOptions);
+ //           }
 
-                }
+//            List<WorksInfo> worksInfoList = mAlbumList.get(position).worksInfoList;
+//            if(null!=worksInfoList&&worksInfoList.size()>0){
+//                PictureInfo pictureInfo = worksInfoList.get(0).picInfo;
+//                if(null!=pictureInfo){
+//                    //Picasso.with(mContext).load(PictureServer.getInstance().getPictureUrl(pictureInfo.id)).resize(48,48).centerCrop().into(imageView);
+//                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+//                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+//                            .build();
+//                    ImageLoader imageLoader = ImageLoader.getInstance();
+//                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(pictureInfo.id, 48, 1), imageView, imageOptions);
+//
+//                }
+//            }
+            List<Integer> cover = mAlbumList.get(position).cover;
+            if(null!=cover&&cover.size()>0){
+                DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                        .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                        .build();
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(cover.get(0), 48, 1), imageView, imageOptions);
+
             }
-            return view;
+           return view;
         }
     }
 }

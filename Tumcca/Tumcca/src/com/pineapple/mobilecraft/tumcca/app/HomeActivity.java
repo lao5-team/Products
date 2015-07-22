@@ -1,7 +1,9 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.*;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -9,12 +11,21 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IHome;
+import com.pineapple.mobilecraft.tumcca.server.PictureServer;
+import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
+import com.pineapple.mobilecraft.util.logic.Util;
 
 import java.util.List;
 
@@ -26,6 +37,11 @@ public class HomeActivity extends FragmentActivity implements IHome {
     private static final int WORKS_WIDTH = 400;
     private static final int PAGE_SIZE = 5;
 
+    private RelativeLayout mLayoutLogin;
+    private RelativeLayout mLayoutProfile;
+    private ImageView mIvAvatar;
+    private TextView mTvPseudonym;
+
     private Button mBtnLogin = null;
     private Button mBtnRegister = null;
     private ImageView mIVAccount = null;
@@ -36,29 +52,27 @@ public class HomeActivity extends FragmentActivity implements IHome {
     private Object mLock = new Object();
 
     private boolean mIsLoadBottom = false;
+    DisplayImageOptions mImageOptions;
+
+    private Profile mProfile;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mImageOptions = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 18)))
+                .cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565).build();
+
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_home, null);
+            addActionbarView(actionBar, customActionBarView);
+        }
 
-        //final ActionBar mActionBar = getActionBar();
-
-        //mActionBar.setDisplayHomeAsUpEnabled(false);
 
         setContentView(R.layout.activity_home);
-        String username = UserManager.getInstance().getCachedUsername();
-        String password = UserManager.getInstance().getCachedPassword();
-        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-            UserManager.getInstance().login(username, password);
-        }
-        if (UserManager.getInstance().isLogin()) {
-            int userId = UserManager.getInstance().getCurrentUserId();
-            setTitle(UserManager.getInstance().getUserProfile(userId).pseudonym);
-        } else {
-            setTitle(getString(R.string.app_name));
 
-        }
-        addAccountView();
+
 
         mWorksListFragment = new WorksListFragment();
         addWorkList(mWorksListFragment);
@@ -124,6 +138,79 @@ public class HomeActivity extends FragmentActivity implements IHome {
             }
         }, new IntentFilter("upload_works"));
 
+        int userId;
+        if(-1!=(userId = UserManager.getInstance().getCurrentUserId())){
+            mProfile = UserManager.getInstance().getUserProfile(userId);
+            displayActionbar(1);
+        }
+        else{
+            displayActionbar(0);
+        }
+
+
+    }
+
+    public void addActionbarView(ActionBar actionBar, View view) {
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_HOME);
+
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        lp.gravity = Gravity.START;
+        actionBar.setCustomView(view, lp);
+
+        mLayoutProfile = (RelativeLayout) view.findViewById(R.id.layout_profile);
+        mLayoutProfile.setClickable(true);
+        mLayoutProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfoActivity.startActivity(HomeActivity.this);
+            }
+        });
+        mIvAvatar = (ImageView) view.findViewById(R.id.imageView_avatar);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.displayImage("drawable://" + R.drawable.icon, mIvAvatar, mImageOptions);
+        mTvPseudonym = (TextView) view.findViewById(R.id.textView_user);
+        mLayoutLogin = (RelativeLayout) view.findViewById(R.id.layout_login);
+        mLayoutLogin.setClickable(true);
+        mLayoutLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.startActivity(HomeActivity.this);
+            }
+        });
+
+    }
+
+    /**
+     * 0 login 1 profile
+     */
+    private void displayActionbar(int index){
+        if(index==0){
+            mLayoutProfile.setVisibility(View.GONE);
+            mLayoutLogin.setVisibility(View.VISIBLE);
+            mLayoutLogin.setClickable(true);
+            mLayoutLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LoginActivity.startActivity(HomeActivity.this);
+                }
+            });
+        }
+        else if(index==1){
+            mLayoutProfile.setVisibility(View.VISIBLE);
+            mLayoutLogin.setVisibility(View.GONE);
+            mProfile = UserManager.getInstance().getUserProfile(UserManager.getInstance().getCurrentUserId());
+            if (mProfile.avatar > 0) {
+                ImageLoader.getInstance().displayImage(UserServer.getInstance().getAvatarUrl(mProfile.avatar), mIvAvatar, mImageOptions);
+            }
+            mLayoutProfile.setClickable(true);
+            mLayoutProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserInfoActivity.startActivity(HomeActivity.this);
+                }
+            });
+            mTvPseudonym.setText(mProfile.pseudonym);
+        }
     }
 
     @Override
@@ -150,7 +237,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
         }
         else
         {
-            layout.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.GONE);
         }
 
         mBtnLogin = (Button) findViewById(R.id.button_login);
@@ -181,18 +268,23 @@ public class HomeActivity extends FragmentActivity implements IHome {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        UserManager userManager = UserManager.getInstance();
-        int userid = userManager.getCurrentUserId();
-        Profile profile = userManager.getUserProfile(userid);
         if (requestCode == LoginActivity.REQ_LOGIN && resultCode == RESULT_OK) {
-            setTitle(profile.pseudonym);
-            RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_account);
-            layout.setVisibility(View.GONE);
+            displayActionbar(1);
+
+            List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
+            albumList.add(0, Album.DEFAULT_ALBUM);
+
+            for(Album album:albumList){
+                List<WorksInfo> worksInfoList;
+                worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
+                album.worksInfoList = worksInfoList;
+                WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+            }
+            WorksManager.getInstance().setMyAlbumList(albumList);
+
         }
         if (requestCode == RegisterActivity.REQ_REGISTER && resultCode == RESULT_OK) {
-            setTitle(profile.pseudonym);
-            RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_account);
-            layout.setVisibility(View.GONE);
+            displayActionbar(1);
         }
     }
 
@@ -253,4 +345,6 @@ public class HomeActivity extends FragmentActivity implements IHome {
         }
         return false;
     }
+
+
 }
