@@ -44,10 +44,9 @@ public class RegisterActivity extends Activity implements IRegister, TextWatcher
 	private EditText pseudonymEditText;
 	private Button registerButton;
 
-	public static final int REQ_REGISTER = 0;
-	public static void startActivity(Activity activity){
+	public static void startActivity(Activity activity, int requestCode){
 		Intent intent = new Intent(activity, RegisterActivity.class);
-		activity.startActivityForResult(intent, REQ_REGISTER);
+		activity.startActivityForResult(intent, requestCode);
 	}
 
 	@Override

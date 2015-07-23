@@ -42,11 +42,6 @@ public class SplashActivity extends Activity {
             public void run() {
                 //
                 Looper.prepare();
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                     String username = UserManager.getInstance().getCachedUsername();
                     String password = UserManager.getInstance().getCachedPassword();
                     if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
@@ -55,8 +50,7 @@ public class SplashActivity extends Activity {
                         List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
                         albumList.add(0, Album.DEFAULT_ALBUM);
 
-                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                        startActivity(intent);
+
 
                         for(Album album:albumList){
                             List<WorksInfo> worksInfoList;
@@ -67,7 +61,8 @@ public class SplashActivity extends Activity {
                         WorksManager.getInstance().setMyAlbumList(albumList);
 
                     }
-
+                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                    startActivity(intent);
 
 
 

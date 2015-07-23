@@ -140,9 +140,9 @@ public class UserActivity extends FragmentActivity {
                 //NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
-            case R.id.account_settings:
-                UserInfoActivity.startActivity(UserActivity.this);
-                break;
+            //case R.id.account_settings:
+                //UserInfoActivity.startActivity(UserActivity.this);
+            //    break;
             // 其他省略...
             default:
                 break;

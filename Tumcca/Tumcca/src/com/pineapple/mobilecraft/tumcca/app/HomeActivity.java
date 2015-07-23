@@ -1,13 +1,13 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -22,7 +22,6 @@ import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IHome;
-import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.util.logic.Util;
@@ -34,6 +33,9 @@ import java.util.List;
  */
 public class HomeActivity extends FragmentActivity implements IHome {
 
+    private static final int REQ_REG = 0;
+    private static final int REQ_LOGIN = 1;
+    private static final int REQ_USERINFO = 2;
     private static final int WORKS_WIDTH = 400;
     private static final int PAGE_SIZE = 5;
 
@@ -125,6 +127,11 @@ public class HomeActivity extends FragmentActivity implements IHome {
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1, PAGE_SIZE, WORKS_WIDTH);
                 if(null!=worksInfoList&&worksInfoList.size() >0 ){
                     runOnUiThread(new Runnable(){
@@ -162,19 +169,19 @@ public class HomeActivity extends FragmentActivity implements IHome {
         mLayoutProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInfoActivity.startActivity(HomeActivity.this);
+                UserInfoActivity.startActivity(HomeActivity.this, REQ_USERINFO);
             }
         });
         mIvAvatar = (ImageView) view.findViewById(R.id.imageView_avatar);
         ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage("drawable://" + R.drawable.icon, mIvAvatar, mImageOptions);
+        imageLoader.displayImage("drawable://" + R.drawable.default_avatar, mIvAvatar, mImageOptions);
         mTvPseudonym = (TextView) view.findViewById(R.id.textView_user);
         mLayoutLogin = (RelativeLayout) view.findViewById(R.id.layout_login);
         mLayoutLogin.setClickable(true);
         mLayoutLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginActivity.startActivity(HomeActivity.this);
+                LoginActivity.startActivity(HomeActivity.this, REQ_LOGIN);
             }
         });
 
@@ -191,7 +198,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
             mLayoutLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoginActivity.startActivity(HomeActivity.this);
+                    LoginActivity.startActivity(HomeActivity.this, REQ_LOGIN);
                 }
             });
         }
@@ -206,7 +213,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
             mLayoutProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UserInfoActivity.startActivity(HomeActivity.this);
+                    UserInfoActivity.startActivity(HomeActivity.this, REQ_USERINFO);
                 }
             });
             mTvPseudonym.setText(mProfile.pseudonym);
@@ -240,21 +247,21 @@ public class HomeActivity extends FragmentActivity implements IHome {
             layout.setVisibility(View.GONE);
         }
 
-        mBtnLogin = (Button) findViewById(R.id.button_login);
-        mBtnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginActivity.startActivity(HomeActivity.this);
-            }
-        });
-
-        mBtnRegister = (Button) findViewById(R.id.button_register);
-        mBtnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RegisterActivity.startActivity(HomeActivity.this);
-            }
-        });
+//        mBtnLogin = (Button) findViewById(R.id.button_login);
+//        mBtnLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoginActivity.startActivity(HomeActivity.this);
+//            }
+//        });
+//
+//        mBtnRegister = (Button) findViewById(R.id.button_register);
+//        mBtnRegister.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                RegisterActivity.startActivity(HomeActivity.this);
+//            }
+//        });
 
         mIVAccount = (ImageView) findViewById(R.id.imageView_account);
         mIVAccount.setClickable(true);
@@ -268,23 +275,32 @@ public class HomeActivity extends FragmentActivity implements IHome {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == LoginActivity.REQ_LOGIN && resultCode == RESULT_OK) {
+        if (requestCode == REQ_LOGIN && resultCode == RESULT_OK) {
+            Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
             displayActionbar(1);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
+                    albumList.add(0, Album.DEFAULT_ALBUM);
 
-            List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
-            albumList.add(0, Album.DEFAULT_ALBUM);
+                    for(Album album:albumList){
+                        List<WorksInfo> worksInfoList;
+                        worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
+                        album.worksInfoList = worksInfoList;
+                        WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+                    }
+                    WorksManager.getInstance().setMyAlbumList(albumList);
+                }
+            });
+            thread.start();
 
-            for(Album album:albumList){
-                List<WorksInfo> worksInfoList;
-                worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
-                album.worksInfoList = worksInfoList;
-                WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-            }
-            WorksManager.getInstance().setMyAlbumList(albumList);
 
         }
-        if (requestCode == RegisterActivity.REQ_REGISTER && resultCode == RESULT_OK) {
-            displayActionbar(1);
+        if(requestCode == REQ_USERINFO&&resultCode == UserInfoActivity.RESULT_LOGOUT){
+            if(!UserManager.getInstance().isLogin()){
+                displayActionbar(0);
+            }
         }
     }
 
@@ -331,6 +347,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //
+                    android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(0);
                     //finish();
                 }
@@ -345,6 +362,15 @@ public class HomeActivity extends FragmentActivity implements IHome {
         }
         return false;
     }
+
+    @Override
+    public void finishActivityFromChild (Activity child, int requestCode){
+        if(requestCode == REQ_USERINFO){
+            if(!UserManager.getInstance().isLogin())
+                displayActionbar(0);
+        }
+    }
+
 
 
 }

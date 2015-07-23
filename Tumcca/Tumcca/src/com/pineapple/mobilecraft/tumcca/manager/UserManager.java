@@ -9,6 +9,7 @@ import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
+import com.pineapple.mobilecraft.tumcca.utility.PrefsCache;
 import junit.framework.Assert;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,14 +19,13 @@ import java.util.List;
 
 public class UserManager {
 	private static UserManager mInstance = null;
-	private MyUser mCurrentUser = MyUser.NULL;
 	private UserServer mUserServer = null;
 	private LoginStateListener mLoginStateListener = null;
-	private String mCurrentUid = "";
-	private String mCurrentToken = "";
+	//private String mCurrentUid = "";
+	//private String mCurrentToken = "";
 	private Profile mCurrentProfile = Profile.NULL;
 
-	JSONCache mProfileCache = null;
+	PrefsCache mProfileCache = null;
 
 	public static interface LoginStateListener
 	{	
@@ -65,8 +65,8 @@ public class UserManager {
 	{
 		IUserServer.LoginResult loginResult =  mUserServer.login(userName, password);
 		if(null!=loginResult&&null!=loginResult.uid){
-			mCurrentUid = loginResult.uid;
-			mCurrentToken = loginResult.token;
+			//mCurrentUid = loginResult.uid;
+			//mCurrentToken = loginResult.token;
 			saveLoginInfo(userName, password);
 			mProfileCache.putItem("cache_login", IUserServer.LoginResult.toJSON(loginResult));
 			return loginResult;
@@ -77,7 +77,7 @@ public class UserManager {
 	}
 
 	public boolean isLogin(){
-		return (!TextUtils.isEmpty(mCurrentToken)&&!TextUtils.isEmpty(mCurrentUid));
+		return (!TextUtils.isEmpty(getCurrentToken())&&-1!=getCurrentUserId());
 	}
 	
 	/**登出用户
@@ -85,11 +85,8 @@ public class UserManager {
 	 */
 	public boolean logout()
 	{
-		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
-		jsonCache.remove("cache_account");
-		jsonCache.remove("cache_login");
-		mCurrentUid = "";
-		mCurrentToken = "";
+		mProfileCache.remove("cache_account");
+		mProfileCache.remove("cache_login");
 		return true;
 	}
 	
@@ -97,31 +94,28 @@ public class UserManager {
 	/**返回当前登录用户
 	 * @return
 	 */
-	public MyUser getCurrentUser()
-	{
-		if(mCurrentUser == MyUser.NULL)
-		{
-			if(null!=mLoginStateListener)
-			{
-				mLoginStateListener.onDisconnected();	
-			}
-		}
-		return mCurrentUser;
-	}
+
 
 	/**
 	 * 返回当前用户id
 	 * @return 如果当前用户不存在，返回-1
 	 */
 	public int getCurrentUserId(){
-		Integer id = -1;
-		try{
-			id = new Integer(mCurrentUid);
-		}catch (NumberFormatException exp)
-		{
-			exp.printStackTrace();
+//		Integer id = -1;
+//		try{
+//			id = new Integer(mCurrentUid);
+//		}catch (NumberFormatException exp)
+//		{
+//			exp.printStackTrace();
+//		}
+//		return id;
+
+		JSONObject jsonObject = mProfileCache.getItem("cache_login");
+		if(jsonObject!=null){
+			IUserServer.LoginResult loginResult = IUserServer.LoginResult.fromJSON(jsonObject.toString());
+			return new Integer(loginResult.uid);
 		}
-		return id;
+		return -1;
 	}
 	
 	/**读取某个用户的信息
@@ -171,12 +165,12 @@ public class UserManager {
 	{
 		Assert.assertNotNull(username);
 		Assert.assertNotNull(password);
-		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put("username", username);
 			jsonObject.put("password", android.util.Base64.encodeToString(password.getBytes(), Base64.DEFAULT));
-			jsonCache.putItem("cache_account", jsonObject);
+			mProfileCache.putItem("cache_account", jsonObject);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -188,7 +182,7 @@ public class UserManager {
 	 */
 	public String getCachedUsername()
 	{
-		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+
 //		List<JSONObject> jsonList = jsonCache.getAllItems();
 //		String username = "";
 //		if(null!=jsonList && jsonList.size()>0)
@@ -204,7 +198,7 @@ public class UserManager {
 //			}
 //		}
 		String username = "";
-		JSONObject jsonObject = jsonCache.getItem("cache_account");
+		JSONObject jsonObject = mProfileCache.getItem("cache_account");
 		if(null!=jsonObject){
 			try {
 				username = jsonObject.getString("username");
@@ -221,7 +215,7 @@ public class UserManager {
 	 */
 	public String getCachedPassword()
 	{
-		JSONCache jsonCache = new JSONCache(DemoApplication.applicationContext, "login_info");
+
 //		List<JSONObject> jsonList = jsonCache.getAllItems();
 //		String username = "";
 //		if(null!=jsonList && jsonList.size()>0)
@@ -238,7 +232,7 @@ public class UserManager {
 //		}
 //		return username;
 		String password = "";
-		JSONObject jsonObject = jsonCache.getItem("cache_account");
+		JSONObject jsonObject = mProfileCache.getItem("cache_account");
 
 		if(null!=jsonObject){
 			try {
@@ -252,17 +246,18 @@ public class UserManager {
 	}
 
 	public String getCurrentToken(){
-		return mCurrentToken;
+		JSONObject jsonObject = mProfileCache.getItem("cache_login");
+		if(jsonObject!=null){
+			IUserServer.LoginResult loginResult = IUserServer.LoginResult.fromJSON(jsonObject.toString());
+			return loginResult.token;
+		}
+		return "";
 	}
 
 	private UserManager(){
 		mUserServer = UserServer.getInstance();
 
-		mProfileCache = new JSONCache(DemoApplication.applicationContext, "profile");
-		IUserServer.LoginResult loginResult = IUserServer.LoginResult.fromJSON(mProfileCache.getItem("cache_login").toString());
-		mCurrentUid = loginResult.uid;
-		mCurrentToken = loginResult.token;
-
+		mProfileCache = new PrefsCache(DemoApplication.applicationContext, "cache_login");
 	}
 	
 

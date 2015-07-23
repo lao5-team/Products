@@ -2,6 +2,8 @@ package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -83,9 +85,11 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     public Uri mCropUri;
     public Handler mHandler;
     DisplayImageOptions imageOptions = null;
+    public static final int RESULT_LOGOUT = 1;
 
-    public static void startActivity(Activity activity) {
-        activity.startActivity(new Intent(activity, UserInfoActivity.class));
+    public static void startActivity(Activity activity, int requestCode) {
+
+        activity.startActivityForResult(new Intent(activity, UserInfoActivity.class), requestCode);
     }
 
     @Override
@@ -107,7 +111,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             finish();
         }
         else{
-            mProfile = UserServer.getInstance().getCurrentUserProfile(token);
+            mProfile = UserServer.getInstance().getUserProfile(UserManager.getInstance().getCurrentUserId());
         }
         initHandler();
 
@@ -127,10 +131,33 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         mTvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserManager.getInstance().logout();
-                WorksManager.getInstance().clearCache();
-                Intent intent = new Intent(UserInfoActivity.this, HomeActivity.class);
-                startActivity(intent);
+                final ProgressDialog pd = new ProgressDialog(UserInfoActivity.this);
+                pd.setCanceledOnTouchOutside(false);
+                pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                    }
+                });
+                pd.setMessage("正在注销...");
+                pd.show();
+                Thread thread =  new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.currentThread().sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        UserManager.getInstance().logout();
+                        WorksManager.getInstance().clearCache();
+                        setResult(RESULT_LOGOUT);
+                        pd.dismiss();
+                        finish();
+                    }
+                });
+                thread.start();
+
             }
         });
     }

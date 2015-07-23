@@ -3,6 +3,7 @@ package com.pineapple.mobilecraft.cache.temp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.pineapple.mobilecraft.cache.temp.IListCache;
 import org.json.JSONException;
@@ -80,6 +81,11 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		db.delete(mName, "id=?", new String[]{key});
 		db.close();
 		mMap.remove(key);
+	}
+
+	@Override
+	public void removeList(Set<String> keys) {
+
 	}
 
 	@Override
@@ -251,6 +257,11 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 	}
 
 	@Override
+	public Set<String> getAllKeys() {
+		return null;
+	}
+
+	@Override
 	public List<String> getKeysBeforeItem(String key, int count) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		List<String> keyList = new ArrayList<String>();
@@ -331,12 +342,21 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		return keyList;
 	}
 
+	@Override
+	public List<JSONObject> getItems(Set<String> keyList) {
+		return null;
+	}
+
+	@Override
+	public void putItems(Set<String> keyList, List<JSONObject> valueList) {
+
+	}
+
 	/**
 	 * 获取一组key对应的value
 	 * @param keyList key列表
 	 * @return
 	 */
-	@Override
 	public List<JSONObject> getItems(List<String> keyList) {
 		if(null == keyList)
 		{
@@ -376,7 +396,6 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 		return result;
 	}
 
-	@Override
 	public void putItems(List<String> keyList, List<JSONObject> valueList) {
 		if(null == keyList)
 		{
@@ -405,6 +424,7 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 	 * @param id
 	 * @return 如果数据存在返回一个JSONObject否则返回null
 	 */
+	@Override
 	public JSONObject getItem(String id)
 	{
 		List<String> listIds = new ArrayList<String>();

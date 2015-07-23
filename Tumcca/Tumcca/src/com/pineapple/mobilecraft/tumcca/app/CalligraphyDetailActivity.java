@@ -323,13 +323,13 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
                     comment = TreasureComment.createUserComment();
                     comment.mTreasureId = mTreasure.getObjectId();
                     comment.mContent = mEtxComment.getEditableText().toString();
-                    comment.mFromUserName = UserManager.getInstance().getCurrentUser().mName;
+                    //comment.mFromUserName = UserManager.getInstance()..mName;
                 } else {
                     comment = TreasureComment.createProfComment();
                     comment.mTreasureId = mTreasure.getObjectId();
                     comment.mContent = mEtxComment.getEditableText().toString();
-                    comment.mFromUserName = UserManager.getInstance().getCurrentUser().mName;
-                    comment.mIdentifyResult = mCBIdentify.isChecked();
+                    //comment.mFromUserName = UserManager.getInstance().getCurrentUser().mName;
+                    //comment.mIdentifyResult = mCBIdentify.isChecked();
                 }
                 sendComment(comment);
             }
@@ -350,12 +350,12 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
     public void switchToProfcomments() {
         mCommentType = 1;
         mLvComments.setAdapter(mAdapterProfComments);
-        if (UserManager.getInstance().getCurrentUser().mType != MyUser.PROFESSION_USER) {
-            mEtxComment.setVisibility(View.GONE);
-            mBtnComment.setVisibility(View.GONE);
-        } else {
-            mCBIdentify.setVisibility(View.VISIBLE);
-        }
+//        if (UserManager.getInstance().getCurrentUser().mType != MyUser.PROFESSION_USER) {
+//            mEtxComment.setVisibility(View.GONE);
+//            mBtnComment.setVisibility(View.GONE);
+//        } else {
+//            mCBIdentify.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Override

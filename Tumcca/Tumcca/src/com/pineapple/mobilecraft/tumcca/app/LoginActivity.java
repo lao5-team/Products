@@ -48,9 +48,7 @@ import java.text.SimpleDateFormat;
  * 
  */
 public class LoginActivity extends Activity {
-	
-
-	
+	public static final int REQ_REG = 0;
 	private EditText usernameEditText;
 	private EditText passwordEditText;
 	private boolean progressShow;
@@ -58,11 +56,10 @@ public class LoginActivity extends Activity {
 
 	private AuthListener mLoginListener = new AuthListener();
 
-	public static final int REQ_LOGIN = 0;
 
-	public static void startActivity(Activity activity){
+	public static void startActivity(Activity activity, int requestCode){
 		Intent intent = new Intent(activity, LoginActivity.class);
-		activity.startActivityForResult(intent, REQ_LOGIN);
+		activity.startActivityForResult(intent, requestCode);
 
 	}
 
@@ -109,17 +106,22 @@ public class LoginActivity extends Activity {
 				@Override
 				public void run() {
 					final IUserServer.LoginResult loginResult = UserManager.getInstance().login(username, password);
+					try {
+						Thread.currentThread().sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							pd.dismiss();
-							if(null != loginResult){
-								Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+
+							if (null != loginResult) {
+								//Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
 								UserManager.getInstance().saveLoginInfo(username, password);
 								setResult(RESULT_OK);
 								finish();
-							}
-							else {
+								pd.dismiss();
+							} else {
 								Toast.makeText(LoginActivity.this, "登录不成功", Toast.LENGTH_SHORT).show();
 							}
 
@@ -139,7 +141,7 @@ public class LoginActivity extends Activity {
 	 * @param view
 	 */
 	public void register(View view) {
-		RegisterActivity.startActivity(LoginActivity.this);
+		RegisterActivity.startActivity(LoginActivity.this, REQ_REG);
 		finish();
 	}
 
@@ -203,5 +205,12 @@ public class LoginActivity extends Activity {
 		public void onCancel() {
 		}
 	}
-	
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == REQ_REG&&resultCode==RESULT_OK){
+			setResult(RESULT_OK);
+			finish();
+		}
+	}
+
 }
