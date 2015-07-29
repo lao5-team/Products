@@ -37,6 +37,31 @@ public class UserActivity extends FragmentActivity {
 
         mUserAlbumsFragment = new UserAlbumsFragment();
         mLikeCalligraphyFragment = new WorksListFragment();
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final List<WorksInfo> worksInfoList = WorksServer.getLikeWorks(
+                        UserManager.getInstance().getCurrentToken(), 1, PAGE_SIZE, WORKS_WIDTH);
+                mLikeCalligraphyFragment.setWorksLoader(new WorksListFragment.WorkListLoader() {
+                    @Override
+                    public List<WorksInfo> getInitialWorks() {
+                        return worksInfoList;
+                    }
+
+                    @Override
+                    public void loadHeadWorks() {
+
+                    }
+
+                    @Override
+                    public void loadTailWorks() {
+
+                    }
+                });
+            }
+        });
+        t.start();
+
         if(mIsTestMode) {
             UserManager.getInstance().login("999", "999");
         }
@@ -50,24 +75,7 @@ public class UserActivity extends FragmentActivity {
         setContentView(R.layout.activity_user);
         addTabView();
 
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
-//                albumList.add(0, Album.DEFAULT_ALBUM);
-//                for(Album album:albumList){
-//                    List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
-//                    if(worksInfoList.size()>0){
-//                        album.sampleImageId = worksInfoList.get(0).picInfo.id;
-//                    }
-//                    worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
-//                    album.worksInfoList = worksInfoList;
-//
-//
-//                    WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-//                }
-//            }
-//        });
+
 
     }
 
@@ -87,21 +95,6 @@ public class UserActivity extends FragmentActivity {
                     return mUserAlbumsFragment;
                 }
                 else if(i == 2){
-                    Thread t = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            final List<WorksInfo> worksInfoList = WorksServer.getLikeWorks(
-                                    UserManager.getInstance().getCurrentToken(), 1, PAGE_SIZE, WORKS_WIDTH);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mLikeCalligraphyFragment.addWorksHead(worksInfoList);
-                                }
-                            });
-                        }
-                    });
-                    t.start();
-
                     return mLikeCalligraphyFragment;
                 }
                 else{

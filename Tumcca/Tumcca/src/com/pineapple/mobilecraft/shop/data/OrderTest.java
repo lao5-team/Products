@@ -119,8 +119,8 @@ public class OrderTest extends AndroidTestCase {
 		
 		//查询一组订单
 //		List<String> ids = new ArrayList<String>();
-//		ids.add("oid14235836748517483");
-//		ids.add("oid14235830248016656");
+//		ids.add_photo("oid14235836748517483");
+//		ids.add_photo("oid14235830248016656");
 //		listOrder = OrderManager.getInstance().getOrderListByIds(ids);
 //		Assert.assertEquals(2, listOrder.size());
 	}

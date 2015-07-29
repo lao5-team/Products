@@ -19,7 +19,7 @@
         android:layout_height="96dip"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/checkBox_select"
-        android:src="@drawable/add" />
+        android:src="@drawable/add_photo" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/textView_count"
             android:layout_toEndOf="@+id/textView_count"
-            android:src="@drawable/add" />
+            android:src="@drawable/add_photo" />
 
     </RelativeLayout>
 

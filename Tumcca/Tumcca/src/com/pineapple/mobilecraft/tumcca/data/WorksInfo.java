@@ -25,6 +25,7 @@ public class WorksInfo {
     //transient 的属性需要我们自己解析
     public transient Date createTime = null;
     public transient PictureInfo picInfo = null;
+    public transient Profile profile =Profile.NULL;
     public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss.SSS");
 
     public static final WorksInfo NULL = new WorksInfo();

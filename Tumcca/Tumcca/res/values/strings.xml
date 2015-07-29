@@ -164,5 +164,37 @@
     <string name="coolyou_post_collection">收藏</string>
     <string name="coolyou_post_comment">评论</string>
     <string name="rotate">旋转</string>
+    <string name="works_uploading">作品发布中......</string>
+    <string name="works_upload_success">作品发布成功</string>
+    <string name="works_upload_failed">作品发布失败</string>
+    <string name="picture_upload_failed">图片发布失败</string>
+    <string name="no_network_access">当前无网络连接，请检查网络</string>
+    <string name="albums_creating">正在创建专辑......</string>
+    <string name="albums_create_success">专辑创建成功</string>
+    <string name="albums_create_fail">专辑创建失败</string>
+    <string name="select_albums">选择专辑</string>
+    <string name="please_login">请先登录</string>
+    <string name="please_complete_profile">请先完成用户信息填写</string>
+    <string name="restrict_upload_pictures">限制上传%1$张图片</string>
+    <string name="works_upload_">作品发布成功</string>
+    <string name="please_enter_description">请填写作品的描述信息</string>
+    <string name="please_select_picture">请选择作品图片</string>
+    <string name="login_successed">登录成功</string>
+    <string name="logining">正在登录......</string>
+    <string name="login_failed">登录失败</string>
+    <string name="remove_picture_confirm">确定要删除这张图片?</string>
+    <string name="please_enter_correct_phone_or_email">请填写正确的手机号或者邮箱</string>
+    <string name="password_cannot_be_empty">密码不能为空</string>
+    <string name="registering">正在注册</string>
+    <string name="register_success">注册成功</string>
+    <string name="register_failed">注册失败</string>
+    <string name="account_exist">用户已存在</string>
+    <string name="logouting">正在注销...</string>
+    <string name="profile_update_success">更新信息成功</string>
+    <string name="you_have_albums">您有%1$s张专辑</string>
+    <string name="there_is_no_new_works">当前没有新作品发布</string>
+    <string name="there_is_works">当前有%1$s个作品发布</string>
+
+
 
 </resources>

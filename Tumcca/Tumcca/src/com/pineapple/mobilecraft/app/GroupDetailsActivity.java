@@ -343,7 +343,7 @@ public class GroupDetailsActivity extends BaseActivity {
 				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_minus_btn, 0, 0);
 				// 如果不是创建者或者没有相应权限，不提供加减人按钮
 				if (!group.getOwner().equals(DemoApplication.getInstance().getUserName())) {
-					// if current user is not group admin, hide add/remove btn
+					// if current user is not group admin, hide add_photo/remove btn
 					convertView.setVisibility(View.INVISIBLE);
 				} else { // 显示删除按钮
 					if (isInDeleteMode) {
@@ -368,7 +368,7 @@ public class GroupDetailsActivity extends BaseActivity {
 				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
 				//如果不是创建者或者没有相应权限
 				if (!group.isAllowInvites() && !group.getOwner().equals(DemoApplication.getInstance().getUserName())) {
-					// if current user is not group admin, hide add/remove btn
+					// if current user is not group admin, hide add_photo/remove btn
 					convertView.setVisibility(View.INVISIBLE);
 				} else {
 					// 正处于删除模式下,隐藏添加按钮

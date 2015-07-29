@@ -69,7 +69,7 @@ public class AlbumSelectFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        this.getDialog().setTitle("选择专辑");
+        this.getDialog().setTitle(mContext.getString(R.string.select_albums));
 
     }
 
@@ -124,17 +124,7 @@ public class AlbumSelectFragment extends DialogFragment {
             @Override
             public void run() {
 
-                mAlbumList = WorksManager.getInstance().getMyAlbumList();   // WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
-
-                //mAlbumList.add(0, Album.DEFAULT_ALBUM);
-
-//                mContext.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mAlbumAdapter.notifyDataSetChanged();
-//                    }
-//                });
-
+                mAlbumList = WorksManager.getInstance().getMyAlbumList();
                 mContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

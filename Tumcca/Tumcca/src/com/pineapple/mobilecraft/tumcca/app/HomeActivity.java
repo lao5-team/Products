@@ -7,6 +7,7 @@ import android.content.*;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.*;
@@ -24,6 +25,7 @@ import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IHome;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
+import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import com.pineapple.mobilecraft.util.logic.Util;
 
 import java.util.List;
@@ -57,6 +59,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
     DisplayImageOptions mImageOptions;
 
     private Profile mProfile;
+    private TumccaService mService = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,72 +79,72 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
 
 
-        mWorksListFragment = new WorksListFragment();
-        addWorkList(mWorksListFragment);
-
-        mWorksListFragment.setScrollListener(new WorksListFragment.OnScrollListener() {
-
-            @Override
-            public void onTop(){
-                final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1, PAGE_SIZE, WORKS_WIDTH);
-                if(null!=worksInfoList&&worksInfoList.size() >0 ){
-                    runOnUiThread(new Runnable(){
-                        @Override
-                        public void run() {
-                            mWorksListFragment.addWorksHead(worksInfoList);
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onBottom() {
-
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mIsLoadBottom = true;
-                        final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
-                        if (null != worksInfoList && worksInfoList.size() > 0) {
-                            mCurrentPageIndex++;
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mWorksListFragment.addWorksTail(worksInfoList);
-                                }
-                            });
-                        }
-                        mIsLoadBottom = false;
-                    }
-                });
-                if (!mIsLoadBottom) {
-                    Log.v("Tumcca", "onBottom");
-                    t.start();
-                }
 
 
-            }
-        });
+//        mWorksListFragment.setScrollListener(new WorksListFragment.OnScrollListener() {
+//
+//            @Override
+//            public void onTop(){
+//                final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1, PAGE_SIZE, WORKS_WIDTH);
+//                if(null!=worksInfoList&&worksInfoList.size() >0 ){
+//                    runOnUiThread(new Runnable(){
+//                        @Override
+//                        public void run() {
+//                            mWorksListFragment.addWorksHead(worksInfoList);
+//
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onBottom() {
+//
+//                Thread t = new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mIsLoadBottom = true;
+//                        final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
+//                        if (null != worksInfoList && worksInfoList.size() > 0) {
+//                            mCurrentPageIndex++;
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    mWorksListFragment.addWorksTail(worksInfoList);
+//                                }
+//                            });
+//                        }
+//                        mIsLoadBottom = false;
+//                    }
+//                });
+//                if (!mIsLoadBottom) {
+//                    Log.v("Tumcca", "onBottom");
+//                    t.start();
+//                }
+//
+//
+//            }
+//        });
 
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 try {
-                    Thread.currentThread().sleep(500);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1, PAGE_SIZE, WORKS_WIDTH);
-                if(null!=worksInfoList&&worksInfoList.size() >0 ){
-                    runOnUiThread(new Runnable(){
-                        @Override
-                        public void run() {
-                            mWorksListFragment.addWorksHead(worksInfoList);
+                mService.loadHomeHeadList(new TumccaService.OnLoadFinished<WorksInfo>() {
+                    @Override
+                    public void onSuccess(List<WorksInfo> resultList) {
+                        mWorksListFragment.addWorksHead(resultList);
+                    }
 
-                        }
-                    });
-                }
+                    @Override
+                    public void onFail(String message) {
+
+                    }
+                });
             }
         }, new IntentFilter("upload_works"));
 
@@ -153,6 +156,60 @@ public class HomeActivity extends FragmentActivity implements IHome {
         else{
             displayActionbar(0);
         }
+
+        bindService(new Intent(this, TumccaService.class), new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                mService = ((TumccaService.LocalService)service).getService();
+                mWorksListFragment = new WorksListFragment();
+                Log.v("Tumcca", "Home size " + mService.getHomeWorkList().size());
+                //mWorksListFragment.setWorkList(mService.getHomeWorkList());
+                final List<WorksInfo> worksInfoList = mService.getHomeWorkList();
+                mWorksListFragment.setWorksLoader(new WorksListFragment.WorkListLoader() {
+                    @Override
+                    public List<WorksInfo> getInitialWorks() {
+                        return worksInfoList;
+                    }
+
+                    @Override
+                    public void loadHeadWorks() {
+                        mService.loadHomeHeadList(new TumccaService.OnLoadFinished<WorksInfo>() {
+                            @Override
+                            public void onSuccess(List<WorksInfo> resultList) {
+                                mWorksListFragment.addWorksHead(resultList);
+                            }
+
+                            @Override
+                            public void onFail(String message) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void loadTailWorks() {
+                        mService.loadHomeTailList(new TumccaService.OnLoadFinished<WorksInfo>() {
+                            @Override
+                            public void onSuccess(List<WorksInfo> resultList) {
+                                mWorksListFragment.addWorksTail(resultList);
+                            }
+
+                            @Override
+                            public void onFail(String message) {
+
+                            }
+                        });
+                    }
+                });
+                addWorkList(mWorksListFragment);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mService = null;
+
+            }
+        }, Context.BIND_AUTO_CREATE);
 
 
     }
@@ -188,7 +245,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
     }
 
     /**
-     * 0 login 1 profile
+     * 0 sign_in 1 profile
      */
     private void displayActionbar(int index){
         if(index==0){
@@ -276,7 +333,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQ_LOGIN && resultCode == RESULT_OK) {
-            Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.login_successed), Toast.LENGTH_SHORT).show();
             displayActionbar(1);
             Thread thread = new Thread(new Runnable() {
                 @Override

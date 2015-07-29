@@ -67,7 +67,7 @@ public class ShopServer {
 	
 	public void login(String username, String password)
 	{
-		String url = String.format("%sUser/login&name=%s&password=%s", SERVER_ADDRESS_ROOT, username, password);
+		String url = String.format("%sUser/sign_in&name=%s&password=%s", SERVER_ADDRESS_ROOT, username, password);
 		SyncHTTPCaller<Void> caller = new SyncHTTPCaller<Void>(
 				url) {
 
@@ -218,9 +218,9 @@ public class ShopServer {
 			e.printStackTrace();
 		}*/
 
-/*		String url = String.format("%s/add&products=%s&other=%s&username=%s&mobile=%s&address=%s&authid=%s", SERVER_ADDRESS_ORDER,
+/*		String url = String.format("%s/add_photo&products=%s&other=%s&username=%s&mobile=%s&address=%s&authid=%s", SERVER_ADDRESS_ORDER,
 				 "yhtest",order.getOtherMessage(), order.getmConsigneeName(), order.getConsigneePhoneNumber(), order.getmConsigneeAddress(), mSession);*/
-		String url = String.format("%s/add&authid=%s", SERVER_ADDRESS_ORDER, mSession);
+		String url = String.format("%s/add_photo&authid=%s", SERVER_ADDRESS_ORDER, mSession);
 		
 		SyncHTTPCaller<String> caller = new SyncHTTPCaller<String>(
 				url, "PHPSESSID=" + mSession, goodsJson.toString()) {

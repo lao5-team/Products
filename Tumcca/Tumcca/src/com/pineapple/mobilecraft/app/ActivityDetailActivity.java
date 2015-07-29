@@ -284,7 +284,7 @@ public class ActivityDetailActivity extends FragmentActivity {
 					for(String id:commentID_list)
 					{
 						//ActivityComment comment = MyServerManager.getInstance().getComment(id);
-						//commentList.add(comment);
+						//commentList.add_photo(comment);
 						ids.add(id);
 					}
 					commentList = MyServerManager.getInstance().getCommentList(ids);

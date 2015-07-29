@@ -287,6 +287,11 @@ public class UserServer implements IUserServer{
 
     }
 
+    /**
+     *
+     * @param id
+     * @return 一个有效的{@link Profile}或者{@link Profile.NULL}
+     */
     public Profile getUserProfile(int id){
         String url = mHost + "/api/artists/" + id + "/profile";
         String token = UserManager.getInstance().getCurrentToken();
@@ -307,8 +312,13 @@ public class UserServer implements IUserServer{
                 }
             }
         };
-
-        return get.execute();
+        Profile result = get.execute();
+        if(null!=result){
+            return result;
+        }
+        else{
+            return Profile.NULL;
+        }
     }
 
 

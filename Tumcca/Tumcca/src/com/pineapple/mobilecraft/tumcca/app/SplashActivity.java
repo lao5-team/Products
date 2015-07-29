@@ -1,8 +1,12 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +20,7 @@ import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
+import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 
 import java.util.List;
 
@@ -24,6 +29,7 @@ import java.util.List;
  */
 public class SplashActivity extends Activity {
     int mCurrentIndex = 0;
+    TumccaService mService;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,50 +43,10 @@ public class SplashActivity extends Activity {
             exp.printStackTrace();
         }
         setContentView(R.layout.activity_splash);
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //
-                Looper.prepare();
-                    String username = UserManager.getInstance().getCachedUsername();
-                    String password = UserManager.getInstance().getCachedPassword();
-                    if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
-                        UserManager.getInstance().login(username, password);
 
-                        List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
-                        albumList.add(0, Album.DEFAULT_ALBUM);
-
-
-
-                        for(Album album:albumList){
-                            List<WorksInfo> worksInfoList;
-                            worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
-                            album.worksInfoList = worksInfoList;
-                            WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-                        }
-                        WorksManager.getInstance().setMyAlbumList(albumList);
-
-                    }
-                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                    startActivity(intent);
-
-
-
-            }
-        });
-        t.start();
         final ImageView imageView = (ImageView)findViewById(R.id.imageView_splash);
         imageView.setImageResource(R.drawable.splash);
         imageView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.splash));
-//        final int imageIds[] = {R.drawable.splash_1, R.drawable.splash_2,R.drawable.splash_3, R.drawable.splash_4};
-//
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                imageView.setImageResource(imageIds[++mCurrentIndex%imageIds.length]);
-//                imageView.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.splash));
-//            }
-//        });
 
         TextView tv_skip = (TextView)findViewById(R.id.textView_skip);
         tv_skip.setClickable(true);
@@ -91,6 +57,40 @@ public class SplashActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        bindService(new Intent(this, TumccaService.class), new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                mService = ((TumccaService.LocalService)service).getService();
+
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //
+                        Looper.prepare();
+                        mService.preloadApp();
+
+                        try {
+                            Thread.currentThread().sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                        startActivity(intent);
+
+
+
+                    }
+                });
+                t.start();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mService = null;
+
+            }
+        }, Context.BIND_AUTO_CREATE);
 
     }
 }

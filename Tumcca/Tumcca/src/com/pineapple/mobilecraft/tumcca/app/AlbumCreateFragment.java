@@ -31,6 +31,7 @@ public class AlbumCreateFragment extends DialogFragment {
     OnAlbumCreateListener mAlbumCreateListener = null;
     public interface OnAlbumCreateListener{
         public void onResult(boolean result);
+
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class AlbumCreateFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 final ProgressDialog dialog = new ProgressDialog(getActivity());
-                dialog.setTitle("正在创建专辑");
+                dialog.setTitle(mContext.getString(R.string.albums_creating));
                 dialog.show();
                 Thread t = new Thread(new Runnable() {
                     @Override
@@ -81,13 +82,13 @@ public class AlbumCreateFragment extends DialogFragment {
                                     if(new_album_id!=WorksServer.INVALID_WORKS_ID){
                                         WorksManager.getInstance().setLatestAlbum(album);
                                         WorksManager.getInstance().addMyAlbum(album);
-                                        Toast.makeText(mContext, "专辑创建成功", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, mContext.getString(R.string.albums_create_success), Toast.LENGTH_SHORT).show();
                                         if(null!=mAlbumCreateListener){
                                             mAlbumCreateListener.onResult(true);
                                         }
                                     }
                                     else{
-                                        Toast.makeText(mContext, "专辑创建失败", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, mContext.getString(R.string.albums_create_fail), Toast.LENGTH_SHORT).show();
                                         if(null!=mAlbumCreateListener){
                                             mAlbumCreateListener.onResult(true);
                                         }
@@ -148,7 +149,6 @@ public class AlbumCreateFragment extends DialogFragment {
                 fullWidth = display.getWidth();
             }
 
-            final int padding = getResources().getDimensionPixelOffset(R.dimen.dialogfragment_marginleft);
 
             int w = fullWidth;
             int h = getDialog().getWindow().getAttributes().height;

@@ -1,8 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.service;
 
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,27 +12,21 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
+import android.text.TextUtils;
 import android.widget.Toast;
-import cn.bmob.v3.BmobRealTimeData;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.app.MessagesActivity;
-import com.pineapple.mobilecraft.app.TreasureDetailActivity;
-import com.pineapple.mobilecraft.data.comment.TreasureComment;
-import com.pineapple.mobilecraft.data.message.MyMessage;
-import com.pineapple.mobilecraft.data.message.TreasureMessage;
-import com.pineapple.mobilecraft.manager.UserManager;
-import com.pineapple.mobilecraft.server.BmobServerManager;
-import com.pineapple.mobilecraft.tumcca.data.Picture;
-import com.pineapple.mobilecraft.tumcca.data.Works;
-import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.data.*;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
+import com.pineapple.mobilecraft.tumcca.utility.Utility;
+import com.pineapple.mobilecraft.util.logic.Util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,9 +35,13 @@ import java.util.List;
  *
  */
 public class TumccaService extends Service {
-
+	private static final int WORKS_WIDTH = 400;
+	private static final int PAGE_SIZE = 5;
+	//private static final int MSG_EXIT = 0;
 	Handler mHandler;
 	Handler mainHandler;
+	HashMap<Integer, Profile> mMapProfile = new HashMap<Integer, Profile>();
+
 	public class LocalService extends Binder
 	{
 		public TumccaService getService()
@@ -53,9 +49,18 @@ public class TumccaService extends Service {
 			return TumccaService.this;
 		}
 	}
+
+	public interface OnLoadFinished<T>{
+		public void onSuccess(List<T> resultList);
+
+		public void onFail(String message);
+	}
 	
 	LocalService mBinder = new LocalService();
-	boolean mIsConnected = true;
+	List<WorksInfo> mHomeWorkList = new ArrayList<WorksInfo>();
+	private int mCurrentPageIndex = 1;
+	private boolean mIsLoadBottom = false;
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		return mBinder;
@@ -72,55 +77,35 @@ public class TumccaService extends Service {
 				Looper.prepare();
 				mHandler = new Handler();
 				mainHandler = new Handler(Looper.getMainLooper());
-//				while(true)
-//				{
-//					try {
-//						ConnectivityManager mConnectivityManager = (ConnectivityManager)TumccaService.this
-//								.getSystemService(Context.CONNECTIVITY_SERVICE);
-//						NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-//							if((mNetworkInfo == null||!mNetworkInfo.isAvailable())&&mIsConnected){
-//								mIsConnected = false;
-//								mainHandler.post(new Runnable() {
-//									@Override
-//									public void run() {
-//										Toast.makeText(DemoApplication.applicationContext, "当前无网络连接，请检查网络",
-//												Toast.LENGTH_SHORT).show();
-//									}
-//								});
-//							}
-//							else if(null!=mNetworkInfo&&mNetworkInfo.isAvailable()){
-//								mIsConnected = true;
-//							}
-//						Thread.sleep(100);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//				}
-
-
 				IntentFilter filter = new IntentFilter();
 				filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 				registerReceiver(mReceiver, filter);
+				Looper.loop();
 			}
 		});
 		t.start();
 
 	}
 
+
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		mHandler.getLooper().quit();
+	}
 	public void uploadWorks(final List<Picture> pictureList, final Works works){
-		showNotification("作品发布中......");
+		showNotification(DemoApplication.applicationContext.getString(R.string.works_uploading));
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				String token = com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken();
+				String token = UserManager.getInstance().getCurrentToken();
 				for(Picture picture:pictureList){
 					int pictureId = PictureServer.getInstance().uploadPicture(token, new File(picture.localPath));
 					if(PictureServer.INVALID_PICTURE_ID!=pictureId){
 						works.pictures.add(pictureId);
 						int id = WorksServer.uploadWorks(token, works);
 						if(id!=WorksServer.INVALID_WORKS_ID){
-							showNotification("作品发布成功");
+							showNotification(DemoApplication.applicationContext.getString(R.string.works_upload_success));
 							List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(), works.albumId, 1, 20, 400);
 							WorksManager.getInstance().putAlbumWorks(works.albumId, worksInfoList);
 							hideNotification();
@@ -134,20 +119,97 @@ public class TumccaService extends Service {
 							sendBroadcast(intent);
 						}
 						else{
-							showNotification("作品发布失败");
+							showNotification(DemoApplication.applicationContext.getString(R.string.works_upload_failed));
 							hideNotification();
 						}
 					}
 					else{
-						showNotification("图片上传失败");
+						showNotification(DemoApplication.applicationContext.getString(R.string.picture_upload_failed));
 						hideNotification();
 					}
 				}
 			}
 		});
 		t.start();
+	}
+
+	public List<WorksInfo> getHomeWorkList(){
+		return mHomeWorkList.subList(0, mHomeWorkList.size());
+	}
+
+	public void loadHomeHeadList(final OnLoadFinished<WorksInfo> callback){
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				//final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1, PAGE_SIZE, WORKS_WIDTH);
+				List<WorksInfo> worksInfoList = loadWorkList(1);
+				if(null!=worksInfoList&&worksInfoList.size() >0 ){
+					mHomeWorkList.addAll(0, worksInfoList);
+					if(null!=callback){
+						callback.onSuccess(worksInfoList);
+					}
+				}
+			}
+		});
+
+	}
+
+	public void loadHomeTailList(final OnLoadFinished<WorksInfo> callback){
+		mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				mIsLoadBottom = true;
+				//final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1+mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
+				List<WorksInfo> worksInfoList = loadWorkList(1+mCurrentPageIndex);
+				if (null != worksInfoList && worksInfoList.size() > 0) {
+					mCurrentPageIndex++;
+					mHomeWorkList.addAll(worksInfoList);
+					if(null!=callback){
+						callback.onSuccess(worksInfoList);
+					}
+				}
+				mIsLoadBottom = false;
+			}
+		});
+
+	}
+
+	public List<WorksInfo> loadWorkList(int page){
+		final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(page, PAGE_SIZE, WORKS_WIDTH);
+		parseWorks(worksInfoList);
+		return worksInfoList;
+	}
 
 
+	public void preloadApp(){
+		//加载首页数据
+		//loadHomeHeadList(null);
+		if(!Utility.isNetWorkConnected(DemoApplication.applicationContext)){
+			return;
+		}
+		List<WorksInfo> worksInfoList = loadWorkList(1);
+		if(null!=worksInfoList){
+			mHomeWorkList.addAll(worksInfoList);
+		}
+		//从缓存中登录
+		String username = UserManager.getInstance().getCachedUsername();
+		String password = UserManager.getInstance().getCachedPassword();
+		if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
+			com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().login(username, password);
+			//预加载用户的专辑
+			List<Album> albumList = WorksServer.getMyAlbumList(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken());
+			albumList.add(0, Album.DEFAULT_ALBUM);
+
+			for(Album album:albumList){
+				worksInfoList = WorksServer.getWorksOfAlbum(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
+				if(null!=worksInfoList&&worksInfoList.size()>0){
+					album.worksInfoList = worksInfoList;
+					WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+				}
+			}
+			WorksManager.getInstance().setMyAlbumList(albumList);
+
+		}
 	}
 
 	private void showNotification(String notifyString) {
@@ -167,6 +229,23 @@ public class TumccaService extends Service {
 		notificationManager.cancel(0);
 	}
 
+	private void parseWorks(final List<WorksInfo> worksInfoList) {
+		if(null!=worksInfoList){
+			for (int i = 0; i < worksInfoList.size(); i++) {
+				if (!mMapProfile.containsKey(worksInfoList.get(i).author)) {
+					Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
+					worksInfoList.get(i).profile = profile;
+					mMapProfile.put(worksInfoList.get(i).author, profile);
+				}
+				else{
+					worksInfoList.get(i).profile = mMapProfile.get(worksInfoList.get(i).author);
+				}
+
+			}
+		}
+
+	}
+
 	private ConnectivityBroadcastReceiver mReceiver;
 
 	private class ConnectivityBroadcastReceiver extends BroadcastReceiver {
@@ -182,7 +261,7 @@ public class TumccaService extends Service {
 
 			if (noConnectivity) {
 				mState = NetworkInfo.State.DISCONNECTED;
-				Toast.makeText(DemoApplication.applicationContext, "当前无网络连接，请检查网络",
+				Toast.makeText(DemoApplication.applicationContext, DemoApplication.applicationContext.getString(R.string.no_network_access),
 						Toast.LENGTH_SHORT).show();
 			} else {
 				mState = NetworkInfo.State.CONNECTED;

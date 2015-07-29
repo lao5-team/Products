@@ -262,6 +262,11 @@ public class JSONCache extends SQLiteOpenHelper implements IListCache<String, JS
 	}
 
 	@Override
+	public boolean hasKey(String key) {
+		return false;
+	}
+
+	@Override
 	public List<String> getKeysBeforeItem(String key, int count) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		List<String> keyList = new ArrayList<String>();

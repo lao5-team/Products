@@ -54,7 +54,7 @@ public class ThreadPoolManager {
 	 */
 	public void addAsyncTask(ThreadPoolTask task) {
 		synchronized (asyncTasks) {
-			Log.i(TAG, "add task: " + task.getURL());
+			Log.i(TAG, "add_photo task: " + task.getURL());
 			asyncTasks.addLast(task);
 		}
 	}

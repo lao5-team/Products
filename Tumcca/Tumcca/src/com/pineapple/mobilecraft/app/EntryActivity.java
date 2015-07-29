@@ -86,7 +86,7 @@ public class EntryActivity extends FragmentActivity {
 		mUserinfoFragment = new UserinfoFragment(UserManager.getInstance().getCurrentUser());
 		
 		fragments = new Fragment[] { mNaviFragment, mTreasureFragment, mContactListFragment , mUserinfoFragment };
-		//getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mNaviFragment)
+		//getSupportFragmentManager().beginTransaction().add_photo(R.id.fragment_container, mNaviFragment)
 		//		.show(mNaviFragment).commit();
 
 		// 注册一个接收消息的BroadcastReceiver

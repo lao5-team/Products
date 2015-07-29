@@ -96,7 +96,7 @@ public class TreasureMessage extends BmobObject {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-//    	mContent.add(object.toString());
+//    	mContent.add_photo(object.toString());
 //    }
     
     

@@ -1,10 +1,13 @@
 package com.pineapple.mobilecraft.tumcca.app;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
@@ -18,7 +21,6 @@ import java.util.List;
  */
 public class AlbumCalligraphyListActivity extends FragmentActivity {
 
-    private ImageView mIvBack;
     private TextView mTvTitle;
     public static void startActivity(Activity activity, int id, String albumName){
         Intent intent = new Intent(activity, AlbumCalligraphyListActivity.class);
@@ -31,21 +33,47 @@ public class AlbumCalligraphyListActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(getIntent().getIntExtra("id", -1));
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
+        final ActionBar actionBar = getActionBar();
+        if(null!=actionBar){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(getIntent().getStringExtra("albumName"));
+        }
+        final List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(getIntent().getIntExtra("id", -1));
         setContentView(R.layout.activity_album_calligraphy_list);
-        mIvBack = (ImageView)findViewById(R.id.imageView_back);
-        mTvTitle = (TextView)findViewById(R.id.textView_title);
-        mIvBack.setOnClickListener(new View.OnClickListener() {
+
+
+        WorksListFragment fragment = new WorksListFragment();
+        fragment.setWorksLoader(new WorksListFragment.WorkListLoader() {
             @Override
-            public void onClick(View v) {
-                finish();
+            public List<WorksInfo> getInitialWorks() {
+                return worksInfoList;
+            }
+
+            @Override
+            public void loadHeadWorks() {
+
+            }
+
+            @Override
+            public void loadTailWorks() {
+
             }
         });
-
-        mTvTitle.setText(getIntent().getStringExtra("albumName"));
-        WorksListFragment fragment = new WorksListFragment();
-        fragment.addWorksHead(worksInfoList);
         getSupportFragmentManager().beginTransaction().add(R.id.layout_container, fragment).commit();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

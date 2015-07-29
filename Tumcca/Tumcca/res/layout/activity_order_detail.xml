@@ -106,7 +106,7 @@
 <!--             android:id="@+id/imageView_goods" -->
 <!--             android:layout_width="64dip" -->
 <!--             android:layout_height="64dip" -->
-<!--             android:src="@drawable/add" /> -->
+<!--             android:src="@drawable/add_photo" /> -->
 
 <!--         <TextView -->
 <!--             android:id="@+id/textView_goods_name" -->

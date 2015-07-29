@@ -266,9 +266,9 @@ public abstract class ImageWorker {
                 bitmap = processBitmap(mData);
             }
 
-            // If the bitmap was processed and the image cache is available, then add the processed
+            // If the bitmap was processed and the image cache is available, then add_photo the processed
             // bitmap to the cache for future use. Note we don't check if the task was cancelled
-            // here, if it was, and the thread is still running, we may as well add the processed
+            // here, if it was, and the thread is still running, we may as well add_photo the processed
             // bitmap to our cache as it might be used again in the future
             if (bitmap != null) {
                 if (Utils.hasHoneycomb()) {

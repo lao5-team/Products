@@ -109,8 +109,8 @@ public class PictureEditActivity extends Activity implements GestureDetector.OnG
 
     private void deletePicture() {
         final int index = mVF.getDisplayedChild();
-        AlertDialog dialog = new AlertDialog.Builder(this).setMessage("确定要删除这张图片？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        AlertDialog dialog = new AlertDialog.Builder(this).setMessage(getString(R.string.remove_picture_confirm))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mPictureList.remove(index);
@@ -118,7 +118,7 @@ public class PictureEditActivity extends Activity implements GestureDetector.OnG
                         mTvPictureIndex.setText((mVF.getDisplayedChild()+1) + "/" + mPictureList.size());
                         confirmEdit();
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

@@ -201,4 +201,14 @@ public class PrefsCache implements IListCache<String, JSONObject>{
         Map<String, ?> map = mPrefs.getAll();
         return map.keySet();
     }
+
+    @Override
+    public boolean hasKey(String key) {
+        return mPrefs.contains(key);
+    }
+
+    public void clear(){
+        mPrefs.edit().clear().commit();
+
+    }
 }

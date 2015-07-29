@@ -165,7 +165,7 @@ public class Chart {
 		}
 
 		ChartItem item = new ChartItem(id, count);
-		mItems.add(item);*/
+		mItems.add_photo(item);*/
 		JSONObject obj = mChartCache.getItem(id);
 		ChartItem item;
 		if(null!=obj)

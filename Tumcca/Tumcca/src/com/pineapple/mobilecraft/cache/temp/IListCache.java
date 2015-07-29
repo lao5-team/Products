@@ -58,6 +58,6 @@ public interface IListCache<K,V> {
 
 	public Set<K> getAllKeys();
 
-
+	boolean hasKey(K key);
 
 }

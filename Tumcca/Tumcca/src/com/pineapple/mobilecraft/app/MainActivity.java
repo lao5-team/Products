@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
 
 //        if (savedInstanceState == null) {
 //            getFragmentManager().beginTransaction()
-//                    .add(R.id.container, new PlaceholderFragment())
+//                    .add_photo(R.id.container, new PlaceholderFragment())
 //                    .commit();
 //        }
         //mBtn_New_Activity = (Button)findViewById(R.id.btn_New_Activity);

@@ -72,7 +72,7 @@ public class CreateActivityActivity extends FragmentActivity{
 						.getLocationCategories());
 				if (null != fm.findFragmentByTag("location")) {
 					ft.remove(mFragLocation);
-					// ft.add(R.id.layout_middle, mFragCategory, "category");
+					// ft.add_photo(R.id.layout_middle, mFragCategory, "category");
 					// mFragCategory.getListView().invalidate();
 				} else {
 					ft.add(R.id.layout_middle, mFragLocation, "location");
@@ -94,7 +94,7 @@ public class CreateActivityActivity extends FragmentActivity{
 						.getContentCategories());
 				if (null != fm.findFragmentByTag("category")) {
 					ft.remove(mFragCategory);
-					// ft.add(R.id.layout_middle, mFragCategory, "category");
+					// ft.add_photo(R.id.layout_middle, mFragCategory, "category");
 					mFragCategory.getListView().invalidate();
 				} else {
 					ft.add(R.id.layout_middle, mFragCategory, "category");

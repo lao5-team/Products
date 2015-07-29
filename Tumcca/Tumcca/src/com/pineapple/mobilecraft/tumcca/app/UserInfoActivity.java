@@ -107,7 +107,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                 .build();
         String token = UserManager.getInstance().getCurrentToken();
         if(TextUtils.isEmpty(token)){
-            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
             finish();
         }
         else{
@@ -139,7 +139,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                     public void onCancel(DialogInterface dialog) {
                     }
                 });
-                pd.setMessage("正在注销...");
+                pd.setMessage(getString(R.string.logouting));
                 pd.show();
                 Thread thread =  new Thread(new Runnable() {
                     @Override
@@ -465,7 +465,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         if (!"fail".equals(result))
         {
            refreshData();
-           Toast.makeText(this, "更新信息成功", Toast.LENGTH_SHORT).show();
+           Toast.makeText(this, getString(R.string.profile_update_success), Toast.LENGTH_SHORT).show();
         }
     }
 

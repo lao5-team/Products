@@ -98,7 +98,7 @@ public class LoginActivity extends Activity {
 					progressShow = false;
 				}
 			});
-			pd.setMessage("正在登陆...");
+			pd.setMessage(getString(R.string.logining));
 			pd.show();
 
 			Thread t = new Thread(new Runnable() {
@@ -122,7 +122,7 @@ public class LoginActivity extends Activity {
 								finish();
 								pd.dismiss();
 							} else {
-								Toast.makeText(LoginActivity.this, "登录不成功", Toast.LENGTH_SHORT).show();
+								Toast.makeText(LoginActivity.this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
 							}
 
 						}

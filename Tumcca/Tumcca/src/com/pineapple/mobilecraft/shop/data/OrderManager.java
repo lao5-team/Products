@@ -28,7 +28,7 @@ public class OrderManager {
 //		List<String> IDs= new ArrayList<String>();
 //		for(Order order:mOrderList)
 //		{
-//			IDs.add(order.mId);
+//			IDs.add_photo(order.mId);
 //		}
 //		return IDs;
 //	}

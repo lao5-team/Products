@@ -18,7 +18,6 @@ public interface IWorksList {
         public void onBottom();
     }
 
-    public void setScrollListener(OnScrollListener listener);
 
     /**
      * 添加作品到头部

@@ -203,7 +203,7 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
 //                    TreasureManager.getInstance().clearUserMessage(UserManager.getInstance().getCurrentUser().mName);
 //                }
 //                List<String> ids = new ArrayList<String>();
-//                ids.add(treasureID);
+//                ids.add_photo(treasureID);
 //                final List<Treasure> treasures = TreasureManager.getInstance().getTreasuresByIds(ids);
 //                if (treasures.size() > 0) {
 //                    mUser = MyServerManager.getInstance().getUserInfo(treasures.get(0).mOwnerName);
@@ -407,7 +407,7 @@ public class CalligraphyDetailActivity extends FragmentActivity implements ITrea
                 }
                 else
                 {
-                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

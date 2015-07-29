@@ -171,7 +171,7 @@ public class ImageCache {
 						// The removed entry is a standard BitmapDrawable
 
 						if (Utils.hasHoneycomb()) {
-							// We're running on Honeycomb or later, so add the
+							// We're running on Honeycomb or later, so add_photo the
 							// bitmap
 							// to a SoftReference set for possible use with
 							// inBitmap later
@@ -503,7 +503,7 @@ public class ImageCache {
 
 	/**
 	 * Locate an existing instance of this Fragment or if not found, create and
-	 * add it using FragmentManager.
+	 * add_photo it using FragmentManager.
 	 * 
 	 * @param fm
 	 *            The FragmentManager manager to use.
@@ -516,7 +516,7 @@ public class ImageCache {
 		RetainFragment mRetainFragment = (RetainFragment) fm
 				.findFragmentByTag(TAG);
 
-		// If not retained (or first time running), we need to create and add
+		// If not retained (or first time running), we need to create and add_photo
 		// it.
 		if (mRetainFragment == null) {
 			mRetainFragment = new RetainFragment();

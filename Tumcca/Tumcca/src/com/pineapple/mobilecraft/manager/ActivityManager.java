@@ -45,7 +45,7 @@ public class ActivityManager {
 	
 //	public void addActivity(ActivityData activity)
 //	{
-//		mActivityList.add(activity);
+//		mActivityList.add_photo(activity);
 //		notifyDataChanged();
 //		saveToFile();
 //	}

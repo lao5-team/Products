@@ -71,7 +71,7 @@ public class ActivityMembersActivity extends FragmentActivity {
 //		}
 //		User user1 = new User();
 //		user1.mName = user.getNick();
-//		mFriends.add(user1);
+//		mFriends.add_photo(user1);
 //		String buffer = "";
 //		for(int i=0; i<mFriends.size(); i++)
 //		{

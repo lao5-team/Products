@@ -1,10 +1,10 @@
 package com.pineapple.mobilecraft.tumcca.manager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Base64;
 import com.pineapple.mobilecraft.DemoApplication;
-import com.pineapple.mobilecraft.cache.temp.JSONCache;
-import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
@@ -14,19 +14,23 @@ import junit.framework.Assert;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserManager {
 	private static UserManager mInstance = null;
 	private UserServer mUserServer = null;
 	private LoginStateListener mLoginStateListener = null;
-	//private String mCurrentUid = "";
-	//private String mCurrentToken = "";
 	private Profile mCurrentProfile = Profile.NULL;
 
-	PrefsCache mProfileCache = null;
+	//当前账户信息缓存
+	PrefsCache mAccountCache = null;
 
+	//用户信息缓存
+	PrefsCache mProfilesCache = null;
+
+	//用户使用习惯缓存
+	//PrefsCache mHabitCache = null;
+	SharedPreferences mHabitPrefs = null;
 	public static interface LoginStateListener
 	{	
 		public void onDisconnected();
@@ -68,7 +72,7 @@ public class UserManager {
 			//mCurrentUid = loginResult.uid;
 			//mCurrentToken = loginResult.token;
 			saveLoginInfo(userName, password);
-			mProfileCache.putItem("cache_login", IUserServer.LoginResult.toJSON(loginResult));
+			mAccountCache.putItem("cache_login", IUserServer.LoginResult.toJSON(loginResult));
 			return loginResult;
 		}
 		else {
@@ -85,8 +89,10 @@ public class UserManager {
 	 */
 	public boolean logout()
 	{
-		mProfileCache.remove("cache_account");
-		mProfileCache.remove("cache_login");
+		mAccountCache.remove("cache_account");
+		mAccountCache.remove("cache_login");
+		mProfilesCache.clear();
+		mHabitPrefs.edit().clear().commit();
 		return true;
 	}
 	
@@ -101,16 +107,9 @@ public class UserManager {
 	 * @return 如果当前用户不存在，返回-1
 	 */
 	public int getCurrentUserId(){
-//		Integer id = -1;
-//		try{
-//			id = new Integer(mCurrentUid);
-//		}catch (NumberFormatException exp)
-//		{
-//			exp.printStackTrace();
-//		}
-//		return id;
 
-		JSONObject jsonObject = mProfileCache.getItem("cache_login");
+
+		JSONObject jsonObject = mAccountCache.getItem("cache_login");
 		if(jsonObject!=null){
 			IUserServer.LoginResult loginResult = IUserServer.LoginResult.fromJSON(jsonObject.toString());
 			return new Integer(loginResult.uid);
@@ -118,27 +117,25 @@ public class UserManager {
 		return -1;
 	}
 	
-	/**读取某个用户的信息
+	/**读取某个用户的信息，该方法需要在子线程中调用　
 	 * @param userId
-	 * @return
+	 * @return {@link Profile}
 	 */
 	public Profile getUserProfile(int userId)
 	{
-		String id = String.valueOf(userId);
-		//JSONObject jsonObject = mProfileCache.getItem(id);
-		Profile profile;
-		profile = UserServer.getInstance().getUserProfile(userId);
-//		if(jsonObject == null){
-//			profile = UserServer.getInstance().getUserProfile(userId);
-//			if(profile!=Profile.NULL){
-//				mProfileCache.putItem(id, Profile.toJSON(profile));
-//				return profile;
-//			}
-//		}
-//		else{
-//			return Profile.fromJSON(jsonObject);
-//		}
-		return profile;
+		String key = String.valueOf(userId);
+		if(mProfilesCache.hasKey(key)){
+			return Profile.fromJSON(mProfilesCache.getItem(key));
+		}
+		else{
+			Profile profile;
+			profile = UserServer.getInstance().getUserProfile(userId);
+			if(profile!=Profile.NULL){
+				mProfilesCache.putItem(key, Profile.toJSON(profile));
+			}
+			return profile;
+		}
+
 	}
 
 	public Account getAccount(String userName){
@@ -152,10 +149,6 @@ public class UserManager {
 	{
 	}
 
-	public List<MyUser> getUserList(List<String> names)
-	{
-		return new ArrayList<MyUser>();
-	}
 
 	public void updateUserList(List<Profile> profileList){
 
@@ -170,7 +163,7 @@ public class UserManager {
 		try {
 			jsonObject.put("username", username);
 			jsonObject.put("password", android.util.Base64.encodeToString(password.getBytes(), Base64.DEFAULT));
-			mProfileCache.putItem("cache_account", jsonObject);
+			mAccountCache.putItem("cache_account", jsonObject);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -182,23 +175,8 @@ public class UserManager {
 	 */
 	public String getCachedUsername()
 	{
-
-//		List<JSONObject> jsonList = jsonCache.getAllItems();
-//		String username = "";
-//		if(null!=jsonList && jsonList.size()>0)
-//		{
-//			JSONObject jsonObject = jsonList.get(0);
-//			if(jsonObject.has("username"))
-//			{
-//				try {
-//					username = jsonObject.getString("username");
-//				} catch (JSONException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
 		String username = "";
-		JSONObject jsonObject = mProfileCache.getItem("cache_account");
+		JSONObject jsonObject = mAccountCache.getItem("cache_account");
 		if(null!=jsonObject){
 			try {
 				username = jsonObject.getString("username");
@@ -216,23 +194,8 @@ public class UserManager {
 	public String getCachedPassword()
 	{
 
-//		List<JSONObject> jsonList = jsonCache.getAllItems();
-//		String username = "";
-//		if(null!=jsonList && jsonList.size()>0)
-//		{
-//			JSONObject jsonObject = jsonList.get(0);
-//			if(jsonObject.has("password"))
-//			{
-//				try {
-//					username = new String(android.util.Base64.decode(jsonObject.getString("password"), Base64.DEFAULT));
-//				} catch (JSONException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		return username;
 		String password = "";
-		JSONObject jsonObject = mProfileCache.getItem("cache_account");
+		JSONObject jsonObject = mAccountCache.getItem("cache_account");
 
 		if(null!=jsonObject){
 			try {
@@ -246,7 +209,7 @@ public class UserManager {
 	}
 
 	public String getCurrentToken(){
-		JSONObject jsonObject = mProfileCache.getItem("cache_login");
+		JSONObject jsonObject = mAccountCache.getItem("cache_login");
 		if(jsonObject!=null){
 			IUserServer.LoginResult loginResult = IUserServer.LoginResult.fromJSON(jsonObject.toString());
 			return loginResult.token;
@@ -254,11 +217,23 @@ public class UserManager {
 		return "";
 	}
 
+	public boolean isUserEditPicture(){
+		return mHabitPrefs.getBoolean("picture_edit", false);
+	}
+
+	public void setUserPictureEdit(){
+		mHabitPrefs.edit().putBoolean("picture_edit", true).commit();
+
+	}
+
 	private UserManager(){
 		mUserServer = UserServer.getInstance();
-
-		mProfileCache = new PrefsCache(DemoApplication.applicationContext, "cache_login");
+		mAccountCache = new PrefsCache(DemoApplication.applicationContext, "cache_login");
+		mProfilesCache = new PrefsCache(DemoApplication.applicationContext, "cache_profiles");
+		mHabitPrefs = DemoApplication.applicationContext.getSharedPreferences("user_habit", Context.MODE_PRIVATE);
 	}
+
+
 	
 
 	

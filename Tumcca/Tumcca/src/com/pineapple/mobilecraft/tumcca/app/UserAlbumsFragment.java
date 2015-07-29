@@ -51,35 +51,38 @@ public class UserAlbumsFragment extends Fragment {
             @Override
             public void run() {
                 List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
-                mAlbumList.addAll(albumList);
-                mAlbumList.add(0, Album.DEFAULT_ALBUM);
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        addCountView(mTvAlbumCount);
-                    }
-                });
-                try {
-                    for (Album album : mAlbumList) {
-                        List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
-                        if (worksInfoList.size() > 0) {
-                            album.worksInfoList = worksInfoList;
-                        } else {
-                            worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
-                            album.worksInfoList = worksInfoList;
-                            WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+                if(null!=albumList){
+                    mAlbumList.addAll(albumList);
+                    mAlbumList.add(0, Album.DEFAULT_ALBUM);
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            addCountView(mTvAlbumCount);
                         }
+                    });
+                    try {
+                        for (Album album : mAlbumList) {
+                            List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
+                            if (worksInfoList.size() > 0) {
+                                album.worksInfoList = worksInfoList;
+                            } else {
+                                worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
+                                album.worksInfoList = worksInfoList;
+                                WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+                            }
 
+                        }
+                    }catch (ConcurrentModificationException e){
+                        e.printStackTrace();
                     }
-                }catch (ConcurrentModificationException e){
-                    e.printStackTrace();
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAlbumsAdapter.notifyDataSetChanged();
+                        }
+                    });
                 }
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAlbumsAdapter.notifyDataSetChanged();
-                    }
-                });
+
 
             }
         });
@@ -113,7 +116,7 @@ public class UserAlbumsFragment extends Fragment {
 
     public void addCountView(TextView countView){
 
-        countView.setText("您有" + mAlbumList.size() + "个专辑");
+        countView.setText(getString(R.string.you_have_albums, mAlbumList.size()));
     }
 
     public void addAlbumsView(ExpandGridView albumsView){

@@ -46,7 +46,7 @@ public class MyServerManager {
 	protected static MyServerManager mInstance = null;
 	String IP_ADDRESS = "http://103.31.201.252";//"http://117.78.3.87:80";
 	final String IP_ADDRESS_UPLOAD = "http://117.78.3.87:81/upload";
-	public final String EXCEPTION_NOT_LOGIN = "You have not login!";
+	public final String EXCEPTION_NOT_LOGIN = "You have not sign_in!";
 	String mToken;
 	String mUserName;
 	boolean LOCAL_DEBUG = false;
@@ -75,7 +75,7 @@ public class MyServerManager {
 			@Override
 			public Boolean call() throws Exception {
 				Boolean result = false;
-				String url = String.format("%s/login?user=%s", IP_ADDRESS,
+				String url = String.format("%s/sign_in?user=%s", IP_ADDRESS,
 						mUserName);
 				HttpGet httpGet = new HttpGet(url);
 				HttpResponse httpResponse;

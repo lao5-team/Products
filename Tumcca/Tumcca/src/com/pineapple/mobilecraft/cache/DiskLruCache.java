@@ -244,7 +244,7 @@ public class DiskLruCache {
 		// Now check if there's an actual file that exists based on the key
 		final String existingFile = createFilePath(mCacheDir, key);
 		if (new File(existingFile).exists()) {
-			// File found, add it to the HashMap for future use
+			// File found, add_photo it to the HashMap for future use
 			put(key, existingFile);
 			return true;
 		}

@@ -66,10 +66,10 @@ public class DemoApplication extends Application {
 	public static String TAG = "juxiaohui";
 	public static boolean isDebug = false;
 	private static DemoApplication instance;
-	// login user name
+	// sign_in user name
 	public final String PREF_USERNAME = "username";
 	private String userName = null;
-	// login password
+	// sign_in password
 	private static final String PREF_PWD = "pwd";
 	private String password = null;
 	private Map<String, User> contactList;
@@ -197,7 +197,7 @@ public class DemoApplication extends Application {
 	}
 	
 //	List<String> list = new ArrayList<String>();
-//	list.add("1406713081205");
+//	list.add_photo("1406713081205");
 //	options.setReceiveNotNoifyGroup(list);
 	/**
 	 * 获取内存中好友user list

@@ -76,17 +76,17 @@ public class RegisterActivity extends Activity implements IRegister, TextWatcher
 		final String pwd = passwordEditText.getText().toString().trim();
 		//String confirm_pwd = confirmPwdEditText.getText().toString().trim();
 		if (!PATextUtils.isValidEmail(username)&&!PATextUtils.isValidPhoneNumber(username)) {
-			Toast.makeText(this, "请填写正确的手机号或者邮箱", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.please_enter_correct_phone_or_email), Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
 			return;
 		} else if (TextUtils.isEmpty(pwd)) {
-			Toast.makeText(this, "密码不能为空！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.password_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			passwordEditText.requestFocus();
 			return;
 		}
 		if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pwd)) {
 			final ProgressDialog pd = new ProgressDialog(this);
-			pd.setMessage("正在注册...");
+			pd.setMessage(getString(R.string.register_success));
 			pd.show();
 			new Thread(new Runnable() {
 				public void run() {
@@ -117,15 +117,15 @@ public class RegisterActivity extends Activity implements IRegister, TextWatcher
 									pd.dismiss();
 								// 保存用户名
 								if(registerResult.message.equals(IUserServer.REGISTER_SUCCESS)){
-									Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
+									Toast.makeText(getApplicationContext(), getString(R.string.register_success), Toast.LENGTH_SHORT).show();
 									setResult(RESULT_OK);
 									finish();
 								}
 								else if(registerResult.message.equals(IUserServer.REGISTER_ACCOUNT_EXIST)){
-									Toast.makeText(getApplicationContext(), "该用户已存在", Toast.LENGTH_SHORT).show();
+									Toast.makeText(getApplicationContext(), getString(R.string.account_exist), Toast.LENGTH_SHORT).show();
 								}
 								else if(registerResult.message.equals(IUserServer.REGISTER_FAILED)){
-									Toast.makeText(getApplicationContext(), "注册不成功", Toast.LENGTH_SHORT).show();
+									Toast.makeText(getApplicationContext(), getString(R.string.recoding_fail), Toast.LENGTH_SHORT).show();
 
 								}
 

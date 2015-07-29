@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.utility.PrefsCache;
 import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.*;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -67,7 +69,8 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     private Button mBtnSubmit;
     private TumccaService mService;
     DisplayImageOptions mImageOptionsWorks;
-
+    PrefsCache mPrefsCache;
+    ServiceConnection mServiceConnection;
 
     public static void startActivity(Activity activity){
         Intent intent = new Intent(activity, CalligraphyCreateActivity.class);
@@ -101,16 +104,14 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
         {
             UserManager.getInstance().login("999", "999");
             UserServer.getInstance().uploadProfile(UserManager.getInstance().getCurrentToken(), Profile.createTestProfile());
-
-
         }
         if(!UserManager.getInstance().isLogin()){
-            Toast.makeText(CalligraphyCreateActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
             finish();
         }
         Profile profile = UserServer.getInstance().getCurrentUserProfile(UserManager.getInstance().getCurrentToken());
         if(profile == Profile.NULL){
-            Toast.makeText(CalligraphyCreateActivity.this, "请先完成用户信息填写", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_complete_profile), Toast.LENGTH_SHORT).show();
             finish();
         }
         ImgsActivity.ImagesReceiver = CalligraphyCreateActivity.class;
@@ -151,18 +152,28 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
 
         listenConnection();
 
-        bindService(new Intent(this, TumccaService.class), new ServiceConnection() {
+        mServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mService = ((TumccaService.LocalService)service).getService();
+
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
 
             }
-        }, Context.BIND_AUTO_CREATE);
+        };
+        bindService(new Intent(this, TumccaService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
 
+
+
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        unbindService(mServiceConnection);
     }
 
     private void listenConnection() {
@@ -235,7 +246,8 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             @Override
             public void onClick(View v) {
                 if(mListPicture.size()==5){
-                    Toast.makeText(CalligraphyCreateActivity.this, "限制上传" + MAX_IMAGE_COUNT + "张图片", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.restrict_upload_pictures, MAX_IMAGE_COUNT), Toast.LENGTH_SHORT).show();
+
                 }
                 else{
                     mAvatarChoose = new AvatarChoose();
@@ -264,9 +276,9 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     public void submit() {
         final ProgressDialog dialog = new ProgressDialog(this);
         if (TextUtils.isEmpty(mDescription)) {
-            Toast.makeText(CalligraphyCreateActivity.this, "请填写作品的描述信息", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_enter_description), Toast.LENGTH_SHORT).show();
         }else if(mListPicture.size()==0){
-            Toast.makeText(CalligraphyCreateActivity.this, "请选择作品图片", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_select_picture), Toast.LENGTH_SHORT).show();
         }
         else {
             Thread t = new Thread(new Runnable() {
@@ -363,11 +375,11 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     }
 
     private void addPicture(Picture picture){
-//        if(mListPicture.size()==0){
-//            mListPicture.add(picture);
-//        }else {
-//            mListPicture.set(0, picture);
-//        }
+            if(!UserManager.getInstance().isUserEditPicture()){
+                //Toast.makeText(this, "点击图片可以进行编辑", Toast.LENGTH_SHORT).show();
+                showTips();
+                UserManager.getInstance().setUserPictureEdit();
+            }
         if(mListPicture.size()<MAX_IMAGE_COUNT){
             mListPicture.add(picture);
             PictureAdapter adapter = (PictureAdapter)mGVPictures.getAdapter();
@@ -378,22 +390,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
 
     }
 
-    private void showResult(final boolean result){
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(result){
-                    Toast.makeText(CalligraphyCreateActivity.this, "作品发布成功", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                else{
-
-                    Toast.makeText(CalligraphyCreateActivity.this, "作品发布失败", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
     private void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -473,21 +470,27 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
+
             /*
             获取GridView宽度，item宽度为gridview宽度除以列数。高度和宽度相等
             * */
             GridView gridView = mGVPictures;
             int item_width = gridView.getWidth() / 3;
 
-            LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.item_picture, null);
-            AbsListView.LayoutParams param = new AbsListView.LayoutParams(
-                    item_width, item_width);
-            layout.setLayoutParams(param);
+
             if (position == getCount() - 1) {
+                LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.item_add_picture, null);
+                AbsListView.LayoutParams param = new AbsListView.LayoutParams(
+                        item_width, item_width);
+                layout.setLayoutParams(param);
                 ImageView imageView = (ImageView) layout.findViewById(R.id.imageView_picture);
-                imageView.setImageResource(R.drawable.add_photo);
                 addPictureChooseView(imageView);
+                return layout;
             } else {
+                LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(R.layout.item_picture, null);
+                AbsListView.LayoutParams param = new AbsListView.LayoutParams(
+                        item_width, item_width);
+                layout.setLayoutParams(param);
                 ImageView imageView = (ImageView) layout.findViewById(R.id.imageView_picture);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
@@ -496,14 +499,8 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                 int inSampleSize = options.outHeight * options.outHeight / (item_width * item_width);
                 options = new BitmapFactory.Options();
                 options.inSampleSize = inSampleSize;
-                //imageView.setImageBitmap(BitmapFactory.decodeFile(mListPicture.get(position - 1).localPath, options));
-
-                //imageView.setImageDrawable(new BitmapDrawable());
-                //Picasso.with(CalligraphyCreateActivity.this).load(new File(mListPicture.get(position - 1).localPath)).resize(item_width, item_width).centerCrop().into(imageView);
-                ImageLoader mImageLoader;
-                mImageLoader = ImageLoader.getInstance();
                 String path = Uri.fromFile(new File(mListPicture.get(position).localPath)).toString();
-                mImageLoader.displayImage(path, imageView, mImageOptionsWorks);
+                ImageLoader.getInstance().displayImage(path, imageView, mImageOptionsWorks);
                 imageView.setClickable(true);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -511,8 +508,8 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                         PictureEditActivity.startActivity(CalligraphyCreateActivity.this, REQ_PIC_EDIT, mListPicture, position);
                     }
                 });
+                return layout;
             }
-            return layout;
         }
 
         @Override
@@ -547,6 +544,19 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showTips(){
+        View view = getLayoutInflater().inflate(R.layout.popup_tips, null);
+        PopupWindow window = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+
+        window.setFocusable(true);
+        window.setTouchable(true);
+        window.setOutsideTouchable(true);
+        window.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        //window.setContentView();
+        //window.showAtLocation(mBtnSubmit, Gravity.NO_GRAVITY, 0, 0);
+        window.showAsDropDown(mGVPictures, 0, -mGVPictures.getHeight() + Util.dip2px(this, 105));
     }
 
 
