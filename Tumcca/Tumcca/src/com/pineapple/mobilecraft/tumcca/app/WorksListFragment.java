@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.etsy.android.grid.StaggeredGridView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -377,6 +379,7 @@ public class WorksListFragment extends Fragment implements IWorksList {
                         new ImageLoadingListener() {
                             @Override
                             public void onLoadingStarted(String imageUri, View view) {
+                                //view.setAlpha(0);
                                 view.setAlpha(0);
                             }
 
@@ -386,29 +389,39 @@ public class WorksListFragment extends Fragment implements IWorksList {
                             }
 
                             @Override
-                            public void onLoadingComplete(String imageUri, final View view, Bitmap loadedImage) {
+                            public void onLoadingComplete(final String imageUri, final View view, Bitmap loadedImage) {
 
-                                Thread t = new Thread(new Runnable() {
+//                                Thread t = new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        for (int i = 0; i < 20; i++) {
+//                                            final float value = 1.0f / 20 * i;
+//                                            try {
+//                                                mContext.runOnUiThread(new Runnable() {
+//                                                    @Override
+//                                                    public void run() {
+//                                                        view.setAlpha(value);
+//                                                        view.invalidate();
+//                                                    }
+//                                                });
+//                                                Thread.currentThread().sleep(10);
+//                                            } catch (InterruptedException e) {
+//                                                e.printStackTrace();
+//                                            }
+//                                        }
+//                                    }
+//                                });
+//                                t.start();
+
+                                mContext.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        for (int i = 0; i < 20; i++) {
-                                            final float value = 1.0f / 20 * i;
-                                            try {
-                                                mContext.runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        view.setAlpha(value);
-                                                        view.invalidate();
-                                                    }
-                                                });
-                                                Thread.currentThread().sleep(10);
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
+                                        //Log.v(DemoApplication.TAG, "uri" + imageUri);
+                                        view.setAlpha(100);
+                                        Animation alpha = AnimationUtils.loadAnimation(mContext, R.anim.image_alpha);
+                                        view.startAnimation(alpha);
                                     }
                                 });
-                                t.start();
 
                             }
 
@@ -420,7 +433,7 @@ public class WorksListFragment extends Fragment implements IWorksList {
                             @Override
                             public void onProgressUpdate(String imageUri, View view, int current, int total) {
                                 if (null != view) {
-                                    view.setAlpha(0);
+                                    //view.setAlpha(0);
                                 }
                             }
                         });

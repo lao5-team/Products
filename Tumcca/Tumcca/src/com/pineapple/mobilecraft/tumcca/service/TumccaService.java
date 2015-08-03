@@ -71,7 +71,6 @@ public class TumccaService extends Service {
 	{
 		mReceiver = new ConnectivityBroadcastReceiver();
 		Thread t = new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				Looper.prepare();

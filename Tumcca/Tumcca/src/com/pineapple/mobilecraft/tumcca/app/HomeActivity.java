@@ -77,55 +77,6 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
         setContentView(R.layout.activity_home);
 
-
-
-
-
-//        mWorksListFragment.setScrollListener(new WorksListFragment.OnScrollListener() {
-//
-//            @Override
-//            public void onTop(){
-//                final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(1, PAGE_SIZE, WORKS_WIDTH);
-//                if(null!=worksInfoList&&worksInfoList.size() >0 ){
-//                    runOnUiThread(new Runnable(){
-//                        @Override
-//                        public void run() {
-//                            mWorksListFragment.addWorksHead(worksInfoList);
-//
-//                        }
-//                    });
-//                }
-//            }
-//
-//            @Override
-//            public void onBottom() {
-//
-//                Thread t = new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mIsLoadBottom = true;
-//                        final List<WorksInfo> worksInfoList = WorksServer.getWorksInHome(mCurrentPageIndex, PAGE_SIZE, WORKS_WIDTH);
-//                        if (null != worksInfoList && worksInfoList.size() > 0) {
-//                            mCurrentPageIndex++;
-//                            runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    mWorksListFragment.addWorksTail(worksInfoList);
-//                                }
-//                            });
-//                        }
-//                        mIsLoadBottom = false;
-//                    }
-//                });
-//                if (!mIsLoadBottom) {
-//                    Log.v("Tumcca", "onBottom");
-//                    t.start();
-//                }
-//
-//
-//            }
-//        });
-
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -304,21 +255,6 @@ public class HomeActivity extends FragmentActivity implements IHome {
             layout.setVisibility(View.GONE);
         }
 
-//        mBtnLogin = (Button) findViewById(R.id.button_login);
-//        mBtnLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LoginActivity.startActivity(HomeActivity.this);
-//            }
-//        });
-//
-//        mBtnRegister = (Button) findViewById(R.id.button_register);
-//        mBtnRegister.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                RegisterActivity.startActivity(HomeActivity.this);
-//            }
-//        });
 
         mIVAccount = (ImageView) findViewById(R.id.imageView_account);
         mIVAccount.setClickable(true);

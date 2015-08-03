@@ -43,40 +43,8 @@
                 </RelativeLayout>
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
                               android:layout_height="1dip" android:background="@color/line_gray"/>
-                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                                android:layout_height="wrap_content" android:background="#ffffffff"
-                                android:layout_weight="1" android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp" android:id="@+id/layout_phone">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/phone"
-                              android:id="@+id/textView24" android:layout_centerVertical="true"
-                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
-                              android:textStyle="bold" android:textColor="@color/pure_black"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium"
-                              android:id="@+id/textView_phone" android:layout_alignParentRight="true"
-                              android:layout_centerVertical="true" android:layout_marginRight="15dp"
-                              android:textColor="@color/edittext_bg_selected" android:textSize="@dimen/text_size_normal"
-                              android:textStyle="bold"/>
-                </RelativeLayout>
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
                               android:layout_height="1dip" android:background="@color/line_gray"/>
-                <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                                android:layout_height="wrap_content" android:background="#ffffffff"
-                                android:layout_weight="1" android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp" android:id="@+id/layout_email">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/email"
-                              android:id="@+id/textView26" android:layout_centerVertical="true"
-                              android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
-                              android:textStyle="bold" android:textColor="@color/pure_black"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium"
-                              android:id="@+id/textView27" android:layout_alignParentRight="true"
-                              android:layout_centerVertical="true" android:layout_marginRight="15dp"
-                              android:textColor="@color/edittext_bg_selected" android:textSize="@dimen/text_size_normal"
-                              android:textStyle="bold"/>
-                </RelativeLayout>
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
                               android:layout_height="1dip" android:background="@color/line_gray"/>
                 <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
@@ -99,20 +67,20 @@
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="1dip"
                               android:background="@color/line_gray"/>
                 <RelativeLayout
-                        android:id="@+id/pseudonymLay"
+                        android:id="@+id/nicknameLay"
                         android:orientation="horizontal" android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#ffffffff"
                                 android:layout_weight="1" android:layout_marginTop="10dp"
                                 android:layout_marginBottom="10dp">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/pseudonym"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/nickname"
                               android:id="@+id/textView11" android:layout_centerVertical="true"
                               android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
                               android:textStyle="bold" android:textColor="@color/pure_black"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textAppearance="?android:attr/textAppearanceMedium" android:text="令狐冲"
-                              android:id="@+id/textView_pseudonym" android:layout_centerVertical="true"
+                              android:id="@+id/textView_nickname" android:layout_centerVertical="true"
                               android:layout_alignParentRight="true" android:layout_marginRight="15dp"
                               android:textColor="@color/edittext_bg_selected"
                               android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>

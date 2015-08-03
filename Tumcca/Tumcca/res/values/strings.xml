@@ -117,7 +117,7 @@
     <string name="gender">性别</string>
     <string name="gender_value"/>
     <string name="male">男</string>
-    <string name="pseudonym">斋号</string>
+    <string name="nickname">昵称</string>
     <string name="user_intro">介绍</string>
     <string name="user_title">头衔</string>
     <string name="hobbies">爱好</string>

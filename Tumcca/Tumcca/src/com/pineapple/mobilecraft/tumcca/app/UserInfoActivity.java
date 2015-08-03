@@ -230,9 +230,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     }
 
     private void initView() {
-        phoneLay = (RelativeLayout) this.findViewById(R.id.layout_phone);
-        emailLay = (RelativeLayout) this.findViewById(R.id.layout_email);
-        pseudonymLay = (RelativeLayout) this.findViewById(R.id.pseudonymLay);
+//        phoneLay = (RelativeLayout) this.findViewById(R.id.layout_phone);
+//        emailLay = (RelativeLayout) this.findViewById(R.id.layout_email);
+        pseudonymLay = (RelativeLayout) this.findViewById(R.id.nicknameLay);
         introLay = (RelativeLayout) this.findViewById(R.id.introLay);
         hobbyLay = (RelativeLayout) this.findViewById(R.id.hobbyLay);
         forteLay = (RelativeLayout) this.findViewById(R.id.forteLay);
@@ -260,19 +260,19 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                 }
                 userInfoAvatarChoose.show(getSupportFragmentManager(), "UserInfoPhotoChoose");
                 break;
-            case R.id.layout_phone:
-                if (userInfoPhone == null) {
-                    userInfoPhone = new UserInfoPhone();
-                }
-                userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
-                break;
-            case R.id.layout_email:
-                if (userInfoEmail == null) {
-                    userInfoEmail = new UserInfoEmail();
-                }
-                userInfoEmail.show(getSupportFragmentManager(), "UserInfoEmail");
-                break;
-            case R.id.pseudonymLay:
+//            case R.id.layout_phone:
+//                if (userInfoPhone == null) {
+//                    userInfoPhone = new UserInfoPhone();
+//                }
+//                userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
+//                break;
+//            case R.id.layout_email:
+//                if (userInfoEmail == null) {
+//                    userInfoEmail = new UserInfoEmail();
+//                }
+//                userInfoEmail.show(getSupportFragmentManager(), "UserInfoEmail");
+//                break;
+            case R.id.nicknameLay:
                 if (userInfoPseudonym == null) {
                     userInfoPseudonym = new UserInfoPseudonym();
                 }
@@ -334,7 +334,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void addPseudonymView() {
-        mTvPseudonym = (TextView) findViewById(R.id.textView_pseudonym);
+        mTvPseudonym = (TextView) findViewById(R.id.textView_nickname);
         mTvPseudonym.setText(mProfile.pseudonym);
     }
 
