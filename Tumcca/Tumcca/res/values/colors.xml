@@ -47,4 +47,20 @@
     <!--<color name="coolyou_listitem_press">#e0e0e0</color>-->
     <color name="coolyou_listitem_press">#C0C0C0</color>
 
+    <color name="background_bg1">#DC143C</color>
+    <color name="background_bg2">#e1e1e1</color>
+    <color name="background_bg3">#696969</color>
+    <color name="background_bg7">#f6f6f5</color>
+    <color name="textcolor_white_a">#FFFFFF</color>
+    <color name="textcolor_black_b1">#000000</color>
+    <color name="textcolor_black_b2">#666666</color>
+    <color name="textcolor_black_b3">#999999</color>
+    <color name="textcolor_red_text">#c2001e</color>
+    <color name="textcolor_red_d">#e5533b</color>
+    <color name="transparent">#00000000</color>
+    <color name="darkgrey">#DDDDDD</color><!--亮灰色  -->
+    <color name="lightgray">#999999</color><!-- 浅灰 -->
+    <color name="lightwhite">#EEEEEE</color><!--浅白色    -->
+    <color name="rippleColor">#58FAAC</color>
+
 </resources>

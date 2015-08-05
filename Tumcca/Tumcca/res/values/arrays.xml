@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <string-array android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/str_arr_new_activity_tabs" name="new_activity_tabs">
-    <item android:layout_width="wrap_content" android:id="@+id/item1" android:layout_height="wrap_content">@string/place</item>
-    <item android:layout_width="wrap_content" android:id="@+id/item2" android:layout_height="wrap_content">@string/content</item>
-    <item android:layout_width="wrap_content" android:id="@+id/item3" android:layout_height="wrap_content">@string/sale</item>
-</string-array>
+    <string-array android:layout_height="wrap_content" android:layout_width="wrap_content"
+                  android:id="@+id/str_arr_new_activity_tabs" name="new_activity_tabs">
+        <item android:layout_width="wrap_content" android:id="@+id/item1" android:layout_height="wrap_content">
+            @string/place
+        </item>
+        <item android:layout_width="wrap_content" android:id="@+id/item2" android:layout_height="wrap_content">
+            @string/content
+        </item>
+        <item android:layout_width="wrap_content" android:id="@+id/item3" android:layout_height="wrap_content">
+            @string/sale
+        </item>
+    </string-array>
 
-    <string-array  name="user_activity_tabs">
-        <item android:layout_width="wrap_content" android:id="@+id/item1" android:layout_height="wrap_content">@string/boards</item>
-        <item android:layout_width="wrap_content" android:id="@+id/item2" android:layout_height="wrap_content">@string/works</item>
-        <item android:layout_width="wrap_content" android:id="@+id/item3" android:layout_height="wrap_content">@string/likes</item>
-        <item android:layout_width="wrap_content" android:id="@+id/item4" android:layout_height="wrap_content">@string/subscribes</item>
-        <item android:layout_width="wrap_content" android:id="@+id/item5" android:layout_height="wrap_content">@string/following</item>
-        <item android:layout_width="wrap_content" android:id="@+id/item6" android:layout_height="wrap_content">@string/followers</item>
-        <item android:layout_width="wrap_content" android:id="@+id/item6" android:layout_height="wrap_content">@string/followers</item>
+    <string-array name="user_activity_tabs">
+        <item android:layout_width="wrap_content" android:id="@+id/item1" android:layout_height="wrap_content">@string/album</item>
+        <item android:layout_width="wrap_content" android:id="@+id/item3" android:layout_height="wrap_content">
+            @string/likes
+        </item>
+        <item android:layout_width="wrap_content" android:id="@+id/item4" android:layout_height="wrap_content">
+            @string/subscribes
+        </item>
+        <item android:layout_width="wrap_content" android:id="@+id/item5" android:layout_height="wrap_content">
+            @string/following
+        </item>
+        <item android:layout_width="wrap_content" android:id="@+id/item6" android:layout_height="wrap_content">
+            @string/followers
+        </item>
+    </string-array>
+
+    <string-array name="album_work_tabs">
+        <item android:layout_width="wrap_content" android:id="@+id/item1" android:layout_height="wrap_content">@string/album</item>
+        <item android:layout_width="wrap_content" android:id="@+id/item2" android:layout_height="wrap_content">@string/work</item>
     </string-array>
 </resources>

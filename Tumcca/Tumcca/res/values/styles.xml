@@ -203,6 +203,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="my_swtichbutton_style" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/switchbutton_bg</item>
+        <item name="android:textColor">@drawable/switchbutton_font_sytle</item>
+
+    </style>
+
     <style name="my_dialog_activity_style" parent="@android:style/Theme.Holo.Light.Dialog">
 
         <item name="android:windowNoTitle">true</item>

@@ -16,4 +16,7 @@
 -->
 
 <resources>
+     <declare-styleable name="TopTitleBar">
+          <attr name="titleSourceId" format="reference"/>
+     </declare-styleable>
 </resources>

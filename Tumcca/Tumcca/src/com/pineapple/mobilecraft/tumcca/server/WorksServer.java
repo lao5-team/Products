@@ -99,6 +99,29 @@ public class WorksServer {
         return get.execute();
     }
 
+    public static List<Album> getAuthorAlbumList(int authorId){
+        String url = host + "/api/album/author/" + authorId;
+        SyncHttpGet<List<Album>> get = new SyncHttpGet<List<Album>>(url, null) {
+            @Override
+            public List<Album> postExcute(String result) {
+                List<Album> albumList = new ArrayList<Album>();
+                try {
+                    JSONArray array = new JSONArray(result);
+
+                    for(int i=0; i<array.length(); i++){
+                        albumList.add(Album.fromJSON(array.getJSONObject(i)));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return albumList;
+            }
+        };
+        return get.execute();
+    }
+
     /**
      * 获取专辑下面的作品
      * @param token
@@ -172,6 +195,8 @@ public class WorksServer {
         return true;
     }
 
+
+
     public static boolean cancellikeWorks(String token, String worksID, String userID){
 //        String url = host + "/api/like";
 //        JSONObject jsonObject = new JSONObject();
@@ -201,7 +226,7 @@ public class WorksServer {
      * @param width
      * @return
      */
-    public static List<WorksInfo> getLikeWorks(String token, int page, int size, int width){
+    public static List<WorksInfo> getMyLikeWorks(String token, int page, int size, int width){
         //http://120.26.202.114:80/api/like/works/page/1/size/5/width/400
         String url = host + "/api/like/works/page/" + page + "/size/" + size + "/width/" + width;
         SyncHttpGet<List<WorksInfo>> post = new SyncHttpGet<List<WorksInfo>>(url, token) {
@@ -221,8 +246,180 @@ public class WorksServer {
             }
         };
         return post.execute();
-
     }
 
+    public static boolean collectWorks(String token, String worksID, String userID){
+        String url = host + "/api/collect";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("works", worksID);
+            jsonObject.put("collector", userID);
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, jsonObject.toString()) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+        return true;
+    }
+
+    public static boolean collectAlbum(String token, String albumID, String userID){
+        String url = host + "/api/collectalbum";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("album", albumID);
+            jsonObject.put("collector", userID);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, jsonObject.toString()) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+        return true;
+    }
+
+    public static boolean likeAlbum(String token, String albumID, String userID){
+        String url = host + "/api/likealbum";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("album", albumID);
+            jsonObject.put("admirer", userID);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, jsonObject.toString()) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+        return true;
+    }
+    /**
+     *
+     * @param token
+     * @param page
+     * @param size
+     * @param width
+     * @return
+     */
+    public static List<WorksInfo> getCollectWorks(int authorId, int page, int size, int width){
+        //http://120.26.202.114:80/api/like/works/page/1/size/5/width/400
+        //String url = host + "/api/like/works/page/" + page + "/size/" + size + "/width/" + width;
+        String url = host + "/api/collect/works/author/" + authorId + "/page/" + page + "/size/" + size + "/width/" + width;
+        SyncHttpGet<List<WorksInfo>> post = new SyncHttpGet<List<WorksInfo>>(url, null) {
+            @Override
+            public List<WorksInfo> postExcute(String result) {
+                List<WorksInfo> worksInfoList = new ArrayList<WorksInfo>();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("results");
+                    for(int i=0; i<array.length(); i++){
+                        worksInfoList.add(WorksInfo.fromJSON(array.getJSONObject(i)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return worksInfoList;
+            }
+        };
+        return post.execute();
+    }
+
+    /**
+     *
+     * @param token
+     * @param page
+     * @param size
+     * @param width
+     * @return
+     */
+    public static List<WorksInfo> getLikeWorks(int authorId, int page, int size, int width){
+        //http://120.26.202.114:80/api/like/works/page/1/size/5/width/400
+        //String url = host + "/api/like/works/page/" + page + "/size/" + size + "/width/" + width;
+        String url = host + "/api/like/works/author/" + authorId + "/page/" + page + "/size/" + size + "/width/" + width;
+        SyncHttpGet<List<WorksInfo>> post = new SyncHttpGet<List<WorksInfo>>(url, null) {
+            @Override
+            public List<WorksInfo> postExcute(String result) {
+                List<WorksInfo> worksInfoList = new ArrayList<WorksInfo>();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("results");
+                    for(int i=0; i<array.length(); i++){
+                        worksInfoList.add(WorksInfo.fromJSON(array.getJSONObject(i)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return worksInfoList;
+            }
+        };
+        return post.execute();
+    }
+
+    /**
+     *
+     * @param token
+     * @param page
+     * @param size
+     * @param width
+     * @return
+     */
+    public static List<Album> getLikeAlbums(int authorId, int page, int size){
+        //http://120.26.202.114:80/api/like/works/page/1/size/5/width/400
+        //String url = host + "/api/like/works/page/" + page + "/size/" + size + "/width/" + width;
+        String url = host + "/api/like/album/author/" + authorId + "/page/" + page + "/size/" + size;
+        SyncHttpGet<List<Album>> post = new SyncHttpGet<List<Album>>(url, null) {
+            @Override
+            public List<Album> postExcute(String result) {
+                List<Album> worksInfoList = new ArrayList<Album>();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("results");
+                    for(int i=0; i<array.length(); i++){
+                        worksInfoList.add(Album.fromJSON(array.getJSONObject(i)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return worksInfoList;
+            }
+        };
+        return post.execute();
+    }
+
+    public static List<Album> getCollectAlbums(int authorId, int page, int size){
+        //http://120.26.202.114:80/api/like/works/page/1/size/5/width/400
+        //String url = host + "/api/like/works/page/" + page + "/size/" + size + "/width/" + width;
+        String url = host + "/api/collect/album/author/" + authorId + "/page/" + page + "/size/" + size;
+        SyncHttpGet<List<Album>> post = new SyncHttpGet<List<Album>>(url, null) {
+            @Override
+            public List<Album> postExcute(String result) {
+                List<Album> worksInfoList = new ArrayList<Album>();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = jsonObject.getJSONArray("results");
+                    for(int i=0; i<array.length(); i++){
+                        worksInfoList.add(Album.fromJSON(array.getJSONObject(i)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return worksInfoList;
+            }
+        };
+        return post.execute();
+    }
 }

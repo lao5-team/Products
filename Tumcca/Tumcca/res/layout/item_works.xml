@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp" android:focusable="false"
-                android:focusableInTouchMode="false" android:clickable="false">
+                android:focusableInTouchMode="false" android:clickable="false"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip">
+    <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent"
+                    android:background="@drawable/corner_border_works" android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip" android:layout_marginTop="5dip"
+                    android:layout_marginBottom="5dip">
     <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:background="@drawable/corner_border_works"
-                    android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
-                    android:layout_marginBottom="0dp">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_work">
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,23 +68,26 @@
                 android:layout_height="1dip" android:layout_below="@+id/foo" android:id="@+id/divider"
                 android:background="@color/edittext_bg_normal">
         </LinearLayout>
-        <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:layout_below="@+id/foo" android:padding="5dip">
-            <ImageView
-                    android:layout_width="32dip"
-                    android:layout_height="32dip"
-                    android:id="@+id/imageView_avatar"
-                    android:background="@drawable/corner_border_imageview" android:layout_marginLeft="5dp"
-                    android:src="@drawable/icon"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Text"
-                    android:id="@+id/textView_author" android:layout_alignTop="@+id/imageView_avatar"
-                    android:layout_toRightOf="@+id/imageView_avatar" android:layout_toEndOf="@+id/imageView_avatar"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="#ff646464" android:layout_marginLeft="5dip" android:maxWidth="200dip"/>
-        </RelativeLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_below="@+id/layout_work" android:padding="5dip"
+            android:id="@+id/layout_author">
+        <ImageView
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:id="@+id/imageView_avatar"
+                android:background="@drawable/corner_border_imageview" android:layout_marginLeft="5dp"
+                android:src="@drawable/default_avatar"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textView_author" android:layout_alignTop="@+id/imageView_avatar"
+                android:layout_toRightOf="@+id/imageView_avatar" android:layout_toEndOf="@+id/imageView_avatar"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="#ff646464" android:layout_marginLeft="5dip" android:maxWidth="200dip"/>
+    </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

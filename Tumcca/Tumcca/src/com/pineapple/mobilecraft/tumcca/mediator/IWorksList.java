@@ -46,4 +46,7 @@ public interface IWorksList {
       * @param calligraphy
      */
     public void openWorks(WorksInfo calligraphy);
+
+
+    public void openAuthor(int authroId);
 }

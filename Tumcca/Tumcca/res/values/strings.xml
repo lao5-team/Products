@@ -127,8 +127,8 @@
     <string name="phone">手机号</string>
     <string name="email">邮箱</string>
     <string name="account_settings">用户设置</string>
-    <string name="boards">专辑</string>
-    <string name="works">作品</string>
+    <string name="album">专辑</string>
+    <string name="work">作品</string>
     <string name="likes">赞过</string>
     <string name="subscribes">收藏</string>
     <string name="following">关注</string>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:dandy="http://schemas.android.com/apk/res/com.pineapple.mobilecraft"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <RelativeLayout
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/layout_button"
+            android:layout_centerHorizontal="true">
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/button_album" android:text="@string/album"
+                android:textSize="@dimen/text_size_normal"
+                style="@style/my_swtichbutton_style" android:layout_marginRight="5dp" android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"/>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/button_work" android:text="@string/work"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_toRightOf="@id/button_album" style="@style/my_swtichbutton_style"
+                android:layout_marginLeft="5dp" android:layout_marginBottom="5dp" android:layout_marginTop="5dp"/>
+    </RelativeLayout>
+
+    <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/contentPager"-->
+            <!--android:layout_below="@id/layout_button"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@android:color/transparent" />-->
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/container"
+            android:layout_below="@id/layout_button"
+            >
+    </RelativeLayout>
+
+</RelativeLayout>
