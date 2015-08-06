@@ -48,46 +48,46 @@ public class UserAlbumsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
-                if(null!=albumList){
-                    mAlbumList.addAll(albumList);
-                    mAlbumList.add(0, Album.DEFAULT_ALBUM);
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            addCountView(mTvAlbumCount);
-                        }
-                    });
-                    try {
-                        for (Album album : mAlbumList) {
-                            List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
-                            if (worksInfoList.size() > 0) {
-                                album.worksInfoList = worksInfoList;
-                            } else {
-                                worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
-                                album.worksInfoList = worksInfoList;
-                                WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-                            }
-
-                        }
-                    }catch (ConcurrentModificationException e){
-                        e.printStackTrace();
-                    }
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAlbumsAdapter.notifyDataSetChanged();
-                        }
-                    });
-                }
-
-
-            }
-        });
-        t.start();
+//        Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
+//                if(null!=albumList){
+//                    mAlbumList.addAll(albumList);
+//                    mAlbumList.add(0, Album.DEFAULT_ALBUM);
+//                    mContext.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            addCountView(mTvAlbumCount);
+//                        }
+//                    });
+//                    try {
+//                        for (Album album : mAlbumList) {
+//                            List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
+//                            if (worksInfoList.size() > 0) {
+//                                album.worksInfoList = worksInfoList;
+//                            } else {
+//                                worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, PAGE_COUNT, PAGE_SIZE, WIDTH);
+//                                album.worksInfoList = worksInfoList;
+//                                WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+//                            }
+//
+//                        }
+//                    }catch (ConcurrentModificationException e){
+//                        e.printStackTrace();
+//                    }
+//                    mContext.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mAlbumsAdapter.notifyDataSetChanged();
+//                        }
+//                    });
+//                }
+//
+//
+//            }
+//        });
+//        t.start();
     }
 
     @Override
@@ -201,36 +201,36 @@ public class UserAlbumsFragment extends Fragment {
             if(parent_width < 100){
                 parent_width = 800;
             }
-            if(album.worksInfoList!=null){
-                if(album.worksInfoList.size()>0){
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(10)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(0).picInfo.id, parent_width/2, 1), imageView_0, imageOptions);
-                }
-                if(album.worksInfoList.size() > 1) {
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(1).picInfo.id, parent_width/6, 1), imageView_1, imageOptions);
-                }
-                if (album.worksInfoList.size()>2){
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(2).picInfo.id, parent_width/6, 1), imageView_2, imageOptions);
-                }
-                if (album.worksInfoList.size()>3){
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(3).picInfo.id, parent_width/6, 1), imageView_3, imageOptions);
-                }
-            }
+//            if(album.worksInfoList!=null){
+//                if(album.worksInfoList.size()>0){
+//                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+//                            .displayer(new RoundedBitmapDisplayer(10)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+//                            .build();
+//                    ImageLoader imageLoader = ImageLoader.getInstance();
+//                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(0).picInfo.id, parent_width/2, 1), imageView_0, imageOptions);
+//                }
+//                if(album.worksInfoList.size() > 1) {
+//                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+//                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+//                            .build();
+//                    ImageLoader imageLoader = ImageLoader.getInstance();
+//                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(1).picInfo.id, parent_width/6, 1), imageView_1, imageOptions);
+//                }
+//                if (album.worksInfoList.size()>2){
+//                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+//                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+//                            .build();
+//                    ImageLoader imageLoader = ImageLoader.getInstance();
+//                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(2).picInfo.id, parent_width/6, 1), imageView_2, imageOptions);
+//                }
+//                if (album.worksInfoList.size()>3){
+//                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+//                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+//                            .build();
+//                    ImageLoader imageLoader = ImageLoader.getInstance();
+//                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(3).picInfo.id, parent_width/6, 1), imageView_3, imageOptions);
+//                }
+//            }
 
             bindLikeCollect(view, album.id);
             return view;
@@ -243,7 +243,7 @@ public class UserAlbumsFragment extends Fragment {
         mAlbumsAdapter.notifyDataSetChanged();
     }
 
-    public void bindLikeCollect(View view, final int albumId){
+    public void bindLikeCollect(View view, final long albumId){
         RelativeLayout layout_like = (RelativeLayout) view.findViewById(R.id.layout_like);
         layout_like.setOnClickListener(new View.OnClickListener() {
             @Override

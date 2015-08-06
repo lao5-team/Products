@@ -21,12 +21,15 @@ public class Album {
     /**
      * id 为0表示默认专辑
      */
-    public transient int id = -1;
+    public transient long id = -1;
 
     public transient int author = -1;
 
-    public transient List<WorksInfo> worksInfoList = null;
+    //public transient List<WorksInfo> worksInfoList = null;
 
+    public transient boolean isLiked = false;
+
+    public transient boolean isCollected = false;
 
     public static Album NULL = new Album();
 
@@ -47,7 +50,7 @@ public class Album {
         Gson gson = new Gson();
         Album album = gson.fromJson(jsonObject.toString(), Album.class);
         try {
-            album.id = jsonObject.getInt("id");
+            album.id = jsonObject.getLong("id");
         } catch (JSONException e) {
             e.printStackTrace();
         }

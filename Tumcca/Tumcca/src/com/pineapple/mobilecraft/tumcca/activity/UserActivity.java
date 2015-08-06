@@ -10,6 +10,7 @@ import android.view.*;
 import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
+import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.fragment.AlbumListFragment;
 import com.pineapple.mobilecraft.tumcca.fragment.AlbumWorkListFragment;
 import com.pineapple.mobilecraft.app.UserListFragment;
@@ -164,17 +165,19 @@ public class UserActivity extends FragmentActivity {
                     @Override
                     public void run() {
                         List<Album> albumList = WorksServer.getAuthorAlbumList(mAuthorId);
-                        for (Album album : albumList) {
-                            List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
-                            if (worksInfoList.size() > 0) {
-                                album.worksInfoList = worksInfoList;
-                            } else {
-                                worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, ALBUM_PAGE_SIZE, 400);
-                                album.worksInfoList = worksInfoList;
-                                WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-                            }
 
-                        }
+//                        for (Album album : albumList) {
+//                            List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
+//                            if (worksInfoList.size() > 0) {
+//                                album.worksInfoList = worksInfoList;
+//                            } else {
+//                                worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, ALBUM_PAGE_SIZE, 400);
+//                                album.worksInfoList = worksInfoList;
+//                                WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+//                            }
+//
+//                        }
+                        WorksServer.parseAlbumList(albumList);
                         fragment.addAlbumsHead(albumList);
 
                     }
@@ -182,7 +185,7 @@ public class UserActivity extends FragmentActivity {
             }
 
             @Override
-            public void loadTailAlbums() {
+            public void loadTailAlbums(int page) {
 
             }
         });
@@ -258,6 +261,8 @@ public class UserActivity extends FragmentActivity {
     public void addFollowerFragment(UserListFragment fragment) {
 
     }
+
+
 
 
 }

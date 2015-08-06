@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -175,6 +176,24 @@ public class WorksServer {
         return post.execute();
     }
 
+    public static boolean[] isWorksLiked(String token,final long [] ids){
+        String url = host + "/api/like/works/islike";
+        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, null) {
+            @Override
+            public boolean[] postExcute(String result) {
+                boolean[] results = {};
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    results = sortResult("id", "isLkie", jsonArray, ids);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return results;
+            }
+        };
+        return post.execute();
+    }
+
     public static boolean likeWorks(String token, String worksID, String userID){
         String url = host + "/api/like";
         JSONObject jsonObject = new JSONObject();
@@ -195,28 +214,20 @@ public class WorksServer {
         return true;
     }
 
-
-
-    public static boolean cancellikeWorks(String token, String worksID, String userID){
-//        String url = host + "/api/like";
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("works", worksID);
-//            jsonObject.put("admirer", userID);
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        SyncHttpDelete<String> delete = new SyncHttpDelete<String>(url, token, jsonObject.toString()) {
-//            @Override
-//            public String postExcute(String result) {
-//                return null;
-//            }
-//        };
-//        post.execute();
-//        return true;
-        return false;
+    public static boolean dislikeWork(String token, String workId){
+        String url = host + "/api/like/" + workId;
+        SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+        return true;
     }
+
+
+
 
     /**
      *
@@ -248,6 +259,24 @@ public class WorksServer {
         return post.execute();
     }
 
+    public static boolean[] isWorksCollected(String token,final long [] ids){
+        String url = host + "/api/collect/works/iscollect";
+        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, null) {
+            @Override
+            public boolean[] postExcute(String result) {
+                boolean[] results = {};
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    results = sortResult("id", "isCollect", jsonArray, ids);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return results;
+            }
+        };
+        return post.execute();
+    }
+
     public static boolean collectWorks(String token, String worksID, String userID){
         String url = host + "/api/collect";
         JSONObject jsonObject = new JSONObject();
@@ -266,6 +295,36 @@ public class WorksServer {
         };
         post.execute();
         return true;
+    }
+
+    public static boolean discollectWork(String token, String workId){
+        String url = host + "/api/collect/" + workId;
+        SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+        return true;
+    }
+
+    public static boolean[] isAlbumsCollected(String token, final long [] ids){
+        String url = host + "/api/collect/album/iscollect";
+        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, null) {
+            @Override
+            public boolean[] postExcute(String result) {
+                boolean[] results = {};
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    results = sortResult("id", "isCollect", jsonArray, ids);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return results;
+            }
+        };
+        return post.execute();
     }
 
     public static boolean collectAlbum(String token, String albumID, String userID){
@@ -288,6 +347,37 @@ public class WorksServer {
         return true;
     }
 
+    public static boolean discollectAlbum(String token, String albumID){
+        String url = host + "/api/collectalbum/" + albumID;
+        SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+        return true;
+    }
+
+
+    public static boolean[] isAlbumsLiked(String token, final long [] ids){
+        String url = host + "/api/like/album/islike";
+        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, null) {
+            @Override
+            public boolean[] postExcute(String result) {
+                boolean[] results = {};
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    results = sortResult("id", "isLkie", jsonArray, ids);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return results;
+            }
+        };
+        return post.execute();
+    }
+
     public static boolean likeAlbum(String token, String albumID, String userID){
         String url = host + "/api/likealbum";
         JSONObject jsonObject = new JSONObject();
@@ -299,6 +389,19 @@ public class WorksServer {
             e.printStackTrace();
         }
         SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, jsonObject.toString()) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+        return true;
+    }
+
+    public static boolean dislikeAlbum(String token, String albumID){
+        String url = host + "/api/likealbum/" + albumID;
+        JSONObject jsonObject = new JSONObject();
+        SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
             @Override
             public String postExcute(String result) {
                 return null;
@@ -421,5 +524,43 @@ public class WorksServer {
             }
         };
         return post.execute();
+    }
+
+
+
+
+
+
+
+
+
+    public static void parseAlbumList(String token, List<Album> albumList){
+        long[] ids = new long[albumList.size()];
+        for(int i=0; i<albumList.size(); i++){
+            ids[i] = albumList.get(i).id;
+        }
+        boolean[] isLike = WorksServer.isAlbumsLiked(token, ids);
+        boolean[] isCollect = WorksServer.isAlbumsCollected(token, ids);
+        for(int i=0; i<albumList.size(); i++){
+            albumList.get(i).isLiked = isLike[i];
+            albumList.get(i).isCollected = isCollect[i];
+        }
+    }
+
+    public static boolean[] sortResult(String idName, String valueName, JSONArray array, long[]ids){
+        HashMap<Long, Boolean> map = new HashMap<Long, Boolean>();
+        for(int i=0; i<array.length(); i++){
+            try {
+                JSONObject object = array.getJSONObject(i);
+                map.put(object.getLong(idName), object.getBoolean(valueName));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        boolean[] result = new boolean[ids.length];
+        for(int i=0; i<result.length; i++){
+            result[i] = map.get(ids[i]);
+        }
+        return result;
     }
 }

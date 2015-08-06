@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * Created by yihao on 8/4/15.
+ *
  */
 public class AlbumListFragment extends Fragment {
 
@@ -47,6 +48,7 @@ public class AlbumListFragment extends Fragment {
 
     ImageLoader mImageLoader;
     boolean mScrollingIdle = false;
+    int mCurrentPage = 1;
     public static interface AlbumListLoader {
 
         /**
@@ -64,7 +66,7 @@ public class AlbumListFragment extends Fragment {
         /**
          * 取得数据后，要调用{@link #addWorksTail}
          */
-        public void loadTailAlbums();
+        public void loadTailAlbums(int page);
     }
 
     public void setAlbumLoader(AlbumListLoader loader){
@@ -111,7 +113,7 @@ public class AlbumListFragment extends Fragment {
 
                     if (null != mAlbumsLoader) {
                         mScrollingIdle = false;
-                        mAlbumsLoader.loadTailAlbums();
+                        mAlbumsLoader.loadTailAlbums(++mCurrentPage);
                     }
                 }
             }
@@ -187,38 +189,38 @@ public class AlbumListFragment extends Fragment {
             if(parent_width < 100){
                 parent_width = 800;
             }
-            if(album.worksInfoList!=null){
-                if(album.worksInfoList.size()>0){
+            if(album.cover!=null){
+                if(album.cover.size()>0){
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                             .displayer(new RoundedBitmapDisplayer(10)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                             .build();
                     ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(0).picInfo.id, parent_width/2, 1), imageView_0, imageOptions);
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(0), parent_width/2, 1), imageView_0, imageOptions);
                 }
-                if(album.worksInfoList.size() > 1) {
+                if(album.cover.size() > 1) {
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                             .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                             .build();
                     ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(1).picInfo.id, parent_width/6, 1), imageView_1, imageOptions);
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(1), parent_width/6, 1), imageView_1, imageOptions);
                 }
-                if (album.worksInfoList.size()>2){
+                if (album.cover.size()>2){
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                             .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                             .build();
                     ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(2).picInfo.id, parent_width/6, 1), imageView_2, imageOptions);
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(2), parent_width/6, 1), imageView_2, imageOptions);
                 }
-                if (album.worksInfoList.size()>3){
+                if (album.cover.size()>3){
                     DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                             .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                             .build();
                     ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.worksInfoList.get(3).picInfo.id, parent_width/6, 1), imageView_3, imageOptions);
+                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(3), parent_width/6, 1), imageView_3, imageOptions);
                 }
             }
 
-            bindLikeCollect(view, album.id);
+            bindLikeCollect(view, album);
             return view;
         }
     }
@@ -229,23 +231,37 @@ public class AlbumListFragment extends Fragment {
         mAlbumsAdapter.notifyDataSetChanged();
     }
 
-    public void bindLikeCollect(View view, final int albumId){
+    public void bindLikeCollect(View view, final Album album){
         RelativeLayout layout_like = (RelativeLayout) view.findViewById(R.id.layout_like);
+        final TextView tvLike = (TextView)view.findViewById(R.id.layout_like);
+        if(album.isLiked){
+            tvLike.setText("取消喜欢");
+        }
+        else{
+            tvLike.setText("喜欢");
+        }
         layout_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO
                 if(UserManager.getInstance().isLogin())
                 {
-                    int userId = UserManager.getInstance().getCurrentUserId();
-                    boolean ret = WorksServer.likeAlbum(UserManager.getInstance().getCurrentToken(), String.valueOf(albumId), String.valueOf(userId));
-                    if(ret)
-                    {
+                    if(album.isLiked){
+
+                    }
+                    else{
+                        int userId = UserManager.getInstance().getCurrentUserId();
+                        boolean ret = WorksServer.likeAlbum(UserManager.getInstance().getCurrentToken(), String.valueOf(album.id), String.valueOf(userId));
+                        if(ret)
+                        {
+
 //                        collectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
 //                        Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
 //                        collectionImg.startAnimation(anim);
 
+                        }
                     }
+
                 }
                 else
                 {
@@ -262,7 +278,7 @@ public class AlbumListFragment extends Fragment {
                 if(UserManager.getInstance().isLogin())
                 {
                     int userId = UserManager.getInstance().getCurrentUserId();
-                    boolean ret = WorksServer.collectAlbum(UserManager.getInstance().getCurrentToken(), String.valueOf(albumId), String.valueOf(userId));
+                    boolean ret = WorksServer.collectAlbum(UserManager.getInstance().getCurrentToken(), String.valueOf(album.id), String.valueOf(userId));
                     if(ret)
                     {
 //                        collectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
@@ -289,7 +305,7 @@ public class AlbumListFragment extends Fragment {
      */
     public void addAlbumsHead(final List<Album> albumList) {
         if (mAlbumList.size() > 0) {
-            int topId = mAlbumList.get(0).id;
+            long topId = mAlbumList.get(0).id;
             int index = albumList.size();
             for (int i = 0; i < albumList.size(); i++) {
                 if (topId == albumList.get(i).id) {

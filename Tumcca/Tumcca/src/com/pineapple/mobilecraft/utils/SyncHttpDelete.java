@@ -23,6 +23,10 @@ public abstract class SyncHttpDelete<T> extends SyncHTTPCaller<T> {
         super(URL);
     }
 
+    public SyncHttpDelete(String URL, String token) {
+        super(URL, token);
+    }
+
     public T execute()
     {
         Callable<T> callable = new Callable<T>() {
@@ -30,7 +34,9 @@ public abstract class SyncHttpDelete<T> extends SyncHTTPCaller<T> {
             public T call() throws Exception {
                 T result = null;
                 HttpDelete delete = new HttpDelete(mURL);
-
+                if(null!=mToken){
+                    delete.addHeader("Authorization", "Bearer " + mToken);
+                }
                 HttpResponse httpResponse;
                 try {
                     httpResponse = new DefaultHttpClient().execute(delete);

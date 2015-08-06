@@ -21,7 +21,7 @@ import java.util.List;
 public class AlbumWorkListActivity extends FragmentActivity {
 
     private TextView mTvTitle;
-    public static void startActivity(Activity activity, int id, String albumName){
+    public static void startActivity(Activity activity, long id, String albumName){
         Intent intent = new Intent(activity, AlbumWorkListActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("albumName", albumName);
