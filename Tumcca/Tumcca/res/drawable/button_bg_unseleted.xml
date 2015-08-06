@@ -3,6 +3,8 @@
        android:shape="rectangle" >
 
     <solid android:color="@color/pure_white" />
+
+    <stroke android:width="@dimen/switch_button_stroke_width" android:color="@color/button_normal_red"/>
     
     <corners android:radius="@dimen/small_corner_radius" />
 

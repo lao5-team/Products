@@ -105,7 +105,8 @@ public class TumccaService extends Service {
 						int id = WorksServer.uploadWorks(token, works);
 						if(id!=WorksServer.INVALID_WORKS_ID){
 							showNotification(DemoApplication.applicationContext.getString(R.string.works_upload_success));
-							List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(), works.albumId, 1, 20, 400);
+							List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), works.albumId,
+									UserManager.getInstance().getCurrentUserId(), 1, 20, 400);
 							WorksManager.getInstance().putAlbumWorks(works.albumId, worksInfoList);
 							hideNotification();
 							try {

@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.activity.AlbumWorkListActivity;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -49,6 +50,7 @@ public class AlbumListFragment extends Fragment {
     ImageLoader mImageLoader;
     boolean mScrollingIdle = false;
     int mCurrentPage = 1;
+    int mParentWidth = 0;
     public static interface AlbumListLoader {
 
         /**
@@ -185,9 +187,12 @@ public class AlbumListFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            if(mParentWidth==0){
+                mParentWidth = parent.getWidth();
+            }
             View view = mContext.getLayoutInflater().inflate(R.layout.item_album_preview, null);
             AbsListView.LayoutParams param1 = new AbsListView.LayoutParams(
-                    parent.getWidth()/2, (int)(parent.getWidth()*3.5/4));
+                    mParentWidth/2, (int)(mParentWidth*3.5/4));
             view.setLayoutParams(param1);
             TextView tvTitle = (TextView)view.findViewById(R.id.textView_album_title);
             Album album = mAlbumList.get(position);
@@ -232,6 +237,8 @@ public class AlbumListFragment extends Fragment {
             }
 
             bindLikeCollect(view, album);
+
+            bindAlbum(view, album);
             return view;
         }
 
@@ -242,11 +249,48 @@ public class AlbumListFragment extends Fragment {
         }
     }
 
+    private void bindAlbum(View view, final Album album){
+        LinearLayout layoutImage = (LinearLayout)view.findViewById(R.id.layout_image);
+        layoutImage.setClickable(true);
+        layoutImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlbumWorkListActivity.startActivity(mContext, album.id, album.author, album.title);
+            }
+        });
+    }
+
     @Override
     public void onResume(){
         super.onResume();
+//        if(null!=getArguments()){
+//            mParentWidth = getArguments().getInt("parentWidth");
+//        }
         mAlbumsAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("parentWidth", mParentWidth);
+//        setArguments(bundle);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putInt("parentWidth", mParentWidth);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState){
+        super.onViewStateRestored(savedInstanceState);
+        if(null!=savedInstanceState){
+            mParentWidth = savedInstanceState.getInt("parentWidth");
+        }
+    }
+
 
     public void bindLikeCollect(View view, final Album album){
         RelativeLayout layout_like = (RelativeLayout) view.findViewById(R.id.layout_like);

@@ -108,7 +108,6 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 mService = ((TumccaService.LocalService)service).getService();
                 mWorksListFragment = new WorkListFragment();
                 Log.v("Tumcca", "Home size " + mService.getHomeWorkList().size());
-                //mWorksListFragment.setWorkList(mService.getHomeWorkList());
                 final List<WorksInfo> worksInfoList = mService.getHomeWorkList();
                 mWorksListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
                     @Override
@@ -273,7 +272,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
                     for(Album album:albumList){
                         List<WorksInfo> worksInfoList;
-                        worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
+                        worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, UserManager.getInstance().getCurrentUserId(), 1, 20, 400);
                         album.worksInfoList = worksInfoList;
                         WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
                     }

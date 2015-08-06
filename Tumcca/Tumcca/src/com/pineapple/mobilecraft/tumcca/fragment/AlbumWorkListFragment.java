@@ -55,6 +55,7 @@ public class AlbumWorkListFragment extends Fragment implements TitleTabBar.Title
             public void onClick(View v) {
                 mBtnAlbum.setSelected(true);
                 mBtnWork.setSelected(false);
+                //getChildFragmentManager().beginTransaction().remove()
                 getChildFragmentManager().beginTransaction().replace(R.id.container, mAlbumListFragment).commit();
             }
         });

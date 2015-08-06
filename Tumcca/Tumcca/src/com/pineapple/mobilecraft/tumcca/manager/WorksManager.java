@@ -74,7 +74,7 @@ public class WorksManager {
      * @param albumId
      * @return 如果数据不存在，列表的个size为0
      */
-    public List<WorksInfo> getAlbumWorks(int albumId){
+    public List<WorksInfo> getAlbumWorks(long albumId){
         List<WorksInfo> result = new ArrayList<WorksInfo>();
         JSONObject jsonObject = mAlbumWorksCache.getItem(String.valueOf(albumId));
         if(null != jsonObject){

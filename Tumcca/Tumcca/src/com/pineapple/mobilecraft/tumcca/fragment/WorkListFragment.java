@@ -33,6 +33,7 @@ import com.pineapple.mobilecraft.tumcca.activity.UserActivity;
 import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IWorksList;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
@@ -161,6 +162,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
         } else {
             mWorksInfoList.addAll(worksInfoList);
         }
+        parseWorks(mWorksInfoList);
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -182,6 +184,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
     @Override
     public void addWorksTail(final List<WorksInfo> worksInfoList) {
         mWorksInfoList.addAll(worksInfoList);
+        parseWorks(mWorksInfoList);
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -359,14 +362,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
                             public void onLoadingCancelled(String imageUri, View view) {
 
                             }
-                        }, new ImageLoadingProgressListener() {
-                            @Override
-                            public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                                if (null != view) {
-                                    //view.setAlpha(0);
-                                }
-                            }
-                        });
+                        }, null);
                 ivPic.setTag(imageUrl);
             }
 
@@ -447,5 +443,22 @@ public class WorkListFragment extends Fragment implements IWorksList {
             viewHolder.bindAuthor(position);
             return convertView;
         }
+    }
+
+    private void parseWorks(final List<WorksInfo> worksInfoList) {
+        if(null!=worksInfoList){
+            for (int i = 0; i < worksInfoList.size(); i++) {
+                if (!mMapProfile.containsKey(worksInfoList.get(i).author)) {
+                    Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
+                    worksInfoList.get(i).profile = profile;
+                    mMapProfile.put(worksInfoList.get(i).author, profile);
+                }
+                else{
+                    worksInfoList.get(i).profile = mMapProfile.get(worksInfoList.get(i).author);
+                }
+
+            }
+        }
+
     }
 }

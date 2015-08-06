@@ -121,14 +121,14 @@ public class UserAlbumsFragment extends Fragment {
     }
 
     public void addAlbumsView(ExpandGridView albumsView){
-        albumsView.setAdapter(mAlbumsAdapter);
-        albumsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Album album = mAlbumList.get(position);
-                AlbumWorkListActivity.startActivity(mContext, album.id, album.title);
-            }
-        });
+//        albumsView.setAdapter(mAlbumsAdapter);
+//        albumsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Album album = mAlbumList.get(position);
+//                AlbumWorkListActivity.startActivity(mContext, album.id, album.title);
+//            }
+//        });
     }
 
     private class AlbumsAdapter extends BaseAdapter{

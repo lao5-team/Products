@@ -132,8 +132,8 @@ public class WorksServer {
      * @param width 宽度
      * @return
      */
-    public static List<WorksInfo> getWorksOfAlbum(String token, final long albumId, int page, int size, int width){
-        String url = host + "/api/album/" + albumId + "/workses/page/" + page + "/size/" +
+    public static List<WorksInfo> getWorksOfAlbum(String token, final long albumId, final long authorId, int page, int size, int width){
+        String url = host + "/api/album/" + albumId + "/author/" + authorId + "/workses/page/" + page + "/size/" +
                 size + "/width/" + width;
         SyncHttpPost<List<WorksInfo>> post = new SyncHttpPost<List<WorksInfo>>(url, token, null) {
             @Override

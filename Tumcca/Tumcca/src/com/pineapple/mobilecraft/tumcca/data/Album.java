@@ -23,7 +23,7 @@ public class Album {
      */
     public transient long id = -1;
 
-    public transient int author = -1;
+    public transient long author = -1;
 
     public transient List<WorksInfo> worksInfoList = null;
 
