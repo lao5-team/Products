@@ -56,7 +56,7 @@ public class AlbumWorkListActivity extends FragmentActivity {
             }
 
             @Override
-            public void loadTailWorks() {
+            public void loadTailWorks(int page) {
 
             }
         });

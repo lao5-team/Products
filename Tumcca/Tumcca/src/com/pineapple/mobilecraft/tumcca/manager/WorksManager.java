@@ -52,7 +52,7 @@ public class WorksManager {
     }
 
 
-    public void putAlbumWorks(int albumId, List<WorksInfo> listWorksInfo){
+    public void putAlbumWorks(long albumId, List<WorksInfo> listWorksInfo){
         JSONArray jsonArray = new JSONArray();
         for(WorksInfo worksInfo:listWorksInfo){
             jsonArray.put(WorksInfo.toJSON(worksInfo));

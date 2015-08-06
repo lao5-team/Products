@@ -199,13 +199,13 @@ public class TumccaService extends Service {
 			List<Album> albumList = WorksServer.getMyAlbumList(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken());
 			albumList.add(0, Album.DEFAULT_ALBUM);
 
-			for(Album album:albumList){
-				worksInfoList = WorksServer.getWorksOfAlbum(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
-				if(null!=worksInfoList&&worksInfoList.size()>0){
-					album.worksInfoList = worksInfoList;
-					WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-				}
-			}
+//			for(Album album:albumList){
+//				worksInfoList = WorksServer.getWorksOfAlbum(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
+//				if(null!=worksInfoList&&worksInfoList.size()>0){
+//					album.worksInfoList = worksInfoList;
+//					WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
+//				}
+//			}
 			WorksManager.getInstance().setMyAlbumList(albumList);
 
 		}

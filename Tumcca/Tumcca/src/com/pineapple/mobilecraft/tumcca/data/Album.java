@@ -25,7 +25,7 @@ public class Album {
 
     public transient int author = -1;
 
-    //public transient List<WorksInfo> worksInfoList = null;
+    public transient List<WorksInfo> worksInfoList = null;
 
     public transient boolean isLiked = false;
 
@@ -51,6 +51,7 @@ public class Album {
         Album album = gson.fromJson(jsonObject.toString(), Album.class);
         try {
             album.id = jsonObject.getLong("id");
+            album.author = jsonObject.getInt("author");
         } catch (JSONException e) {
             e.printStackTrace();
         }

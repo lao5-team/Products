@@ -132,7 +132,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
                     }
 
                     @Override
-                    public void loadTailWorks() {
+                    public void loadTailWorks(int page) {
                         mService.loadHomeTailList(new TumccaService.OnLoadFinished<WorksInfo>() {
                             @Override
                             public void onSuccess(List<WorksInfo> resultList) {

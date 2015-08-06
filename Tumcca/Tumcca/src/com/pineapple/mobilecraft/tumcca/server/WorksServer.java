@@ -132,7 +132,7 @@ public class WorksServer {
      * @param width 宽度
      * @return
      */
-    public static List<WorksInfo> getWorksOfAlbum(String token, final int albumId, int page, int size, int width){
+    public static List<WorksInfo> getWorksOfAlbum(String token, final long albumId, int page, int size, int width){
         String url = host + "/api/album/" + albumId + "/workses/page/" + page + "/size/" +
                 size + "/width/" + width;
         SyncHttpPost<List<WorksInfo>> post = new SyncHttpPost<List<WorksInfo>>(url, token, null) {
@@ -184,7 +184,7 @@ public class WorksServer {
                 boolean[] results = {};
                 try {
                     JSONArray jsonArray = new JSONArray(result);
-                    results = sortResult("id", "isLkie", jsonArray, ids);
+                    results = sortResult("id", "isLike", jsonArray, ids);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -277,7 +277,7 @@ public class WorksServer {
         return post.execute();
     }
 
-    public static boolean collectWorks(String token, String worksID, String userID){
+    public static boolean collectWorks(String token, long worksID, long userID){
         String url = host + "/api/collect";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -297,7 +297,7 @@ public class WorksServer {
         return true;
     }
 
-    public static boolean discollectWork(String token, String workId){
+    public static boolean discollectWork(String token, long workId){
         String url = host + "/api/collect/" + workId;
         SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
             @Override
@@ -311,7 +311,11 @@ public class WorksServer {
 
     public static boolean[] isAlbumsCollected(String token, final long [] ids){
         String url = host + "/api/collect/album/iscollect";
-        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, null) {
+        JSONArray params = new JSONArray();
+        for(long id:ids){
+            params.put(id);
+        }
+        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, params.toString()) {
             @Override
             public boolean[] postExcute(String result) {
                 boolean[] results = {};
@@ -327,7 +331,7 @@ public class WorksServer {
         return post.execute();
     }
 
-    public static boolean collectAlbum(String token, String albumID, String userID){
+    public static boolean collectAlbum(String token, long albumID, long userID){
         String url = host + "/api/collectalbum";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -347,7 +351,7 @@ public class WorksServer {
         return true;
     }
 
-    public static boolean discollectAlbum(String token, String albumID){
+    public static boolean discollectAlbum(String token, long albumID){
         String url = host + "/api/collectalbum/" + albumID;
         SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
             @Override
@@ -362,13 +366,17 @@ public class WorksServer {
 
     public static boolean[] isAlbumsLiked(String token, final long [] ids){
         String url = host + "/api/like/album/islike";
-        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, null) {
+        JSONArray params = new JSONArray();
+        for(long id:ids){
+            params.put(id);
+        }
+        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, params.toString()) {
             @Override
             public boolean[] postExcute(String result) {
                 boolean[] results = {};
                 try {
                     JSONArray jsonArray = new JSONArray(result);
-                    results = sortResult("id", "isLkie", jsonArray, ids);
+                    results = sortResult("id", "isLike", jsonArray, ids);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -378,7 +386,7 @@ public class WorksServer {
         return post.execute();
     }
 
-    public static boolean likeAlbum(String token, String albumID, String userID){
+    public static boolean likeAlbum(String token, long albumID, long userID){
         String url = host + "/api/likealbum";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -398,7 +406,7 @@ public class WorksServer {
         return true;
     }
 
-    public static boolean dislikeAlbum(String token, String albumID){
+    public static boolean dislikeAlbum(String token, long albumID){
         String url = host + "/api/likealbum/" + albumID;
         JSONObject jsonObject = new JSONObject();
         SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
@@ -489,8 +497,8 @@ public class WorksServer {
             public List<Album> postExcute(String result) {
                 List<Album> worksInfoList = new ArrayList<Album>();
                 try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONArray array = jsonObject.getJSONArray("results");
+                    //JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = new JSONArray(result);
                     for(int i=0; i<array.length(); i++){
                         worksInfoList.add(Album.fromJSON(array.getJSONObject(i)));
                     }
@@ -512,8 +520,8 @@ public class WorksServer {
             public List<Album> postExcute(String result) {
                 List<Album> worksInfoList = new ArrayList<Album>();
                 try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONArray array = jsonObject.getJSONArray("results");
+                    //JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = new JSONArray(result);
                     for(int i=0; i<array.length(); i++){
                         worksInfoList.add(Album.fromJSON(array.getJSONObject(i)));
                     }
@@ -525,13 +533,6 @@ public class WorksServer {
         };
         return post.execute();
     }
-
-
-
-
-
-
-
 
 
     public static void parseAlbumList(String token, List<Album> albumList){

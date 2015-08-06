@@ -32,31 +32,6 @@ public class AlbumWorkListFragment extends Fragment implements TitleTabBar.Title
         mBtnWork = (Button)view.findViewById(R.id.button_work);
         mBtnWork.setSelected(false);
         setupButtons();
-//        mContentPager = (ViewPager) view.findViewById(R.id.contentPager);
-//        mContentPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
-//            @Override
-//            public Fragment getItem(int i) {
-//                if (i == 0) {
-//                    return mAlbumListFragment;
-//                }
-//                if (i == 1) {
-//                    return mWorkListFragment;
-//                }
-//                return mWorkListFragment;
-//            }
-//
-//            @Override
-//            public int getCount() {
-//                return 2;
-//            }
-//        });
-//        mContentPager.setOnPageChangeListener(new DandyPagerChangeListener(mContentPager, titleTabBar) {
-//            @Override
-//            public void focusedFragment(int selectPosition, int lastPosition) {
-//                super.focusedFragment(selectPosition, lastPosition);
-//                titleTabBar.setTitleState(selectPosition);
-//            }
-//        });
         return view;
     }
 
@@ -68,6 +43,10 @@ public class AlbumWorkListFragment extends Fragment implements TitleTabBar.Title
 
     public void addWorksFragment(WorkListFragment fragment){
         mWorkListFragment = fragment;
+    }
+
+    public void addAlbumsFragment(AlbumListFragment fragment){
+        mAlbumListFragment = fragment;
     }
 
     public void setupButtons(){

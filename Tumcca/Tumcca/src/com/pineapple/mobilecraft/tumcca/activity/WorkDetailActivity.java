@@ -390,7 +390,7 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
                 if(UserManager.getInstance().isLogin())
                 {
                     int userId = UserManager.getInstance().getCurrentUserId();
-                    boolean ret = WorksServer.collectWorks(UserManager.getInstance().getCurrentToken(), String.valueOf(mWorks.id), String.valueOf(userId));
+                    boolean ret = WorksServer.collectWorks(UserManager.getInstance().getCurrentToken(), mWorks.id, userId);
                     if(ret)
                     {
                         collectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));

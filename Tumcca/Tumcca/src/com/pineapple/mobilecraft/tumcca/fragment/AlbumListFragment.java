@@ -79,6 +79,17 @@ public class AlbumListFragment extends Fragment {
         mTvAlbumCount = (TextView)view.findViewById(R.id.textView_album_count);
         mProgressBar = (CircleProgressBar) view.findViewById(R.id.progressBar);
         mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.button_normal_red);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (null != mAlbumsLoader) {
+                    mAlbumsLoader.loadHeadAlbums();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
         mEGVAlbumView = (ExpandGridView)view.findViewById(R.id.gridview_albums);
         addAlbumListView(mEGVAlbumView);
         setupProgressBar();
@@ -223,6 +234,12 @@ public class AlbumListFragment extends Fragment {
             bindLikeCollect(view, album);
             return view;
         }
+
+        public void setData(List<Album> albums){
+            mAlbumList.clear();
+            mAlbumList.addAll(albums);
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -233,7 +250,10 @@ public class AlbumListFragment extends Fragment {
 
     public void bindLikeCollect(View view, final Album album){
         RelativeLayout layout_like = (RelativeLayout) view.findViewById(R.id.layout_like);
-        final TextView tvLike = (TextView)view.findViewById(R.id.layout_like);
+        if(album.author == UserManager.getInstance().getCurrentUserId()){
+            layout_like.setVisibility(View.GONE);
+        }
+        final TextView tvLike = (TextView)view.findViewById(R.id.textView_like);
         if(album.isLiked){
             tvLike.setText("取消喜欢");
         }
@@ -247,45 +267,53 @@ public class AlbumListFragment extends Fragment {
                 if(UserManager.getInstance().isLogin())
                 {
                     if(album.isLiked){
-
+                        WorksServer.dislikeAlbum(UserManager.getInstance().getCurrentToken(), album.id);
                     }
                     else{
                         int userId = UserManager.getInstance().getCurrentUserId();
-                        boolean ret = WorksServer.likeAlbum(UserManager.getInstance().getCurrentToken(), String.valueOf(album.id), String.valueOf(userId));
-                        if(ret)
-                        {
-
-//                        collectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
-//                        Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
-//                        collectionImg.startAnimation(anim);
-
-                        }
+                        boolean ret = WorksServer.likeAlbum(UserManager.getInstance().getCurrentToken(), album.id, userId);
                     }
-
+                    album.isLiked = !album.isLiked;
+                    Toast.makeText(mContext, album.isLiked?"喜欢成功":"取消喜欢成功", Toast.LENGTH_SHORT).show();
+                    AlbumListFragment.this.mAlbumsAdapter.notifyDataSetChanged();
                 }
                 else
                 {
                     Toast.makeText(mContext, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
         RelativeLayout layout_collect = (RelativeLayout) view.findViewById(R.id.layout_collect);
+        if(album.author == UserManager.getInstance().getCurrentUserId()){
+            layout_collect.setVisibility(View.GONE);
+        }
+        TextView tvCollect = (TextView)view.findViewById(R.id.textView_collect);
+        if(album.isCollected){
+            tvCollect.setText("取消收藏");
+        }
+        else{
+            tvCollect.setText("收藏");
+        }
         layout_collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO
                 if(UserManager.getInstance().isLogin())
                 {
-                    int userId = UserManager.getInstance().getCurrentUserId();
-                    boolean ret = WorksServer.collectAlbum(UserManager.getInstance().getCurrentToken(), String.valueOf(album.id), String.valueOf(userId));
-                    if(ret)
-                    {
-//                        collectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
-//                        Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
-//                        collectionImg.startAnimation(anim);
+                    if(album.isCollected){
+                        WorksServer.discollectAlbum(UserManager.getInstance().getCurrentToken(), album.id);
 
                     }
+                    else
+                    {
+                        int userId = UserManager.getInstance().getCurrentUserId();
+                        boolean ret = WorksServer.collectAlbum(UserManager.getInstance().getCurrentToken(), album.id, userId);
+                    }
+                    album.isCollected = !album.isCollected;
+                    Toast.makeText(mContext, album.isCollected?"收藏成功":"取消收藏成功", Toast.LENGTH_SHORT).show();
+                    AlbumListFragment.this.mAlbumsAdapter.notifyDataSetChanged();
                 }
                 else
                 {
@@ -293,6 +321,8 @@ public class AlbumListFragment extends Fragment {
                 }
             }
         });
+
+
 
 
     }
@@ -327,11 +357,18 @@ public class AlbumListFragment extends Fragment {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mTvAlbumCount.setText(getString(R.string.you_have_albums, mAlbumList.size()));
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-                mAlbumsAdapter.mAlbumList.clear();
-                mAlbumsAdapter.mAlbumList.addAll(AlbumListFragment.this.mAlbumList);
-                mAlbumsAdapter.notifyDataSetChanged();
+                mAlbumsAdapter.setData(mAlbumList);
+            }
+        });
+
+        WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(), mAlbumList);
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAlbumsAdapter.setData(mAlbumList);
             }
         });
 
@@ -347,9 +384,16 @@ public class AlbumListFragment extends Fragment {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAlbumsAdapter.mAlbumList.clear();
-                mAlbumsAdapter.mAlbumList.addAll(mAlbumList);
-                mAlbumsAdapter.notifyDataSetChanged();
+                mTvAlbumCount.setText(getString(R.string.you_have_albums,mAlbumList.size()));
+                mAlbumsAdapter.setData(mAlbumList);
+            }
+        });
+
+        WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(), mAlbumList);
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAlbumsAdapter.setData(mAlbumList);
             }
         });
     }

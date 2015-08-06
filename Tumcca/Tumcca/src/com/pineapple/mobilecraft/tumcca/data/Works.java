@@ -22,7 +22,7 @@ public class Works {
     public String tags = "";
     public String title = "";
     public String description = "";
-    public int albumId = -1;
+    public long albumId = -1;
     public List<Integer> pictures = new ArrayList<Integer>();
 
     public static final Works NULL = new Works();

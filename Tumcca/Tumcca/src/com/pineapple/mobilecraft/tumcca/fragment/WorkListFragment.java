@@ -63,7 +63,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
     CircleProgressBar mProgressBar;
     SwipeRefreshLayout mSwipeRefreshLayout;
-
+    int mCurrentPage = 1;
     public static interface WorkListLoader {
 
         /**
@@ -81,7 +81,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
         /**
          * 取得数据后，要调用{@link #addWorksTail}
          */
-        public void loadTailWorks();
+        public void loadTailWorks(int page);
     }
 
     public WorkListFragment() {
@@ -230,7 +230,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
                     if (null != mWorksLoader) {
                         mScrollingIdle = false;
-                        mWorksLoader.loadTailWorks();
+                        mWorksLoader.loadTailWorks(++mCurrentPage);
                     }
                 }
             }

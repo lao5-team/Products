@@ -191,7 +191,7 @@
     <string name="account_exist">用户已存在</string>
     <string name="logouting">正在注销...</string>
     <string name="profile_update_success">更新信息成功</string>
-    <string name="you_have_albums">您有%1$s张专辑</string>
+    <string name="you_have_albums">共有%1$s张专辑</string>
     <string name="there_is_no_new_works">当前没有新作品发布</string>
     <string name="there_is_works">当前有%1$s个作品发布</string>
 

@@ -165,36 +165,21 @@ public class UserActivity extends FragmentActivity {
                     @Override
                     public void run() {
                         List<Album> albumList = WorksServer.getAuthorAlbumList(mAuthorId);
-
-//                        for (Album album : albumList) {
-//                            List<WorksInfo> worksInfoList = WorksManager.getInstance().getAlbumWorks(album.id);
-//                            if (worksInfoList.size() > 0) {
-//                                album.worksInfoList = worksInfoList;
-//                            } else {
-//                                worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, 1, ALBUM_PAGE_SIZE, 400);
-//                                album.worksInfoList = worksInfoList;
-//                                WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
-//                            }
-//
-//                        }
-                        WorksServer.parseAlbumList(albumList);
                         fragment.addAlbumsHead(albumList);
-
                     }
                 });
             }
 
             @Override
             public void loadTailAlbums(int page) {
-
+                List<Album> albumList = WorksServer.getAuthorAlbumList(mAuthorId);
+                fragment.addAlbumsHead(albumList);
             }
         });
     }
 
     public void addLikesFragment(AlbumWorkListFragment fragment) {
         final WorkListFragment workListFragment = new WorkListFragment();
-
-
         workListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
             @Override
             public List<WorksInfo> getInitialWorks() {
@@ -215,12 +200,55 @@ public class UserActivity extends FragmentActivity {
             }
 
             @Override
-            public void loadTailWorks() {
+            public void loadTailWorks(final int page) {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
+                                mAuthorId, page, PAGE_SIZE, WORKS_WIDTH);
+                        workListFragment.addWorksHead(worksInfoList);
+                    }
+                });
 
             }
         });
 
         fragment.addWorksFragment(workListFragment);
+
+        final AlbumListFragment albumListFragment = new AlbumListFragment();
+        albumListFragment.setAlbumLoader(new AlbumListFragment.AlbumListLoader() {
+            @Override
+            public List<Album> getInitialAlbums() {
+                return null;
+            }
+
+            @Override
+            public void loadHeadAlbums() {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<Album> albumList = WorksServer.getLikeAlbums(
+                                mAuthorId, 1, PAGE_SIZE);
+                        albumListFragment.addAlbumsHead(albumList);
+
+                    }
+                });
+            }
+
+            @Override
+            public void loadTailAlbums(int page) {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<Album> albumList = WorksServer.getLikeAlbums(
+                                mAuthorId, 1, PAGE_SIZE);
+                        albumListFragment.addAlbumsTail(albumList);
+                    }
+                });
+            }
+        });
+
+        fragment.addAlbumsFragment(albumListFragment);
     }
 
     public void addCollectFragment(AlbumWorkListFragment fragment) {
@@ -242,16 +270,56 @@ public class UserActivity extends FragmentActivity {
                         workListFragment.addWorksHead(worksInfoList);
                     }
                 });
-
-
             }
 
             @Override
-            public void loadTailWorks() {
-
+            public void loadTailWorks(final int page) {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
+                                mAuthorId, page, PAGE_SIZE, WORKS_WIDTH);
+                        workListFragment.addWorksHead(worksInfoList);
+                    }
+                });
             }
         });
         fragment.addWorksFragment(workListFragment);
+
+        final AlbumListFragment albumListFragment = new AlbumListFragment();
+        albumListFragment.setAlbumLoader(new AlbumListFragment.AlbumListLoader() {
+            @Override
+            public List<Album> getInitialAlbums() {
+                return null;
+            }
+
+            @Override
+            public void loadHeadAlbums() {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<Album> albumList = WorksServer.getCollectAlbums(
+                                mAuthorId, 1, PAGE_SIZE);
+                        albumListFragment.addAlbumsHead(albumList);
+
+                    }
+                });
+            }
+
+            @Override
+            public void loadTailAlbums(int page) {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<Album> albumList = WorksServer.getCollectAlbums(
+                                mAuthorId, 1, PAGE_SIZE);
+                        albumListFragment.addAlbumsTail(albumList);
+                    }
+                });
+            }
+        });
+
+        fragment.addAlbumsFragment(albumListFragment);
     }
 
     public void addFollowingFragment(UserListFragment fragment) {
