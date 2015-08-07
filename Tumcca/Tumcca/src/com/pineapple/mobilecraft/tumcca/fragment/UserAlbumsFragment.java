@@ -1,29 +1,17 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.activity.AlbumWorkListActivity;
 import com.pineapple.mobilecraft.tumcca.data.Album;
-import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
-import com.pineapple.mobilecraft.tumcca.manager.UserManager;
-import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
-import com.pineapple.mobilecraft.tumcca.server.PictureServer;
-import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.widget.ExpandGridView;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 /**

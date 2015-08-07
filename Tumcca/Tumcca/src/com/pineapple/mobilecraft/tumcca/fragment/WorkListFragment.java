@@ -1,10 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.*;
 import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
@@ -25,7 +22,6 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.HalfRoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.pineapple.mobilecraft.DemoApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.activity.WorkDetailActivity;
@@ -65,6 +61,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
     CircleProgressBar mProgressBar;
     SwipeRefreshLayout mSwipeRefreshLayout;
     int mCurrentPage = 1;
+    BroadcastReceiver mReceiver;
     public static interface WorkListLoader {
 
         /**
@@ -126,6 +123,41 @@ public class WorkListFragment extends Fragment implements IWorksList {
         }, Context.BIND_AUTO_CREATE);
     }
 
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        activity.registerReceiver(mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int id = intent.getIntExtra("id", -1);
+                removeWork(id);
+            }
+        }, new IntentFilter("remove_work"));
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        getActivity().unregisterReceiver(mReceiver);
+    }
+
+    private void removeWork(int id){
+        for(WorksInfo worksInfo:mWorksInfoList){
+            if(worksInfo.id == id){
+                mWorksInfoList.remove(worksInfo);
+                break;
+            }
+        }
+        setAdapter();
+
+    }
+
+    private void setAdapter(){
+        mAdapter.mListWorks.clear();
+        mAdapter.mListWorks.addAll(mWorksInfoList);
+        mAdapter.notifyDataSetChanged();
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -269,7 +301,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calligraphy_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_work_list, container, false);
         mProgressBar = (CircleProgressBar) view.findViewById(R.id.progressBar);
         StaggeredGridView listView = (StaggeredGridView) view.findViewById(R.id.list);
         addWorksListView(listView);

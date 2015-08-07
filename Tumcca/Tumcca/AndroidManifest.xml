@@ -198,7 +198,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".tumcca.activity.HomeActivity"/>
         </activity>
-        <activity android:name=".tumcca.activity.AlbumWorkListActivity"
+        <activity android:name=".tumcca.activity.AlbumDetailActivity"
                   android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style"
                   android:screenOrientation="portrait"/>
         <activity android:name=".tumcca.activity.UserCity"/>

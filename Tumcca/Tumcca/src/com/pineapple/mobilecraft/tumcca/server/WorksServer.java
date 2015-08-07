@@ -48,6 +48,17 @@ public class WorksServer {
         return post.execute();
     }
 
+    public static void removeWork(String token, long id){
+        String url = host + "/api/works/trash/" + id;
+        SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+    }
+
     /**
      * 上传用户专辑
      * @param token
@@ -69,6 +80,17 @@ public class WorksServer {
         };
 
         return post.execute();
+    }
+
+    public static void removeAlbum(String token, long id){
+        String url = host + "/api/album/" + id;
+        SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
     }
 
 

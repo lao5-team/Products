@@ -1,6 +1,10 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -8,18 +12,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
-import com.etsy.android.grid.StaggeredGridView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.activity.AlbumWorkListActivity;
+import com.pineapple.mobilecraft.tumcca.activity.AlbumDetailActivity;
 import com.pineapple.mobilecraft.tumcca.data.Album;
-import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
@@ -51,6 +51,8 @@ public class AlbumListFragment extends Fragment {
     boolean mScrollingIdle = false;
     int mCurrentPage = 1;
     int mParentWidth = 0;
+
+    BroadcastReceiver mReceiver;
     public static interface AlbumListLoader {
 
         /**
@@ -66,7 +68,7 @@ public class AlbumListFragment extends Fragment {
         public void loadHeadAlbums();
 
         /**
-         * 取得数据后，要调用{@link #addWorksTail}
+         * 取得数据后，要调用{@link #addTail}
          */
         public void loadTailAlbums(int page);
     }
@@ -136,25 +138,54 @@ public class AlbumListFragment extends Fragment {
             if (null != initialAlbums) {
                 mAlbumList.clear();
                 mAlbumList.addAll(initialAlbums);
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAlbumsAdapter.mAlbumList.clear();
-                        mAlbumsAdapter.mAlbumList.addAll(mAlbumList);
-                        mAlbumsAdapter.notifyDataSetChanged();
-                    }
-                });
+                setAdapter();
 
             }
         }
     }
 
+
     @Override
     public void onAttach(Activity activity){
         super.onAttach(activity);
         mContext = activity;
+        mContext.registerReceiver(mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                long id = intent.getLongExtra("id", -1);
+                removeAlbum(id);
 
+            }
+        }, new IntentFilter("remove_album"));
 
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        getActivity().unregisterReceiver(mReceiver);
+    }
+
+    private void removeAlbum(long id){
+        for(Album album:mAlbumList){
+            if(album.id == id){
+                mAlbumList.remove(album);
+                break;
+            }
+        }
+        setAdapter();
+
+    }
+
+    private void setAdapter(){
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAlbumsAdapter.mAlbumList.clear();
+                mAlbumsAdapter.mAlbumList.addAll(mAlbumList);
+                mAlbumsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private  void setupProgressBar(){
@@ -255,7 +286,7 @@ public class AlbumListFragment extends Fragment {
         layoutImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlbumWorkListActivity.startActivity(mContext, album.id, album.author, album.title);
+                AlbumDetailActivity.startActivity(mContext, album.id, album.author, album.title);
             }
         });
     }
@@ -404,7 +435,7 @@ public class AlbumListFragment extends Fragment {
                 mTvAlbumCount.setText(getString(R.string.you_have_albums, mAlbumList.size()));
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-                mAlbumsAdapter.setData(mAlbumList);
+                setAdapter();
             }
         });
 
@@ -421,7 +452,7 @@ public class AlbumListFragment extends Fragment {
     /**
      * 将数据添加到底部，需要在主线程中调用
      *
-     * @param worksInfoList
+     * @param albumList
      */
     public void addAlbumsTail(final List<Album> albumList) {
         mAlbumList.addAll(albumList);

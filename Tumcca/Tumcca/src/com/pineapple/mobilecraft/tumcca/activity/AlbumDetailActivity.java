@@ -2,9 +2,13 @@ package com.pineapple.mobilecraft.tumcca.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
@@ -12,19 +16,21 @@ import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.fragment.WorkListFragment;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
-import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 15/7/4.
  */
-public class AlbumWorkListActivity extends FragmentActivity {
+public class AlbumDetailActivity extends FragmentActivity {
 
     private TextView mTvTitle;
+    private long mId;
+    private long mAuthorId;
     public static void startActivity(Activity activity, long id, long authorId, String albumName){
-        Intent intent = new Intent(activity, AlbumWorkListActivity.class);
+        Intent intent = new Intent(activity, AlbumDetailActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("author", authorId);
         intent.putExtra("albumName", albumName);
@@ -56,7 +62,7 @@ public class AlbumWorkListActivity extends FragmentActivity {
             @Override
             public void loadHeadWorks() {
                 List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(),
-                        getIntent().getLongExtra("id", -1), getIntent().getLongExtra("author", -1), 1, 5, 400);
+                        mId = getIntent().getLongExtra("id", -1), mAuthorId = getIntent().getLongExtra("author", -1), 1, 5, 400);
                 fragment.addWorksHead(worksInfoList);
             }
 
@@ -72,6 +78,16 @@ public class AlbumWorkListActivity extends FragmentActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.album_detail_menu, menu);
+        if(mAuthorId!=UserManager.getInstance().getCurrentUserId()){
+            menu.removeItem(R.id.menu_delete);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
@@ -79,6 +95,31 @@ public class AlbumWorkListActivity extends FragmentActivity {
                 //NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
+            case R.id.menu_delete:
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("确定删除此作品？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Executors.newSingleThreadExecutor().submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                WorksServer.removeAlbum(UserManager.getInstance().getCurrentToken(), mId);
+                                Intent intent = new Intent();
+                                intent.setAction("remove_album");
+                                intent.putExtra("id", mId);
+                                sendBroadcast(intent);
+                                finish();
+                            }
+                        });
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+                dialog.show();
+
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -2,7 +2,9 @@ package com.pineapple.mobilecraft.tumcca.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 15/6/3.
@@ -468,7 +471,42 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
                 //NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
+            case R.id.menu_delete:
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("确定删除此专辑？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Executors.newSingleThreadExecutor().submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                WorksServer.removeWork(UserManager.getInstance().getCurrentToken(), mWorks.id);
+                                Intent intent = new Intent();
+                                intent.setAction("remove_work");
+                                intent.putExtra("id", mWorks.id);
+                                sendBroadcast(intent);
+                                finish();
+                            }
+                        });
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+                dialog.show();
+
+            //case android.R.id.delete
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.work_detail_menu, menu);
+        if(mWorks.author!=UserManager.getInstance().getCurrentUserId()){
+            menu.removeItem(R.id.menu_delete);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 }
