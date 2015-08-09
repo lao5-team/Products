@@ -18,7 +18,7 @@ import android.provider.MediaStore;
 import android.widget.*;
 import com.pineapple.mobilecraft.Constant;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.adapter.ActivityCategoryAdapter;
 import com.pineapple.mobilecraft.data.ActivityData;
 import com.pineapple.mobilecraft.data.ActivityData.ActivityBuilder;
@@ -197,7 +197,7 @@ public class CreateActivityActivity2 extends Activity {
 					@Override
 					public void run() {
 						
-						if(DemoApplication.isDebug)
+						if(TumccaApplication.isDebug)
 						{
 							UserManager.getInstance().getCurrentUser().startActivity(mActivityData);
 							runOnUiThread(new Runnable() {
@@ -377,7 +377,7 @@ public class CreateActivityActivity2 extends Activity {
 		
 		if(mUseType == USE_CREATE)
 		{
-			if(DemoApplication.isDebug)
+			if(TumccaApplication.isDebug)
 			{
 				mActivityData = ActivityData.createTestData();
 				updateView();

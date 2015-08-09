@@ -3,7 +3,7 @@ package com.pineapple.mobilecraft.adapter;
 import java.util.List;
 
 import com.squareup.picasso.Picasso;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.ActivityData;
 import com.pineapple.mobilecraft.domain.activity.IActivityLoader;
 import com.pineapple.mobilecraft.R;
@@ -96,7 +96,7 @@ public class ActivityAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.v(DemoApplication.TAG, "getView()");
+		Log.v(TumccaApplication.TAG, "getView()");
 		SBItemViewHolder holder;
 		if(null == convertView)
 		{

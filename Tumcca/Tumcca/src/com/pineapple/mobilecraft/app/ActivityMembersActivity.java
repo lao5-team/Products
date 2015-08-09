@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.pineapple.mobilecraft.Constant;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.adapter.ActivityMemberSelectAdapter;
 import com.pineapple.mobilecraft.adapter.ActivityMemberStateAdapter;
 import com.pineapple.mobilecraft.data.MyUser;
@@ -114,7 +114,7 @@ public class ActivityMembersActivity extends FragmentActivity {
 //	}	
 	private void getContactList() {
 		mContactList.clear();
-		Map<String, com.pineapple.mobilecraft.domain.User> users = DemoApplication.getInstance().getContactList();
+		Map<String, com.pineapple.mobilecraft.domain.User> users = TumccaApplication.getInstance().getContactList();
 		Iterator<Entry<String, com.pineapple.mobilecraft.domain.User>> iterator = users.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Entry<String, com.pineapple.mobilecraft.domain.User> entry = iterator.next();

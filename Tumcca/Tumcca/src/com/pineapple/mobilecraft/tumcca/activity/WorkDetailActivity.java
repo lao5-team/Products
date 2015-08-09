@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.*;
@@ -19,13 +18,7 @@ import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.data.MyUser;
-import com.pineapple.mobilecraft.data.Treasure;
 import com.pineapple.mobilecraft.data.comment.TreasureComment;
-import com.pineapple.mobilecraft.domain.User;
-import com.pineapple.mobilecraft.manager.TreasureManager;
-import com.pineapple.mobilecraft.mediator.ITreasureDetailMediator;
-import com.pineapple.mobilecraft.server.BmobServerManager;
 import com.pineapple.mobilecraft.tumcca.data.Comment;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
@@ -36,9 +29,7 @@ import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.tumcca.view.ObservableScrollView;
 import com.pineapple.mobilecraft.widget.CommonAdapter;
-import com.pineapple.mobilecraft.widget.ExpandListView;
 import com.pineapple.mobilecraft.widget.IAdapterItem;
-import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -216,7 +207,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 if(UserManager.getInstance().isLogin())
                 {
                     int userId = UserManager.getInstance().getCurrentUserId();
-                    boolean ret = WorksServer.collectWorks(UserManager.getInstance().getCurrentToken(), mWorks.id, userId);
+                    boolean ret = WorksServer.collectWorks(UserManager.getInstance().getCurrentToken(null), mWorks.id, userId);
                     if(ret)
                     {
                         collectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
@@ -233,7 +224,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 if(UserManager.getInstance().isLogin())
                 {
                     int userId = UserManager.getInstance().getCurrentUserId();
-                    boolean ret = WorksServer.likeWorks(UserManager.getInstance().getCurrentToken(), String.valueOf(mWorks.id), String.valueOf(userId));
+                    boolean ret = WorksServer.likeWorks(UserManager.getInstance().getCurrentToken(null), String.valueOf(mWorks.id), String.valueOf(userId));
                     if(ret)
                     {
                         excellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_recomment));
@@ -301,7 +292,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                         Executors.newSingleThreadExecutor().submit(new Runnable() {
                             @Override
                             public void run() {
-                                WorksServer.removeWork(UserManager.getInstance().getCurrentToken(), mWorks.id);
+                                WorksServer.removeWork(UserManager.getInstance().getCurrentToken(null), mWorks.id);
                                 Intent intent = new Intent();
                                 intent.setAction("remove_work");
                                 intent.putExtra("id", mWorks.id);
@@ -389,7 +380,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 Executors.newSingleThreadExecutor().submit(new Runnable() {
                     @Override
                     public void run() {
-                        WorksServer.submitComment(UserManager.getInstance().getCurrentToken(), mWorks.id, mReplyTarget, mEtxComment.getText().toString());
+                        WorksServer.submitComment(UserManager.getInstance().getCurrentToken(null), mWorks.id, mReplyTarget, mEtxComment.getText().toString());
                         mCommentList = WorksServer.getWorkCommentList(mWorks.id);
                         runOnUiThread(new Runnable() {
                             @Override

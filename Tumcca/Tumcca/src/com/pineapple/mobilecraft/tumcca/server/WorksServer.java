@@ -8,7 +8,6 @@ import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.utils.SyncHttpDelete;
 import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
-import org.apache.http.client.methods.HttpPost;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -177,7 +176,7 @@ public class WorksServer {
 
     public static List<WorksInfo> getWorksInHome(int page, int size, int width){
         String url = host + "/api/works/homepage/page/" + page + "/size/" + size + "/width/" + width;
-        String token = UserManager.getInstance().getCurrentToken();
+        String token = UserManager.getInstance().getCurrentToken(null);
         SyncHttpGet<List<WorksInfo>> post = new SyncHttpGet<List<WorksInfo>>(url, token) {
             @Override
             public List<WorksInfo> postExcute(String result) {

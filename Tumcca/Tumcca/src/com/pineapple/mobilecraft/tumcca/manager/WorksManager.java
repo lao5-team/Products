@@ -1,17 +1,13 @@
 package com.pineapple.mobilecraft.tumcca.manager;
 
 import android.util.Log;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.cache.temp.JSONCache;
 import com.pineapple.mobilecraft.tumcca.data.Album;
-import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
-import com.pineapple.mobilecraft.tumcca.server.WorksServer;
-import junit.framework.Assert;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xbill.DNS.NULLRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +17,10 @@ import java.util.List;
  */
 public class WorksManager {
     private static WorksManager mInstance = null;
-    JSONCache mAlbumWorksCache = new JSONCache(DemoApplication.applicationContext, "album_works");
-    JSONCache mWorksCache = new JSONCache(DemoApplication.applicationContext, "works");
-    JSONCache mAlbumCache = new JSONCache(DemoApplication.applicationContext, "album");
-    JSONCache mMyAlbumsCache = new JSONCache(DemoApplication.applicationContext, "myAlbums");
+    JSONCache mAlbumWorksCache = new JSONCache(TumccaApplication.applicationContext, "album_works");
+    JSONCache mWorksCache = new JSONCache(TumccaApplication.applicationContext, "works");
+    JSONCache mAlbumCache = new JSONCache(TumccaApplication.applicationContext, "album");
+    JSONCache mMyAlbumsCache = new JSONCache(TumccaApplication.applicationContext, "myAlbums");
     public static WorksManager getInstance(){
         if(mInstance==null){
             mInstance = new WorksManager();

@@ -342,11 +342,11 @@ public class AlbumListFragment extends Fragment {
                 if(UserManager.getInstance().isLogin())
                 {
                     if(album.isLiked){
-                        WorksServer.dislikeAlbum(UserManager.getInstance().getCurrentToken(), album.id);
+                        WorksServer.dislikeAlbum(UserManager.getInstance().getCurrentToken(null), album.id);
                     }
                     else{
                         int userId = UserManager.getInstance().getCurrentUserId();
-                        boolean ret = WorksServer.likeAlbum(UserManager.getInstance().getCurrentToken(), album.id, userId);
+                        boolean ret = WorksServer.likeAlbum(UserManager.getInstance().getCurrentToken(null), album.id, userId);
                     }
                     album.isLiked = !album.isLiked;
                     Toast.makeText(mContext, album.isLiked?"喜欢成功":"取消喜欢成功", Toast.LENGTH_SHORT).show();
@@ -378,13 +378,13 @@ public class AlbumListFragment extends Fragment {
                 if(UserManager.getInstance().isLogin())
                 {
                     if(album.isCollected){
-                        WorksServer.discollectAlbum(UserManager.getInstance().getCurrentToken(), album.id);
+                        WorksServer.discollectAlbum(UserManager.getInstance().getCurrentToken(null), album.id);
 
                     }
                     else
                     {
                         int userId = UserManager.getInstance().getCurrentUserId();
-                        boolean ret = WorksServer.collectAlbum(UserManager.getInstance().getCurrentToken(), album.id, userId);
+                        boolean ret = WorksServer.collectAlbum(UserManager.getInstance().getCurrentToken(null), album.id, userId);
                     }
                     album.isCollected = !album.isCollected;
                     Toast.makeText(mContext, album.isCollected?"收藏成功":"取消收藏成功", Toast.LENGTH_SHORT).show();
@@ -439,7 +439,7 @@ public class AlbumListFragment extends Fragment {
             }
         });
 
-        WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(), mAlbumList);
+        WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(null), mAlbumList);
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -464,7 +464,7 @@ public class AlbumListFragment extends Fragment {
             }
         });
 
-        WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(), mAlbumList);
+        WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(null), mAlbumList);
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {

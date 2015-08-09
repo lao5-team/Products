@@ -24,7 +24,7 @@ import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.fragment.AlbumSelectFragment;
 import com.pineapple.mobilecraft.tumcca.utility.PrefsCache;
@@ -84,7 +84,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         mImageOptionsWorks = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 5))).cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 5))).cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
         final ActionBar actionBar = getActionBar();
         if(null!=actionBar){
@@ -104,17 +104,9 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
         if(mIsTestMode)
         {
             UserManager.getInstance().login("999", "999");
-            UserServer.getInstance().uploadProfile(UserManager.getInstance().getCurrentToken(), Profile.createTestProfile());
+            UserServer.getInstance().uploadProfile(UserManager.getInstance().getCurrentToken(null), Profile.createTestProfile());
         }
-        if(!UserManager.getInstance().isLogin()){
-            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        Profile profile = UserServer.getInstance().getCurrentUserProfile(UserManager.getInstance().getCurrentToken());
-        if(profile == Profile.NULL){
-            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_complete_profile), Toast.LENGTH_SHORT).show();
-            finish();
-        }
+
         ImgsActivity.ImagesReceiver = CalligraphyCreateActivity.class;
         mPictureAdapter = new PictureAdapter();
         mAvatarChoose = new AvatarChoose();
@@ -167,6 +159,32 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
         };
         bindService(new Intent(this, TumccaService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
 
+//        if(!UserManager.getInstance().isLogin()){
+//            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
+//            finish();
+//        }
+
+        UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+            @Override
+            public void onLogin(String token) {
+                Profile profile = UserServer.getInstance().getCurrentUserProfile(token);
+                if(profile == Profile.NULL){
+                    Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_complete_profile), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                //TODO load albums
+            }
+
+            @Override
+            public void onCancel() {
+                finish();
+            }
+
+            @Override
+            public void run() {
+
+            }
+        });
 
 
     }
@@ -379,7 +397,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             if(!UserManager.getInstance().isUserEditPicture()){
                 //Toast.makeText(this, "点击图片可以进行编辑", Toast.LENGTH_SHORT).show();
                 showTips();
-                UserManager.getInstance().setUserPictureEdit();
+                UserManager.getInstance().recordUserPictureEdit();
             }
         if(mListPicture.size()<MAX_IMAGE_COUNT){
             mListPicture.add(picture);

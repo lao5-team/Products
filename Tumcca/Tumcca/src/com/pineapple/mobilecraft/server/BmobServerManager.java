@@ -4,7 +4,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.*;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.ActivityData;
 import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.data.Treasure;
@@ -51,7 +51,7 @@ public class BmobServerManager extends MyServerManager {
             public void executeImpl() {
                 BmobQuery<ActivityData> query = new BmobQuery<ActivityData>();
                 query.addWhereEqualTo("mJewelType", fType);
-                query.findObjects(DemoApplication.applicationContext, new FindListener<ActivityData>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<ActivityData>() {
                     @Override
                     public void onSuccess(List<ActivityData> object) {
                         List<String> ids = new ArrayList<String>();
@@ -83,7 +83,7 @@ public class BmobServerManager extends MyServerManager {
             public void executeImpl() {
                 BmobQuery<ActivityData> query = new BmobQuery<ActivityData>();
                 query.addWhereContainedIn("objectId", fIds);
-                query.findObjects(DemoApplication.applicationContext, new FindListener<ActivityData>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<ActivityData>() {
                     @Override
                     public void onSuccess(List<ActivityData> object) {
                         onResult(object);
@@ -107,7 +107,7 @@ public class BmobServerManager extends MyServerManager {
             @Override
             public void executeImpl() {
                 BmobQuery<ActivityData> query = new BmobQuery<ActivityData>();
-                query.findObjects(DemoApplication.applicationContext, new FindListener<ActivityData>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<ActivityData>() {
                     @Override
                     public void onSuccess(List<ActivityData> object) {
                         List<String> ids = new ArrayList<String>();
@@ -141,7 +141,7 @@ public class BmobServerManager extends MyServerManager {
             @Override
             public void executeImpl() {
                 final BmobFile bmobFile = new BmobFile(fFile);
-                bmobFile.uploadblock(DemoApplication.applicationContext, new UploadFileListener() {
+                bmobFile.uploadblock(TumccaApplication.applicationContext, new UploadFileListener() {
 
                     @Override
                     public void onSuccess() {
@@ -149,7 +149,7 @@ public class BmobServerManager extends MyServerManager {
                         //bmobFile.getUrl()---返回的上传文件的地址（不带域名）
                         //bmobFile.getFileUrl(context)--返回的上传文件的完整地址（带域名）
                         //toast("上传文件成功:" + bmobFile.getFileUrl(context));
-                        onResult(bmobFile.getFileUrl(DemoApplication.applicationContext));
+                        onResult(bmobFile.getFileUrl(TumccaApplication.applicationContext));
                     }
 
                     @Override
@@ -179,7 +179,7 @@ public class BmobServerManager extends MyServerManager {
 
             @Override
             public void executeImpl() {
-                treasure.save(DemoApplication.applicationContext, new SaveListener() {
+                treasure.save(TumccaApplication.applicationContext, new SaveListener() {
                     @Override
                     public void onSuccess() {
                         onResult("Success");
@@ -203,7 +203,7 @@ public class BmobServerManager extends MyServerManager {
             @Override
             public void executeImpl() {
                 BmobQuery<Treasure> query = new BmobQuery<Treasure>();
-                query.findObjects(DemoApplication.applicationContext, new FindListener<Treasure>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<Treasure>() {
                     @Override
                     public void onSuccess(List<Treasure> object) {
 
@@ -230,7 +230,7 @@ public class BmobServerManager extends MyServerManager {
             public void executeImpl() {
                 BmobQuery<Treasure> query = new BmobQuery<Treasure>();
                 query.addWhereEqualTo("mOwnerName", name);
-                query.findObjects(DemoApplication.applicationContext, new FindListener<Treasure>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<Treasure>() {
                     @Override
                     public void onSuccess(List<Treasure> object) {
                         onResult(object);
@@ -256,7 +256,7 @@ public class BmobServerManager extends MyServerManager {
             public void executeImpl() {
                 BmobQuery<Treasure> query = new BmobQuery<Treasure>();
                 query.addWhereContainsAll("objectId", fids);
-                query.findObjects(DemoApplication.applicationContext, new FindListener<Treasure>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<Treasure>() {
                     @Override
                     public void onSuccess(List<Treasure> object) {
 
@@ -281,7 +281,7 @@ public class BmobServerManager extends MyServerManager {
             @Override
             public void executeImpl() {
                 BmobQuery<Treasure> query = new BmobQuery<Treasure>();
-                query.getObject(DemoApplication.applicationContext, id, new GetListener<Treasure>() {
+                query.getObject(TumccaApplication.applicationContext, id, new GetListener<Treasure>() {
                     @Override
                     public void onSuccess(Treasure treasure) {
                         onResult(treasure);
@@ -306,7 +306,7 @@ public class BmobServerManager extends MyServerManager {
             public void executeImpl() {
                 BmobQuery<Treasure> query = new BmobQuery<Treasure>();
                 query.addWhereEqualTo("mIsIdentified", Boolean.FALSE);
-                query.findObjects(DemoApplication.applicationContext, new FindListener<Treasure>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<Treasure>() {
                     @Override
                     public void onSuccess(List<Treasure> object) {
                         onResult(object);
@@ -335,7 +335,7 @@ public class BmobServerManager extends MyServerManager {
 
             @Override
             public void executeImpl() {
-                comment.save(DemoApplication.applicationContext, new SaveListener() {
+                comment.save(TumccaApplication.applicationContext, new SaveListener() {
                     @Override
                     public void onSuccess() {
                         onResult(comment.getObjectId());
@@ -366,7 +366,7 @@ public class BmobServerManager extends MyServerManager {
                     {
                         treasure.mIdentifies.add(commentId);
                     }
-                    treasure.update(DemoApplication.applicationContext, new UpdateListener() {
+                    treasure.update(TumccaApplication.applicationContext, new UpdateListener() {
                         @Override
                         public void onSuccess() {
                             onResult("Success");
@@ -393,7 +393,7 @@ public class BmobServerManager extends MyServerManager {
             public void executeImpl() {
                 BmobQuery<TreasureComment> query = new BmobQuery<TreasureComment>();
                 query.addWhereContainedIn("objectId", ids);
-                query.findObjects(DemoApplication.applicationContext, new FindListener<TreasureComment>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<TreasureComment>() {
                     @Override
                     public void onSuccess(List<TreasureComment> object) {
 
@@ -419,7 +419,7 @@ public class BmobServerManager extends MyServerManager {
             public void executeImpl() {
                 BmobQuery<TreasureComment> query = new BmobQuery<TreasureComment>();
                 query.addWhereContainedIn("objectId", ids);
-                query.findObjects(DemoApplication.applicationContext, new FindListener<TreasureComment>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<TreasureComment>() {
                     @Override
                     public void onSuccess(List<TreasureComment> object) {
 
@@ -443,7 +443,7 @@ public class BmobServerManager extends MyServerManager {
             @Override
             public void executeImpl() {
                 BmobQuery<TreasureComment> query = new BmobQuery<TreasureComment>();
-                query.getObject(DemoApplication.applicationContext, id, new GetListener<TreasureComment>() {
+                query.getObject(TumccaApplication.applicationContext, id, new GetListener<TreasureComment>() {
                     @Override
                     public void onSuccess(TreasureComment data) {
                         onResult(data);
@@ -467,7 +467,7 @@ public class BmobServerManager extends MyServerManager {
             @Override
             public void executeImpl() {
                 BmobQuery<ActivityData> query = new BmobQuery<ActivityData>();
-                query.getObject(DemoApplication.applicationContext, id, new GetListener<ActivityData>() {
+                query.getObject(TumccaApplication.applicationContext, id, new GetListener<ActivityData>() {
                     @Override
                     public void onSuccess(ActivityData data) {
                         onResult(data);
@@ -494,7 +494,7 @@ public class BmobServerManager extends MyServerManager {
 
 			@Override
 			public void executeImpl() {
-				message.update(DemoApplication.applicationContext,
+				message.update(TumccaApplication.applicationContext,
 						new UpdateListener() {
 							@Override
 							public void onSuccess() {
@@ -517,7 +517,7 @@ public class BmobServerManager extends MyServerManager {
 
 			@Override
 			public void executeImpl() {
-				message.save(DemoApplication.applicationContext,
+				message.save(TumccaApplication.applicationContext,
 						new SaveListener() {
 							@Override
 							public void onSuccess() {
@@ -547,7 +547,7 @@ public class BmobServerManager extends MyServerManager {
             public void executeImpl() {
                 BmobQuery<TreasureMessage> query = new BmobQuery<TreasureMessage>();
                 query.addWhereEqualTo("mUsername", username);
-                query.findObjects(DemoApplication.applicationContext, new FindListener<TreasureMessage>() {
+                query.findObjects(TumccaApplication.applicationContext, new FindListener<TreasureMessage>() {
 					
 					@Override
 					public void onSuccess(List<TreasureMessage> arg0) {

@@ -61,14 +61,14 @@ public class AlbumDetailActivity extends FragmentActivity {
 
             @Override
             public void loadHeadWorks() {
-                List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(),
+                List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null),
                         mId = getIntent().getLongExtra("id", -1), mAuthorId = getIntent().getLongExtra("author", -1), 1, 5, 400);
                 fragment.addWorksHead(worksInfoList);
             }
 
             @Override
             public void loadTailWorks(int page) {
-                List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(),
+                List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null),
                         getIntent().getLongExtra("id", -1), getIntent().getLongExtra("author", -1), page, 5, 400);
                 fragment.addWorksTail(worksInfoList);
             }
@@ -102,7 +102,7 @@ public class AlbumDetailActivity extends FragmentActivity {
                         Executors.newSingleThreadExecutor().submit(new Runnable() {
                             @Override
                             public void run() {
-                                WorksServer.removeAlbum(UserManager.getInstance().getCurrentToken(), mId);
+                                WorksServer.removeAlbum(UserManager.getInstance().getCurrentToken(null), mId);
                                 Intent intent = new Intent();
                                 intent.setAction("remove_album");
                                 intent.putExtra("id", mId);

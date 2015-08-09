@@ -12,7 +12,7 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.exceptions.EaseMobException;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.message.MyMessage;
 import com.pineapple.mobilecraft.data.message.TreasureMessage;
 
@@ -53,7 +53,7 @@ public class MessageManager {
 		EMConversation conversation = EMChatManager.getInstance().getConversation(username);
 		EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
 		String str = msg.toJSON().toString();
-		Log.v(DemoApplication.TAG, "Message to single: " + str);
+		Log.v(TumccaApplication.TAG, "Message to single: " + str);
 		TextMessageBody txtBody = new TextMessageBody(str);
 		message.addBody(txtBody);
 		message.setReceipt(username);
@@ -77,7 +77,7 @@ public class MessageManager {
 		EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
 		message.setChatType(ChatType.GroupChat);
 		String str = msg.toJSON().toString();
-		Log.v(DemoApplication.TAG, "Message to group ID " + groupID + " " + str);			
+		Log.v(TumccaApplication.TAG, "Message to group ID " + groupID + " " + str);
 		TextMessageBody txtBody = new TextMessageBody(str);
 		message.addBody(txtBody);
 		message.setReceipt(groupID);

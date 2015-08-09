@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.cache.temp.JSONCache;
 import com.pineapple.mobilecraft.data.ActivityData;
 
@@ -199,7 +199,7 @@ public class ActivityManager {
 
 	public void clearActivityTest()
 	{
-		File file = new File(DemoApplication.getInstance().getCacheDir() + File.separator + "activities.txt");
+		File file = new File(TumccaApplication.getInstance().getCacheDir() + File.separator + "activities.txt");
 		file.delete();
 		mActivityList.clear();
 		notifyDataChanged();
@@ -218,7 +218,7 @@ public class ActivityManager {
 	private void saveToFile()
 	{
 		try {
-			FileWriter fw = new FileWriter(DemoApplication.getInstance().getCacheDir() + File.separator + "activities.txt");
+			FileWriter fw = new FileWriter(TumccaApplication.getInstance().getCacheDir() + File.separator + "activities.txt");
 			JSONObject obj = new JSONObject();
 			JSONArray array = new JSONArray();
 			for(int i=0; i<mActivityList.size(); i++)
@@ -242,7 +242,7 @@ public class ActivityManager {
 	private void loadFromFile()
 	{
 		try {
-			FileReader fr = new FileReader(DemoApplication.getInstance().getCacheDir() + File.separator + "activities.txt");
+			FileReader fr = new FileReader(TumccaApplication.getInstance().getCacheDir() + File.separator + "activities.txt");
 			String str = "";
 			char[]buffer = new char[256];
 			int readSize = 0;

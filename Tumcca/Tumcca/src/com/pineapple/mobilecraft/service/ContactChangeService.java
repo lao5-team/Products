@@ -8,7 +8,7 @@ import com.easemob.chat.EMContactListener;
 import com.easemob.chat.EMContactManager;
 import com.easemob.util.HanziToPinyin;
 import com.pineapple.mobilecraft.Constant;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.app.EntryActivity;
 import com.pineapple.mobilecraft.data.InviteMessgeDao;
 import com.pineapple.mobilecraft.data.UserDao;
@@ -50,7 +50,7 @@ public class ContactChangeService extends Service {
 		
 		@Override
 		public void onContactInvited(String username, String reason) {
-			Log.v(DemoApplication.TAG, "有新的好友申请");
+			Log.v(TumccaApplication.TAG, "有新的好友申请");
 			showInvitedNotification(username);
 
 			// 接到邀请的消息，如果不处理(同意或拒绝)，掉线后，服务器会自动再发过来，所以客户端不要重复提醒
@@ -66,19 +66,19 @@ public class ContactChangeService extends Service {
 			msg.setFrom(username);
 			msg.setTime(System.currentTimeMillis());
 			msg.setReason(reason);
-			Log.d(DemoApplication.TAG, username + "请求加你为好友,reason: " + reason);
+			Log.d(TumccaApplication.TAG, username + "请求加你为好友,reason: " + reason);
 			// 设置相应status
 			msg.setStatus(InviteMesageStatus.BEINVITEED);
 			inviteMessgeDao.saveMessage(msg);
 			// 未读数加1
-			User user = DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
+			User user = TumccaApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
 			user.setUnreadMsgCount(user.getUnreadMsgCount() + 1);
 		}
 		
 		@Override
 		public void onContactDeleted(List<String> usernameList) {
 			// 被删除
-			Map<String, User> localUsers = DemoApplication.getInstance()
+			Map<String, User> localUsers = TumccaApplication.getInstance()
 					.getContactList();
 			for (String username : usernameList) {
 				localUsers.remove(username);
@@ -100,7 +100,7 @@ public class ContactChangeService extends Service {
 			InviteMessage msg = new InviteMessage();
 			msg.setFrom(username);
 			msg.setTime(System.currentTimeMillis());
-			Log.d(DemoApplication.TAG, username + "同意了你的好友请求");
+			Log.d(TumccaApplication.TAG, username + "同意了你的好友请求");
 			msg.setStatus(InviteMesageStatus.BEAGREED);
 			
 		}
@@ -108,7 +108,7 @@ public class ContactChangeService extends Service {
 		@Override
 		public void onContactAdded(List<String> usernameList) {
 			// 保存增加的联系人
-			Map<String, User> localUsers = DemoApplication.getInstance()
+			Map<String, User> localUsers = TumccaApplication.getInstance()
 					.getContactList();
 			Map<String, User> toAddUsers = new HashMap<String, User>();
 			for (String username : usernameList) {
@@ -155,7 +155,7 @@ public class ContactChangeService extends Service {
 	
 	@Override
 	public void onCreate() {
-		Log.v(DemoApplication.TAG, "ActivityService onCreate");
+		Log.v(TumccaApplication.TAG, "ActivityService onCreate");
 		inviteMessgeDao = new InviteMessgeDao(this);
 		userDao = new UserDao(this);
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -169,7 +169,7 @@ public class ContactChangeService extends Service {
 	@Override
 	public void onDestroy() {
 	//	mNM.cancel(0);
-		Log.v(DemoApplication.TAG, "Activity Service onDestory");
+		Log.v(TumccaApplication.TAG, "Activity Service onDestory");
 
 	}
 

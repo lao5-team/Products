@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 
 import com.squareup.picasso.Picasso;
 import com.pineapple.mobilecraft.Constant;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.server.MyServerManager;
 import com.pineapple.mobilecraft.R;
@@ -132,7 +132,7 @@ public class UserinfoFragment extends Fragment {
 		mBtnLogout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				DemoApplication.getInstance().logout();
+				TumccaApplication.getInstance().logout();
 				// 重新显示登陆页面
 				((EntryActivity) getActivity()).finish();
 				startActivity(new Intent(getActivity(), LoginActivity.class));

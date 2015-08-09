@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.pineapple.mobilecraft.Constant;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.adapter.NewFriendsMsgAdapter;
 import com.pineapple.mobilecraft.data.InviteMessgeDao;
 import com.pineapple.mobilecraft.manager.InviteMessage;
@@ -44,7 +44,7 @@ public class NewFriendsMsgActivity extends BaseActivity {
 		//设置adapter
 		NewFriendsMsgAdapter adapter = new NewFriendsMsgAdapter(this, 1, msgs); 
 		listView.setAdapter(adapter);
-		DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME).setUnreadMsgCount(0);
+		TumccaApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME).setUnreadMsgCount(0);
 		
 	}
 

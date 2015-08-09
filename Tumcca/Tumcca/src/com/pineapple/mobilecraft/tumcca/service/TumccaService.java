@@ -14,7 +14,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.*;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -22,7 +22,6 @@ import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.tumcca.utility.Utility;
-import com.pineapple.mobilecraft.util.logic.Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -93,19 +92,19 @@ public class TumccaService extends Service {
 		mHandler.getLooper().quit();
 	}
 	public void uploadWorks(final List<Picture> pictureList, final Works works){
-		showNotification(DemoApplication.applicationContext.getString(R.string.works_uploading));
+		showNotification(TumccaApplication.applicationContext.getString(R.string.works_uploading));
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				String token = UserManager.getInstance().getCurrentToken();
+				String token = UserManager.getInstance().getCurrentToken(null);
 				for(Picture picture:pictureList){
 					int pictureId = PictureServer.getInstance().uploadPicture(token, new File(picture.localPath));
 					if(PictureServer.INVALID_PICTURE_ID!=pictureId){
 						works.pictures.add(pictureId);
 						int id = WorksServer.uploadWorks(token, works);
 						if(id!=WorksServer.INVALID_WORKS_ID){
-							showNotification(DemoApplication.applicationContext.getString(R.string.works_upload_success));
-							List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), works.albumId,
+							showNotification(TumccaApplication.applicationContext.getString(R.string.works_upload_success));
+							List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null), works.albumId,
 									UserManager.getInstance().getCurrentUserId(), 1, 20, 400);
 							WorksManager.getInstance().putAlbumWorks(works.albumId, worksInfoList);
 							hideNotification();
@@ -119,12 +118,12 @@ public class TumccaService extends Service {
 							sendBroadcast(intent);
 						}
 						else{
-							showNotification(DemoApplication.applicationContext.getString(R.string.works_upload_failed));
+							showNotification(TumccaApplication.applicationContext.getString(R.string.works_upload_failed));
 							hideNotification();
 						}
 					}
 					else{
-						showNotification(DemoApplication.applicationContext.getString(R.string.picture_upload_failed));
+						showNotification(TumccaApplication.applicationContext.getString(R.string.picture_upload_failed));
 						hideNotification();
 					}
 				}
@@ -184,7 +183,7 @@ public class TumccaService extends Service {
 	public void preloadApp(){
 		//加载首页数据
 		//loadHomeHeadList(null);
-		if(!Utility.isNetWorkConnected(DemoApplication.applicationContext)){
+		if(!Utility.isNetWorkConnected(TumccaApplication.applicationContext)){
 			return;
 		}
 		List<WorksInfo> worksInfoList = loadWorkList(1);
@@ -197,7 +196,7 @@ public class TumccaService extends Service {
 		if(!TextUtils.isEmpty(username)&&!TextUtils.isEmpty(password)){
 			com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().login(username, password);
 			//预加载用户的专辑
-			List<Album> albumList = WorksServer.getMyAlbumList(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken());
+			List<Album> albumList = WorksServer.getMyAlbumList(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(null));
 			albumList.add(0, Album.DEFAULT_ALBUM);
 
 //			for(Album album:albumList){
@@ -243,7 +242,6 @@ public class TumccaService extends Service {
 
 			}
 		}
-
 	}
 
 	private ConnectivityBroadcastReceiver mReceiver;
@@ -261,7 +259,7 @@ public class TumccaService extends Service {
 
 			if (noConnectivity) {
 				mState = NetworkInfo.State.DISCONNECTED;
-				Toast.makeText(DemoApplication.applicationContext, DemoApplication.applicationContext.getString(R.string.no_network_access),
+				Toast.makeText(TumccaApplication.applicationContext, TumccaApplication.applicationContext.getString(R.string.no_network_access),
 						Toast.LENGTH_SHORT).show();
 			} else {
 				mState = NetworkInfo.State.CONNECTED;

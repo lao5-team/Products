@@ -38,7 +38,7 @@ import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.widget.ExpandGridView;
 import com.pineapple.mobilecraft.R;
 
@@ -342,7 +342,7 @@ public class GroupDetailsActivity extends BaseActivity {
 				// 设置成删除按钮
 				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_minus_btn, 0, 0);
 				// 如果不是创建者或者没有相应权限，不提供加减人按钮
-				if (!group.getOwner().equals(DemoApplication.getInstance().getUserName())) {
+				if (!group.getOwner().equals(TumccaApplication.getInstance().getUserName())) {
 					// if current user is not group admin, hide add_photo/remove btn
 					convertView.setVisibility(View.INVISIBLE);
 				} else { // 显示删除按钮
@@ -367,7 +367,7 @@ public class GroupDetailsActivity extends BaseActivity {
 				button.setText("");
 				button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.smiley_add_btn, 0, 0);
 				//如果不是创建者或者没有相应权限
-				if (!group.isAllowInvites() && !group.getOwner().equals(DemoApplication.getInstance().getUserName())) {
+				if (!group.isAllowInvites() && !group.getOwner().equals(TumccaApplication.getInstance().getUserName())) {
 					// if current user is not group admin, hide add_photo/remove btn
 					convertView.setVisibility(View.INVISIBLE);
 				} else {

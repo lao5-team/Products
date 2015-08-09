@@ -1,6 +1,6 @@
 package com.pineapple.mobilecraft.service;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.app.LoginActivity;
 import com.pineapple.mobilecraft.manager.UserManager;
 
@@ -24,10 +24,10 @@ public class StateMonitorService extends Service {
 			long newTime = System.currentTimeMillis();
 			if((newTime-mCurrentTime)>10000)
 			{
-				DemoApplication.getInstance().logout();
-				Intent intent = new Intent(DemoApplication.applicationContext, LoginActivity.class);
+				TumccaApplication.getInstance().logout();
+				Intent intent = new Intent(TumccaApplication.applicationContext, LoginActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				DemoApplication.applicationContext.startActivity(intent);
+				TumccaApplication.applicationContext.startActivity(intent);
 				
 			}
 			mCurrentTime = newTime;

@@ -105,7 +105,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         imageOptions = new DisplayImageOptions.Builder()
                 .displayer(new RoundedBitmapDisplayer(10))
                 .build();
-        String token = UserManager.getInstance().getCurrentToken();
+        String token = UserManager.getInstance().getCurrentToken(null);
         if(TextUtils.isEmpty(token)){
             Toast.makeText(this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
             finish();
@@ -461,7 +461,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void updateUser(Profile profile) {
-        String result = UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken());
+        String result = UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken(null));
         if (!"fail".equals(result))
         {
            refreshData();
@@ -492,7 +492,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                             new Runnable() {
                                 @Override
                                 public void run() {
-                                    String token = UserManager.getInstance().getCurrentToken();
+                                    String token = UserManager.getInstance().getCurrentToken(null);
                                     int pictureId = -1;
                                     pictureId = UserServer.getInstance().uploadAvatar(temp);
                                     mProfile.avatar = pictureId;

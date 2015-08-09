@@ -13,7 +13,7 @@ import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.exceptions.EaseMobException;
 import com.squareup.picasso.Picasso;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.app.CreateActivityActivity2.IntentBuilder;
 import com.pineapple.mobilecraft.adapter.CommentAdapter;
 import com.pineapple.mobilecraft.data.ActivityData;
@@ -321,7 +321,7 @@ public class ActivityDetailActivity extends FragmentActivity {
 		EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
 		// 如果是群聊，设置chattype,默认是单聊
 		
-		Log.v(DemoApplication.TAG, ActivityData.toJSON(data).toString());
+		Log.v(TumccaApplication.TAG, ActivityData.toJSON(data).toString());
 		TextMessageBody txtBody = new TextMessageBody(ActivityData.toJSON(data).toString());
 		message.addBody(txtBody);
 		message.setReceipt(mFriends.get(0).mName);

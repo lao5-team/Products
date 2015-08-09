@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import android.test.InstrumentationTestRunner;
 import android.util.Log;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.ActivityData;
 import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.data.DianpingDao.ComplexBusiness;
@@ -52,7 +52,7 @@ public class ActivityDataTest extends InstrumentationTestRunner {
 					).setComplexBusiness(testCB).setCreator(testUser.mName).setUsers(users).create();
 			
 			String stringJSON = ActivityData.toJSON(data).toString();
-			Log.v(DemoApplication.TAG, stringJSON);
+			Log.v(TumccaApplication.TAG, stringJSON);
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

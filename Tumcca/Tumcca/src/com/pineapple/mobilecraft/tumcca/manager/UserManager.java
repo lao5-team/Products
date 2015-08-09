@@ -1,10 +1,10 @@
 package com.pineapple.mobilecraft.tumcca.manager;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.text.TextUtils;
 import android.util.Base64;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
+import com.pineapple.mobilecraft.tumcca.activity.LoginActivity;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
@@ -31,6 +31,17 @@ public class UserManager {
 	//用户使用习惯缓存
 	//PrefsCache mHabitCache = null;
 	SharedPreferences mHabitPrefs = null;
+
+	PostLoginTask mPostLoginTask = null;
+
+	BroadcastReceiver mLoginReceiver = null;
+
+	public static abstract class PostLoginTask implements Runnable{
+		abstract public void onLogin(String token);
+
+		abstract public void onCancel();
+	}
+
 	public static interface LoginStateListener
 	{	
 		public void onDisconnected();
@@ -45,6 +56,7 @@ public class UserManager {
 		}
 		return mInstance;
 	}
+
 
 	/**
 	 *
@@ -71,7 +83,9 @@ public class UserManager {
 		if(null!=loginResult&&null!=loginResult.uid){
 			//mCurrentUid = loginResult.uid;
 			//mCurrentToken = loginResult.token;
-			saveLoginInfo(userName, password);
+			//saveLoginInfo(userName, password);
+
+			//cache token and uid
 			mAccountCache.putItem("cache_login", IUserServer.LoginResult.toJSON(loginResult));
 			return loginResult;
 		}
@@ -81,7 +95,7 @@ public class UserManager {
 	}
 
 	public boolean isLogin(){
-		return (!TextUtils.isEmpty(getCurrentToken())&&-1!=getCurrentUserId());
+		return (!TextUtils.isEmpty(getCurrentToken(null))&&-1!=getCurrentUserId());
 	}
 	
 	/**登出用户
@@ -208,11 +222,22 @@ public class UserManager {
 		return password;
 	}
 
-	public String getCurrentToken(){
+	public String getCurrentToken(PostLoginTask task){
 		JSONObject jsonObject = mAccountCache.getItem("cache_login");
 		if(jsonObject!=null){
 			IUserServer.LoginResult loginResult = IUserServer.LoginResult.fromJSON(jsonObject.toString());
+			if(task!=null){
+				task.onLogin(loginResult.token);
+			}
+
 			return loginResult.token;
+		}
+		else{
+			if(task!=null){
+				mPostLoginTask = task;
+				LoginActivity.startActivity(TumccaApplication.applicationContext);
+				registerLogin();
+			}
 		}
 		return "";
 	}
@@ -221,17 +246,44 @@ public class UserManager {
 		return mHabitPrefs.getBoolean("picture_edit", false);
 	}
 
-	public void setUserPictureEdit(){
+	/**
+	 *
+	 */
+	public void recordUserPictureEdit(){
 		mHabitPrefs.edit().putBoolean("picture_edit", true).commit();
 
 	}
 
 	private UserManager(){
 		mUserServer = UserServer.getInstance();
-		mAccountCache = new PrefsCache(DemoApplication.applicationContext, "cache_login");
-		mProfilesCache = new PrefsCache(DemoApplication.applicationContext, "cache_profiles");
-		mHabitPrefs = DemoApplication.applicationContext.getSharedPreferences("user_habit", Context.MODE_PRIVATE);
+		mAccountCache = new PrefsCache(TumccaApplication.applicationContext, "cache_login");
+		mProfilesCache = new PrefsCache(TumccaApplication.applicationContext, "cache_profiles");
+		mHabitPrefs = TumccaApplication.applicationContext.getSharedPreferences("user_habit", Context.MODE_PRIVATE);
+
 	}
+
+	private void registerLogin(){
+
+		mLoginReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String result = intent.getStringExtra("result");
+				if (result.equals("success")) {
+					mPostLoginTask.onLogin(getCurrentToken(null));
+
+				} else {
+					mPostLoginTask.onCancel();
+				}
+				TumccaApplication.applicationContext.unregisterReceiver(mLoginReceiver);
+				mPostLoginTask = null;
+				mLoginReceiver = null;
+			}
+		};
+		TumccaApplication.applicationContext.registerReceiver(mLoginReceiver, new IntentFilter("action_login"));
+		//
+	}
+
+
 
 
 	

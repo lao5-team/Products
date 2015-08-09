@@ -22,7 +22,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.HalfRoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.activity.WorkDetailActivity;
 import com.pineapple.mobilecraft.tumcca.activity.UserActivity;
@@ -86,11 +86,11 @@ public class WorkListFragment extends Fragment implements IWorksList {
         mMapProfile = new HashMap<Integer, Profile>();
         mAdapter = new PictureAdapter();
         mImageOptionsAvatar = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
         mImageOptionsWorks = new DisplayImageOptions.Builder()
-                .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
         mImageLoader = ImageLoader.getInstance();
 

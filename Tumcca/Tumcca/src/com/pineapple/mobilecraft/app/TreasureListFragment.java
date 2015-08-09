@@ -121,7 +121,7 @@ public class TreasureListFragment extends ListFragment {
 				new IAdapterItem<Treasure>() {
 					@Override
 					public View getView(Treasure data, View convertView) {
-						Log.v(DemoApplication.TAG, "getView()");
+						Log.v(TumccaApplication.TAG, "getView()");
 						View view = getActivity().getLayoutInflater()
 								.inflate(R.layout.item_treasure, null);
 						ViewHolder holder = new ViewHolder();
@@ -210,7 +210,7 @@ public class TreasureListFragment extends ListFragment {
     @Override
     public View getView()
     {
-    	Log.v(DemoApplication.TAG, "Fragment getView()");
+    	Log.v(TumccaApplication.TAG, "Fragment getView()");
     	return super.getView();
     }
 

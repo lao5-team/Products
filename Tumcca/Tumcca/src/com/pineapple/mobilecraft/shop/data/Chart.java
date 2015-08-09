@@ -8,14 +8,12 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.squareup.picasso.Picasso;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.cache.temp.JSONCache;
 import com.pineapple.mobilecraft.shop.app.GoodsActivity;
@@ -133,7 +131,7 @@ public class Chart {
 		
 	}
 	private static Chart mInstance = null;
-	JSONCache mChartCache = new JSONCache(DemoApplication.applicationContext, "Chart");
+	JSONCache mChartCache = new JSONCache(TumccaApplication.applicationContext, "Chart");
 
 	public static Chart getInstance()
 	{

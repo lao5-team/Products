@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.*;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -15,7 +14,7 @@ import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
@@ -58,7 +57,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mImageOptions = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(Util.dip2px(DemoApplication.applicationContext, 18)))
+                .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 18)))
                 .cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565).build();
 
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
@@ -262,17 +261,17 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQ_LOGIN && resultCode == RESULT_OK) {
-            Toast.makeText(this, getString(R.string.login_successed), Toast.LENGTH_SHORT).show();
+
             displayActionbar(1);
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken());
+                    List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken(null));
                     albumList.add(0, Album.DEFAULT_ALBUM);
 
                     for(Album album:albumList){
                         List<WorksInfo> worksInfoList;
-                        worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(), album.id, UserManager.getInstance().getCurrentUserId(), 1, 20, 400);
+                        worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null), album.id, UserManager.getInstance().getCurrentUserId(), 1, 20, 400);
                         album.worksInfoList = worksInfoList;
                         WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
                     }
@@ -307,7 +306,23 @@ public class HomeActivity extends FragmentActivity implements IHome {
          * 将会执行此case
          */
             case R.id.account:
-                UserActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId());
+                UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+                    @Override
+                    public void onLogin(String token) {
+                        UserActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId());
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void run() {
+
+                    }
+                });
+
                 break;
             case R.id.add:
                 CalligraphyCreateActivity.startActivity(HomeActivity.this);
@@ -357,6 +372,18 @@ public class HomeActivity extends FragmentActivity implements IHome {
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        int userId;
+        if(-1!=(userId = UserManager.getInstance().getCurrentUserId())){
+            mProfile = UserManager.getInstance().getUserProfile(userId);
+            displayActionbar(1);
+        }
+        else{
+            displayActionbar(0);
+        }
+    }
 
 
 }

@@ -1,7 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.data;
 
 import com.google.gson.Gson;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +46,7 @@ public class Album {
 
     public static Album NULL = new Album();
 
-    public static Album DEFAULT_ALBUM = new Album(DemoApplication.applicationContext.getString(R.string.default_album),
+    public static Album DEFAULT_ALBUM = new Album(TumccaApplication.applicationContext.getString(R.string.default_album),
             "", 0);
 
     public Album(){

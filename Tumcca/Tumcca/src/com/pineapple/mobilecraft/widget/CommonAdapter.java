@@ -2,8 +2,7 @@ package com.pineapple.mobilecraft.widget;
 
 import java.util.List;
 
-import com.pineapple.mobilecraft.DemoApplication;
-import com.pineapple.mobilecraft.shop.data.ShopCategory;
+import com.pineapple.mobilecraft.TumccaApplication;
 
 import android.util.Log;
 import android.view.View;
@@ -61,7 +60,7 @@ public class CommonAdapter<T> extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.v(DemoApplication.TAG, "pregetView() " + position);
+		Log.v(TumccaApplication.TAG, "pregetView() " + position);
 		
 		return mItem.getView(mDataList.get(position), convertView);
 	}

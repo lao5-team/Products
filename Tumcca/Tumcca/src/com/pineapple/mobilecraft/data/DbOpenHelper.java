@@ -13,7 +13,7 @@
  */
 package com.pineapple.mobilecraft.data;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -55,7 +55,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	}
 	
 	private static String getUserDatabaseName() {
-        return  DemoApplication.getInstance().getUserName() + "_demo.db";
+        return  TumccaApplication.getInstance().getUserName() + "_demo.db";
     }
 	
 	@Override

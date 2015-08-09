@@ -25,7 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.ActivityData;
 import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.data.comment.ActivityComment;
@@ -209,7 +209,7 @@ public class MyServerManager {
 					fileName, fileContent), "ISO-8859-1"));
 			HttpResponse response = httpClient.execute(post);
 			if (response.getStatusLine().getStatusCode() == 200) {
-				Log.v(DemoApplication.TAG, "Upload Image Success");
+				Log.v(TumccaApplication.TAG, "Upload Image Success");
 				String result = EntityUtils.toString(response.getEntity());
 				try {
 					JSONObject obj = new JSONObject(result);
@@ -333,7 +333,7 @@ public class MyServerManager {
 				} catch (IOException e) {
 					e.printStackTrace();
 				} 
-				Log.v(DemoApplication.TAG,
+				Log.v(TumccaApplication.TAG,
 						"getUserInfo result is " + MyUser.toJSON(user).toString());
 				return user;
 			}
@@ -421,7 +421,7 @@ public class MyServerManager {
 	}
 
 	public String createActivity2(ActivityData data) {
-		data.save(DemoApplication.applicationContext);
+		data.save(TumccaApplication.applicationContext);
 		return "";
 	}
 

@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.utils.PreferenceUtils;
 import com.pineapple.mobilecraft.R;
 
@@ -250,7 +250,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 			}
 			break;
 		case R.id.btn_logout:
-			DemoApplication.getInstance().logout();
+			TumccaApplication.getInstance().logout();
 			// 重新显示登陆页面
 			((EntryActivity) getActivity()).finish();
 			startActivity(new Intent(getActivity(), LoginActivity.class));

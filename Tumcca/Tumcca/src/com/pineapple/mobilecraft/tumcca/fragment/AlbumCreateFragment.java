@@ -69,7 +69,7 @@ public class AlbumCreateFragment extends DialogFragment {
                     public void run() {
                         final Album album = new Album(
                                 mEtxTitle.getText().toString(), mEtxDesc.getText().toString(), -1);
-                        final int new_album_id = WorksServer.uploadAlbum(UserManager.getInstance().getCurrentToken(), album
+                        final int new_album_id = WorksServer.uploadAlbum(UserManager.getInstance().getCurrentToken(null), album
                         );
 
 

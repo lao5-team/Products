@@ -8,17 +8,16 @@ import org.json.JSONObject;
 
 import android.test.AndroidTestCase;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 
 public class JSONCacheTest extends AndroidTestCase {
 
 	JSONCache mCache;
 	protected void setUp() throws Exception {
 		super.setUp();
-		mCache = new JSONCache(DemoApplication.applicationContext, "test");
+		mCache = new JSONCache(TumccaApplication.applicationContext, "test");
 		ArrayList<String> keyList = new ArrayList<String>();
 		List<JSONObject> valueList = new ArrayList<JSONObject>();
 		for(int i=0; i<10 ;i++)
@@ -40,7 +39,7 @@ public class JSONCacheTest extends AndroidTestCase {
 	//即使数据从内存中被清除掉，也能获取。
 	public void test()
 	{
-		JSONCache newCache = new JSONCache(DemoApplication.applicationContext, "test");
+		JSONCache newCache = new JSONCache(TumccaApplication.applicationContext, "test");
 		List<String> newkeyList = newCache.getKeysAfterItem(null, 10);
 		Assert.assertEquals(newkeyList.size(), 10);
 		
@@ -63,7 +62,7 @@ public class JSONCacheTest extends AndroidTestCase {
 	}
 	
 	public void test2(){
-		JSONCache cache = new JSONCache(DemoApplication.getInstance(), "test");
+		JSONCache cache = new JSONCache(TumccaApplication.getInstance(), "test");
 		List<String> keyList = new ArrayList<String>();
 		keyList.add("9");
 		keyList.add("10");

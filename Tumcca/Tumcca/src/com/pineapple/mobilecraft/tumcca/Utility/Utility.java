@@ -9,7 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.text.TextUtils;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -126,7 +126,7 @@ public class Utility {
         Bitmap bitmap1 = Bitmap.createBitmap(bitmap, 0, 0, options.outWidth, options.outHeight, matrix, true);
         FileOutputStream fos;
         try {
-            String pathOut = Utility.getTumccaImgPath(DemoApplication.applicationContext) + "/" + String.valueOf(System.currentTimeMillis()) + "temp.jpg";
+            String pathOut = Utility.getTumccaImgPath(TumccaApplication.applicationContext) + "/" + String.valueOf(System.currentTimeMillis()) + "temp.jpg";
             fos = new FileOutputStream(pathOut);
             bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, fos);
             try {
@@ -153,7 +153,7 @@ public class Utility {
         Bitmap bitmap1 = Bitmap.createBitmap(bitmap, 0, 0, options.outWidth, options.outHeight, matrix, true);
         FileOutputStream fos;
         try {
-            String pathOut = Utility.getTumccaImgPath(DemoApplication.applicationContext) + "/" + String.valueOf(System.currentTimeMillis()) + "temp.jpg";
+            String pathOut = Utility.getTumccaImgPath(TumccaApplication.applicationContext) + "/" + String.valueOf(System.currentTimeMillis()) + "temp.jpg";
             fos = new FileOutputStream(pathOut);
             bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             try {

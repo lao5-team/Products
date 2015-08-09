@@ -46,7 +46,7 @@ import android.widget.Toast;
 
 import com.easemob.chat.EMContactManager;
 import com.pineapple.mobilecraft.Constant;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.adapter.ContactAdapter;
 import com.pineapple.mobilecraft.data.InviteMessgeDao;
 import com.pineapple.mobilecraft.data.UserDao;
@@ -109,7 +109,7 @@ public class ContactlistFragment extends Fragment {
 				String username = adapter.getItem(position).getUsername();
 				if (Constant.NEW_FRIENDS_USERNAME.equals(username)) {
 					// 进入申请与通知页面
-					User user = DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
+					User user = TumccaApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
 					user.setUnreadMsgCount(0);
 					startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
 				}
@@ -210,7 +210,7 @@ public class ContactlistFragment extends Fragment {
 					// 删除db和内存中此用户的数据
 					UserDao dao = new UserDao(getActivity());
 					dao.deleteContact(tobeDeleteUser.getUsername());
-					DemoApplication.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
+					TumccaApplication.getInstance().getContactList().remove(tobeDeleteUser.getUsername());
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
@@ -252,7 +252,7 @@ public class ContactlistFragment extends Fragment {
 
 	private void getContactList() {
 		contactList.clear();
-		Map<String, User> users = DemoApplication.getInstance()
+		Map<String, User> users = TumccaApplication.getInstance()
 				.getContactList();
 		Iterator<Entry<String, User>> iterator = users.entrySet().iterator();
 		while (iterator.hasNext()) {

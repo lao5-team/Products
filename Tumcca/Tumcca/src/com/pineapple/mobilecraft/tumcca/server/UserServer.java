@@ -294,7 +294,7 @@ public class UserServer implements IUserServer{
      */
     public Profile getUserProfile(long id){
         String url = mHost + "/api/artists/" + id + "/profile";
-        String token = UserManager.getInstance().getCurrentToken();
+        String token = UserManager.getInstance().getCurrentToken(null);
         SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
             @Override
             public Profile postExcute(String result) {

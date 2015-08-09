@@ -9,7 +9,7 @@ import junit.framework.Assert;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.comment.ActivityComment;
 import com.pineapple.mobilecraft.data.comment.Comment;
 import com.pineapple.mobilecraft.data.message.ActivityMessage;
@@ -356,7 +356,7 @@ public class MyUser implements Serializable {
 	 */
 	public String getMyRoleType(ActivityData data)
 	{
-		String currentName = DemoApplication.getInstance().getUserName();
+		String currentName = TumccaApplication.getInstance().getUserName();
 		////temp delete
 		//if(data.mCreator.mName.equals(currentName))
 		if(data.mImgUrl!=null)

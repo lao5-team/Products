@@ -35,6 +35,10 @@ import com.pineapple.mobilecraft.utils.PATextUtils;
 
 /**
  * 注册页
+ * 测试用例：
+ * 1 用户名的手机号或者邮箱格式不正确，要注册失败，且弹出提示。
+ * 2 注册重复的用户名，要弹出提示
+ * 3 注册完成后要能够自动登录，登录后首页显示默认头像和用户填写的/斋号昵称
  */
 public class RegisterActivity extends Activity implements IRegister, TextWatcher {
     private EditText userNameEditText;
@@ -197,6 +201,6 @@ public class RegisterActivity extends Activity implements IRegister, TextWatcher
     private void uploadPseudonym(String pseudonym){
         Profile profile = Profile.createDefaultProfile();
         profile.pseudonym = pseudonym;
-        UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken());
+        UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken(null));
     }
 }

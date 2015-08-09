@@ -34,7 +34,7 @@ import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.pineapple.mobilecraft.Constant;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.UserDao;
 import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.manager.UserManager;
@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity {
 		usernameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		// 如果用户名密码都有，直接进入主页面
-		if (DemoApplication.getInstance().getUserName() != null && DemoApplication.getInstance().getPassword() != null) {
+		if (TumccaApplication.getInstance().getUserName() != null && TumccaApplication.getInstance().getPassword() != null) {
 			
 			final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
 			pd.setCanceledOnTouchOutside(false);
@@ -81,8 +81,8 @@ public class LoginActivity extends BaseActivity {
 				
 				@Override
 				public void run() {
-					String userName = DemoApplication.getInstance().getUserName();
-					String password = DemoApplication.getInstance().getPassword();
+					String userName = TumccaApplication.getInstance().getUserName();
+					String password = TumccaApplication.getInstance().getPassword();
 					UserManager.getInstance().login(userName, password);
 					startActivity(new Intent(LoginActivity.this, EntryActivity.class));
 					finish();
@@ -156,8 +156,8 @@ public class LoginActivity extends BaseActivity {
 					t.start();
 					
 					// 登陆成功，保存用户名密码
-					DemoApplication.getInstance().setUserName(username);
-					DemoApplication.getInstance().setPassword(password);
+					TumccaApplication.getInstance().setUserName(username);
+					TumccaApplication.getInstance().setPassword(password);
 					runOnUiThread(new Runnable() {
 						public void run() {
 							pd.setMessage("正在获取好友和群聊列表...");
@@ -187,7 +187,7 @@ public class LoginActivity extends BaseActivity {
 						userlist.put(Constant.GROUP_USERNAME, groupUser);
 
 						// 存入内存
-						DemoApplication.getInstance().setContactList(userlist);
+						TumccaApplication.getInstance().setContactList(userlist);
 						// 存入db
 						UserDao dao = new UserDao(LoginActivity.this);
 						List<User> users = new ArrayList<User>(userlist.values());
@@ -246,8 +246,8 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (DemoApplication.getInstance().getUserName() != null) {
-			usernameEditText.setText(DemoApplication.getInstance().getUserName());
+		if (TumccaApplication.getInstance().getUserName() != null) {
+			usernameEditText.setText(TumccaApplication.getInstance().getUserName());
 		}
 	}
 

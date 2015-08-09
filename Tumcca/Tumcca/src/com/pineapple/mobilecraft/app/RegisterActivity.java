@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.manager.UserManager;
 import com.pineapple.mobilecraft.data.MyUser;
@@ -84,7 +84,7 @@ public class RegisterActivity extends BaseActivity {
 								if (!RegisterActivity.this.isFinishing())
 									pd.dismiss();
 								// 保存用户名
-								DemoApplication.getInstance().setUserName(username);
+								TumccaApplication.getInstance().setUserName(username);
 								Toast.makeText(getApplicationContext(), "注册成功", 0).show();
 								finish();
 							}

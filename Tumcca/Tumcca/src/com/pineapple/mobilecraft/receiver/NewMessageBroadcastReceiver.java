@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.message.MyMessage;
 import com.pineapple.mobilecraft.manager.MessageManager;
 
@@ -52,7 +52,7 @@ public class NewMessageBroadcastReceiver extends BroadcastReceiver {
         {
         	try {
 				JSONObject obj = new JSONObject(((TextMessageBody)message.getBody()).getMessage());
-				Log.v(DemoApplication.TAG, "receive message " + obj.toString());
+				Log.v(TumccaApplication.TAG, "receive message " + obj.toString());
             	MyMessage msg = MyMessage.fromJSON(obj);
     			MessageManager.getInstance().receiveMessage(msg);
 			} catch (JSONException e) {

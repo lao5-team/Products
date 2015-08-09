@@ -55,17 +55,16 @@ import com.pineapple.mobilecraft.data.message.MyMessage;
 import com.pineapple.mobilecraft.manager.MessageManager;
 import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.manager.UserManager;
-import com.pineapple.mobilecraft.service.StateMonitorService;
 import com.pineapple.mobilecraft.utils.PreferenceUtils;
 //import com.easemob.chatuidemo.activity.ChatActivity;
 //import com.easemob.chatuidemo.activity.MainActivity;
 
-public class DemoApplication extends Application {
+public class TumccaApplication extends Application {
 
 	public static Context applicationContext;
 	public static String TAG = "juxiaohui";
 	public static boolean isDebug = false;
-	private static DemoApplication instance;
+	private static TumccaApplication instance;
 	// sign_in user name
 	public final String PREF_USERNAME = "username";
 	private String userName = null;
@@ -183,7 +182,7 @@ public class DemoApplication extends Application {
 
 	}
 
-	public static DemoApplication getInstance() {
+	public static TumccaApplication getInstance() {
 		
 		File rootDir = new File(Constant.ROOT_DIR);
 		if(!rootDir.exists())
@@ -372,5 +371,8 @@ public class DemoApplication extends Application {
  
 
 		mNotificationManager.notify(0, notification);
+
 	}
+
+
 }

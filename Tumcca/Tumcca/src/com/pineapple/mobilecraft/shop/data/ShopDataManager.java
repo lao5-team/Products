@@ -1,9 +1,8 @@
 package com.pineapple.mobilecraft.shop.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.cache.temp.JSONCache;
 import com.pineapple.mobilecraft.shop.server.ShopServer;
 import org.json.JSONObject;
@@ -24,7 +23,7 @@ public class ShopDataManager {
 	
 	private ShopDataManager()
 	{
-		mGoodsCache = new JSONCache(DemoApplication.applicationContext, "goods");
+		mGoodsCache = new JSONCache(TumccaApplication.applicationContext, "goods");
 	}
 	
 	/**

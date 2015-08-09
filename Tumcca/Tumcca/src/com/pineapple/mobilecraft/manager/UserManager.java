@@ -2,7 +2,7 @@ package com.pineapple.mobilecraft.manager;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.DbOpenHelper;
 import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.data.message.TreasureMessage;
@@ -85,7 +85,7 @@ public class UserManager {
 	{
 		// 先调用sdk logout，在清理app中自己的数据
 		EMChatManager.getInstance().logout();
-		DbOpenHelper.getInstance(DemoApplication.applicationContext).closeDB();
+		DbOpenHelper.getInstance(TumccaApplication.applicationContext).closeDB();
 		return true;
 	}
 	

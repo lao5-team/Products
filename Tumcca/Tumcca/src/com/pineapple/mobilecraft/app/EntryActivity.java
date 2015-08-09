@@ -14,7 +14,7 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
 import com.pineapple.mobilecraft.Constant;
-import com.pineapple.mobilecraft.DemoApplication;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.data.InviteMessgeDao;
 import com.pineapple.mobilecraft.data.UserDao;
 import com.pineapple.mobilecraft.manager.InviteMessage;
@@ -248,8 +248,8 @@ public class EntryActivity extends FragmentActivity {
 	 */
 	public int getUnreadAddressCountTotal() {
 		int unreadAddressCountTotal = 0;
-		if (DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME) != null)
-			unreadAddressCountTotal = DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME)
+		if (TumccaApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME) != null)
+			unreadAddressCountTotal = TumccaApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME)
 					.getUnreadMsgCount();
 		return unreadAddressCountTotal;
 	}
@@ -315,7 +315,7 @@ public class EntryActivity extends FragmentActivity {
 		// 保存msg
 		inviteMessgeDao.saveMessage(msg);
 		// 未读数加1
-		User user = DemoApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
+		User user = TumccaApplication.getInstance().getContactList().get(Constant.NEW_FRIENDS_USERNAME);
 		user.setUnreadMsgCount(user.getUnreadMsgCount() + 1);
 	}
 
@@ -514,7 +514,7 @@ public class EntryActivity extends FragmentActivity {
 	 */
 	private void showConflictDialog() {
 		isConflictDialogShow = true;
-		DemoApplication.getInstance().logout();
+		TumccaApplication.getInstance().logout();
 
 		if (!EntryActivity.this.isFinishing()) {
 			// clear up global variables
