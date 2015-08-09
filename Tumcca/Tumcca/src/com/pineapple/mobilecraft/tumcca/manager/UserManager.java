@@ -121,7 +121,7 @@ public class UserManager {
 	 * @param userId
 	 * @return {@link Profile}
 	 */
-	public Profile getUserProfile(int userId)
+	public Profile getUserProfile(long userId)
 	{
 		String key = String.valueOf(userId);
 		if(mProfilesCache.hasKey(key)){

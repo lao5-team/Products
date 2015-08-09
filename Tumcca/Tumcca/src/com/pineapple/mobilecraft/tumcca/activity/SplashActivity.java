@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 
 /**
@@ -60,6 +61,7 @@ public class SplashActivity extends Activity {
                     public void run() {
                         //
                         Looper.prepare();
+                        UserServer.getInstance().deleteUser("124");
                         mService.preloadApp();
 
                         try {

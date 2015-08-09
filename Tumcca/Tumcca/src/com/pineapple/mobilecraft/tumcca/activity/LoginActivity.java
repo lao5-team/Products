@@ -138,7 +138,7 @@ public class LoginActivity extends Activity {
 	 */
 	public void register(View view) {
 		RegisterActivity.startActivity(LoginActivity.this, REQ_REG);
-		finish();
+		//finish();
 	}
 
 	@Override

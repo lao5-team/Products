@@ -21,6 +21,10 @@ public interface IUserServer {
     public static class RegisterResult{
         public String uid;
         public String message = REGISTER_FAILED;
+
+        public static RegisterResult getFailResult(){
+            return new RegisterResult();
+        }
     }
 
     public static class LoginResult{

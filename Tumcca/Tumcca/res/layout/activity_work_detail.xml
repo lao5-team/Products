@@ -48,7 +48,8 @@
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent" android:id="@+id/layout_author"
                         android:layout_height="wrap_content" android:padding="15dip"
-                        android:background="@color/pure_white" android:layout_below="@+id/layout_divider">
+                        android:background="@color/pure_white" android:layout_below="@+id/layout_divider"
+                        android:layout_marginBottom="5dip">
             <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -65,6 +66,12 @@
                     android:textSize="@dimen/text_size_normal"
                     android:layout_marginLeft="10dp"/>
         </RelativeLayout>
+            <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dip"
+                    android:id="@+id/view_comments" android:layout_below="@+id/layout_author"
+                    android:background="@drawable/corner_border_dialog" android:dividerHeight="0dp"
+                    android:divider="#00000000"/>
 
 
         </RelativeLayout>
@@ -89,19 +96,20 @@
             >
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="38dip"
-                android:id="@+id/editText" android:layout_toLeftOf="@+id/submit"
-                android:layout_alignParentBottom="false" style="@style/my_edittext_style"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText_comment" android:layout_toLeftOf="@+id/submit_comment"
+                android:layout_alignParentBottom="false" style="@style/tumcca_edittext_style"
                 android:layout_centerVertical="true"
-                android:hint="@string/input_comment"/>
+                android:hint="@string/input_comment" android:background="@drawable/edit_text_bg"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="42dip"
                 android:text="@string/submit"
-                android:id="@+id/submit" android:layout_alignParentRight="true"
+                android:id="@+id/submit_comment" android:layout_alignParentRight="true"
                 android:textSize="@dimen/text_size_normal" android:layout_alignParentBottom="false"
                 android:layout_marginTop="5dip"
-                android:layout_centerVertical="true" style="@style/my_button_style" android:layout_marginLeft="5dip"/>
+                android:layout_centerVertical="true" style="@style/my_button_style" android:layout_marginLeft="5dip"
+                android:layout_alignParentEnd="true" android:enabled="false"/>
         </RelativeLayout>
 
         <LinearLayout

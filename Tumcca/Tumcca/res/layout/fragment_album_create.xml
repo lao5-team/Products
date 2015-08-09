@@ -34,14 +34,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/editText_title" android:layout_marginTop="10dip"
-                    android:layout_marginRight="15dip" android:layout_marginBottom="10dip" style="@style/my_edittext_style"
+                    android:layout_marginRight="15dip" android:layout_marginBottom="10dip" style="@style/tumcca_edittext_style"
                     android:layout_marginLeft="15dip" android:hint="@string/title"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/editText_description" android:layout_below="@+id/editText_title"
                     android:layout_marginLeft="15dip" android:layout_marginRight="15dip"
-                    style="@style/my_edittext_style" android:minLines="2"
+                    style="@style/tumcca_edittext_style" android:minLines="2"
                     android:hint="@string/contentDescription" android:gravity="top"/>
         </RelativeLayout>
         <RelativeLayout

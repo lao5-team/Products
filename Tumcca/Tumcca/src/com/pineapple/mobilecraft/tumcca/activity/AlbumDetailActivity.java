@@ -96,7 +96,7 @@ public class AlbumDetailActivity extends FragmentActivity {
                 finish();
                 return true;
             case R.id.menu_delete:
-                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("确定删除此作品？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("确定删除此专辑？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Executors.newSingleThreadExecutor().submit(new Runnable() {

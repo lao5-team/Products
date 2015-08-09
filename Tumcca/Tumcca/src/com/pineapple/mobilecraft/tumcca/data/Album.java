@@ -12,6 +12,19 @@ import java.util.List;
  * Created by yihao on 15/7/1.
  */
 public class Album {
+
+//    public static class AlbumPrarams {
+//        public String toString(){
+//
+//        }
+//    }
+//
+//    public static class AlbumResult{
+//        public String toString(){
+//
+//        }
+//    }
+
     public String title = "";
     public String description = "";
     //public int sampleImageId = -1;
@@ -62,11 +75,15 @@ public class Album {
         Gson gson = new Gson();
         try {
             JSONObject jsonObject = new JSONObject(gson.toJson(album));
-            jsonObject.put("id", album.id);
+            if(album.id!=-1){
+                jsonObject.put("id", album.id);
+            }
             return jsonObject;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
     }
+
+    //public static
 }

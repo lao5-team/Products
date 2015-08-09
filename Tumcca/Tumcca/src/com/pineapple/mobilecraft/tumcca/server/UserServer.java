@@ -292,7 +292,7 @@ public class UserServer implements IUserServer{
      * @param id
      * @return 一个有效的{@link Profile}或者{@link Profile.NULL}
      */
-    public Profile getUserProfile(int id){
+    public Profile getUserProfile(long id){
         String url = mHost + "/api/artists/" + id + "/profile";
         String token = UserManager.getInstance().getCurrentToken();
         SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {

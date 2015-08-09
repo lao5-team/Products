@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.*;
+import android.text.style.ForegroundColorSpan;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,9 +22,11 @@ import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.data.MyUser;
 import com.pineapple.mobilecraft.data.Treasure;
 import com.pineapple.mobilecraft.data.comment.TreasureComment;
+import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.manager.TreasureManager;
 import com.pineapple.mobilecraft.mediator.ITreasureDetailMediator;
 import com.pineapple.mobilecraft.server.BmobServerManager;
+import com.pineapple.mobilecraft.tumcca.data.Comment;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -31,6 +36,7 @@ import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.tumcca.view.ObservableScrollView;
 import com.pineapple.mobilecraft.widget.CommonAdapter;
+import com.pineapple.mobilecraft.widget.ExpandListView;
 import com.pineapple.mobilecraft.widget.IAdapterItem;
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
@@ -43,8 +49,9 @@ import java.util.concurrent.Executors;
 /**
  * Created by yihao on 15/6/3.
  * 用来查看宝物详情
+ * TODO 清理这部分代码
  */
-public class WorkDetailActivity extends FragmentActivity implements ITreasureDetailMediator, View.OnClickListener, IMyScrollViewListener, AbsListView.OnScrollListener, View.OnTouchListener {
+public class WorkDetailActivity extends FragmentActivity implements View.OnClickListener, IMyScrollViewListener, AbsListView.OnScrollListener, View.OnTouchListener {
 
     private TextView mTvUser;
     private ImageView mIvUser;
@@ -54,7 +61,7 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
     private TextView mTvDesc;
     private Button mBtnComments;
     private Button mBtnProfComments;
-    private ListView mLvComments; //普通评论和专家点评用一个ListView，用两种不同的adapter
+    //private ListView mLvComments; //普通评论和专家点评用一个ListView，用两种不同的adapter
     private ObservableScrollView scrollView;
     DisplayImageOptions mImageOptions;
     ImageLoader mImageLoader;
@@ -62,7 +69,7 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
         @Override
         public View getView(TreasureComment data, View convertView) {
             View view = WorkDetailActivity.this.getLayoutInflater().inflate(R.layout.item_treasure_comment, null);
-            TextView tvUser = (TextView) view.findViewById(R.id.textView_username);
+            TextView tvUser = (TextView) view.findViewById(R.id.textView_comment);
             tvUser.setText(data.mFromUserName);
             TextView tvContent = (TextView) view.findViewById(R.id.textView_content);
             tvContent.setText(data.mContent);
@@ -74,7 +81,7 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
         @Override
         public View getView(TreasureComment data, View convertView) {
             View view = WorkDetailActivity.this.getLayoutInflater().inflate(R.layout.item_treasure_comment, null);
-            TextView tvUser = (TextView) view.findViewById(R.id.textView_username);
+            TextView tvUser = (TextView) view.findViewById(R.id.textView_comment);
             tvUser.setText(data.mFromUserName);
             TextView tvContent = (TextView) view.findViewById(R.id.textView_content);
             tvContent.setText(data.mContent);
@@ -99,19 +106,13 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
     private ImageView excellentImg;
     private TextView excellentTv;
     private ImageView collectionImg;
-    private Treasure mTreasure = Treasure.NULL;
-    private MyUser mUser;
-    private List<TreasureComment> mListComment;
-    private List<TreasureComment> mListProfComment;
+
 
     private WorksInfo mWorks = WorksInfo.NULL;
     private Profile mProfile = Profile.NULL;
-    /**
-     * 评论类型，0普通用户，1专家
-     */
-    private int mCommentType = 0;
-    private static String INTENT_TREASURE_ID = "treasureID";
 
+    private ListView mLVComment;
+    List<Comment> mCommentList = new ArrayList<Comment>();
     public static void startActivity(WorksInfo worksInfo, Activity activity) {
         Intent intent = new Intent(activity, WorkDetailActivity.class);
         intent.putExtra("works", WorksInfo.toJSON(worksInfo).toString() );
@@ -135,7 +136,7 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
             e.printStackTrace();
         }
 
-        setContentView(R.layout.activity_calligraphy_detail);
+        setContentView(R.layout.activity_work_detail);
         mImageOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
@@ -184,202 +185,24 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
             }
         });
 
-
-//        addTitleView();
-//        addDescView();
-//        addImagesView();
-//        addCommentsView();
-//        addProfCommentsView();
-//        addUserView();
-//        addCommentControl();
-//
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent intent = getIntent();
-//                String treasureID = intent.getStringExtra(INTENT_TREASURE_ID);
-//                if (true == intent.getBooleanExtra("fromNotification", false)) {
-//                    TreasureManager.getInstance().clearUserMessage(UserManager.getInstance().getCurrentUser().mName);
-//                }
-//                List<String> ids = new ArrayList<String>();
-//                ids.add_photo(treasureID);
-//                final List<Treasure> treasures = TreasureManager.getInstance().getTreasuresByIds(ids);
-//                if (treasures.size() > 0) {
-//                    mUser = MyServerManager.getInstance().getUserInfo(treasures.get(0).mOwnerName);
-//                    mListComment = BmobServerManager.getInstance().getTreasureComments(treasures.get(0).mCommentIds);
-//                    mListProfComment = BmobServerManager.getInstance().getTreasureProfComment(treasures.get(0).mIdentifies);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            setTreasure(treasures.get(0));
-//                            setUser(mUser);
-//                            setComments(mListComment, mListProfComment);
-//                        }
-//                    });
-//                } else {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            finish();
-//                        }
-//                    });
-//
-//                }
-//            }
-//        });
-//        t.start();
-    }
-
-    @Override
-    public void setTreasure(Treasure treasure) {
-        mTreasure = treasure;
-
-
-        mTvTitle.setText(mTreasure.mName);
-        mTvDesc.setText(mTreasure.mDesc);
-    }
-
-    private void setComments(List<TreasureComment> userComments, List<TreasureComment> profComments) {
-        mAdapterComments.setData(userComments);
-        mAdapterComments.notifyDataSetChanged();
-        mAdapterProfComments.setData(profComments);
-        mAdapterProfComments.notifyDataSetChanged();
-    }
-
-    @Override
-    public void setUser(MyUser user) {
-        mUser = user;
-        mTvUser.setText(user.mName);
-        if (null != user.mImgUrl && user.mImgUrl.length() > 0) {
-            Picasso.with(this).load(user.mImgUrl).into(mIvUser);
-        }
-    }
-
-    @Override
-    public void addUserView() {
-        mTvUser = (TextView) findViewById(R.id.textView_author);
-        mIvUser = (ImageView) findViewById(R.id.imageView_author);
-    }
-
-    @Override
-    public void addTitleView() {
-        mTvTitle = (TextView) findViewById(R.id.editText_treasure_name);
-
-    }
-
-    @Override
-    public void addImagesView() {
-        mVPImages = (ImageSwitcher) findViewById(R.id.imageSwitcher_treasure_imgs);
-        //#mVPImages.
-    }
-
-    @Override
-    public void addDescView() {
-        mTvDesc = (TextView) findViewById(R.id.textView_desc);
-
-    }
-
-    @Override
-    public void addCommentsView() {
-        mLvComments = (ListView) findViewById(R.id.listView_comment);
-        mLvComments.setAdapter(mAdapterComments);
-        mBtnComments = (Button) findViewById(R.id.button_comment);
-        mBtnComments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchToComments();
-            }
-        });
-        mCBIdentify = (CheckBox) findViewById(R.id.checkBox_identify);
-
-    }
-
-    @Override
-    public void addProfCommentsView() {
-        mBtnProfComments = (Button) findViewById(R.id.button_profcomment);
-        mBtnProfComments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchToProfcomments();
-            }
-        });
-
-    }
-
-    /**
-     * 添加评论按钮和输入框
-     */
-    @Override
-    public void addCommentControl() {
-        mBtnComment = (Button) findViewById(R.id.button_send);
-        mEtxComment = (EditText) findViewById(R.id.editText_comment);
-
-        mBtnComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TreasureComment comment;
-                if (mCommentType == 0) {
-                    comment = TreasureComment.createUserComment();
-                    comment.mTreasureId = mTreasure.getObjectId();
-                    comment.mContent = mEtxComment.getEditableText().toString();
-                    //comment.mFromUserName = UserManager.getInstance()..mName;
-                } else {
-                    comment = TreasureComment.createProfComment();
-                    comment.mTreasureId = mTreasure.getObjectId();
-                    comment.mContent = mEtxComment.getEditableText().toString();
-                    //comment.mFromUserName = UserManager.getInstance().getCurrentUser().mName;
-                    //comment.mIdentifyResult = mCBIdentify.isChecked();
-                }
-                sendComment(comment);
-            }
-        });
-
-    }
-
-    @Override
-    public void switchToComments() {
-        mCommentType = 0;
-        mLvComments.setAdapter(mAdapterComments);
-        mEtxComment.setVisibility(View.VISIBLE);
-        mBtnComment.setVisibility(View.VISIBLE);
-        mCBIdentify.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void switchToProfcomments() {
-        mCommentType = 1;
-        mLvComments.setAdapter(mAdapterProfComments);
-//        if (UserManager.getInstance().getCurrentUser().mType != MyUser.PROFESSION_USER) {
-//            mEtxComment.setVisibility(View.GONE);
-//            mBtnComment.setVisibility(View.GONE);
-//        } else {
-//            mCBIdentify.setVisibility(View.VISIBLE);
-//        }
-    }
-
-    @Override
-    public void sendComment(TreasureComment comment) {
-        final TreasureComment fComment = comment;
-        Thread t = new Thread(new Runnable() {
+        mLVComment = (ListView)findViewById(R.id.view_comments);
+        addCommentView(mLVComment);
+        Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
             public void run() {
-                TreasureManager.getInstance().sendComment(fComment);
-
-                final Treasure treasure = TreasureManager.getInstance().getTreasureById(mTreasure.getObjectId());
-                mListComment = BmobServerManager.getInstance().getTreasureComments(treasure.mCommentIds);
-                mListProfComment = BmobServerManager.getInstance().getTreasureProfComment(treasure.mIdentifies);
+                mCommentList = WorksServer.getWorkCommentList(mWorks.id);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        setTreasure(treasure);
-                        setComments(mListComment, mListProfComment);
+                        setHeight();
+                        mCommentAdapter.notifyDataSetChanged();
                     }
                 });
-
             }
         });
-        t.start();
+
     }
+
 
     @Override
     public void onClick(View view) {
@@ -472,7 +295,7 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
                 finish();
                 return true;
             case R.id.menu_delete:
-                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("确定删除此专辑？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("确定删除此作品？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Executors.newSingleThreadExecutor().submit(new Runnable() {
@@ -508,5 +331,145 @@ public class WorkDetailActivity extends FragmentActivity implements ITreasureDet
             menu.removeItem(R.id.menu_delete);
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+
+    private class CommentAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return mCommentList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = getLayoutInflater().inflate(R.layout.item_comment, null);
+            Comment comment = mCommentList.get(position);
+            TextView textView = (TextView) view.findViewById(R.id.textView_comment);
+
+            //TODO
+            String reviewerName = comment.reviewerName;
+            String replyTargetName = comment.targetName;
+            if(TextUtils.isEmpty(replyTargetName)){
+                String content = reviewerName + ":" + comment.description;
+                SpannableString style=new SpannableString(content);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.button_normal_red)),content.indexOf(reviewerName),content.indexOf(reviewerName) + reviewerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                textView.setText(style);
+            }
+            else{
+                String content = reviewerName + "回复" + comment.targetName + ":" + comment.description;
+                SpannableString style=new SpannableString(content);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.button_normal_red)),content.indexOf(reviewerName),content.indexOf(reviewerName) + reviewerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.button_normal_red)),reviewerName.length() + "回复".length(),reviewerName.length() + "回复".length() + replyTargetName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                textView.setText(style);
+            }
+            return view;
+        }
+    }
+
+    CommentAdapter mCommentAdapter = new CommentAdapter();
+    long mReplyTarget;
+    private void addCommentView(ListView expandListView){
+
+        mBtnComment = (Button) findViewById(R.id.submit_comment);
+        mBtnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        WorksServer.submitComment(UserManager.getInstance().getCurrentToken(), mWorks.id, mReplyTarget, mEtxComment.getText().toString());
+                        mCommentList = WorksServer.getWorkCommentList(mWorks.id);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                exitCommentMode();
+                                setHeight();
+                                mCommentAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        mEtxComment = (EditText) findViewById(R.id.editText_comment);
+        mEtxComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()>0){
+                    mBtnComment.setEnabled(true);
+                }else{
+                    mBtnComment.setEnabled(false);
+                }
+            }
+        });
+
+        mLVComment.setAdapter(mCommentAdapter);
+        setHeight();
+        mLVComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                long reviewer;
+                if((reviewer = mCommentList.get(position).reviewer) != UserManager.getInstance().getCurrentUserId()){
+                    Profile profile = UserManager.getInstance().getUserProfile(reviewer);
+                    enterCommentMode(mCommentList.get(position).id, profile.pseudonym);
+                }
+            }
+        });
+
+    }
+
+    private void addComment(Comment comment){
+        mCommentList.add(comment);
+        setHeight();
+        mCommentAdapter.notifyDataSetChanged();
+    }
+
+    private void enterCommentMode(long replyTarget, String replyAuthorName){
+        mReplyTarget = replyTarget;
+        bottom.setVisibility(View.VISIBLE);
+        funcLay.setVisibility(View.GONE);
+
+    }
+
+    private void exitCommentMode(){
+        bottom.setVisibility(View.GONE);
+        funcLay.setVisibility(View.VISIBLE);
+        mReplyTarget = 0;
+    }
+
+    public void setHeight(){
+        int listViewHeight = 0;
+        int adaptCount = mCommentAdapter.getCount();
+        for(int i=0;i<adaptCount;i++){
+            View temp = mCommentAdapter.getView(i,null,mLVComment);
+            temp.measure(0,0);
+            listViewHeight += temp.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams layoutParams = this.mLVComment.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.FILL_PARENT;
+        layoutParams.height = listViewHeight;
+        mLVComment.setLayoutParams(layoutParams);
     }
 }

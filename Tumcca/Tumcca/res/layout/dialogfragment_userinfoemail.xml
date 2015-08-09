@@ -40,7 +40,7 @@
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
-                    style="@style/my_edittext_style"
+                    style="@style/tumcca_edittext_style"
                     android:paddingLeft="14dp"
                     android:textSize="16sp"
                     android:text="122290130@qq.com"

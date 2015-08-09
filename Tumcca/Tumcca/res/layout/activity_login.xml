@@ -85,7 +85,7 @@
                 android:singleLine="true"
 
 
-                android:textSize="16sp"  style="@style/my_edittext_style"
+                android:textSize="16sp"  style="@style/tumcca_edittext_style"
                 android:paddingLeft="10dip" />
 
     </RelativeLayout>
@@ -101,7 +101,7 @@
                 android:layout_height="match_parent"
                 android:hint="密码"
                 android:inputType="textPassword"
-                android:singleLine="true"  style="@style/my_edittext_style"
+                android:singleLine="true"  style="@style/tumcca_edittext_style"
                 android:textSize="16sp" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" android:paddingLeft="10dp"/>
 

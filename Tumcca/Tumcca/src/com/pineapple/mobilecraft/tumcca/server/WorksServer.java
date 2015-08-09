@@ -1,6 +1,7 @@
 package com.pineapple.mobilecraft.tumcca.server;
 
 import com.pineapple.mobilecraft.tumcca.data.Album;
+import com.pineapple.mobilecraft.tumcca.data.Comment;
 import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -12,9 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by yihao on 15/6/26.
@@ -586,4 +585,59 @@ public class WorksServer {
         }
         return result;
     }
+
+    public static void submitComment(String token, long works, long replyTarget,  String description){
+        String url = host + "/api/comment";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("works", works);
+            jsonObject.put("replyTarget", replyTarget);
+            jsonObject.put("description", description);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, jsonObject.toString()) {
+            @Override
+            public String postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+    }
+
+    public static List<Comment> getWorkCommentList(int workId){
+        String url = host + "/api/comment/works/" + workId;
+        SyncHttpGet<List<Comment>> post = new SyncHttpGet<List<Comment>>(url, null) {
+            @Override
+            public List<Comment> postExcute(String result) {
+                List<Comment> commentList = new ArrayList<Comment>();
+                HashMap<Long, Comment> commentHashMap = new HashMap<Long, Comment>();
+                try {
+                    //JSONObject jsonObject = new JSONObject(result);
+                    JSONArray array = new JSONArray(result);
+                    for(int i=0; i<array.length(); i++){
+                        Comment comment = Comment.fromJSON(array.getJSONObject(i));
+                        commentHashMap.put(comment.id, comment);
+                    }
+                    Set<Long> idSet = commentHashMap.keySet();
+                    for(Long set:idSet){
+                        Comment comment = commentHashMap.get(set);
+                        comment.reviewerName = UserManager.getInstance().getUserProfile(comment.reviewer).pseudonym;
+                        if(0!=comment.replyTarget){
+                            comment.targetName = UserManager.getInstance().getUserProfile(commentHashMap.get(comment.replyTarget).reviewer).pseudonym;
+                        }
+                        commentList.add(comment);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return commentList;
+            }
+        };
+        return post.execute();
+    }
+
 }

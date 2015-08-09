@@ -1,65 +1,28 @@
 package com.pineapple.mobilecraft.tumcca.data;
 
+import com.google.gson.Gson;
 import org.json.JSONObject;
 
-public abstract class Comment {
+public  class Comment {
 	/**
-	 * 评论ID
+	 *     "id": 1,
+	 "works": 1244,
+	 "reviewer": 118,
+	 "replyTarget": 0,
+	 "description": "test",
+	 "createTime": 1438935449000
 	 */
-	protected String mID;
-	/**
-	 * 发表评论的用户名称
-	 */
-	protected String mUserName;
-	/**
-	 * 评论内容
-	 */
-	protected String mContent;
-	
-	/**
-	 * 设置评论ID
-	 * @param ID
-	 */
-	public void setID(String ID)
-	{
-		if(null==ID)
-		{
-			throw new IllegalArgumentException("ID can not be null!");
-		}
-		mID = ID;
+	public long id = -1;
+	public long reviewer = -1;
+	public long works = -1;
+	public long replyTarget = -1;
+	public transient String reviewerName = "";
+	public transient String targetName = "";
+
+	public String description = "";
+
+	public static Comment fromJSON(JSONObject jsonObject){
+		Gson gson = new Gson();
+		return gson.fromJson(jsonObject.toString(), Comment.class);
 	}
-	
-	/**
-	 * 返回ID
-	 * @return
-	 */
-	public String getID()
-	{
-		return mID;
-	}
-	
-	/**
-	 * 返回发表评论的用户名称
-	 * @return
-	 */
-	public String getUserName()
-	{
-		return mUserName;
-	}
-	
-	/**
-	 * 返回评论内容
-	 * @return
-	 */
-	public String getContent()
-	{
-		return mContent;
-	}	
-	
-    abstract public JSONObject toJSON();
-    /** 检查该用户是否有权限删除评论
-     * @param userID
-     * @return 
-     */
-    abstract public boolean checkDeleteAuthority(String userID);
 }

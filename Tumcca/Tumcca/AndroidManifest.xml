@@ -204,7 +204,8 @@
         <activity android:name=".tumcca.activity.UserCity"/>
         <activity android:name=".tumcca.activity.PictureEditActivity" android:theme="@style/my_activity_style">
 
-                </activity>>
+                </activity>
+        <activity android:name=".tumcca.activity.CommentActivity"/>>
         <service android:name="com.pineapple.mobilecraft.tumcca.service.TumccaService"/>
 
     </application>

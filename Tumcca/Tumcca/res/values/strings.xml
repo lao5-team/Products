@@ -185,6 +185,7 @@
     <string name="remove_picture_confirm">确定要删除这张图片?</string>
     <string name="please_enter_correct_phone_or_email">请填写正确的手机号或者邮箱</string>
     <string name="password_cannot_be_empty">密码不能为空</string>
+    <string name="pseudonym_cannot_be_empty">斋号/昵称不能为空</string>
     <string name="registering">正在注册</string>
     <string name="register_success">注册成功</string>
     <string name="register_failed">注册失败</string>

@@ -41,7 +41,7 @@ public class TreasureDetailActivity extends Activity implements ITreasureDetailM
         @Override
         public View getView(TreasureComment data, View convertView) {
             View view = TreasureDetailActivity.this.getLayoutInflater().inflate(R.layout.item_treasure_comment, null);
-            TextView tvUser = (TextView)view.findViewById(R.id.textView_username);
+            TextView tvUser = (TextView)view.findViewById(R.id.textView_comment);
             tvUser.setText(data.mFromUserName);
             TextView tvContent = (TextView)view.findViewById(R.id.textView_content);
             tvContent.setText(data.mContent);
@@ -53,7 +53,7 @@ public class TreasureDetailActivity extends Activity implements ITreasureDetailM
         @Override
         public View getView(TreasureComment data, View convertView) {
             View view = TreasureDetailActivity.this.getLayoutInflater().inflate(R.layout.item_treasure_comment, null);
-            TextView tvUser = (TextView)view.findViewById(R.id.textView_username);
+            TextView tvUser = (TextView)view.findViewById(R.id.textView_comment);
             tvUser.setText(data.mFromUserName);
             TextView tvContent = (TextView)view.findViewById(R.id.textView_content);
             tvContent.setText(data.mContent);

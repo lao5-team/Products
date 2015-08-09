@@ -8,7 +8,6 @@ import com.pineapple.mobilecraft.data.comment.IActivityCommentLoader;
 
 import android.app.Activity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -71,7 +70,7 @@ public class CommentAdapter extends BaseAdapter {
 		{
 			convertView = mContext.getLayoutInflater().inflate(R.layout.item_comment, null);
 		}
-		TextView tvUserName = (TextView)convertView.findViewById(R.id.textView_username);
+		TextView tvUserName = (TextView)convertView.findViewById(R.id.textView_comment);
 		if(null==mCommentList.get(position).getReplyTo())
 		{
 			tvUserName.setText(mCommentList.get(position).getUserName() +":");

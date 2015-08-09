@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/editText_description" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" android:hint="@string/edit_description"
-                android:textAlignment="center" style="@style/my_edittext_style" android:padding="10dip"
+                android:textAlignment="center" style="@style/tumcca_edittext_style" android:padding="10dip"
                 android:minLines="3" android:gravity="top"/>
     </RelativeLayout>
     <RelativeLayout
