@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" style="@style/my_activity_style">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:text="22个粉丝"
+                android:id="@+id/textView_count" android:layout_gravity="right|left" android:background="@color/pure_white"
+                android:layout_margin="10dip"/>
+
+        <include android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/textView_count"
+                 layout="@layout/fragment_base_list"/>
+    </RelativeLayout>
+
+</RelativeLayout>

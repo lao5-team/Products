@@ -10,14 +10,12 @@ import android.view.*;
 import android.widget.Toast;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
-import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.fragment.AlbumListFragment;
 import com.pineapple.mobilecraft.tumcca.fragment.AlbumWorkListFragment;
-import com.pineapple.mobilecraft.app.UserListFragment;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.fragment.UserListFragment;
 import com.pineapple.mobilecraft.tumcca.fragment.WorkListFragment;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
-import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -64,8 +62,10 @@ public class UserActivity extends FragmentActivity {
         mLikesFragment = new AlbumWorkListFragment();
         mCollectFragment = new AlbumWorkListFragment();
         mFollowerFragment = new UserListFragment();
-        mFollowingFragment = new UserListFragment();
 
+        mFollowingFragment = new UserListFragment();
+        mFollowingFragment.setUsersMode(UserListFragment.MODE_FOLLOWING);
+        mFollowingFragment.setUserId((long)mAuthorId);
 
         if (mIsTestMode) {
             UserManager.getInstance().login("999", "999");
@@ -92,7 +92,7 @@ public class UserActivity extends FragmentActivity {
         TabPageIndicator tabPageIndicator = (TabPageIndicator) findViewById(R.id.view_tab);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_viewPager);
 
-        viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
                 if (i == 0) {

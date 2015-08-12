@@ -17,7 +17,7 @@
         <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:id="@+id/imageView_user"
+                android:id="@+id/imageView_avatar"
                 android:layout_margin="10dp"
                 android:background="@drawable/default_avatar"/>
 
@@ -27,9 +27,9 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:id="@+id/textView_user"
-                android:layout_alignTop="@+id/imageView_user"
-                android:layout_toRightOf="@+id/imageView_user"
-                android:layout_toEndOf="@+id/imageView_user"
+                android:layout_alignTop="@+id/imageView_avatar"
+                android:layout_toRightOf="@+id/imageView_avatar"
+                android:layout_toEndOf="@+id/imageView_avatar"
                 android:textSize="@dimen/normal_font_size"/>
     </RelativeLayout>
 

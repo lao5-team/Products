@@ -14,6 +14,7 @@ import junit.framework.Assert;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserManager {
@@ -252,6 +253,15 @@ public class UserManager {
 	public void recordUserPictureEdit(){
 		mHabitPrefs.edit().putBoolean("picture_edit", true).commit();
 
+	}
+
+	public  List<Profile> getUserFollowings(long authorId, long page, long size){
+		List<Long> ids = UserServer.getInstance().getUserFollowings(authorId, page, size);
+		List<Profile> users = new ArrayList<Profile>();
+		for(Long id:ids){
+			users.add(getUserProfile(id));
+		}
+		return users;
 	}
 
 	private UserManager(){

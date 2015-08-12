@@ -6,21 +6,24 @@ import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.utils.SyncHttpDelete;
 import com.pineapple.mobilecraft.utils.SyncHttpGet;
 import com.pineapple.mobilecraft.utils.SyncHttpPost;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yihao on 15/6/5.
  */
-public class UserServer implements IUserServer{
-    final String mHost = "http://120.26.202.114";
+public class UserServer implements IUserServer {
+    static final String mHost = "http://120.26.202.114";
 
     private static UserServer mInstance = null;
 
-    public static UserServer getInstance(){
-        if(mInstance==null){
+    public static UserServer getInstance() {
+        if (mInstance == null) {
             mInstance = new UserServer();
         }
         return mInstance;
@@ -32,9 +35,8 @@ public class UserServer implements IUserServer{
     }
 
     /**
-     *
-     * @param mobile a valid mobile number or null
-     * @param email  a valid email account or null
+     * @param mobile   a valid mobile number or null
+     * @param email    a valid email account or null
      * @param password
      * @return @link IUserServer.RegisterResult
      */
@@ -44,10 +46,10 @@ public class UserServer implements IUserServer{
 
         JSONObject jsonObject = new JSONObject();
         try {
-            if(mobile!=null){
+            if (mobile != null) {
                 jsonObject.put("mobile", mobile);
             }
-            if(email!=null){
+            if (email != null) {
                 jsonObject.put("email", email);
             }
             jsonObject.put("password", password);
@@ -60,14 +62,13 @@ public class UserServer implements IUserServer{
                 RegisterResult registerResult = new RegisterResult();
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    if(jsonObject.has("uid")){
+                    if (jsonObject.has("uid")) {
                         registerResult.uid = jsonObject.getString("uid");
                         registerResult.message = IUserServer.REGISTER_SUCCESS;
-                    }
-                    else {
-                        if(jsonObject.has("code")){
+                    } else {
+                        if (jsonObject.has("code")) {
                             String errorcode = jsonObject.getString("code");
-                            if (errorcode.equals("1006")){
+                            if (errorcode.equals("1006")) {
                                 registerResult.message = IUserServer.REGISTER_ACCOUNT_EXIST;
                             }
                         }
@@ -96,7 +97,6 @@ public class UserServer implements IUserServer{
     }
 
     /**
-     *
      * @param username
      * @param password
      * @return 登录结果，或者为null
@@ -121,7 +121,7 @@ public class UserServer implements IUserServer{
     }
 
     @Override
-    public Profile getUser(String uid, String token) {
+    public Profile getUser(final String uid, String token) {
         //HttpGet
         String url = mHost + "/api/artists/" + uid + "/profile";
         SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
@@ -130,6 +130,7 @@ public class UserServer implements IUserServer{
                 Profile profile = null;
                 try {
                     profile = Profile.fromJSON(new JSONObject(result));
+                    profile.userId = Long.parseLong(uid);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -147,10 +148,9 @@ public class UserServer implements IUserServer{
             public String postExcute(String result) {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    if(jsonObject.has("uid")){
+                    if (jsonObject.has("uid")) {
                         return IUserServer.COMMON_SUCCESS;
-                    }
-                    else{
+                    } else {
                         return jsonObject.getString("code");
                     }
                 } catch (JSONException e) {
@@ -199,7 +199,6 @@ public class UserServer implements IUserServer{
     }
 
     /**
-     *
      * @param id
      * @return 返回删除结果
      */
@@ -216,11 +215,11 @@ public class UserServer implements IUserServer{
     }
 
     @Override
-    public String getAvatarUrl(int avatarId){
+    public String getAvatarUrl(int avatarId) {
         return (mHost + "/api/avatars/download/" + avatarId);
     }
 
-    public int uploadAvatar(File file){
+    public int uploadAvatar(File file) {
         String url = mHost + "/api/avatars/upload";
         SyncHttpPost<Integer> post = new SyncHttpPost<Integer>(url, null, null) {
             @Override
@@ -238,7 +237,7 @@ public class UserServer implements IUserServer{
         return post.execute("avatar", file);
     }
 
-    public Profile getCurrentUserProfile(String token){
+    public Profile getCurrentUserProfile(String token) {
         String url = mHost + "/api/artists/profile";
         SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
             @Override
@@ -249,10 +248,9 @@ public class UserServer implements IUserServer{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(profile.gender !=-1){
+                if (profile.gender != -1) {
                     return profile;
-                }
-                else{
+                } else {
                     return Profile.NULL;
                 }
             }
@@ -262,13 +260,13 @@ public class UserServer implements IUserServer{
     }
 
     /**
-     *
      * 上传用户的profile信息
+     *
      * @param token
      * @param profile
      * @return profile关联的uid
      */
-    public String uploadProfile(String token ,Profile profile){
+    public String uploadProfile(String token, Profile profile) {
         String url = mHost + "/api/artists/profile";
 
         SyncHttpPost<String> post = new SyncHttpPost<String>(url, token, Profile.toJSON(profile).toString()) {
@@ -288,11 +286,10 @@ public class UserServer implements IUserServer{
     }
 
     /**
-     *
      * @param id
-     * @return 一个有效的{@link Profile}或者{@link Profile.NULL}
+     * @return 一个有效的{@link Profile}或者{@link Profile}
      */
-    public Profile getUserProfile(long id){
+    public Profile getUserProfile(long id) {
         String url = mHost + "/api/artists/" + id + "/profile";
         String token = UserManager.getInstance().getCurrentToken(null);
         SyncHttpGet<Profile> get = new SyncHttpGet<Profile>(url, token) {
@@ -304,23 +301,96 @@ public class UserServer implements IUserServer{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(profile.gender !=-1){
+                if (profile.gender != -1) {
                     return profile;
-                }
-                else{
+                } else {
                     return Profile.NULL;
                 }
             }
         };
         Profile result = get.execute();
-        if(null!=result){
+        if (null != result) {
             return result;
-        }
-        else{
+        } else {
             return Profile.NULL;
         }
     }
 
+    /**
+     * {
+     * "total": 1,
+     * "results": [
+     * {
+     * "uid": 10,
+     * "pseudonym": "欧比王",
+     * "avatar": 538,
+     * "cover": [
+     * 553,
+     * 552,
+     * 551,
+     * 549
+     * ],
+     * "worksCount": 115,
+     * "fanCount": 2
+     * }
+     * ]
+     * }
+     *
+     * @param authorId
+     * @param page
+     * @param size
+     * @return
+     */
+    public  List<Long> getUserFollowings(long authorId, long page, long size) {
+        String url = mHost + "/api/follow/artist/author/" + authorId + "/page/" + page + "/size/" + size;
 
+        SyncHttpPost<List<Long>> post = new SyncHttpPost<List<Long>>(url, null, null) {
+            @Override
+            public List<Long> postExcute(String result) {
+                List<Long> ids = new ArrayList<Long>();
+                try {
+
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.getJSONArray("results");
+                    for(int i=0; i<jsonArray.length(); i++){
+                        ids.add(jsonArray.getJSONObject(i).getLong("uid"));
+                    }
+                    return ids;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return ids;
+                }
+                finally {
+
+                }
+            }
+        };
+        return post.execute();
+    }
+
+    /**
+     * {
+     "count": 2
+     }
+
+     * @param authorId
+     * @return
+     */
+    public int getAuthorFollowing(long authorId){
+        String url = mHost + "/api/follow/count/author/" + authorId;
+        SyncHttpGet<Integer> get = new SyncHttpGet<Integer>(url, null) {
+            @Override
+            public Integer postExcute(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    return jsonObject.getInt("count");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
+        };
+        return get.execute();
+    }
 
 }

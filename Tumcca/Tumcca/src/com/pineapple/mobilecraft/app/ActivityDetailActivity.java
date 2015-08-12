@@ -305,7 +305,7 @@ public class ActivityDetailActivity extends FragmentActivity {
 		mTvName = (TextView) layout.findViewById(R.id.textView_title);
 
 		mTvContent = (TextView)layout.findViewById(R.id.editText_content_sub);
-		mIvUser = (ImageView)findViewById(R.id.imageView_user);
+		mIvUser = (ImageView)findViewById(R.id.imageView_avatar);
 		mTvUser = (TextView)findViewById(R.id.textView_user);
 		mIvXuanchuan = (ImageView)findViewById(R.id.imageView_xuanchuan);
 		mBtnTime = (Button)findViewById(R.id.button_date);

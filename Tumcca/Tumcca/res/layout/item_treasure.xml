@@ -6,7 +6,7 @@
     <ImageView
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:id="@+id/imageView_user"
+            android:id="@+id/imageView_avatar"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -19,9 +19,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="张三"
             android:id="@+id/textView_author"
-            android:layout_alignTop="@+id/imageView_user"
-            android:layout_toRightOf="@+id/imageView_user"
-            android:layout_toEndOf="@+id/imageView_user"
+            android:layout_alignTop="@+id/imageView_avatar"
+            android:layout_toRightOf="@+id/imageView_avatar"
+            android:layout_toEndOf="@+id/imageView_avatar"
             android:textSize="@dimen/normal_font_size"/>
 
     <TextView
@@ -32,7 +32,7 @@
             android:id="@+id/textView_treasure_name"
             android:gravity="center_horizontal"
             android:textSize="@dimen/normal_font_size"
-            android:layout_alignBottom="@+id/imageView_user"
+            android:layout_alignBottom="@+id/imageView_avatar"
             android:layout_alignLeft="@+id/textView_author"
             android:layout_alignStart="@+id/textView_author"/>
 
