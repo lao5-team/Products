@@ -215,6 +215,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
      */
     @Override
     public void addWorksTail(final List<WorksInfo> worksInfoList) {
+        Log.v(TumccaApplication.TAG, "WorkListFragment addWorksTail");
         mWorksInfoList.addAll(worksInfoList);
         parseWorks(mWorksInfoList);
         mContext.runOnUiThread(new Runnable() {
@@ -239,6 +240,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
     @Override
     public void addWorksListView(View view) {
         StaggeredGridView listView = (StaggeredGridView) view;
+        listView.addFooterView(mContext.getLayoutInflater().inflate(R.layout.progressbar, null));
         listView.setAdapter(mAdapter);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -261,10 +263,12 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (visibleItemCount + firstVisibleItem == totalItemCount && mScrollingIdle) {
+                Log.v(TumccaApplication.TAG, "onScroll " + visibleItemCount + " " + firstVisibleItem + " " + totalItemCount);
 
+                if (visibleItemCount + firstVisibleItem == totalItemCount) {
                     if (null != mWorksLoader) {
                         mScrollingIdle = false;
+                        Log.v(TumccaApplication.TAG, "loadTailWorks");
                         mWorksLoader.loadTailWorks(++mCurrentPage);
                     }
                 }
@@ -286,6 +290,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
             }
         }
+
     }
 
     @Override

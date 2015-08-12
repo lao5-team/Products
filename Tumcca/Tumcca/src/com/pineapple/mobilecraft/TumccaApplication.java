@@ -62,7 +62,7 @@ import com.pineapple.mobilecraft.utils.PreferenceUtils;
 public class TumccaApplication extends Application {
 
 	public static Context applicationContext;
-	public static String TAG = "juxiaohui";
+	public static String TAG = "Tumcca";
 	public static boolean isDebug = false;
 	private static TumccaApplication instance;
 	// sign_in user name
