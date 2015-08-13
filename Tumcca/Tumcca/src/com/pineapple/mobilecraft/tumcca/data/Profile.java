@@ -27,9 +27,9 @@ import java.util.concurrent.Executors;
 /**
  * Created by yihao on 15/5/26.
  */
-public class Profile implements BaseListFragment.ListItem{
+public class Profile implements BaseListFragment.ListItem {
 
-    public transient  long userId;
+    public transient long userId;
     /**
      * 性别
      * 1 男 0 女
@@ -94,7 +94,7 @@ public class Profile implements BaseListFragment.ListItem{
 
     public static Profile NULL = new Profile();
 
-    public static Profile createTestProfile(){
+    public static Profile createTestProfile() {
         Profile profile = new Profile();
         profile.pseudonym = "任我行";
         profile.gender = 1;
@@ -109,7 +109,7 @@ public class Profile implements BaseListFragment.ListItem{
         return profile;
     }
 
-    public static Profile createDefaultProfile(){
+    public static Profile createDefaultProfile() {
         Profile profile = new Profile();
         profile.pseudonym = "";
         profile.gender = 1;
@@ -124,12 +124,12 @@ public class Profile implements BaseListFragment.ListItem{
         return profile;
     }
 
-    public static Profile fromJSON(JSONObject json){
+    public static Profile fromJSON(JSONObject json) {
         Gson gson = new Gson();
         return gson.fromJson(json.toString(), Profile.class);
     }
 
-    public static JSONObject toJSON(Profile profile){
+    public static JSONObject toJSON(Profile profile) {
         Gson gson = new Gson();
         try {
             return new JSONObject(gson.toJson(profile));
@@ -142,7 +142,7 @@ public class Profile implements BaseListFragment.ListItem{
     @Override
     public void bindViewHolder(BaseListFragment.ListViewHolder viewHolder) {
         final ProfileItemVH vh = (ProfileItemVH) viewHolder;
-        if(null==vh.avatar.getTag()||vh.avatar.getTag().equals(String.valueOf(avatar))){
+        if (null == vh.avatar.getTag() || vh.avatar.getTag().equals(String.valueOf(avatar))) {
             vh.avatar.setTag(String.valueOf(avatar));
             DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                     .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 24))).
@@ -153,11 +153,10 @@ public class Profile implements BaseListFragment.ListItem{
         }
         vh.username.setText(pseudonym);
         //TODO 显示关注状态
-        if(isFollowed){
+        if (isFollowed) {
             vh.follow.setText("取消关注");
 
-        }
-        else{
+        } else {
             vh.follow.setText("关   注");
         }
         vh.follow.setOnClickListener(new View.OnClickListener() {
@@ -166,53 +165,29 @@ public class Profile implements BaseListFragment.ListItem{
                 Executors.newSingleThreadExecutor().submit(new Runnable() {
                     @Override
                     public void run() {
-                        if(isFollowed){
-                            try{
-                                if(null == UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+                        try {
+                            if (null == UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
 
-                                    @Override
-                                    public void onLogin(String token) {
-                                        UserServer.getInstance().cancelfollowUser(UserManager.getInstance().getCurrentToken(null), userId);
-                                        isFollowed = !isFollowed;
-                                        vh.getFragment().refresh();
-                                    }
-                                    @Override
-                                    public void onCancel() {
-
-                                    }
-                                })){
-                                    UserManager.getInstance().requestLogin();
-                                }
-
-
-                                //vh.getAdapter().notifyDataSetChanged();
-                            }
-                            catch (ApiException exp){
-
-                            }
-                        }
-                        else{
-                            if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
                                 @Override
                                 public void onLogin(String token) {
-                                    try{
-                                        UserServer.getInstance().followUser(UserManager.getInstance().getCurrentUserId(), userId);
-                                        //vh.getAdapter().notifyDataSetChanged();
-                                        isFollowed = !isFollowed;
-                                        vh.getFragment().refresh();
+                                    if (isFollowed) {
+                                        UserServer.getInstance().cancelfollowUser(UserManager.getInstance().getCurrentToken(null), userId);
+                                    } else {
+                                        UserServer.getInstance().followUser(UserManager.getInstance().getCurrentToken(null), UserManager.getInstance().getCurrentUserId(), userId);
                                     }
-                                    catch (ApiException exp){
-
-                                    }
+                                    isFollowed = !isFollowed;
+                                    vh.getFragment().refresh();
                                 }
 
                                 @Override
                                 public void onCancel() {
 
                                 }
-                            })){
+                            }))
+                            {
                                 UserManager.getInstance().requestLogin();
                             }
+                        } catch (ApiException exp) {
 
                         }
                     }
@@ -233,7 +208,7 @@ public class Profile implements BaseListFragment.ListItem{
         return userId;
     }
 
-    private static class ProfileItemVH extends BaseListFragment.ListViewHolder{
+    private static class ProfileItemVH extends BaseListFragment.ListViewHolder {
 
         ImageView avatar;
         TextView username;
@@ -247,4 +222,6 @@ public class Profile implements BaseListFragment.ListItem{
         }
 
     }
+
+
 }

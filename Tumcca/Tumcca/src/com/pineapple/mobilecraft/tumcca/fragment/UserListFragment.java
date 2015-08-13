@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 8/12/15.
- * 创建UserListFragment过程
+ *  创建UserListFragment过程
  *  设置模式，显示关注者或者粉丝
  *  根据模式，读取当前用户关注者数量，或者粉丝数量
  *  载入第一页数据。
@@ -54,7 +54,8 @@ public class UserListFragment extends BaseListFragment {
         mUserId = id;
     }
 
-    public void setUsersMode(int mode)
+    //设置用户模式
+    public void setUserMode(int mode)
     {
         if(mode<=MODE_FOLLOWER&&mode>=MODE_FOLLOWING){
             mMode = mode;
@@ -104,6 +105,7 @@ public class UserListFragment extends BaseListFragment {
                 }
             }
         });
+
         UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
             @Override
             public void onLogin(String token) {
@@ -116,21 +118,6 @@ public class UserListFragment extends BaseListFragment {
             }
         });
     }
-
-
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-    }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
-//        mTvCount = (TextView) view.findViewById(R.id.textView_count);
-//        return view;
-//    }
 
     @Override
     protected void buildView(View view){
@@ -150,8 +137,5 @@ public class UserListFragment extends BaseListFragment {
             }
         });
     }
-
-
-
 
 }

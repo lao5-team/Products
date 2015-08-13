@@ -391,7 +391,7 @@ public class UserServer implements IUserServer {
         return get.execute();
     }
 
-    public void followUser(long authorId, long toFollow){
+    public void followUser(String token, long authorId, long toFollow){
         String url = mHost + "/api/follow";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -401,7 +401,7 @@ public class UserServer implements IUserServer {
             e.printStackTrace();
         }
 
-        SyncHttpPost<Void> post = new SyncHttpPost<Void>(url, null, jsonObject.toString()) {
+        SyncHttpPost<Void> post = new SyncHttpPost<Void>(url, token, jsonObject.toString()) {
             @Override
             public Void postExcute(String result) {
                 return null;
