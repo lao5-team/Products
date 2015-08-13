@@ -1,23 +1,15 @@
 package com.pineapple.mobilecraft.tumcca.data;
 
-import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.gson.Gson;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.fragment.BaseListFragment;
+import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
-import com.pineapple.mobilecraft.util.logic.Util;
 import com.pineapple.mobilecraft.utils.ApiException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -142,15 +134,23 @@ public class Profile implements BaseListFragment.ListItem {
     @Override
     public void bindViewHolder(BaseListFragment.ListViewHolder viewHolder) {
         final ProfileItemVH vh = (ProfileItemVH) viewHolder;
-        if (null == vh.avatar.getTag() || vh.avatar.getTag().equals(String.valueOf(avatar))) {
-            vh.avatar.setTag(String.valueOf(avatar));
-            DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                    .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 24))).
-                            cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                    .build();
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.displayImage(UserServer.getInstance().getAvatarUrl(avatar), vh.avatar, imageOptions);
-        }
+        PictureManager.getInstance().displayAvatar(vh.avatar, avatar, 24);
+//        if (null == vh.avatar.getTag() || !vh.avatar.getTag().equals(String.valueOf(avatar))) {
+//            vh.avatar.setTag(String.valueOf(avatar));
+//            DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+//                    .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 24))).
+//                            cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+//                    .build();
+//            ImageLoader imageLoader = ImageLoader.getInstance();
+//            imageLoader.displayImage(UserServer.getInstance().getAvatarUrl(avatar), vh.avatar, imageOptions);
+//
+//            String avatarUrl = "drawable://" + R.drawable.default_avatar;
+//            if (avatar > PictureServer.INVALID_AVATAR_ID) {
+//                avatarUrl = UserServer.getInstance().getAvatarUrl(avatar);
+//            }
+//            imageLoader.displayImage(avatarUrl, vh.avatar, imageOptions);
+//
+//        }
         vh.username.setText(pseudonym);
         //TODO 显示关注状态
         if (isFollowed) {
@@ -167,7 +167,6 @@ public class Profile implements BaseListFragment.ListItem {
                     public void run() {
                         try {
                             if (null == UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
-
                                 @Override
                                 public void onLogin(String token) {
                                     if (isFollowed) {

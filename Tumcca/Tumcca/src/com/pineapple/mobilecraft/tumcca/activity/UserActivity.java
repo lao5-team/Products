@@ -71,45 +71,24 @@ public class UserActivity extends FragmentActivity {
         if (null != actionBar) {
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-            actionBar.setDisplayOptions(
-                    ActionBar.DISPLAY_SHOW_CUSTOM,
-                    ActionBar.DISPLAY_SHOW_CUSTOM);
-            View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_user, null);
-            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            lp.gravity = Gravity.END;
-            actionBar.setCustomView(customActionBarView, lp);
+//            actionBar.setDisplayOptions(
+//                    ActionBar.DISPLAY_SHOW_CUSTOM,
+//                    ActionBar.DISPLAY_SHOW_CUSTOM);
+//            View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_user, null);
+//            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.MATCH_PARENT);
+//            lp.gravity = Gravity.END;
+//            actionBar.setCustomView(customActionBarView, lp);
 
 
-            mImageOptions  = new DisplayImageOptions.Builder()
-                    .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 16))).
-                            cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                    .build();
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            mIvAvatar = (ImageView) customActionBarView.findViewById(R.id.imageView_avatar);
-            imageLoader.displayImage("drawable://" + R.drawable.default_avatar, mIvAvatar, mImageOptions);
-            mTvPseudonym = (TextView) customActionBarView.findViewById(R.id.textView_user);
-            mTvFollow = (TextView) customActionBarView.findViewById(R.id.textView_follow);
-            mLayoutProfile = (RelativeLayout) customActionBarView.findViewById(R.id.layout_profile);
-            mLayoutProfile.setClickable(true);
-            mLayoutProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UserInfoActivity.startActivity(UserActivity.this, REQ_USERINFO);
-                }
-            });
+
         }
         mAuthorId = getIntent().getIntExtra("authorId", -1);
         if (-1 == mAuthorId) {
             Toast.makeText(this, "不存在此用户", Toast.LENGTH_SHORT).show();
             finish();
         }
-        else{
-            displayActionBar();
-        }
-
-
         mUserAlbumsFragment = new AlbumListFragment();
         mLikesFragment = new AlbumWorkListFragment();
         mCollectFragment = new AlbumWorkListFragment();
@@ -125,6 +104,9 @@ public class UserActivity extends FragmentActivity {
 
         //mUserAlbumsFragment.setUser(mAuthorId);
         setContentView(R.layout.activity_user);
+
+        addUserView();
+
         addTabView();
 
         addUserAlbumFragment(mUserAlbumsFragment);
@@ -177,7 +159,18 @@ public class UserActivity extends FragmentActivity {
     }
 
     public void addUserView() {
+        mImageOptions  = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 24))).
+                        cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        mIvAvatar = (ImageView)findViewById(R.id.imageView_avatar);
+        imageLoader.displayImage("drawable://" + R.drawable.default_avatar, mIvAvatar, mImageOptions);
+        mTvPseudonym = (TextView)findViewById(R.id.textView_user);
+        mTvFollow = (TextView)findViewById(R.id.textView_follow);
+        mLayoutProfile = (RelativeLayout)findViewById(R.id.layout_profile);
 
+        bindUserActions();
     }
 
     @Override
@@ -382,7 +375,15 @@ public class UserActivity extends FragmentActivity {
 
     }
     boolean mIsFollowed = false;
-    private void displayActionBar(){
+    private void bindUserActions(){
+        mLayoutProfile.setClickable(true);
+        mLayoutProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfoActivity.startActivity(UserActivity.this, REQ_USERINFO);
+            }
+        });
+
         Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
             public void run() {

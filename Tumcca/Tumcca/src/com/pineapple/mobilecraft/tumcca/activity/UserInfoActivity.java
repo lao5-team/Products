@@ -111,10 +111,10 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             finish();
         }
         else{
+            //TODO 支持查看其他人的profile
             mProfile = UserServer.getInstance().getUserProfile(UserManager.getInstance().getCurrentUserId());
         }
         initHandler();
-
         setContentView(R.layout.activity_userinfo);
         initView();
         addAvatarView();
@@ -127,6 +127,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         addRegionView();
         refreshData();
 
+        //TODO其他用户时，不显示退出登录
         mTvLogout = (TextView)findViewById(R.id.btn_logout);
         mTvLogout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,6 +29,7 @@ import com.pineapple.mobilecraft.tumcca.activity.UserActivity;
 import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IWorksList;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
@@ -45,7 +46,6 @@ import java.util.List;
  */
 public class WorkListFragment extends Fragment implements IWorksList {
     static final int CORNER_RADIUS = 5;
-    OnScrollListener mScrollListener = null;
     List<WorksInfo> mWorksInfoList = new ArrayList<WorksInfo>();
     Activity mContext;
     PictureAdapter mAdapter;
@@ -85,9 +85,9 @@ public class WorkListFragment extends Fragment implements IWorksList {
     public WorkListFragment() {
         mMapProfile = new HashMap<Integer, Profile>();
         mAdapter = new PictureAdapter();
-        mImageOptionsAvatar = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
+//        mImageOptionsAvatar = new DisplayImageOptions.Builder()
+//                .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 16))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+//                .build();
 
         mImageOptionsWorks = new DisplayImageOptions.Builder()
                 .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
@@ -426,16 +426,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
             Profile profile = mWorksInfoList.get(position).profile;//mMapProfile.get(mWorksInfoList.get(position).author);
             if (null != profile) {
                 tvAuthorName.setText(profile.pseudonym);
-
-                String avatarUrl = "drawable://" + R.drawable.default_avatar;
-                if (profile.avatar > PictureServer.INVALID_AVATAR_ID) {
-                    avatarUrl = UserServer.getInstance().getAvatarUrl(profile.avatar);
-                }
-
-                if (ivAuthor.getTag() == null || !ivAuthor.getTag().equals(avatarUrl)) {
-                    mImageLoader.displayImage(avatarUrl, ivAuthor, mImageOptionsAvatar);
-                    ivAuthor.setTag(avatarUrl);
-                }
+                PictureManager.getInstance().displayAvatar(ivAuthor, profile.avatar, 16);
             }
 
 

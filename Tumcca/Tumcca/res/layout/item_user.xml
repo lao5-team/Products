@@ -6,7 +6,7 @@
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="68dip">
+            android:layout_height="68dip" android:background="@color/pure_white" android:paddingRight="15dip">
     <ImageView
             android:layout_width="48dip"
             android:layout_height="48dip"
@@ -23,12 +23,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="关    注" android:layout_alignParentRight="true"
-            android:id="@+id/textView_follow" android:layout_gravity="right"
+            android:id="@+id/textView_follow"
             android:clickable="true"
-            android:layout_margin="20dip" android:gravity="center_vertical" android:textSize="@dimen/text_size_normal"
+            android:gravity="center_vertical" android:textSize="@dimen/text_size_normal"
             android:textStyle="bold"
             android:textColor="@color/button_normal_red" android:background="@drawable/follow_normal"
-            android:paddingLeft="10dip" android:paddingRight="10dip"/>
+            android:paddingLeft="10dip" android:paddingRight="10dip"
+            android:layout_marginTop="15dip" android:layout_marginBottom="15dip"/>
     </RelativeLayout>
     <RelativeLayout
             android:layout_width="fill_parent"
