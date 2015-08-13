@@ -8,6 +8,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -40,9 +42,13 @@ public abstract class SyncHttpDelete<T> extends SyncHTTPCaller<T> {
                 HttpResponse httpResponse;
                 try {
                     httpResponse = new DefaultHttpClient().execute(delete);
-                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    if(httpResponse.getStatusLine().getStatusCode()==200){
                         String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
                         result = postExcute(str);
+                    }
+                    else{
+                        String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+                        reportError(str);
                     }
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
@@ -66,5 +72,14 @@ public abstract class SyncHttpDelete<T> extends SyncHTTPCaller<T> {
         }
         return null;
 
+    }
+
+    private void reportError(String message){
+        try {
+            JSONObject jsonObject = new JSONObject(message);
+            throw new ApiException(jsonObject.getInt("code"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

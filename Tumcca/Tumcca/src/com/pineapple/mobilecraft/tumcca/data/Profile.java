@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -14,10 +15,14 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.fragment.BaseListFragment;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.util.logic.Util;
+import com.pineapple.mobilecraft.utils.ApiException;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 15/5/26.
@@ -81,6 +86,10 @@ public class Profile implements BaseListFragment.ListItem{
      */
     public String city = "";
 
+    /**
+     * 该用户是否被关注
+     */
+    public transient boolean isFollowed = false;
 
 
     public static Profile NULL = new Profile();
@@ -131,8 +140,8 @@ public class Profile implements BaseListFragment.ListItem{
     }
 
     @Override
-    public void bindViewHolder(RecyclerView.ViewHolder viewHolder) {
-        ProfileItemVH vh = (ProfileItemVH) viewHolder;
+    public void bindViewHolder(BaseListFragment.ListViewHolder viewHolder) {
+        final ProfileItemVH vh = (ProfileItemVH) viewHolder;
         if(null==vh.avatar.getTag()||vh.avatar.getTag().equals(String.valueOf(avatar))){
             vh.avatar.setTag(String.valueOf(avatar));
             DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
@@ -144,12 +153,77 @@ public class Profile implements BaseListFragment.ListItem{
         }
         vh.username.setText(pseudonym);
         //TODO 显示关注状态
+        if(isFollowed){
+            vh.follow.setText("取消关注");
 
+        }
+        else{
+            vh.follow.setText("关   注");
+        }
+        vh.follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isFollowed){
+                            try{
+                                if(null == UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+
+                                    @Override
+                                    public void onLogin(String token) {
+                                        UserServer.getInstance().cancelfollowUser(UserManager.getInstance().getCurrentToken(null), userId);
+                                        isFollowed = !isFollowed;
+                                        vh.getFragment().refresh();
+                                    }
+                                    @Override
+                                    public void onCancel() {
+
+                                    }
+                                })){
+                                    UserManager.getInstance().requestLogin();
+                                }
+
+
+                                //vh.getAdapter().notifyDataSetChanged();
+                            }
+                            catch (ApiException exp){
+
+                            }
+                        }
+                        else{
+                            if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+                                @Override
+                                public void onLogin(String token) {
+                                    try{
+                                        UserServer.getInstance().followUser(UserManager.getInstance().getCurrentUserId(), userId);
+                                        //vh.getAdapter().notifyDataSetChanged();
+                                        isFollowed = !isFollowed;
+                                        vh.getFragment().refresh();
+                                    }
+                                    catch (ApiException exp){
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            })){
+                                UserManager.getInstance().requestLogin();
+                            }
+
+                        }
+                    }
+                });
+            }
+        });
 
     }
 
     @Override
-    public RecyclerView.ViewHolder getViewHolder(LayoutInflater inflater) {
+    public BaseListFragment.ListViewHolder getViewHolder(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.item_user, null);
         return new ProfileItemVH(view);
     }
@@ -159,7 +233,7 @@ public class Profile implements BaseListFragment.ListItem{
         return userId;
     }
 
-    private static class ProfileItemVH extends RecyclerView.ViewHolder{
+    private static class ProfileItemVH extends BaseListFragment.ListViewHolder{
 
         ImageView avatar;
         TextView username;
@@ -171,5 +245,6 @@ public class Profile implements BaseListFragment.ListItem{
             username = (TextView) itemView.findViewById(R.id.textView_name);
             follow = (TextView) itemView.findViewById(R.id.textView_follow);
         }
+
     }
 }

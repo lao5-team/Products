@@ -10,6 +10,8 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,8 +109,15 @@ public abstract class SyncHttpPost<T> extends SyncHTTPCaller<T> {
                 HttpResponse httpResponse;
                 try {
                     httpResponse = new DefaultHttpClient().execute(post);
-                    String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
-                    result = postExcute(str);
+                    if(httpResponse.getStatusLine().getStatusCode()==200){
+                        String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+                        result = postExcute(str);
+                    }
+                    else{
+                        String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+                        reportError(str);
+                    }
+
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -130,5 +139,14 @@ public abstract class SyncHttpPost<T> extends SyncHTTPCaller<T> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void reportError(String message){
+        try {
+            JSONObject jsonObject = new JSONObject(message);
+            throw new ApiException(jsonObject.getInt("code"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

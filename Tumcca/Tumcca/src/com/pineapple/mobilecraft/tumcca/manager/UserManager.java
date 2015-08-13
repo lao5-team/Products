@@ -3,6 +3,7 @@ package com.pineapple.mobilecraft.tumcca.manager;
 import android.content.*;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.activity.LoginActivity;
 import com.pineapple.mobilecraft.tumcca.data.Account;
@@ -11,10 +12,12 @@ import com.pineapple.mobilecraft.tumcca.server.IUserServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.utility.PrefsCache;
 import junit.framework.Assert;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserManager {
@@ -33,14 +36,16 @@ public class UserManager {
 	//PrefsCache mHabitCache = null;
 	SharedPreferences mHabitPrefs = null;
 
-	PostLoginTask mPostLoginTask = null;
+	ArrayList<PostLoginTask> mPostLoginTasks = new ArrayList<PostLoginTask>();
 
 	BroadcastReceiver mLoginReceiver = null;
 
-	public static abstract class PostLoginTask implements Runnable{
+	public static abstract class PostLoginTask{
 		abstract public void onLogin(String token);
 
 		abstract public void onCancel();
+
+
 	}
 
 	public static interface LoginStateListener
@@ -223,6 +228,13 @@ public class UserManager {
 		return password;
 	}
 
+	/**
+	 * 请求登录
+	 */
+	public void requestLogin(){
+		LoginActivity.startActivity(TumccaApplication.applicationContext);
+	}
+
 	public String getCurrentToken(PostLoginTask task){
 		JSONObject jsonObject = mAccountCache.getItem("cache_login");
 		if(jsonObject!=null){
@@ -235,12 +247,10 @@ public class UserManager {
 		}
 		else{
 			if(task!=null){
-				mPostLoginTask = task;
-				LoginActivity.startActivity(TumccaApplication.applicationContext);
-				registerLogin();
+				mPostLoginTasks.add(task);
 			}
+			return null;
 		}
-		return "";
 	}
 
 	public boolean isUserEditPicture(){
@@ -255,11 +265,25 @@ public class UserManager {
 
 	}
 
+	/**
+	 * 返回authorId的关注者列表，该列表会包涵当前登录用户的关注关系
+	 * @param authorId
+	 * @param page
+	 * @param size
+	 * @return
+	 */
 	public  List<Profile> getUserFollowings(long authorId, long page, long size){
 		List<Long> ids = UserServer.getInstance().getUserFollowings(authorId, page, size);
 		List<Profile> users = new ArrayList<Profile>();
 		for(Long id:ids){
-			users.add(getUserProfile(id));
+			Profile profile = getUserProfile(id);
+			profile.userId = id;
+			users.add(profile);
+		}
+		String token = getCurrentToken(null);
+		Boolean[] isFollow = UserServer.getInstance().isUsersFollowed(token, ids.toArray(new Long[0]));
+		for(int i=0; i<users.size(); i++){
+			users.get(i).isFollowed = isFollow[i];
 		}
 		return users;
 	}
@@ -269,29 +293,37 @@ public class UserManager {
 		mAccountCache = new PrefsCache(TumccaApplication.applicationContext, "cache_login");
 		mProfilesCache = new PrefsCache(TumccaApplication.applicationContext, "cache_profiles");
 		mHabitPrefs = TumccaApplication.applicationContext.getSharedPreferences("user_habit", Context.MODE_PRIVATE);
-
-	}
-
-	private void registerLogin(){
-
 		mLoginReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String result = intent.getStringExtra("result");
 				if (result.equals("success")) {
-					mPostLoginTask.onLogin(getCurrentToken(null));
+					for(PostLoginTask task:mPostLoginTasks){
+						task.onLogin(getCurrentToken(null));
+					}
+
 
 				} else {
-					mPostLoginTask.onCancel();
+					for(PostLoginTask task:mPostLoginTasks){
+						task.onCancel();
+					}
 				}
-				TumccaApplication.applicationContext.unregisterReceiver(mLoginReceiver);
-				mPostLoginTask = null;
+
+				mPostLoginTasks.clear();
 				mLoginReceiver = null;
 			}
 		};
 		TumccaApplication.applicationContext.registerReceiver(mLoginReceiver, new IntentFilter("action_login"));
-		//
+
 	}
+
+	public void destroy(){
+		Log.v(TumccaApplication.TAG, "unregisterReceiver " + mLoginReceiver.toString());
+		TumccaApplication.applicationContext.unregisterReceiver(mLoginReceiver);
+
+	}
+
+
 
 
 

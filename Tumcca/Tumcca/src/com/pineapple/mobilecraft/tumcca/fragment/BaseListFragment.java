@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 /**
  * 如果要扩展BaseListFragment，请继承，并在自己的layout中include fragment_base_list.xml
  */
-public class BaseListFragment<VH extends RecyclerView.ViewHolder>extends Fragment {
+public class BaseListFragment<VH extends BaseListFragment.ListViewHolder>extends Fragment {
 
     /**
      *定长
@@ -44,7 +44,7 @@ public class BaseListFragment<VH extends RecyclerView.ViewHolder>extends Fragmen
          * 将数据绑定到viewHolder上显示
          * @param viewHolder
          */
-        public void bindViewHolder(RecyclerView.ViewHolder viewHolder);
+        public void bindViewHolder(BaseListFragment.ListViewHolder viewHolder);
 
         /**
          * 创建一个ViewHolder
@@ -52,21 +52,35 @@ public class BaseListFragment<VH extends RecyclerView.ViewHolder>extends Fragmen
          * @param
          * @return
          */
-        public RecyclerView.ViewHolder getViewHolder(LayoutInflater inflater);
+        public BaseListFragment.ListViewHolder getViewHolder(LayoutInflater inflater);
 
         public long getId();
     }
 
     public interface ItemLoader {
         /**
-         * ????????????????
+         * 子线程中调用
          */
         public List<ListItem> loadHead();
 
         /**
-         * ????????????????
+         * 子线程中调用
          */
         public List<ListItem> loadTail(int page);
+    }
+
+    public static abstract class ListViewHolder extends RecyclerView.ViewHolder{
+
+        BaseListFragment mFragment = null;
+        public ListViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        public BaseListFragment getFragment(){
+            return mFragment;
+        }
+
+
     }
 
     private class BaseListAdapter extends RecyclerView.Adapter<VH> {
@@ -78,6 +92,7 @@ public class BaseListFragment<VH extends RecyclerView.ViewHolder>extends Fragmen
 
         @Override
         public void onBindViewHolder(VH viewHolder, int i) {
+            viewHolder.mFragment = BaseListFragment.this;
             mItems.get(i).bindViewHolder(viewHolder);
         }
 
@@ -85,6 +100,7 @@ public class BaseListFragment<VH extends RecyclerView.ViewHolder>extends Fragmen
         public int getItemCount() {
             return mItems.size();
         }
+
     }
 
     //CircleProgressBar mProgressBar;
@@ -122,6 +138,7 @@ public class BaseListFragment<VH extends RecyclerView.ViewHolder>extends Fragmen
         mItemLoader = loader;
     }
 
+    //
     private void addHead(final List<ListItem> list) {
         if (null != list) {
             mActivity.runOnUiThread(new Runnable() {
@@ -158,6 +175,7 @@ public class BaseListFragment<VH extends RecyclerView.ViewHolder>extends Fragmen
 
     }
 
+    //
     private void addTail(final List<ListItem> list) {
         if (null != list) {
             mActivity.runOnUiThread(new Runnable() {
@@ -270,6 +288,47 @@ public class BaseListFragment<VH extends RecyclerView.ViewHolder>extends Fragmen
         //super.onMeasure(widthMeasureSpec, expandSpec);
         layoutParams.height = expandSpec;
         mRecyclerView.setLayoutParams(layoutParams);
+    }
+
+    public final List<ListItem> getItems(){
+        return mItems;
+    }
+
+    public void update(){
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    public void clear(){
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mItems.clear();
+            }
+        });
+
+        if(mItemLoader!=null){
+            Executors.newSingleThreadExecutor().submit(new Runnable() {
+                @Override
+                public void run() {
+                    addHead(mItemLoader.loadHead());
+                }
+            });
+        }
+
+    }
+
+    public void refresh(){
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
 }

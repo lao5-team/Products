@@ -180,10 +180,6 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                 finish();
             }
 
-            @Override
-            public void run() {
-
-            }
         });
 
 

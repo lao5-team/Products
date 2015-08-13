@@ -30,4 +30,8 @@
             android:textColor="@color/button_normal_red" android:background="@drawable/follow_normal"
             android:paddingLeft="10dip" android:paddingRight="10dip"/>
     </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="1dp" android:background="@color/edittext_bg_normal">
+    </RelativeLayout>
 </LinearLayout>

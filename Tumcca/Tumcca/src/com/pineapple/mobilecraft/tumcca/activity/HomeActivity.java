@@ -306,7 +306,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
          * 将会执行此case
          */
             case R.id.account:
-                UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+                if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
                     @Override
                     public void onLogin(String token) {
                         UserActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId());
@@ -317,15 +317,27 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
                     }
 
-                    @Override
-                    public void run() {
-
-                    }
-                });
+                })){
+                    UserManager.getInstance().requestLogin();
+                }
 
                 break;
             case R.id.add:
-                CalligraphyCreateActivity.startActivity(HomeActivity.this);
+
+                if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+                    @Override
+                    public void onLogin(String token) {
+                        CalligraphyCreateActivity.startActivity(HomeActivity.this);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                }))
+                {
+                    UserManager.getInstance().requestLogin();
+                }
                 break;
             // 其他省略...
             default:

@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -360,9 +361,6 @@ public class UserServer implements IUserServer {
                     e.printStackTrace();
                     return ids;
                 }
-                finally {
-
-                }
             }
         };
         return post.execute();
@@ -391,6 +389,98 @@ public class UserServer implements IUserServer {
             }
         };
         return get.execute();
+    }
+
+    public void followUser(long authorId, long toFollow){
+        String url = mHost + "/api/follow";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("follower", authorId);
+            jsonObject.put("toFollow", toFollow);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        SyncHttpPost<Void> post = new SyncHttpPost<Void>(url, null, jsonObject.toString()) {
+            @Override
+            public Void postExcute(String result) {
+                return null;
+            }
+        };
+        post.execute();
+    }
+
+    //TODO
+    public void cancelfollowUser(String token, long authorId){
+        String url = mHost + "/api/follow/" + authorId;
+
+        SyncHttpDelete<Void> delete = new SyncHttpDelete<Void>(url, token) {
+            @Override
+            public Void postExcute(String result) {
+                return null;
+            }
+        };
+        delete.execute();
+    }
+    /**
+     * 如果token为空，则返回全部未关注
+     * [
+     {
+     "id": 191,
+     "isFollow": true
+     }
+     ]
+     */
+    public Boolean[] isUsersFollowed(String token, final Long[]ids){
+        //如果token为null，则全部显示为关注
+        if(null == token){
+            Boolean[] results = new Boolean[ids.length];
+            for(int i=0; i<results.length; i++){
+                results[i] = false;
+            }
+            return results;
+        }
+        else{
+            //根据id获取关注结果
+            String url = mHost + "/api/follow/artist/isfollow";
+            JSONArray params = new JSONArray();
+            for(long id:ids){
+                params.put(id);
+            }
+            SyncHttpPost<Boolean[]> post = new SyncHttpPost<Boolean[]>(url, token, params.toString()) {
+                @Override
+                public Boolean[] postExcute(String result) {
+                    //对结果进行排序
+                    Boolean[] results = {};
+                    try {
+                        JSONArray jsonArray = new JSONArray(result);
+                        results = sortResult("id", "isFollow", jsonArray, ids);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return results;
+                }
+            };
+            return post.execute();
+        }
+
+    }
+
+    public  Boolean[] sortResult(String idName, String valueName, JSONArray array, Long[]ids){
+        HashMap<Long, Boolean> map = new HashMap<Long, Boolean>();
+        for(int i=0; i<array.length(); i++){
+            try {
+                JSONObject object = array.getJSONObject(i);
+                map.put(object.getLong(idName), object.getBoolean(valueName));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Boolean[] result = new Boolean[ids.length];
+        for(int i=0; i<result.length; i++){
+            result[i] = map.get(ids[i]);
+        }
+        return result;
     }
 
 }

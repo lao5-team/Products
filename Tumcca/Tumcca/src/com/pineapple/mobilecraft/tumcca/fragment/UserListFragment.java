@@ -47,7 +47,7 @@ public class UserListFragment extends BaseListFragment {
     public UserListFragment(){
         super();
         setLayout(R.layout.fragment_user_list);
-        setMode(BaseListFragment.MODE_FIXED_HEIGHT);
+        setMode(BaseListFragment.MODE_PULL_DRAG);
     }
 
     public void setUserId(Long id){
@@ -104,6 +104,17 @@ public class UserListFragment extends BaseListFragment {
                 }
             }
         });
+        UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+            @Override
+            public void onLogin(String token) {
+                clear();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 
 
@@ -139,6 +150,8 @@ public class UserListFragment extends BaseListFragment {
             }
         });
     }
+
+
 
 
 }
