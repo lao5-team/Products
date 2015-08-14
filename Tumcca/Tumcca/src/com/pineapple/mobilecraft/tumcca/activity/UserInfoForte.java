@@ -23,6 +23,11 @@ public class UserInfoForte extends DialogFragment implements View.OnClickListene
     private EditText etContent;
     private TextView tvSave;
     private Handler mHandler;
+    public void setForte(String forte){
+        Bundle bundle = new Bundle();
+        bundle.putString("forte", forte);
+        setArguments(bundle);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class UserInfoForte extends DialogFragment implements View.OnClickListene
         View root = inflater.inflate(R.layout.dialogfragment_userinfo, container, false);
         tvTitle = (TextView)root.findViewById(R.id.tvTitle);
         etContent = (EditText)root.findViewById(R.id.etContent);
+        etContent.setText(getArguments().getString("forte"));
         tvSave = (TextView)root.findViewById(R.id.tvSave);
         tvTitle.setText("更改您的专长");
         tvSave.setOnClickListener(this);

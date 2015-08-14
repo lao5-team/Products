@@ -6,7 +6,7 @@
 
     <include android:layout_width="match_parent"
             android:layout_height="68dip"
-            layout="@layout/actionbar_user"/>
+            layout="@layout/actionbar_user" android:id="@+id/layout_user"/>
     <view android:layout_width="match_parent"
           android:layout_height="wrap_content"
           class="com.viewpagerindicator.TabPageIndicator" android:id="@+id/view_tab"/>

@@ -205,7 +205,8 @@
         <activity android:name=".tumcca.activity.PictureEditActivity" android:theme="@style/my_activity_style">
 
                 </activity>
-        <activity android:name=".tumcca.activity.CommentActivity"/>>
+        <activity android:name=".tumcca.activity.CommentActivity"/>
+        <activity android:name=".tumcca.activity.WorksSearchActivity" android:theme="@style/my_search_activity_style"/>
         <service android:name="com.pineapple.mobilecraft.tumcca.service.TumccaService"/>
 
     </application>

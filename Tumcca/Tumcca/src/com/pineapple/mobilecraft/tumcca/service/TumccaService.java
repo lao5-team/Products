@@ -211,6 +211,10 @@ public class TumccaService extends Service {
 		}
 	}
 
+	public void quit(){
+		UserManager.getInstance().destroy();
+	}
+
 	private void showNotification(String notifyString) {
 		android.app.Notification notification = new android.app.Notification.Builder(this)
 				.setContentTitle(notifyString)

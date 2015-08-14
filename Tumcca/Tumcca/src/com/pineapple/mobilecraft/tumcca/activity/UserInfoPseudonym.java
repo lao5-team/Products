@@ -24,6 +24,13 @@ public class UserInfoPseudonym extends DialogFragment implements View.OnClickLis
     private TextView tvSave;
     private EditText pseudonym;
 
+    public void setPseudonym(String pseudonym){
+        Bundle bundle = new Bundle();
+        bundle.putString("pseudonym", pseudonym);
+        setArguments(bundle);
+        //this.pseudonym.setText(pseudonym);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getDialog() != null)
@@ -34,6 +41,7 @@ public class UserInfoPseudonym extends DialogFragment implements View.OnClickLis
         View root = inflater.inflate(R.layout.dialogfragment_userinfopseudonym, container, false);
         tvSave = (TextView)root.findViewById(R.id.tvSave);
         pseudonym = (EditText)root.findViewById(R.id.pseudonym);
+        pseudonym.setText(getArguments().getString("pseudonym"));
         tvSave.setOnClickListener(this);
         return root;
     }
@@ -77,7 +85,7 @@ public class UserInfoPseudonym extends DialogFragment implements View.OnClickLis
             case R.id.tvSave:
                 if(TextUtils.isEmpty(pseudonym.getText()))
                 {
-                    Toast.makeText(getActivity(), "ի�Ų���Ϊ��", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.save_nick_success), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else

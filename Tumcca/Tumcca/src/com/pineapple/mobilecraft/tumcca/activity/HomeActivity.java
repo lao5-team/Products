@@ -16,6 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
@@ -169,7 +170,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
         mLayoutProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInfoActivity.startActivity(HomeActivity.this, REQ_USERINFO);
+                UserInfoActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId(), REQ_USERINFO);
             }
         });
         mIvAvatar = (ImageView) view.findViewById(R.id.imageView_avatar);
@@ -213,7 +214,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
             mLayoutProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UserInfoActivity.startActivity(HomeActivity.this, REQ_USERINFO);
+                    UserInfoActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId(), REQ_USERINFO);
                 }
             });
             mTvPseudonym.setText(mProfile.pseudonym);
@@ -305,6 +306,10 @@ public class HomeActivity extends FragmentActivity implements IHome {
          *
          * 将会执行此case
          */
+            case R.id.search:
+                Intent intent = new Intent(this, WorksSearchActivity.class);
+                startActivity(intent);
+                break;
             case R.id.account:
                 if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
                     @Override
@@ -360,6 +365,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //
+                    mService.quit();
                     android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(0);
                     //finish();

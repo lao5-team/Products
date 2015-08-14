@@ -62,6 +62,8 @@ public class WorkListFragment extends Fragment implements IWorksList {
     SwipeRefreshLayout mSwipeRefreshLayout;
     int mCurrentPage = 1;
     BroadcastReceiver mReceiver;
+    StaggeredGridView mListView;
+    View mFooterProgressView;
     public static interface WorkListLoader {
 
         /**
@@ -233,16 +235,27 @@ public class WorkListFragment extends Fragment implements IWorksList {
      * 清空数据
      */
     public void clearWorks() {
-        mWorksInfoList.clear();
-        mAdapter.notifyDataSetChanged();
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mWorksInfoList.clear();
+                setAdapter();
+                if(null!=mWorksLoader){
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mWorksLoader.loadHeadWorks();
+                }
+            }
+        });
+
     }
 
     @Override
     public void addWorksListView(View view) {
-        StaggeredGridView listView = (StaggeredGridView) view;
-        listView.addFooterView(mContext.getLayoutInflater().inflate(R.layout.progressbar, null));
-        listView.setAdapter(mAdapter);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        mListView = (StaggeredGridView) view;
+        mFooterProgressView = mContext.getLayoutInflater().inflate(R.layout.progressbar, null);
+        mListView.addFooterView(mFooterProgressView);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
@@ -265,7 +278,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 Log.v(TumccaApplication.TAG, "onScroll " + visibleItemCount + " " + firstVisibleItem + " " + totalItemCount);
 
-                if (visibleItemCount + firstVisibleItem == totalItemCount) {
+                if (visibleItemCount + firstVisibleItem == totalItemCount&&!mIsEnd) {
                     if (null != mWorksLoader) {
                         mScrollingIdle = false;
                         Log.v(TumccaApplication.TAG, "loadTailWorks");
@@ -324,14 +337,13 @@ public class WorkListFragment extends Fragment implements IWorksList {
             }
         });
 
-
         setupProgressBar();
 
         return view;
     }
 
 
-    private  void setupProgressBar(){
+    private void setupProgressBar(){
         mProgressBar.setShowArrow(true);
         if(null != mWorksLoader && mWorksLoader.getInitialWorks()==null && mWorksInfoList.size()==0){
             mWorksLoader.loadHeadWorks();
@@ -488,5 +500,14 @@ public class WorkListFragment extends Fragment implements IWorksList {
             }
         }
 
+    }
+
+    boolean mIsEnd = false;
+    public void setEnd(boolean isEnd){
+        mIsEnd = isEnd;
+        if(mIsEnd){
+            //mListView.addFooterView(mContext.getLayoutInflater().inflate(R.layout.progressbar, null));
+            mListView.removeFooterView(mFooterProgressView);
+        }
     }
 }

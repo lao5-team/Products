@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.TumccaApplication;
+import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.fragment.AlbumListFragment;
@@ -47,7 +48,7 @@ public class UserActivity extends FragmentActivity {
     UserListFragment mFollowingFragment;
     UserListFragment mFollowerFragment;
     boolean mIsTestMode = false;
-    int mAuthorId = -1;
+    int mAuthorId = (int)Constants.INVALID_AUTHORD_ID;
     ImageView mIvAvatar;
     TextView mTvFollow;
     TextView mTvPseudonym;
@@ -380,7 +381,7 @@ public class UserActivity extends FragmentActivity {
         mLayoutProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInfoActivity.startActivity(UserActivity.this, REQ_USERINFO);
+                UserInfoActivity.startActivity(UserActivity.this, mAuthorId, REQ_USERINFO);
             }
         });
 

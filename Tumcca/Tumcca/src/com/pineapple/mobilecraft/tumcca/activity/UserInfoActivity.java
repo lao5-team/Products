@@ -18,6 +18,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.Constants;
+import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
 import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -46,12 +48,14 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     public static final int MSG_CHANGE_REGION = 6;
     public static final int MSG_CHANGE_FORTE = 7;
     public static final int MSG_CHANGE_SEX = 8;
+    public static final int MSG_CHANGE_TITLE = 9;
 
     private RelativeLayout avatarLay;
     private RelativeLayout phoneLay;
     private RelativeLayout mGenderLay;
     private RelativeLayout emailLay;
     private RelativeLayout pseudonymLay;
+    private RelativeLayout titleLay;
     private RelativeLayout hobbyLay;
     private RelativeLayout introLay;
     private RelativeLayout forteLay;
@@ -70,6 +74,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private UserInfoPhone userInfoPhone;
     private UserInfoEmail userInfoEmail;
     private UserInfoPseudonym userInfoPseudonym;
+    private UserInfoTitle userInfoTitle;
     private UserInfoIntro userInfoIntro;
     private UserInfoHobby userInfoHobby;
     private UserInfoForte userInfoForte;
@@ -79,17 +84,19 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     private TextView mTvCity;
     private TextView mTvLogout;
 
+    private long mAuthorId;
     private Profile mProfile;
 
     public Uri mUri;
     public Uri mCropUri;
     public Handler mHandler;
-    DisplayImageOptions imageOptions = null;
     public static final int RESULT_LOGOUT = 1;
 
-    public static void startActivity(Activity activity, int requestCode) {
+    public static void startActivity(Activity activity, long authorId, int requestCode) {
 
-        activity.startActivityForResult(new Intent(activity, UserInfoActivity.class), requestCode);
+        Intent intent = new Intent(activity, UserInfoActivity.class);
+        intent.putExtra("authorId", authorId);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -102,17 +109,13 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        imageOptions = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(10))
-                .build();
-        String token = UserManager.getInstance().getCurrentToken(null);
-        if(TextUtils.isEmpty(token)){
+        mAuthorId = getIntent().getLongExtra("authorId", Constants.INVALID_AUTHORD_ID);
+        if(mAuthorId==Constants.INVALID_AUTHORD_ID){
             Toast.makeText(this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
             finish();
         }
         else{
-            //TODO 支持查看其他人的profile
-            mProfile = UserServer.getInstance().getUserProfile(UserManager.getInstance().getCurrentUserId());
+            mProfile = UserServer.getInstance().getUserProfile(mAuthorId);
         }
         initHandler();
         setContentView(R.layout.activity_userinfo);
@@ -125,9 +128,14 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         addHobbyView();
         addForteView();
         addRegionView();
+        addLogoutView();
         refreshData();
 
-        //TODO其他用户时，不显示退出登录
+
+    }
+
+    private void addLogoutView(){
+
         mTvLogout = (TextView)findViewById(R.id.btn_logout);
         mTvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +169,9 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
             }
         });
+        if(mAuthorId!=UserManager.getInstance().getCurrentUserId()){
+            mTvLogout.setVisibility(View.GONE);
+        }
     }
 
     private void initHandler() {
@@ -173,7 +184,10 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                 {
                     case MSG_SHOW_AVATAR:
                         int avatarId = msg.arg1;
-                        ImageLoader.getInstance().displayImage(UserServer.getInstance().getAvatarUrl(avatarId), mIvAvatar, imageOptions);
+                        mProfile.avatar = avatarId;
+                        PictureManager.getInstance().displayAvatar(mIvAvatar, mProfile.avatar, 24);
+                        updateUser(mProfile);
+                        //ImageLoader.getInstance().displayImage(UserServer.getInstance().getAvatarUrl(avatarId), mIvAvatar, imageOptions);
                         break;
                     case MSG_CHANGE_PSEUDONYM:
                         bundle = msg.getData();
@@ -213,6 +227,12 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                         mProfile.city = cityname;
                         updateUser(mProfile);
                         break;
+                    case MSG_CHANGE_TITLE:
+                        bundle = msg.getData();
+                        String title = bundle.getString("title");
+                        mProfile.title = title;
+                        updateUser(mProfile);
+                        break;
                 }
             }
         };
@@ -223,10 +243,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     public void addAvatarView() {
         avatarLay = (RelativeLayout) findViewById(R.id.avatarLay);
         mIvAvatar = (ImageView) findViewById(R.id.imageView_avatar);
-        if(mProfile.avatar!=-1){
-//            Picasso.with(this).load(UserServer.getInstance().getAvatarUrl(mProfile.avatar));
-            ImageLoader.getInstance().displayImage(UserServer.getInstance().getAvatarUrl(mProfile.avatar), mIvAvatar, imageOptions);
-        }
+        PictureManager.getInstance().displayAvatar(mIvAvatar, mProfile.avatar, 24);
         avatarLay.setOnClickListener(this);
     }
 
@@ -234,6 +251,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 //        phoneLay = (RelativeLayout) this.findViewById(R.id.layout_phone);
 //        emailLay = (RelativeLayout) this.findViewById(R.id.layout_email);
         pseudonymLay = (RelativeLayout) this.findViewById(R.id.nicknameLay);
+        titleLay = (RelativeLayout) this.findViewById(R.id.titleLay);
         introLay = (RelativeLayout) this.findViewById(R.id.introLay);
         hobbyLay = (RelativeLayout) this.findViewById(R.id.hobbyLay);
         forteLay = (RelativeLayout) this.findViewById(R.id.forteLay);
@@ -241,9 +259,8 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
         regionLay = (RelativeLayout)this.findViewById(R.id.regionLay);
 
         mGenderLay.setOnClickListener(this);
-//        phoneLay.setOnClickListener(this);
-//        emailLay.setOnClickListener(this);
         pseudonymLay.setOnClickListener(this);
+        titleLay.setOnClickListener(this);
         introLay.setOnClickListener(this);
         hobbyLay.setOnClickListener(this);
         forteLay.setOnClickListener(this);
@@ -261,40 +278,40 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                 }
                 userInfoAvatarChoose.show(getSupportFragmentManager(), "UserInfoPhotoChoose");
                 break;
-//            case R.id.layout_phone:
-//                if (userInfoPhone == null) {
-//                    userInfoPhone = new UserInfoPhone();
-//                }
-//                userInfoPhone.show(getSupportFragmentManager(), "UserInfoPhone");
-//                break;
-//            case R.id.layout_email:
-//                if (userInfoEmail == null) {
-//                    userInfoEmail = new UserInfoEmail();
-//                }
-//                userInfoEmail.show(getSupportFragmentManager(), "UserInfoEmail");
-//                break;
+
             case R.id.nicknameLay:
                 if (userInfoPseudonym == null) {
                     userInfoPseudonym = new UserInfoPseudonym();
                 }
+                userInfoPseudonym.setPseudonym(mProfile.pseudonym);
                 userInfoPseudonym.show(getSupportFragmentManager(), "UserInfoPseudonym");
+                break;
+            case R.id.titleLay:
+                if (userInfoTitle == null) {
+                    userInfoTitle = new UserInfoTitle();
+                }
+                userInfoTitle.setTitle(mProfile.title);
+                userInfoTitle.show(getSupportFragmentManager(), "UserInfoTitle");
                 break;
             case R.id.introLay:
                 if (userInfoIntro == null) {
                     userInfoIntro = new UserInfoIntro();
                 }
+                userInfoIntro.setIntro(mProfile.introduction);
                 userInfoIntro.show(getSupportFragmentManager(), "UserInfoIntro");
                 break;
             case R.id.hobbyLay:
                 if (userInfoHobby == null) {
                     userInfoHobby = new UserInfoHobby();
                 }
+                userInfoHobby.setHobby(mProfile.hobbies);
                 userInfoHobby.show(getSupportFragmentManager(), "UserInfoHobby");
                 break;
             case R.id.forteLay:
                 if (userInfoForte == null) {
                     userInfoForte = new UserInfoForte();
                 }
+                userInfoForte.setForte(mProfile.forte);
                 userInfoForte.show(getSupportFragmentManager(), "UserInfoForte");
                 break;
             case R.id.layout_gender:
@@ -319,6 +336,7 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
             mTvGender.setText(getString(R.string.female));
         }
         mTvPseudonym.setText(mProfile.pseudonym);
+        mTvTitle.setText(mProfile.title);
         mTvIntro.setText(mProfile.introduction);
         mTvHobby.setText(mProfile.hobbies);
         mTvForte.setText(mProfile.forte);
@@ -462,11 +480,15 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
 
     @Override
     public void updateUser(Profile profile) {
-        String result = UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken(null));
-        if (!"fail".equals(result))
+
+        if (UserManager.getInstance().updateProfile((long) UserManager.getInstance().getCurrentUserId(), profile))
         {
-           refreshData();
-           Toast.makeText(this, getString(R.string.profile_update_success), Toast.LENGTH_SHORT).show();
+            refreshData();
+            Toast.makeText(this, getString(R.string.profile_update_success), Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(this, getString(R.string.profile_update_fail), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -496,14 +518,13 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
                                     String token = UserManager.getInstance().getCurrentToken(null);
                                     int pictureId = -1;
                                     pictureId = UserServer.getInstance().uploadAvatar(temp);
-                                    mProfile.avatar = pictureId;
-                                    String result = UserServer.getInstance().updateUser(mProfile, token);
-                                    if (!"fail".equals(result))
-                                    {
+                                    //mProfile.avatar = pictureId;
+                                    //String result = UserServer.getInstance().updateUser(mProfile, token);
+
                                         Message msg = mHandler.obtainMessage(MSG_SHOW_AVATAR);
                                         msg.arg1 = pictureId;
                                         mHandler.sendMessage(msg);
-                                    }
+
                                 }
                             }
                     );

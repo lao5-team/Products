@@ -24,6 +24,12 @@ public class UserInfoHobby extends DialogFragment implements View.OnClickListene
     private TextView tvSave;
     private Handler mHandler;
 
+    public void setHobby(String hobby){
+        Bundle bundle = new Bundle();
+        bundle.putString("hobby", hobby);
+        setArguments(bundle);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getDialog() != null)
@@ -34,6 +40,7 @@ public class UserInfoHobby extends DialogFragment implements View.OnClickListene
         View root = inflater.inflate(R.layout.dialogfragment_userinfo, container, false);
         tvTitle = (TextView)root.findViewById(R.id.tvTitle);
         etContent = (EditText)root.findViewById(R.id.etContent);
+        etContent.setText(getArguments().getString("hobby"));
         tvSave = (TextView)root.findViewById(R.id.tvSave);
         tvTitle.setText("更改您的爱好");
         tvSave.setOnClickListener(this);

@@ -639,4 +639,39 @@ public class WorksServer {
         return post.execute();
     }
 
+
+    public static List<WorksInfo> searchWorksByKeywords(String keywords, int page, int size, int width){
+        String url = host + "/api/works/search";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("keywords", keywords);
+            jsonObject.put("page", page);
+            jsonObject.put("size", size);
+            jsonObject.put("width", width);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        SyncHttpPost<List<WorksInfo>> post = new SyncHttpPost<List<WorksInfo>>(url, null, jsonObject.toString()) {
+            @Override
+            public List<WorksInfo> postExcute(String result) {
+                List<WorksInfo> worksInfos = new ArrayList<WorksInfo>();
+                try {
+                    JSONObject jsonResult = new JSONObject(result);
+                    JSONArray array = jsonResult.getJSONArray("results");
+                    if(null!=array){
+                        for(int i=0; i<array.length(); i++){
+                            worksInfos.add(WorksInfo.fromJSON(array.getJSONObject(i)));
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return worksInfos;
+            }
+        };
+        return post.execute();
+    }
+
 }

@@ -17,7 +17,7 @@ import com.pineapple.mobilecraft.R;
 /**
  * Created by liujiankun007 on 2015/6/16.
  */
-public class UserInfoIntro extends DialogFragment implements View.OnClickListener {
+public class UserInfoTitle extends DialogFragment implements View.OnClickListener {
 
     private TextView tvTitle;
     private EditText etContent;
@@ -25,10 +25,11 @@ public class UserInfoIntro extends DialogFragment implements View.OnClickListene
     private Handler mHandler;
     private int type;
 
-    public void setIntro(String intro){
+    public void setTitle(String title){
         Bundle bundle = new Bundle();
-        bundle.putString("intro", intro);
+        bundle.putString("title", title);
         setArguments(bundle);
+        //this.pseudonym.setText(pseudonym);
     }
 
     @Override
@@ -41,9 +42,10 @@ public class UserInfoIntro extends DialogFragment implements View.OnClickListene
         View root = inflater.inflate(R.layout.dialogfragment_userinfo, container, false);
         tvTitle = (TextView)root.findViewById(R.id.tvTitle);
         etContent = (EditText)root.findViewById(R.id.etContent);
-        etContent.setText(getArguments().getString("intro"));
+        etContent.setText(getArguments().getString("title"));
+
         tvSave = (TextView)root.findViewById(R.id.tvSave);
-        tvTitle.setText("更改您的介绍");
+        tvTitle.setText("更改您的" + getString(R.string.user_title));
         tvSave.setOnClickListener(this);
         return root;
     }
@@ -87,15 +89,15 @@ public class UserInfoIntro extends DialogFragment implements View.OnClickListene
             case R.id.tvSave:
                 if(TextUtils.isEmpty(etContent.getText()))
                 {
-                    Toast.makeText(getActivity(), "介绍不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else
                 {
-                    String editPseudonym = etContent.getText().toString();
-                    Message msg = mHandler.obtainMessage(UserInfoActivity.MSG_CHANGE_INTRO);
+                    String content = etContent.getText().toString();
+                    Message msg = mHandler.obtainMessage(UserInfoActivity.MSG_CHANGE_TITLE);
                     Bundle bundle = new Bundle();
-                    bundle.putString("intro", editPseudonym);
+                    bundle.putString("title", content);
                     msg.setData(bundle);
                     mHandler.sendMessage(msg);
                     this.dismiss();

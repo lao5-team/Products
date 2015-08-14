@@ -29,7 +29,7 @@
                 <RelativeLayout
                         android:id="@+id/avatarLay"
                         android:orientation="horizontal" android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="68dp"
                                 android:layout_marginTop="5dp" android:background="#ffffffff" android:layout_weight="1">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/avatar"
@@ -39,12 +39,9 @@
                     <ImageView android:layout_width="48dip" android:layout_height="48dip" android:id="@+id/imageView_avatar"
                                android:layout_alignParentEnd="false" android:layout_centerVertical="true"
                                android:layout_alignParentRight="true" android:layout_marginRight="15dp"
-                               android:src="@drawable/default_avatar"/>
+                               android:src="@drawable/default_avatar" android:layout_marginTop="10dp"
+                               android:layout_marginBottom="10dp"/>
                 </RelativeLayout>
-                <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
-                              android:layout_height="1dip" android:background="@color/line_gray"/>
-                <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
-                              android:layout_height="1dip" android:background="@color/line_gray"/>
                 <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
                               android:layout_height="1dip" android:background="@color/line_gray"/>
                 <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
@@ -79,7 +76,7 @@
                               android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
                               android:textStyle="bold" android:textColor="@color/pure_black"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="令狐冲"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text=""
                               android:id="@+id/textView_nickname" android:layout_centerVertical="true"
                               android:layout_alignParentRight="true" android:layout_marginRight="15dp"
                               android:textColor="@color/edittext_bg_selected"
@@ -90,15 +87,15 @@
                 <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#ffffffff" android:layout_weight="1"
-                                android:layout_marginTop="10dp" android:layout_marginBottom="10dp">
+                                android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:id="@+id/titleLay">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/user_title"
                               android:id="@+id/textView13" android:layout_centerVertical="true"
                               android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
                               android:textStyle="bold" android:textColor="@color/pure_black"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="书画协会会员"
-                              android:id="@+id/textView8" android:layout_centerVertical="true"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text=""
+                              android:id="@+id/textView_title" android:layout_centerVertical="true"
                               android:layout_alignParentRight="true" android:layout_marginRight="15dp"
                               android:textColor="@color/edittext_bg_selected"
                               android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
@@ -115,7 +112,7 @@
                               android:layout_marginLeft="15dip" android:textSize="@dimen/text_size_normal"
                               android:textStyle="bold" android:textColor="@color/pure_black"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="书画极客"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text=""
                               android:id="@+id/textView_intro" android:layout_centerVertical="true"
                               android:layout_alignParentRight="true" android:layout_marginRight="15dp"
                               android:textColor="@color/edittext_bg_selected"
@@ -141,7 +138,7 @@
                               android:layout_centerVertical="true" android:layout_marginLeft="15dip"
                               android:textSize="@dimen/text_size_normal" android:textStyle="bold"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textAppearance="?android:attr/textAppearanceMedium" android:text="琴棋书画"
+                              android:textAppearance="?android:attr/textAppearanceMedium" android:text=""
                               android:id="@+id/textView_hobbies" android:layout_centerVertical="true"
                               android:layout_alignParentRight="true" android:layout_marginRight="15dp"
                               android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
@@ -162,7 +159,7 @@
                               android:textStyle="bold"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/textView_forte"
-                              android:text="互联网分析" android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                              android:text="" android:layout_centerVertical="true" android:layout_alignParentRight="true"
                               android:layout_marginRight="15dp" android:textColor="@color/edittext_bg_selected" android:textStyle="bold"
                               android:textSize="@dimen/text_size_normal"/>
                 </RelativeLayout>

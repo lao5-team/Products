@@ -4,6 +4,11 @@
     <!-- action items -->
     <!-- showAsAction默认为never -->
     <item
+            android:id="@+id/search"
+            android:icon="@drawable/search"
+            android:showAsAction="always"
+            android:title="搜索"/>
+    <item
             android:id="@+id/account"
             android:icon="@drawable/account"
             android:showAsAction="always"

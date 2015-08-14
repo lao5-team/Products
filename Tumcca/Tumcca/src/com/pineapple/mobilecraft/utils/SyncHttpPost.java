@@ -1,5 +1,7 @@
 package com.pineapple.mobilecraft.utils;
 
+import android.util.Log;
+import com.pineapple.mobilecraft.TumccaApplication;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
@@ -115,9 +117,9 @@ public abstract class SyncHttpPost<T> extends SyncHTTPCaller<T> {
                     }
                     else{
                         String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+                        Log.v(TumccaApplication.TAG, "HttpPost error " + str);
                         reportError(str);
                     }
-
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

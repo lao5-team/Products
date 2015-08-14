@@ -161,13 +161,7 @@ public class UserManager {
 	public Account getAccount(String userName){
 		return Account.NULL;
 	}
-	
-	/**更新一个已经存在的用户信息
-	 * @param profile
-	 */
-	public void updateUser(Profile profile)
-	{
-	}
+
 
 
 	public void updateUserList(List<Profile> profileList){
@@ -317,10 +311,22 @@ public class UserManager {
 
 	}
 
+	public boolean updateProfile(long id, Profile profile){
+		String result = UserServer.getInstance().updateUser(profile, UserManager.getInstance().getCurrentToken(null));
+		if(!result.equals("fail")){
+			mProfilesCache.putItem(String.valueOf(id), Profile.toJSON(profile));
+			return true;
+		}
+		else{
+			return false;
+		}
+
+	}
+
 	public void destroy(){
 		Log.v(TumccaApplication.TAG, "unregisterReceiver " + mLoginReceiver.toString());
 		TumccaApplication.applicationContext.unregisterReceiver(mLoginReceiver);
-
+		mProfilesCache.clear();
 	}
 
 
