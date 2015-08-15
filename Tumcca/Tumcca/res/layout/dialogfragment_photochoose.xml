@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialogfragment_title_height"
-            android:text="@string/editphoto"
+            android:text="@string/choosephoto"
             android:gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:textStyle="bold"

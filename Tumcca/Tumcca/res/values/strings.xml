@@ -138,7 +138,7 @@
     <string name="editphone">编辑您的手机号</string>
     <string name="editgender">编辑您的性别</string>
     <string name="editemail">编辑您的邮箱</string>
-    <string name="editphoto">编辑您的头像</string>
+    <string name="choosephoto">请选择照片来源</string>
     <string name="editpseudonym">编辑您的斋号</string>
     <string name="editintro">编辑您的自我介绍</string>
     <string name="edithobby">编辑您的爱好</string>

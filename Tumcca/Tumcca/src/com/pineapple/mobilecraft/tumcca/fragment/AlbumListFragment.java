@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.TumccaApplication;
+import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.tumcca.activity.AlbumDetailActivity;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -27,6 +30,7 @@ import com.pineapple.mobilecraft.widget.ExpandGridView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 8/4/15.
@@ -158,6 +162,38 @@ public class AlbumListFragment extends Fragment {
             }
         }, new IntentFilter("remove_album"));
 
+
+    }
+
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+            @Override
+            public void onLogin(String token) {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.v(TumccaApplication.TAG, "parse albums");
+                        WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(null), mAlbumList);
+                        mContext.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mAlbumsAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 
     @Override
@@ -339,8 +375,7 @@ public class AlbumListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO
-                if(UserManager.getInstance().isLogin())
-                {
+                if(null!=UserManager.getInstance().getCurrentToken(null)){
                     if(album.isLiked){
                         WorksServer.dislikeAlbum(UserManager.getInstance().getCurrentToken(null), album.id);
                     }
@@ -352,10 +387,18 @@ public class AlbumListFragment extends Fragment {
                     Toast.makeText(mContext, album.isLiked?"喜欢成功":"取消喜欢成功", Toast.LENGTH_SHORT).show();
                     AlbumListFragment.this.mAlbumsAdapter.notifyDataSetChanged();
                 }
-                else
-                {
-                    Toast.makeText(mContext, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
+                else{
+                    UserManager.getInstance().requestLogin();
+
                 }
+//                if(UserManager.getInstance().isLogin())
+//                {
+//
+//                }
+//                else
+//                {
+//                    Toast.makeText(mContext, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
+//                }
 
             }
         });
@@ -375,7 +418,7 @@ public class AlbumListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO
-                if(UserManager.getInstance().isLogin())
+                if(null!=UserManager.getInstance().getCurrentToken(null))
                 {
                     if(album.isCollected){
                         WorksServer.discollectAlbum(UserManager.getInstance().getCurrentToken(null), album.id);
@@ -392,7 +435,8 @@ public class AlbumListFragment extends Fragment {
                 }
                 else
                 {
-                    Toast.makeText(mContext, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
+                    UserManager.getInstance().requestLogin();
+                    //Toast.makeText(mContext, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -419,10 +463,10 @@ public class AlbumListFragment extends Fragment {
                 }
             }
             if (albumList.subList(0, index).size() == 0) {
-                Toast.makeText(mContext, getString(R.string.there_is_no_new_works), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, getString(R.string.there_is_no_new_works), Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(mContext, getString(R.string.there_is_works, albumList.subList(0, index).size()), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, getString(R.string.there_is_works, albumList.subList(0, index).size()), Toast.LENGTH_SHORT).show();
                 mAlbumList.addAll(0, albumList.subList(0, index));
             }
 

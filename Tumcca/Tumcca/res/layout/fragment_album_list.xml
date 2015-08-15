@@ -24,7 +24,7 @@ android:layout_height="match_parent">
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="您有8个专辑"
+                    android:text="共有0个专辑"
                     android:id="@+id/textView_album_count" android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/edittext_bg_selected" android:layout_margin="15dip"/>
         </RelativeLayout>

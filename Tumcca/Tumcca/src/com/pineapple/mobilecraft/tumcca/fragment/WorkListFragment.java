@@ -20,7 +20,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.HalfRoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
@@ -33,7 +32,6 @@ import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IWorksList;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
-import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import com.pineapple.mobilecraft.util.logic.Util;
 
@@ -81,15 +79,12 @@ public class WorkListFragment extends Fragment implements IWorksList {
         /**
          * 取得数据后，要调用{@link #addWorksTail}
          */
-        public void loadTailWorks(int page);
+        public void loadTailWorks(final int page);
     }
 
     public WorkListFragment() {
         mMapProfile = new HashMap<Integer, Profile>();
         mAdapter = new PictureAdapter();
-//        mImageOptionsAvatar = new DisplayImageOptions.Builder()
-//                .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 16))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-//                .build();
 
         mImageOptionsWorks = new DisplayImageOptions.Builder()
                 .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
@@ -506,8 +501,12 @@ public class WorkListFragment extends Fragment implements IWorksList {
     public void setEnd(boolean isEnd){
         mIsEnd = isEnd;
         if(mIsEnd){
-            //mListView.addFooterView(mContext.getLayoutInflater().inflate(R.layout.progressbar, null));
-            mListView.removeFooterView(mFooterProgressView);
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mListView.removeFooterView(mFooterProgressView);
+                }
+            });
         }
     }
 }

@@ -200,8 +200,16 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
         switch (view.getId())
         {
             case R.id.reply_layout:
-                bottom.setVisibility(View.VISIBLE);
-                funcLay.setVisibility(View.GONE);
+                if(UserManager.getInstance().isLogin())
+                {
+                    bottom.setVisibility(View.VISIBLE);
+                    funcLay.setVisibility(View.GONE);
+                }
+                else{
+                    UserManager.getInstance().requestLogin();
+                    Toast.makeText(this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
+
+                }
                 break;
             case R.id.collection_layout:
                 if(UserManager.getInstance().isLogin())
@@ -217,6 +225,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 }
                 else
                 {
+                    UserManager.getInstance().requestLogin();
                     Toast.makeText(this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -234,6 +243,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 }
                 else
                 {
+                    UserManager.getInstance().requestLogin();
                     Toast.makeText(this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
                 }
                 break;

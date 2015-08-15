@@ -22,6 +22,8 @@ public class WorksInfo {
     public String description = "";
     public String createTimeString = "";
     public int author = 0;
+    public int likes = 0;
+    public int collects = 0;
     //transient 的属性需要我们自己解析
     public transient Date createTime = null;
     public transient PictureInfo picInfo = null;

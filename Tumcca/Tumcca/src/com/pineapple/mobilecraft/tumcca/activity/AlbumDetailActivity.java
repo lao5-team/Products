@@ -61,16 +61,35 @@ public class AlbumDetailActivity extends FragmentActivity {
 
             @Override
             public void loadHeadWorks() {
-                List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null),
-                        mId = getIntent().getLongExtra("id", -1), mAuthorId = getIntent().getLongExtra("author", -1), 1, 5, 400);
-                fragment.addWorksHead(worksInfoList);
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null),
+                                mId = getIntent().getLongExtra("id", -1), mAuthorId = getIntent().getLongExtra("author", -1), 1, 5, 400);
+                        fragment.addWorksHead(worksInfoList);
+                    }
+                });
+
+
             }
 
             @Override
-            public void loadTailWorks(int page) {
-                List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null),
-                        getIntent().getLongExtra("id", -1), getIntent().getLongExtra("author", -1), page, 5, 400);
-                fragment.addWorksTail(worksInfoList);
+            public void loadTailWorks(final int page) {
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null),
+                                getIntent().getLongExtra("id", -1), getIntent().getLongExtra("author", -1), page, 5, 400);
+                        if(worksInfoList.size()>0){
+                            fragment.addWorksTail(worksInfoList);
+                        }
+                        else{
+                            fragment.setEnd(true);
+                        }
+
+
+                    }
+                });
             }
         });
         getSupportFragmentManager().beginTransaction().add(R.id.layout_container, fragment).commit();
