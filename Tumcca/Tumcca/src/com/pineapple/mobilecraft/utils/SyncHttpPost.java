@@ -122,9 +122,11 @@ public abstract class SyncHttpPost<T> extends SyncHTTPCaller<T> {
                     }
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
+                    result = postExcute("");
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
+                    result = postExcute("");
                 }
                 return result;
             }

@@ -16,6 +16,7 @@ import com.pineapple.mobilecraft.tumcca.view.MyHorizontalScrollView;
 import com.pineapple.mobilecraft.tumcca.view.MyScrollView;
 import com.pineapple.mobilecraft.tumcca.view.MyVerticalScrollView;
 import com.pineapple.mobilecraft.tumcca.view.ZoomImageView;
+import com.sina.weibo.sdk.api.TextObject;
 
 /**
  * Created by yihao on 15/6/16.
@@ -121,11 +122,15 @@ public class PictureDetailActivity extends Activity {
 //        Picasso.with(this).load(PictureServer.getInstance().getPictureUrl(
 //                getIntent().getIntExtra("id", -1))).into(mZoomImageView);
 
-        mImageOptions = new DisplayImageOptions.Builder()
-                .cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-        mImageLoader = ImageLoader.getInstance();
-        mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(getIntent().getIntExtra("id", -1)), mZoomImageView, mImageOptions);
+        if(null!=mZoomImageView){
+            mImageOptions = new DisplayImageOptions.Builder()
+                    .cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                    .build();
+            mImageLoader = ImageLoader.getInstance();
+            mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(getIntent().getIntExtra("id", -1)), mZoomImageView, mImageOptions);
+        }{
+            Toast.makeText(this, "图片缩放控件初始化失败", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

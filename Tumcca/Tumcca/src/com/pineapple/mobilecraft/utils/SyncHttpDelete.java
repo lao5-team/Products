@@ -52,9 +52,11 @@ public abstract class SyncHttpDelete<T> extends SyncHTTPCaller<T> {
                     }
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
+                    postExcute("");
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
+                    postExcute("");
                 }
                 return result;
             }

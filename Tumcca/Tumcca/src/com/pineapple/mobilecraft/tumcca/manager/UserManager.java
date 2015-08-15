@@ -324,7 +324,7 @@ public class UserManager {
 	}
 
 	public void destroy(){
-		Log.v(TumccaApplication.TAG, "unregisterReceiver " + mLoginReceiver.toString());
+		//Log.v(TumccaApplication.TAG, "unregisterReceiver " + mLoginReceiver.toString());
 		TumccaApplication.applicationContext.unregisterReceiver(mLoginReceiver);
 		mProfilesCache.clear();
 	}

@@ -476,7 +476,7 @@ public class AlbumListFragment extends Fragment {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mTvAlbumCount.setText(getString(R.string.you_have_albums, mAlbumList.size()));
+                mTvAlbumCount.setText(mContext.getString(R.string.you_have_albums, mAlbumList.size()));
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setVisibility(View.VISIBLE);
                 setAdapter();
@@ -503,7 +503,7 @@ public class AlbumListFragment extends Fragment {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mTvAlbumCount.setText(getString(R.string.you_have_albums,mAlbumList.size()));
+                mTvAlbumCount.setText(mContext.getString(R.string.you_have_albums,mAlbumList.size()));
                 mAlbumsAdapter.setData(mAlbumList);
             }
         });

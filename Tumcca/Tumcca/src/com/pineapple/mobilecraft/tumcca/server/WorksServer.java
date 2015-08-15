@@ -532,7 +532,6 @@ public class WorksServer {
     }
 
     public static List<Album> getCollectAlbums(int authorId, int page, int size){
-        //http://120.26.202.114:80/api/like/works/page/1/size/5/width/400
         //String url = host + "/api/like/works/page/" + page + "/size/" + size + "/width/" + width;
         String url = host + "/api/collect/album/author/" + authorId + "/page/" + page + "/size/" + size;
         SyncHttpGet<List<Album>> post = new SyncHttpGet<List<Album>>(url, null) {
@@ -628,8 +627,6 @@ public class WorksServer {
                         }
                         commentList.add(comment);
                     }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

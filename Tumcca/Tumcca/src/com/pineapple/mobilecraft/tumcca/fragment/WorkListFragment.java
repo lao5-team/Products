@@ -146,15 +146,9 @@ public class WorkListFragment extends Fragment implements IWorksList {
                 break;
             }
         }
-        setAdapter();
 
     }
 
-    private void setAdapter(){
-        mAdapter.mListWorks.clear();
-        mAdapter.mListWorks.addAll(mWorksInfoList);
-        mAdapter.notifyDataSetChanged();
-    }
     @Override
     public void onResume() {
         super.onResume();
@@ -171,38 +165,46 @@ public class WorkListFragment extends Fragment implements IWorksList {
      */
     @Override
     public void addWorksHead(final List<WorksInfo> worksInfoList) {
-        if (mWorksInfoList.size() > 0) {
-            int topId = mWorksInfoList.get(0).id;
-            int index = worksInfoList.size();
-            for (int i = 0; i < worksInfoList.size(); i++) {
-                if (topId == worksInfoList.get(i).id) {
-                    index = i;
-                    break;
+
+
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mWorksInfoList.size() > 0) {
+                    int topId = mWorksInfoList.get(0).id;
+                    int index = worksInfoList.size();
+                    for (int i = 0; i < worksInfoList.size(); i++) {
+                        if (topId == worksInfoList.get(i).id) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (worksInfoList.subList(0, index).size() == 0) {
+                        Toast.makeText(mContext, getString(R.string.there_is_no_new_works), Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(mContext, getString(R.string.there_is_works, worksInfoList.subList(0, index).size()), Toast.LENGTH_SHORT).show();
+                        mWorksInfoList.addAll(0, worksInfoList.subList(0, index));
+
+                        mWorksInfoList.addAll(worksInfoList.subList(0, index));
+                    }
+
+                } else {
+                    mWorksInfoList.addAll(worksInfoList);
                 }
+                mWorksInfoList.addAll(worksInfoList);
+                mProgressBar.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+                mAdapter.notifyDataSetChanged();
             }
-            if (worksInfoList.subList(0, index).size() == 0) {
-                Toast.makeText(mContext, getString(R.string.there_is_no_new_works), Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(mContext, getString(R.string.there_is_works, worksInfoList.subList(0, index).size()), Toast.LENGTH_SHORT).show();
-                mWorksInfoList.addAll(0, worksInfoList.subList(0, index));
-            }
-
-        } else {
-            mWorksInfoList.addAll(worksInfoList);
-        }
+        });
         parseWorks(mWorksInfoList);
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mProgressBar.setVisibility(View.GONE);
-                mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-                mAdapter.mListWorks.clear();
-                mAdapter.mListWorks.addAll(mWorksInfoList);
                 mAdapter.notifyDataSetChanged();
             }
         });
-
     }
 
     /**
@@ -213,13 +215,19 @@ public class WorkListFragment extends Fragment implements IWorksList {
     @Override
     public void addWorksTail(final List<WorksInfo> worksInfoList) {
         Log.v(TumccaApplication.TAG, "WorkListFragment addWorksTail");
-        mWorksInfoList.addAll(worksInfoList);
+
+
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mWorksInfoList.addAll(worksInfoList);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
         parseWorks(mWorksInfoList);
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAdapter.mListWorks.clear();
-                mAdapter.mListWorks.addAll(mWorksInfoList);
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -234,7 +242,6 @@ public class WorkListFragment extends Fragment implements IWorksList {
             @Override
             public void run() {
                 mWorksInfoList.clear();
-                setAdapter();
                 if(null!=mWorksLoader){
                     mProgressBar.setVisibility(View.VISIBLE);
                     mWorksLoader.loadHeadWorks();
@@ -283,15 +290,13 @@ public class WorkListFragment extends Fragment implements IWorksList {
             }
         });
         if (null != mWorksLoader) {
-            List<WorksInfo> worksInfoList = mWorksLoader.getInitialWorks();
+            final List<WorksInfo> worksInfoList = mWorksLoader.getInitialWorks();
             if (null != worksInfoList) {
-                mWorksInfoList.clear();
-                mWorksInfoList.addAll(worksInfoList);
                 mContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.mListWorks.clear();
-                        mAdapter.mListWorks.addAll(mWorksInfoList);
+                        mWorksInfoList.clear();
+                        mWorksInfoList.addAll(worksInfoList);
                         mAdapter.notifyDataSetChanged();
                     }
                 });
@@ -441,13 +446,13 @@ public class WorkListFragment extends Fragment implements IWorksList {
     }
 
     private class PictureAdapter extends BaseAdapter {
-        public List<WorksInfo> mListWorks = new ArrayList<WorksInfo>();
+        //public List<WorksInfo> mListWorks = new ArrayList<WorksInfo>();
 
         @Override
         public int getCount() {
-            if (null != mListWorks) {
-                Log.v("Tumcca", "Home fragment size " + mListWorks.size());
-                return mListWorks.size();
+            if (null != mWorksInfoList) {
+                Log.v("Tumcca", "Home fragment size " + mWorksInfoList.size());
+                return mWorksInfoList.size();
             }
             return 0;
         }

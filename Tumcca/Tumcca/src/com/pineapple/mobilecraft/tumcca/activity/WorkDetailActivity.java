@@ -18,18 +18,16 @@ import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.data.comment.TreasureComment;
 import com.pineapple.mobilecraft.tumcca.data.Comment;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IMyScrollViewListener;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.tumcca.view.ObservableScrollView;
-import com.pineapple.mobilecraft.widget.CommonAdapter;
-import com.pineapple.mobilecraft.widget.IAdapterItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,44 +43,15 @@ import java.util.concurrent.Executors;
 public class WorkDetailActivity extends FragmentActivity implements View.OnClickListener, IMyScrollViewListener, AbsListView.OnScrollListener, View.OnTouchListener {
 
     private TextView mTvUser;
-    private ImageView mIvUser;
+    private ImageView mIvAvatar;
     private TextView mTvTitle;
     private ImageView mIvWorks;
-    private ImageSwitcher mVPImages;
-    private TextView mTvDesc;
-    private Button mBtnComments;
-    private Button mBtnProfComments;
+
     //private ListView mLvComments; //普通评论和专家点评用一个ListView，用两种不同的adapter
     private ObservableScrollView scrollView;
     DisplayImageOptions mImageOptions;
     ImageLoader mImageLoader;
-    CommonAdapter<TreasureComment> mAdapterComments = new CommonAdapter<TreasureComment>(new ArrayList<TreasureComment>(), new IAdapterItem<TreasureComment>() {
-        @Override
-        public View getView(TreasureComment data, View convertView) {
-            View view = WorkDetailActivity.this.getLayoutInflater().inflate(R.layout.item_treasure_comment, null);
-            TextView tvUser = (TextView) view.findViewById(R.id.textView_comment);
-            tvUser.setText(data.mFromUserName);
-            TextView tvContent = (TextView) view.findViewById(R.id.textView_content);
-            tvContent.setText(data.mContent);
-            return view;
-        }
-    });
 
-    CommonAdapter<TreasureComment> mAdapterProfComments = new CommonAdapter<TreasureComment>(new ArrayList<TreasureComment>(), new IAdapterItem<TreasureComment>() {
-        @Override
-        public View getView(TreasureComment data, View convertView) {
-            View view = WorkDetailActivity.this.getLayoutInflater().inflate(R.layout.item_treasure_comment, null);
-            TextView tvUser = (TextView) view.findViewById(R.id.textView_comment);
-            tvUser.setText(data.mFromUserName);
-            TextView tvContent = (TextView) view.findViewById(R.id.textView_content);
-            tvContent.setText(data.mContent);
-            CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox_identify);
-            cb.setVisibility(View.VISIBLE);
-
-            cb.setChecked(data.mIdentifyResult);
-            return view;
-        }
-    });
     //发表评论的按钮和编辑框
     private RelativeLayout bottom;
     private Button mBtnComment;
@@ -139,8 +108,8 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
         mTvUser = (TextView) findViewById(R.id.textView_author);
         mTvUser.setText(mProfile.pseudonym);
 
-        mIvUser = (ImageView) findViewById(R.id.imageView_author);
-        mImageLoader.displayImage(UserServer.getInstance().getAvatarUrl(mProfile.avatar), mIvUser, mImageOptions);
+        mIvAvatar = (ImageView) findViewById(R.id.imageView_author);
+        PictureManager.getInstance().displayAvatar(mIvAvatar, mProfile.avatar, 24);
 
         mTvTitle = (TextView) findViewById(R.id.textView_desc);
         mTvTitle.setText(mWorks.title);
@@ -161,8 +130,8 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
 
         WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
 
-        int width = wm.getDefaultDisplay().getWidth();
-        int height = wm.getDefaultDisplay().getHeight();
+//        int width = wm.getDefaultDisplay().getWidth();
+//        int height = wm.getDefaultDisplay().getHeight();
 
         //RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width-30, mWorks.picInfo.height * width / mWorks.picInfo.width);
 

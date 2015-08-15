@@ -68,9 +68,15 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
 		this(context, null);
 	}
 
-	public ZoomImageView(Context context, AttributeSet attrs)
+	public ZoomImageView(Context context, AttributeSet attrs){
+		this(context, attrs, 0);
+	}
+
+	// 2015-8-15
+	// 添加构造器，解决findViewbyId return null的问题
+	public ZoomImageView(Context context, AttributeSet attrs, int defStyle)
 	{
-		super(context, attrs);
+		super(context, attrs, defStyle);
 		super.setScaleType(ScaleType.MATRIX);
 		mGestureDetector = new GestureDetector(context,
 				new SimpleOnGestureListener()
