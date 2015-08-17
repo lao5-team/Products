@@ -23,13 +23,13 @@ public interface IWorksList {
      * 添加作品到头部
      * @param worksInfoList
      */
-    public void addWorksHead(List<WorksInfo> worksInfoList);
+    public int addWorksHead(List<WorksInfo> worksInfoList);
 
     /**
      * 添加作品到底部
      * @param worksInfoList
      */
-    public void addWorksTail(List<WorksInfo> worksInfoList);
+    public int addWorksTail(List<WorksInfo> worksInfoList);
 
     /**
      * 清空作品

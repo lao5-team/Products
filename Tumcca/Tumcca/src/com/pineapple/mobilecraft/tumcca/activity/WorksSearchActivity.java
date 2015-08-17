@@ -8,10 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import com.pineapple.mobilecraft.R;
@@ -30,6 +28,7 @@ public class WorksSearchActivity extends FragmentActivity {
     EditText mEtxSearch;
     ImageButton mIBSearch;
     String mKeywords = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +39,10 @@ public class WorksSearchActivity extends FragmentActivity {
         addWorksView();
     }
 
-    private void addActionBar(){
+    private void addActionBar() {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         final ActionBar actionBar = getActionBar();
-        if(null!=actionBar){
+        if (null != actionBar) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayOptions(
                     ActionBar.DISPLAY_SHOW_CUSTOM,
@@ -57,7 +56,7 @@ public class WorksSearchActivity extends FragmentActivity {
         }
     }
 
-    private void addSearchView(){
+    private void addSearchView() {
         mEtxSearch = (EditText) findViewById(R.id.editText_search);
         mEtxSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -72,12 +71,26 @@ public class WorksSearchActivity extends FragmentActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(s.toString())){
+                if (TextUtils.isEmpty(s.toString())) {
                     mIBSearch.setEnabled(false);
-                }
-                else{
+                } else {
                     mIBSearch.setEnabled(true);
                 }
+            }
+        });
+        mEtxSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(
+                                    WorksSearchActivity.this
+                                            .getCurrentFocus()
+                                            .getWindowToken(),
+                                    InputMethodManager.HIDE_NOT_ALWAYS);
+                    search(mEtxSearch.getEditableText().toString());
+                }
+                return false;
             }
         });
         mIBSearch = (ImageButton) findViewById(R.id.imageButton_search);
@@ -91,16 +104,17 @@ public class WorksSearchActivity extends FragmentActivity {
 
     /**
      * 清空上一次搜索结果，缓存搜索关键字
+     *
      * @param keywords
      */
-    private void search(String keywords){
+    private void search(String keywords) {
         mKeywords = keywords;
         mWorksFragment.clearWorks();
     }
 
     WorkListFragment mWorksFragment;
 
-    private void addWorksView(){
+    private void addWorksView() {
         mWorksFragment = new WorkListFragment();
         mWorksFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
             @Override
@@ -131,7 +145,7 @@ public class WorksSearchActivity extends FragmentActivity {
                         public void run() {
                             List<WorksInfo> listWorks = WorksServer.searchWorksByKeywords(mKeywords, page, 5, 400);
                             mWorksFragment.addWorksTail(listWorks);
-                            if(listWorks.size()==0){
+                            if (listWorks.size() == 0) {
                                 mWorksFragment.setEnd(true);
                             }
                         }

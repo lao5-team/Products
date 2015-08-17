@@ -60,60 +60,60 @@ public class PictureDetailActivity extends Activity {
         });
         //resBitmap = ((BitmapDrawable)view.getBackground()).getBitmap();
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                if((MotionEvent.ACTION_DOWN == action || MotionEvent.ACTION_MOVE == action)&&mIsMagnifierMode)
-                {
-                    int x = (int)event.getX();
-                    int y = (int)event.getY();// + mScrollView.getScrollY();
-                    Log.v("Tumcca", "x " + x + " y " + y);
-                    mSrcRect.set(x - RADIUS / 3, y - RADIUS / 3, x + RADIUS / 3, y + RADIUS / 3);
-                    mPoint.set((int)x, (int)y);
-                    if(mSrcRect.left < 0)
-                    {
-                        mSrcRect.offset(-mSrcRect.left, 0);
-                    }
-                    else
-                    if(mSrcRect.right > resBitmap.getWidth())
-                    {
-                        mSrcRect.offset(resBitmap.getWidth()-mSrcRect.right, 0);
-                    }
-                    if(mSrcRect.top < 0)
-                    {
-                        mSrcRect.offset(0, -mSrcRect.top);
-                    }
-                    else
-                    if(mSrcRect.bottom > resBitmap.getHeight())
-                    {
-                        mSrcRect.offset(0, resBitmap.getHeight()-mSrcRect.bottom);
-                    }
-
-                    popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, x + 100, y);
-                    WindowManager windowManager = getWindowManager();
-                    Display display = windowManager.getDefaultDisplay();
-                    int screenWidth  = display.getWidth();
-                    int screenHeight = display.getHeight();
-                    if(screenHeight>screenWidth){
-                        popupWindow.update(x + 100,y - ((MyVerticalScrollView)mScrollView).getScrollY(), -1, -1);
-                    }
-                    else{
-                        popupWindow.update(x - ((MyHorizontalScrollView)mScrollView).getScrollX() + 100,y , -1, -1);
-                    }
-                    mMagnifier.invalidate();
-
-                }
-                if(MotionEvent.ACTION_UP == action)
-                {
-                    //mIsMagnifierMode = false;
-                    popupWindow.dismiss();
-                }
-                return true;
-            }
-        });
-
-        mMagnifier = new Magnifier(this);
+//        view.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int action = event.getAction();
+//                if((MotionEvent.ACTION_DOWN == action || MotionEvent.ACTION_MOVE == action)&&mIsMagnifierMode)
+//                {
+//                    int x = (int)event.getX();
+//                    int y = (int)event.getY();// + mScrollView.getScrollY();
+//                    Log.v("Tumcca", "x " + x + " y " + y);
+//                    mSrcRect.set(x - RADIUS / 3, y - RADIUS / 3, x + RADIUS / 3, y + RADIUS / 3);
+//                    mPoint.set((int)x, (int)y);
+//                    if(mSrcRect.left < 0)
+//                    {
+//                        mSrcRect.offset(-mSrcRect.left, 0);
+//                    }
+//                    else
+//                    if(mSrcRect.right > resBitmap.getWidth())
+//                    {
+//                        mSrcRect.offset(resBitmap.getWidth()-mSrcRect.right, 0);
+//                    }
+//                    if(mSrcRect.top < 0)
+//                    {
+//                        mSrcRect.offset(0, -mSrcRect.top);
+//                    }
+//                    else
+//                    if(mSrcRect.bottom > resBitmap.getHeight())
+//                    {
+//                        mSrcRect.offset(0, resBitmap.getHeight()-mSrcRect.bottom);
+//                    }
+//
+//                    popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, x + 100, y);
+//                    WindowManager windowManager = getWindowManager();
+//                    Display display = windowManager.getDefaultDisplay();
+//                    int screenWidth  = display.getWidth();
+//                    int screenHeight = display.getHeight();
+//                    if(screenHeight>screenWidth){
+//                        popupWindow.update(x + 100,y - ((MyVerticalScrollView)mScrollView).getScrollY(), -1, -1);
+//                    }
+//                    else{
+//                        popupWindow.update(x - ((MyHorizontalScrollView)mScrollView).getScrollX() + 100,y , -1, -1);
+//                    }
+//                    mMagnifier.invalidate();
+//
+//                }
+//                if(MotionEvent.ACTION_UP == action)
+//                {
+//                    //mIsMagnifierMode = false;
+//                    popupWindow.dismiss();
+//                }
+//                return true;
+//            }
+//        });
+//
+//        mMagnifier = new Magnifier(this);
 
         popupWindow = new PopupWindow(mMagnifier, RADIUS*2, RADIUS*2);
 
@@ -128,8 +128,10 @@ public class PictureDetailActivity extends Activity {
                     .build();
             mImageLoader = ImageLoader.getInstance();
             mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(getIntent().getIntExtra("id", -1)), mZoomImageView, mImageOptions);
-        }{
+        }
+        else{
             Toast.makeText(this, "图片缩放控件初始化失败", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
     }
@@ -163,39 +165,40 @@ public class PictureDetailActivity extends Activity {
     }
 
 
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        // TODO Auto-generated method stub
-        int action = event.getAction();
-        if(MotionEvent.ACTION_DOWN == action || MotionEvent.ACTION_MOVE == action)
-        {
-            float x = (float)event.getX();
-            float y = (float)event.getY();
-            System.out.println("X: " + x + ", Y: " + y);
-            mPoint.set((int)x, (int)y);
-            //对于越界处理 http://www.ligotop.com
-            if(mSrcRect.left < 0)
-            {
-                mSrcRect.offset(-mSrcRect.left, 0);
-            }
-            else
-            if(mSrcRect.right > resBitmap.getWidth())
-            {
-                mSrcRect.offset(resBitmap.getWidth()-mSrcRect.right, 0);
-            }
-            if(mSrcRect.top < 0)
-            {
-                mSrcRect.offset(0, -mSrcRect.top);
-            }
-            else
-            if(mSrcRect.bottom > resBitmap.getHeight())
-            {
-                mSrcRect.offset(0, resBitmap.getHeight()-mSrcRect.bottom);
-            }
-        }
-        return true;
-
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event)
+//    {
+//        // TODO Auto-generated method stub
+//        int action = event.getAction();
+//        if(MotionEvent.ACTION_DOWN == action || MotionEvent.ACTION_MOVE == action)
+//        {
+//            float x = (float)event.getX();
+//            float y = (float)event.getY();
+//            System.out.println("X: " + x + ", Y: " + y);
+//            mPoint.set((int)x, (int)y);
+//            //对于越界处理 http://www.ligotop.com
+//            if(mSrcRect.left < 0)
+//            {
+//                mSrcRect.offset(-mSrcRect.left, 0);
+//            }
+//            else
+//            if(mSrcRect.right > resBitmap.getWidth())
+//            {
+//                mSrcRect.offset(resBitmap.getWidth()-mSrcRect.right, 0);
+//            }
+//            if(mSrcRect.top < 0)
+//            {
+//                mSrcRect.offset(0, -mSrcRect.top);
+//            }
+//            else
+//            if(mSrcRect.bottom > resBitmap.getHeight())
+//            {
+//                mSrcRect.offset(0, resBitmap.getHeight()-mSrcRect.bottom);
+//            }
+//        }
+//        return true;
+//
+//    }
 
 
 

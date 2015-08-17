@@ -164,9 +164,9 @@ public class WorkListFragment extends Fragment implements IWorksList {
      * @param worksInfoList
      */
     @Override
-    public void addWorksHead(final List<WorksInfo> worksInfoList) {
+    public int addWorksHead(final List<WorksInfo> worksInfoList) {
 
-
+        int currentLength = mWorksInfoList.size();
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -180,19 +180,19 @@ public class WorkListFragment extends Fragment implements IWorksList {
                         }
                     }
                     if (worksInfoList.subList(0, index).size() == 0) {
-                        Toast.makeText(mContext, getString(R.string.there_is_no_new_works), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext, getString(R.string.there_is_no_new_works), Toast.LENGTH_SHORT).show();
 
                     } else {
-                        Toast.makeText(mContext, getString(R.string.there_is_works, worksInfoList.subList(0, index).size()), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext, getString(R.string.there_is_works, worksInfoList.subList(0, index).size()), Toast.LENGTH_SHORT).show();
                         mWorksInfoList.addAll(0, worksInfoList.subList(0, index));
 
-                        mWorksInfoList.addAll(worksInfoList.subList(0, index));
+                        ///mWorksInfoList.addAll(worksInfoList.subList(0, index));
                     }
 
                 } else {
                     mWorksInfoList.addAll(worksInfoList);
                 }
-                mWorksInfoList.addAll(worksInfoList);
+                //mWorksInfoList.addAll(worksInfoList);
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setVisibility(View.VISIBLE);
                 mAdapter.notifyDataSetChanged();
@@ -205,6 +205,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
                 mAdapter.notifyDataSetChanged();
             }
         });
+        return (mWorksInfoList.size()-currentLength);
     }
 
     /**
@@ -213,7 +214,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
      * @param worksInfoList
      */
     @Override
-    public void addWorksTail(final List<WorksInfo> worksInfoList) {
+    public int addWorksTail(final List<WorksInfo> worksInfoList) {
         Log.v(TumccaApplication.TAG, "WorkListFragment addWorksTail");
 
 
@@ -231,6 +232,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
                 mAdapter.notifyDataSetChanged();
             }
         });
+        return worksInfoList.size();
     }
 
     /**
@@ -242,6 +244,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
             @Override
             public void run() {
                 mWorksInfoList.clear();
+                mAdapter.notifyDataSetChanged();
                 if(null!=mWorksLoader){
                     mProgressBar.setVisibility(View.VISIBLE);
                     mWorksLoader.loadHeadWorks();

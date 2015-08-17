@@ -120,7 +120,15 @@ public class HomeActivity extends FragmentActivity implements IHome {
                         mService.loadHomeHeadList(new TumccaService.OnLoadFinished<WorksInfo>() {
                             @Override
                             public void onSuccess(List<WorksInfo> resultList) {
-                                mWorksListFragment.addWorksHead(resultList);
+                                int lengthAdded = mWorksListFragment.addWorksHead(resultList);
+                                if(lengthAdded==0){
+                                    //Toast.makeText(mContext, getString(R.string.there_is_no_new_works), Toast.LENGTH_SHORT).show();
+                                    showMessage(getString(R.string.there_is_no_new_works));
+                                }
+                                else{
+                                    //Toast.makeText(mContext, getString(R.string.there_is_works, worksInfoList.subList(0, index).size()), Toast.LENGTH_SHORT).show();
+                                    showMessage(getString(R.string.there_is_works, lengthAdded));
+                                }
                             }
 
                             @Override
@@ -401,6 +409,15 @@ public class HomeActivity extends FragmentActivity implements IHome {
         else{
             displayActionbar(0);
         }
+    }
+
+    private void showMessage(final String message){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
