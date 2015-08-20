@@ -199,6 +199,8 @@
     <string name="there_is_works">当前有%1$s个作品发布</string>
     <string name="save_nick_success">保存昵称成功</string>
     <string name="search_works">搜索作品</string>
+    <string name="edit_picture">编辑图片</string>
+    <string name="edit_picture_desc">添加图片说明。。。</string>
 
 
 </resources>

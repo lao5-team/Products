@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public class Utility {
 
-    private static final String MAINPATH = "YhTumcca";
+    private static final String MAINPATH = "Tumcca";
     private static final String IMGPATH = "images/";
 
     /**

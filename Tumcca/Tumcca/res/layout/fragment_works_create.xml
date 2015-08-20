@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <!--<RelativeLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="200dip" android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true" android:id="@+id/relativeLayout" android:background="@color/Red">-->
+        <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/imageView_pic" android:layout_centerVertical="true" android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--/>-->
+    <!--</RelativeLayout>-->
+    <!--<ImageButton-->
+            <!--android:layout_width="40dip"-->
+            <!--android:layout_height="40dip"-->
+            <!--android:id="@+id/imageButton_rotate" android:layout_below="@+id/relativeLayout"-->
+            <!--android:layout_alignParentLeft="true" android:layout_alignParentStart="true"-->
+            <!--android:layout_marginTop="-20dp" android:background="@color/Blue"/>-->
+    <!--<EditText-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/editText_desc" android:layout_below="@+id/imageButton_rotate" android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true" android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true"/>-->
+    <!--<ImageButton-->
+            <!--android:layout_width="40dip"-->
+            <!--android:layout_height="40dip"-->
+            <!--android:id="@+id/imageButton_delete"-->
+            <!--android:layout_alignBottom="@+id/imageButton_rotate" android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true"/>-->
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp" android:id="@+id/layout_add_picture"
+            android:layout_above="@+id/layout_choose_album">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="添加照片"
+                android:id="@+id/textView_add_picture" android:textSize="@dimen/text_size_normal" android:gravity="center"
+                android:padding="10dp" android:background="@drawable/stroke_button"
+                android:textColor="@color/pure_black" android:clickable="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@+id/layout_choose_album" android:layout_margin="20dip"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/stroke_button" android:clickable="true">
+        <ImageView
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:id="@+id/imageView_album"
+
+                android:background="@color/edittext_bg_normal"
+                android:scaleType="centerCrop" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
+                android:layout_centerInParent="false" android:layout_marginLeft="20dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择专辑"
+                android:id="@+id/textView_album"
+                android:layout_toRightOf="@+id/imageView_album" android:layout_toEndOf="@+id/imageView_album"
+                android:textSize="@dimen/text_size_small" android:layout_marginLeft="10dip" android:gravity="top"
+                android:layout_marginTop="5dip" android:textColor="@color/edittext_bg_selected"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="专辑名称"
+                android:id="@+id/textView_album_title" android:gravity="bottom"
+                android:layout_alignParentBottom="false" android:layout_below="@+id/textView_album"
+                android:layout_alignLeft="@+id/textView_album" android:textColor="@color/pure_black"/>
+    </RelativeLayout>
+    <include android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             layout="@layout/fragment_base_list" android:layout_alignParentTop="true"
+             android:layout_above="@+id/layout_add_picture"/>
+</RelativeLayout>

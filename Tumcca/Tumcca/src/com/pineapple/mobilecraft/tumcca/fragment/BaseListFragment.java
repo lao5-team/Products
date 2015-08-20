@@ -310,6 +310,16 @@ public class BaseListFragment<VH extends BaseListFragment.ListViewHolder>extends
 
     }
 
+    public void remove(long id){
+        for(ListItem item:mItems){
+            if(item.getId() == id){
+                mItems.remove(item);
+                break;
+            }
+        }
+        refresh();
+    }
+
     public void refresh(){
         mActivity.runOnUiThread(new Runnable() {
             @Override

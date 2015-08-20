@@ -191,7 +191,7 @@
             <!--</intent-filter>-->
 
         </activity>
-        <activity android:name=".tumcca.activity.CalligraphyCreateActivity"
+        <activity android:name=".tumcca.activity.WorksCreateActivity"
                   android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style"
                   android:screenOrientation="portrait">
             <meta-data
@@ -204,9 +204,18 @@
         <activity android:name=".tumcca.activity.UserCity"/>
         <activity android:name=".tumcca.activity.PictureEditActivity" android:theme="@style/my_activity_style">
 
-                </activity>
+    </activity>
+        <activity android:name=".tumcca.activity.PictureEditActivity2" android:theme="@style/my_activity_style">
+
+        </activity>
         <activity android:name=".tumcca.activity.CommentActivity"/>
         <activity android:name=".tumcca.activity.WorksSearchActivity" android:theme="@style/my_search_activity_style"/>
+        <activity android:name=".tumcca.activity.WorksCreateActivity2" android:theme="@style/my_search_activity_style"/>
+        <activity
+                android:name="com.photoselector.ui.PhotoSelectorActivity"
+                android:label="图片选择" >
+
+        </activity>
         <service android:name="com.pineapple.mobilecraft.tumcca.service.TumccaService"/>
 
     </application>

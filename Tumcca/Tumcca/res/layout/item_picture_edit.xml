@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:paddingTop="20dip" android:paddingBottom="20dip">
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:id="@+id/imageView_pic" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dip" android:layout_marginRight="20dip" android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="fitXY" android:layout_alignTop="@+id/imageButton_delete"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_desc" android:layout_below="@+id/imageView_pic" android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:background="#00000000" android:hint="@string/edit_picture_desc"
+            android:layout_marginBottom="20dip" android:layout_alignLeft="@+id/imageView_pic"
+            android:layout_alignRight="@+id/imageView_pic"/>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton_delete"
+            android:layout_alignBottom="@+id/imageButton_rotate" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/delete_picture" android:background="#00000000"
+            />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_picture"
+            android:id="@+id/textView_edit" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_alignBottom="@+id/imageView_pic"
+            android:layout_marginLeft="30dip" android:layout_marginBottom="20dp"
+            android:textSize="@dimen/text_size_normal" android:clickable="true" android:textColor="@color/pure_white"/>
+</RelativeLayout>

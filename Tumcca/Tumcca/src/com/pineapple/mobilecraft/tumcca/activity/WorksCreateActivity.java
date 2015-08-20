@@ -48,7 +48,7 @@ import java.util.List;
 /**
  * Created by yihao on 15/3/12.
  */
-public class CalligraphyCreateActivity extends FragmentActivity implements ICalligraphyCreate {
+public class WorksCreateActivity extends FragmentActivity implements ICalligraphyCreate {
     public static final int CROP_REQUEST_CODE = 2;
     public static final int MAX_IMAGE_COUNT =5;
     public static int REQ_PIC_EDIT = 6;
@@ -69,12 +69,12 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     private ImageView mIvBack;
     private Button mBtnSubmit;
     private TumccaService mService;
+
+    ServiceConnection mServiceConnection;
     DisplayImageOptions mImageOptionsWorks;
     PrefsCache mPrefsCache;
-    ServiceConnection mServiceConnection;
-
     public static void startActivity(Activity activity){
-        Intent intent = new Intent(activity, CalligraphyCreateActivity.class);
+        Intent intent = new Intent(activity, WorksCreateActivity.class);
         //fragment.startActivityForResult(intent, TreasuresEntryFragment.REQUEST_CREATE_TREASURE);
         activity.startActivity(intent);
     }
@@ -82,10 +82,11 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+
         mImageOptionsWorks = new DisplayImageOptions.Builder()
                 .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 5))).cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         final ActionBar actionBar = getActionBar();
         if(null!=actionBar){
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -107,7 +108,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             UserServer.getInstance().uploadProfile(UserManager.getInstance().getCurrentToken(null), Profile.createTestProfile());
         }
 
-        ImgsActivity.ImagesReceiver = CalligraphyCreateActivity.class;
+        ImgsActivity.ImagesReceiver = WorksCreateActivity.class;
         mPictureAdapter = new PictureAdapter();
         mAvatarChoose = new AvatarChoose();
         setContentView(R.layout.activity_create_work);
@@ -169,7 +170,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             public void onLogin(String token) {
                 Profile profile = UserServer.getInstance().getCurrentUserProfile(token);
                 if(profile == Profile.NULL){
-                    Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_complete_profile), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorksCreateActivity.this, getString(R.string.please_complete_profile), Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 //TODO load albums
@@ -197,7 +198,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             public void run() {
                 while(true){
                     try {
-                        ConnectivityManager mConnectivityManager = (ConnectivityManager)CalligraphyCreateActivity.this
+                        ConnectivityManager mConnectivityManager = (ConnectivityManager)WorksCreateActivity.this
                                 .getSystemService(Context.CONNECTIVITY_SERVICE);
                         NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
                         if((mNetworkInfo == null||!mNetworkInfo.isAvailable())){
@@ -261,12 +262,12 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
             @Override
             public void onClick(View v) {
                 if(mListPicture.size()==5){
-                    Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.restrict_upload_pictures, MAX_IMAGE_COUNT), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorksCreateActivity.this, getString(R.string.restrict_upload_pictures, MAX_IMAGE_COUNT), Toast.LENGTH_SHORT).show();
 
                 }
                 else{
                     mAvatarChoose = new AvatarChoose();
-                    mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(CalligraphyCreateActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+                    mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(WorksCreateActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
                     mAvatarChoose.setUri(mUri);
                     mAvatarChoose.show(getSupportFragmentManager(), "WorksPhotoChoose");
                 }
@@ -291,9 +292,9 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
     public void submit() {
         final ProgressDialog dialog = new ProgressDialog(this);
         if (TextUtils.isEmpty(mDescription)) {
-            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_enter_description), Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorksCreateActivity.this, getString(R.string.please_enter_description), Toast.LENGTH_SHORT).show();
         }else if(mListPicture.size()==0){
-            Toast.makeText(CalligraphyCreateActivity.this, getString(R.string.please_select_picture), Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorksCreateActivity.this, getString(R.string.please_select_picture), Toast.LENGTH_SHORT).show();
         }
         else {
             Thread t = new Thread(new Runnable() {
@@ -352,7 +353,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                 //将流写入文件或者直接使用
                 FileOutputStream fos = null;
                 try {
-                    String localPath = Utility.getTumccaImgPath(CalligraphyCreateActivity.this) + "/" + mListPicture.size() + ".jpg";
+                    String localPath = Utility.getTumccaImgPath(WorksCreateActivity.this) + "/" + mListPicture.size() + ".jpg";
                     fos = new FileOutputStream(localPath);
                     try {
                         fos.write(stream.toByteArray());
@@ -520,7 +521,7 @@ public class CalligraphyCreateActivity extends FragmentActivity implements ICall
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PictureEditActivity.startActivity(CalligraphyCreateActivity.this, REQ_PIC_EDIT, mListPicture, position);
+                        PictureEditActivity.startActivity(WorksCreateActivity.this, REQ_PIC_EDIT, mListPicture, position);
                     }
                 });
                 return layout;

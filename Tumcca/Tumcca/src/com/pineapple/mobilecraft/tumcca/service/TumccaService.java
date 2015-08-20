@@ -132,6 +132,47 @@ public class TumccaService extends Service {
 		t.start();
 	}
 
+	public void uploadWorks(final List<Picture> pictureList, final List<Works> works){
+		showNotification(TumccaApplication.applicationContext.getString(R.string.works_uploading));
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String token = UserManager.getInstance().getCurrentToken(null);
+				for(int i = 0; i<pictureList.size(); i++){
+					int pictureId = PictureServer.getInstance().uploadPicture(token, new File(pictureList.get(i).localPath));
+					if(PictureServer.INVALID_PICTURE_ID!=pictureId){
+						works.get(i).pictures.add(pictureId);
+						int id = WorksServer.uploadWorks(token, works.get(i));
+						if(id!=WorksServer.INVALID_WORKS_ID){
+							showNotification(TumccaApplication.applicationContext.getString(R.string.works_upload_success));
+							List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null), works.get(i).albumId,
+									UserManager.getInstance().getCurrentUserId(), 1, 20, 400);
+							WorksManager.getInstance().putAlbumWorks(works.get(i).albumId, worksInfoList);
+							hideNotification();
+							try {
+								Thread.currentThread().sleep(200);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							Intent intent = new Intent();
+							intent.setAction("upload_works");
+							sendBroadcast(intent);
+						}
+						else{
+							showNotification(TumccaApplication.applicationContext.getString(R.string.works_upload_failed));
+							hideNotification();
+						}
+					}
+					else{
+						showNotification(TumccaApplication.applicationContext.getString(R.string.picture_upload_failed));
+						hideNotification();
+					}
+				}
+			}
+		});
+		t.start();
+	}
+
 	public List<WorksInfo> getHomeWorkList(){
 		return mHomeWorkList.subList(0, mHomeWorkList.size());
 	}

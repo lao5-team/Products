@@ -18,10 +18,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import android.graphics.Bitmap;
 import cn.bmob.v3.Bmob;
 
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -176,9 +185,49 @@ public class TumccaApplication extends Application {
 		Intent intent = new Intent(this, TumccaService.class);
 		startService(intent);
 
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-		.build();
+		DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+				.showImageOnLoading(com.photoselector.R.drawable.ic_picture_loading)
+				.showImageOnFail(com.photoselector.R.drawable.ic_picture_loadfailed)
+				.cacheInMemory(true).cacheOnDisk(true)
+				.resetViewBeforeLoading(true).considerExifParams(false)
+				.bitmapConfig(Bitmap.Config.RGB_565).build();
+
+
+
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				this)
+				.memoryCacheExtraOptions(400, 400)
+						// default = device screen dimensions
+				.diskCacheExtraOptions(400, 400, null)
+				.threadPoolSize(5)
+						// default Thread.NORM_PRIORITY - 1
+				.threadPriority(Thread.NORM_PRIORITY)
+						// default FIFO
+				.tasksProcessingOrder(QueueProcessingType.LIFO)
+						// default
+				.denyCacheImageMultipleSizesInMemory()
+				.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+				.memoryCacheSize(2 * 1024 * 1024)
+				.memoryCacheSizePercentage(13)
+						// default  UnlimitedDiskCache
+				.diskCache(
+
+						new UnlimitedDiskCache(StorageUtils.getCacheDirectory(
+								this, true)))
+						// default
+				.diskCacheSize(50 * 1024 * 1024).diskCacheFileCount(100)
+				.diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
+						// default
+				.imageDownloader(new BaseImageDownloader(this))
+						// default
+				.imageDecoder(new BaseImageDecoder(false))
+						// default
+				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+						// default
+				.defaultDisplayImageOptions(imageOptions).build();
+
 		ImageLoader.getInstance().init(config);
+		//ImageLoader.getInstance().init(config);
 
 	}
 

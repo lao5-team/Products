@@ -1,5 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
@@ -9,10 +10,14 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.view.*;
 import android.widget.TextView;
+import com.photoselector.model.PhotoModel;
+import com.photoselector.ui.PhotoSelectorActivity;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.utility.Utility;
 
 import java.io.File;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by jiankun on 2015/6/24.
@@ -20,7 +25,7 @@ import java.io.File;
 public class PhotoChoose extends DialogFragment implements View.OnClickListener {
 
     public static final int FROMCAMERA = 0;
-    public static final int FROMGALLERY = 1;
+    public static final int FROMGALLERY = 5;
 
     private TextView mTvFromCamera;
     private TextView mTvFromGallery;
@@ -95,13 +100,41 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
             case R.id.fromGallery:
 //                intent = new Intent();
 //                intent.setClass(getActivity(), ImgFileListActivity.class);
-                intent = new Intent();
-                intent.setAction(Intent.ACTION_PICK);// Pick an item fromthe
-                intent.setType("image/*");// ������ͼƬ�н���ѡ��
+//                intent = new Intent();
+//                intent.setAction(Intent.ACTION_PICK);// Pick an item fromthe
+//                intent.setType("image/*");// ������ͼƬ�н���ѡ��
+//                getActivity().startActivityForResult(intent, FROMGALLERY);
+
+                intent = new Intent(getActivity(), PhotoSelectorActivity.class);
+                intent.putExtra(PhotoSelectorActivity.KEY_MAX, 5);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 getActivity().startActivityForResult(intent, FROMGALLERY);
                 break;
         }
 
         dismiss();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK)
+            return;
+        if (requestCode == FROMGALLERY) {// selected image
+            if (data != null && data.getStringExtra("photos") != null) {
+                //@SuppressWarnings("unchecked")
+                //List<PhotoModel> photos = (List<PhotoModel>) ;
+//                if (photos == null || photos.isEmpty()) {
+//                    //UIHelper.ToastMessage(this, R.string.no_photo_selected);
+//                } else {
+                    Intent intent = new Intent(getActivity(), WorksCreateActivity2.class);
+                    //Bundle b = new Bundle();
+                    //b.putSerializable("album_pojo", albumPojo);
+                    //b.putSerializable("photos", (Serializable) photos);
+                    intent.putExtra("photos", data.getStringExtra("photos"));
+                    startActivity(intent);
+                    //finish();
+                //}
+            }
+        }
+
     }
 }

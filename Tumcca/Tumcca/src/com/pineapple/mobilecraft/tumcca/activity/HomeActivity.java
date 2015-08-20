@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
@@ -14,9 +15,9 @@ import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.photoselector.ui.PhotoSelectorActivity;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
@@ -27,8 +28,10 @@ import com.pineapple.mobilecraft.tumcca.mediator.IHome;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
+import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import com.pineapple.mobilecraft.util.logic.Util;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -163,7 +166,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
             }
         }, Context.BIND_AUTO_CREATE);
 
-
+        //startWorkCreating();
     }
 
     public void addActionbarView(ActionBar actionBar, View view) {
@@ -296,6 +299,14 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 displayActionbar(0);
             }
         }
+
+        if (requestCode == 5) {// selected image
+            if (data != null && data.getStringExtra("photos") != null) {
+                Intent intent = new Intent(this, WorksCreateActivity2.class);
+                intent.putExtra("photos", data.getStringExtra("photos"));
+                startActivity(intent);
+            }
+        }
     }
 
 
@@ -340,7 +351,8 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
                     @Override
                     public void onLogin(String token) {
-                        CalligraphyCreateActivity.startActivity(HomeActivity.this);
+                        //WorksCreateActivity.startActivity(HomeActivity.this);
+                        startWorkCreating();
                     }
 
                     @Override
@@ -418,6 +430,13 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void startWorkCreating(){
+        PhotoChoose photoChoose = new PhotoChoose();
+        Uri uri = Uri.fromFile(new File(Utility.getTumccaImgPath(HomeActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+        photoChoose.setUri(uri);
+        photoChoose.show(getSupportFragmentManager(), "WorksPhotoChoose");
     }
 
 
