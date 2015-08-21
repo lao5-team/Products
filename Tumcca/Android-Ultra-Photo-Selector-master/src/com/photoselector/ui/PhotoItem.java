@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -86,10 +87,16 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 		 * Random().nextInt(10));
 		 */
 		if(ivPhoto.getTag()==null||!ivPhoto.getTag().equals(photo.getOriginalPath())){
-
+			if(null!=ivPhoto.getDrawable()){
+				Bitmap bitmap = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
+				if(bitmap!=null&&!bitmap.isRecycled()){
+					bitmap.recycle();
+				}
+			}
 			ImageLoader.getInstance().displayImage(
 					"file://" + photo.getOriginalPath(), ivPhoto);
 			ivPhoto.setTag(photo.getOriginalPath());
+			//System.gc();
 		}
 
 		photo.photoView = this;
