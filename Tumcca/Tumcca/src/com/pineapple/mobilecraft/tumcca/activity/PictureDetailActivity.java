@@ -16,7 +16,7 @@ import com.pineapple.mobilecraft.tumcca.view.MyHorizontalScrollView;
 import com.pineapple.mobilecraft.tumcca.view.MyScrollView;
 import com.pineapple.mobilecraft.tumcca.view.MyVerticalScrollView;
 import com.pineapple.mobilecraft.tumcca.view.ZoomImageView;
-import com.sina.weibo.sdk.api.TextObject;
+
 
 /**
  * Created by yihao on 15/6/16.

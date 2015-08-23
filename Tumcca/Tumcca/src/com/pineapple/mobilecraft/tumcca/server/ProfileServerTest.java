@@ -3,7 +3,6 @@ package com.pineapple.mobilecraft.tumcca.server;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 import android.util.Log;
-import com.pineapple.mobilecraft.shop.mediator.IShopEntryMediator;
 import com.pineapple.mobilecraft.tumcca.data.Account;
 import com.pineapple.mobilecraft.utils.PATextUtils;
 import junit.framework.Assert;

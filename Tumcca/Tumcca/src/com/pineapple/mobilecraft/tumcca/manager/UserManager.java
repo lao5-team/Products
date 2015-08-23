@@ -44,8 +44,6 @@ public class UserManager {
 		abstract public void onLogin(String token);
 
 		abstract public void onCancel();
-
-
 	}
 
 	public static interface LoginStateListener

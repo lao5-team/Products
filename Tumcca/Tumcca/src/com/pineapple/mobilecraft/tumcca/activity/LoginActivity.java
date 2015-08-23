@@ -26,11 +26,10 @@ import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
-import com.pineapple.mobilecraft.utils.AccessTokenKeeper;
 import com.pineapple.mobilecraft.utils.CommonUtils;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuthListener;
-import com.sina.weibo.sdk.exception.WeiboException;
+//import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+//import com.sina.weibo.sdk.auth.WeiboAuthListener;
+//import com.sina.weibo.sdk.exception.WeiboException;
 
 import java.text.SimpleDateFormat;
 
@@ -43,7 +42,7 @@ public class LoginActivity extends Activity {
     private EditText passwordEditText;
 
 
-    private AuthListener mLoginListener = new AuthListener();
+    //private AuthListener mLoginListener = new AuthListener();
     private boolean mLoginResult = false;
 
     public static void startActivity(Activity activity, int requestCode) {
@@ -147,29 +146,29 @@ public class LoginActivity extends Activity {
     /**
      * 登入按钮的监听器，接收授权结果。
      */
-    private class AuthListener implements WeiboAuthListener {
-        @Override
-        public void onComplete(Bundle values) {
-            Oauth2AccessToken accessToken = Oauth2AccessToken.parseAccessToken(values);
-            if (accessToken != null && accessToken.isSessionValid()) {
-                String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(
-                        new java.util.Date(accessToken.getExpiresTime()));
-                //String format = getString(R.string.weibosdk_demo_token_to_string_format_1);
-                //mTokenView.setText(String.format(format, accessToken.getToken(), date));
-
-                AccessTokenKeeper.writeAccessToken(getApplicationContext(), accessToken);
-            }
-        }
-
-        @Override
-        public void onWeiboException(WeiboException e) {
-            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onCancel() {
-        }
-    }
+//    private class AuthListener implements WeiboAuthListener {
+//        @Override
+//        public void onComplete(Bundle values) {
+//            Oauth2AccessToken accessToken = Oauth2AccessToken.parseAccessToken(values);
+//            if (accessToken != null && accessToken.isSessionValid()) {
+//                String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(
+//                        new java.util.Date(accessToken.getExpiresTime()));
+//                //String format = getString(R.string.weibosdk_demo_token_to_string_format_1);
+//                //mTokenView.setText(String.format(format, accessToken.getToken(), date));
+//
+//                AccessTokenKeeper.writeAccessToken(getApplicationContext(), accessToken);
+//            }
+//        }
+//
+//        @Override
+//        public void onWeiboException(WeiboException e) {
+//            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onCancel() {
+//        }
+//    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQ_REG && resultCode == RESULT_OK) {

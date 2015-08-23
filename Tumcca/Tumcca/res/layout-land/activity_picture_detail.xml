@@ -20,7 +20,7 @@
             >
         <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:background="@drawable/sample_land"
+                android:layout_height="fill_parent"
                 android:id="@+id/layout_picture" android:longClickable="true">
 
         </RelativeLayout>

@@ -2,9 +2,9 @@ package com.pineapple.mobilecraft.tumcca.manager;
 
 import android.util.Log;
 import com.pineapple.mobilecraft.TumccaApplication;
-import com.pineapple.mobilecraft.cache.temp.JSONCache;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.utility.JSONCache;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -20,7 +20,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.TumccaApplication;
-import com.pineapple.mobilecraft.domain.User;
 import com.pineapple.mobilecraft.tumcca.activity.AlbumDetailActivity;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;

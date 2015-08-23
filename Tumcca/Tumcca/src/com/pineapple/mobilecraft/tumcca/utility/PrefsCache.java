@@ -3,7 +3,6 @@ package com.pineapple.mobilecraft.tumcca.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.pineapple.mobilecraft.cache.temp.IListCache;
 import junit.framework.Assert;
 
 import org.json.JSONException;
