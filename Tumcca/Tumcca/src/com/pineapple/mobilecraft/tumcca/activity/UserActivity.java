@@ -20,11 +20,8 @@ import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
-import com.pineapple.mobilecraft.tumcca.fragment.AlbumListFragment;
-import com.pineapple.mobilecraft.tumcca.fragment.AlbumWorkListFragment;
+import com.pineapple.mobilecraft.tumcca.fragment.*;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
-import com.pineapple.mobilecraft.tumcca.fragment.UserListFragment;
-import com.pineapple.mobilecraft.tumcca.fragment.WorkListFragment;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
@@ -43,8 +40,8 @@ public class UserActivity extends FragmentActivity {
     private static final int ALBUM_PAGE_SIZE = 20;
     AlbumListFragment mUserAlbumsFragment;
     //WorksListFragment mLikeCalligraphyFragment;
-    AlbumWorkListFragment mLikesFragment;
-    AlbumWorkListFragment mCollectFragment;
+    AlbumWorkListFragment2 mLikesFragment;
+    AlbumWorkListFragment2 mCollectFragment;
     UserListFragment mFollowingFragment;
     UserListFragment mFollowerFragment;
     boolean mIsTestMode = false;
@@ -91,8 +88,8 @@ public class UserActivity extends FragmentActivity {
             finish();
         }
         mUserAlbumsFragment = new AlbumListFragment();
-        mLikesFragment = new AlbumWorkListFragment();
-        mCollectFragment = new AlbumWorkListFragment();
+        mLikesFragment = new AlbumWorkListFragment2();
+        mCollectFragment = new AlbumWorkListFragment2();
         mFollowerFragment = new UserListFragment();
 
         mFollowingFragment = new UserListFragment();
@@ -224,148 +221,150 @@ public class UserActivity extends FragmentActivity {
         });
     }
 
-    public void addLikesFragment(AlbumWorkListFragment fragment) {
-        final WorkListFragment workListFragment = new WorkListFragment();
-        workListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
-            @Override
-            public List<WorksInfo> getInitialWorks() {
-                return null;
-            }
-
-            @Override
-            public void loadHeadWorks() {
-                Executors.newSingleThreadExecutor().submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<WorksInfo> worksInfoList = WorksServer.getLikeWorks(
-                                mAuthorId, 1, PAGE_SIZE, WORKS_WIDTH);
-                        workListFragment.addWorksHead(worksInfoList);
-
-                    }
-                });
-            }
-
-            @Override
-            public void loadTailWorks(final int page) {
-                Executors.newSingleThreadExecutor().submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
-                                mAuthorId, page, PAGE_SIZE, WORKS_WIDTH);
-                        workListFragment.addWorksHead(worksInfoList);
-                    }
-                });
-
-            }
-        });
-
-        fragment.addWorksFragment(workListFragment);
-
-        final AlbumListFragment albumListFragment = new AlbumListFragment();
-        albumListFragment.setAlbumLoader(new AlbumListFragment.AlbumListLoader() {
-            @Override
-            public List<Album> getInitialAlbums() {
-                return null;
-            }
-
-            @Override
-            public void loadHeadAlbums() {
-                Executors.newSingleThreadExecutor().submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<Album> albumList = WorksServer.getLikeAlbums(
-                                mAuthorId, 1, PAGE_SIZE);
-                        albumListFragment.addAlbumsHead(albumList);
-
-                    }
-                });
-            }
-
-            @Override
-            public void loadTailAlbums(int page) {
-                Executors.newSingleThreadExecutor().submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<Album> albumList = WorksServer.getLikeAlbums(
-                                mAuthorId, 1, PAGE_SIZE);
-                        albumListFragment.addAlbumsTail(albumList);
-                    }
-                });
-            }
-        });
-
-        fragment.addAlbumsFragment(albumListFragment);
+    public void addLikesFragment(AlbumWorkListFragment2 fragment) {
+//        final WorkListFragment workListFragment = new WorkListFragment();
+//        workListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
+//            @Override
+//            public List<WorksInfo> getInitialWorks() {
+//                return null;
+//            }
+//
+//            @Override
+//            public void loadHeadWorks() {
+//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final List<WorksInfo> worksInfoList = WorksServer.getLikeWorks(
+//                                mAuthorId, 1, PAGE_SIZE, WORKS_WIDTH);
+//                        workListFragment.addWorksHead(worksInfoList);
+//
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void loadTailWorks(final int page) {
+//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
+//                                mAuthorId, page, PAGE_SIZE, WORKS_WIDTH);
+//                        workListFragment.addWorksHead(worksInfoList);
+//                    }
+//                });
+//
+//            }
+//        });
+//
+//        fragment.addWorksFragment(workListFragment);
+//
+//        final AlbumListFragment albumListFragment = new AlbumListFragment();
+//        albumListFragment.setAlbumLoader(new AlbumListFragment.AlbumListLoader() {
+//            @Override
+//            public List<Album> getInitialAlbums() {
+//                return null;
+//            }
+//
+//            @Override
+//            public void loadHeadAlbums() {
+//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final List<Album> albumList = WorksServer.getLikeAlbums(
+//                                mAuthorId, 1, PAGE_SIZE);
+//                        albumListFragment.addAlbumsHead(albumList);
+//
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void loadTailAlbums(int page) {
+//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final List<Album> albumList = WorksServer.getLikeAlbums(
+//                                mAuthorId, 1, PAGE_SIZE);
+//                        albumListFragment.addAlbumsTail(albumList);
+//                    }
+//                });
+//            }
+//        });
+//
+//        fragment.addAlbumsFragment(albumListFragment);
+        fragment.setAuthorId(mAuthorId);
+        fragment.setDataMode(AlbumWorkListFragment2.MODE_LIKE);
     }
 
-    public void addCollectFragment(AlbumWorkListFragment fragment) {
-        final WorkListFragment workListFragment = new WorkListFragment();
-
-        workListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
-            @Override
-            public List<WorksInfo> getInitialWorks() {
-                return null;
-            }
-
-            @Override
-            public void loadHeadWorks() {
-                Executors.newSingleThreadExecutor().submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
-                                mAuthorId, 1, PAGE_SIZE, WORKS_WIDTH);
-                        workListFragment.addWorksHead(worksInfoList);
-                    }
-                });
-            }
-
-            @Override
-            public void loadTailWorks(final int page) {
-                Executors.newSingleThreadExecutor().submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
-                                mAuthorId, page, PAGE_SIZE, WORKS_WIDTH);
-                        workListFragment.addWorksHead(worksInfoList);
-                    }
-                });
-            }
-        });
-        fragment.addWorksFragment(workListFragment);
-
-        final AlbumListFragment albumListFragment = new AlbumListFragment();
-        albumListFragment.setAlbumLoader(new AlbumListFragment.AlbumListLoader() {
-            @Override
-            public List<Album> getInitialAlbums() {
-                return null;
-            }
-
-            @Override
-            public void loadHeadAlbums() {
-                Executors.newSingleThreadExecutor().submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<Album> albumList = WorksServer.getCollectAlbums(
-                                mAuthorId, 1, PAGE_SIZE);
-                        albumListFragment.addAlbumsHead(albumList);
-
-                    }
-                });
-            }
-
-            @Override
-            public void loadTailAlbums(int page) {
-                Executors.newSingleThreadExecutor().submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<Album> albumList = WorksServer.getCollectAlbums(
-                                mAuthorId, 1, PAGE_SIZE);
-                        albumListFragment.addAlbumsTail(albumList);
-                    }
-                });
-            }
-        });
-
-        fragment.addAlbumsFragment(albumListFragment);
+    public void addCollectFragment(AlbumWorkListFragment2 fragment) {
+//        final WorkListFragment workListFragment = new WorkListFragment();
+//
+//        workListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
+//            @Override
+//            public List<WorksInfo> getInitialWorks() {
+//                return null;
+//            }
+//
+//            @Override
+//            public void loadHeadWorks() {
+//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
+//                                mAuthorId, 1, PAGE_SIZE, WORKS_WIDTH);
+//                        workListFragment.addWorksHead(worksInfoList);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void loadTailWorks(final int page) {
+//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
+//                                mAuthorId, page, PAGE_SIZE, WORKS_WIDTH);
+//                        workListFragment.addWorksHead(worksInfoList);
+//                    }
+//                });
+//            }
+//        });
+//        fragment.addWorksFragment(workListFragment);
+//
+//        final AlbumListFragment albumListFragment = new AlbumListFragment();
+//        albumListFragment.setAlbumLoader(new AlbumListFragment.AlbumListLoader() {
+//            @Override
+//            public List<Album> getInitialAlbums() {
+//                return null;
+//            }
+//
+//            @Override
+//            public void loadHeadAlbums() {
+//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final List<Album> albumList = WorksServer.getCollectAlbums(
+//                                mAuthorId, 1, PAGE_SIZE);
+//                        albumListFragment.addAlbumsHead(albumList);
+//
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void loadTailAlbums(int page) {
+//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final List<Album> albumList = WorksServer.getCollectAlbums(
+//                                mAuthorId, 1, PAGE_SIZE);
+//                        albumListFragment.addAlbumsTail(albumList);
+//                    }
+//                });
+//            }
+//        });
+//
+//        fragment.addAlbumsFragment(albumListFragment);
     }
 
     public void addFollowingFragment(UserListFragment fragment) {

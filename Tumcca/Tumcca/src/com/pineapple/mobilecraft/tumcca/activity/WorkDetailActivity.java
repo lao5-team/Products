@@ -27,6 +27,7 @@ import com.pineapple.mobilecraft.tumcca.mediator.IMyScrollViewListener;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
+import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import com.pineapple.mobilecraft.tumcca.view.ObservableScrollView;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -328,7 +329,6 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
             Comment comment = mCommentList.get(position);
             TextView textView = (TextView) view.findViewById(R.id.textView_comment);
 
-            //TODO
             String reviewerName = comment.reviewerName;
             String replyTargetName = comment.targetName;
             if(TextUtils.isEmpty(replyTargetName)){
@@ -343,6 +343,11 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.button_normal_red)),content.indexOf(reviewerName),content.indexOf(reviewerName) + reviewerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.button_normal_red)),reviewerName.length() + "回复".length(),reviewerName.length() + "回复".length() + replyTargetName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 textView.setText(style);
+            }
+
+            ImageView imageView = (ImageView) view.findViewById(R.id.imageView_avatar);
+            if (-1 != comment.avatar) {
+                PictureManager.getInstance().displayAvatar(imageView, comment.avatar, 16);
             }
             return view;
         }
@@ -410,11 +415,11 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
 
     }
 
-    private void addComment(Comment comment){
-        mCommentList.add(comment);
-        setHeight();
-        mCommentAdapter.notifyDataSetChanged();
-    }
+//    private void addComment(Comment comment){
+//        mCommentList.add(comment);
+//        setHeight();
+//        mCommentAdapter.notifyDataSetChanged();
+//    }
 
     private void enterCommentMode(long replyTarget, String replyAuthorName){
         mReplyTarget = replyTarget;

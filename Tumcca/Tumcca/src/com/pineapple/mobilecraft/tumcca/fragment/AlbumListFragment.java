@@ -100,6 +100,19 @@ public class AlbumListFragment extends Fragment {
         mEGVAlbumView = (ExpandGridView)view.findViewById(R.id.gridview_albums);
         addAlbumListView(mEGVAlbumView);
         setupProgressBar();
+
+//        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(ViewGroup.LayoutParams.MATCH_PARENT, View.MeasureSpec.EXACTLY);
+//        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(ViewGroup.LayoutParams.WRAP_CONTENT, View.MeasureSpec.EXACTLY);
+//        view.measure(widthMeasureSpec, heightMeasureSpec);
+        //ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        //layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        //layoutParams.height = view.getMeasuredHeight() + mListViewHeight;
+        //view.setLayoutParams(layoutParams);
+        Log.v(TumccaApplication.TAG, "list view height " + mEGVAlbumView.getMeasuredHeight() + "");
+
+        //int expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, View.MeasureSpec.AT_MOST);
+        //super.onMeasure(widthMeasureSpec, expandSpec);
+        //layoutParams.height = listViewHeight;
         return view;
     }
 
@@ -218,6 +231,7 @@ public class AlbumListFragment extends Fragment {
             public void run() {
                 mAlbumsAdapter.mAlbumList.clear();
                 mAlbumsAdapter.mAlbumList.addAll(mAlbumList);
+                //applyListviewHeightWithChild();
                 mAlbumsAdapter.notifyDataSetChanged();
             }
         });
@@ -311,6 +325,7 @@ public class AlbumListFragment extends Fragment {
         public void setData(List<Album> albums){
             mAlbumList.clear();
             mAlbumList.addAll(albums);
+            //applyListviewHeightWithChild();
             notifyDataSetChanged();
         }
     }
@@ -332,6 +347,8 @@ public class AlbumListFragment extends Fragment {
 //        if(null!=getArguments()){
 //            mParentWidth = getArguments().getInt("parentWidth");
 //        }
+//        applyListviewHeightWithChild();
+//        getView().getMeasuredHeight();
         mAlbumsAdapter.notifyDataSetChanged();
     }
 
@@ -390,14 +407,6 @@ public class AlbumListFragment extends Fragment {
                     UserManager.getInstance().requestLogin();
 
                 }
-//                if(UserManager.getInstance().isLogin())
-//                {
-//
-//                }
-//                else
-//                {
-//                    Toast.makeText(mContext, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
-//                }
 
             }
         });
@@ -514,5 +523,28 @@ public class AlbumListFragment extends Fragment {
                 mAlbumsAdapter.setData(mAlbumList);
             }
         });
+    }
+
+    int mListViewHeight = 0;
+    public void applyListviewHeightWithChild(){
+        int listViewHeight = 0;
+        int adaptCount = mAlbumsAdapter.getCount();
+        for(int i=0;i<adaptCount;i=i+2){
+            View temp = mAlbumsAdapter.getView(i, null, mEGVAlbumView);
+            temp.measure(0,0);
+            listViewHeight += temp.getMeasuredHeight();
+
+        }
+        ViewGroup.LayoutParams layoutParams = this.mEGVAlbumView.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        //int expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, View.MeasureSpec.AT_MOST);
+        //super.onMeasure(widthMeasureSpec, expandSpec);
+        layoutParams.height = listViewHeight;
+        mListViewHeight = listViewHeight;
+        mEGVAlbumView.setLayoutParams(layoutParams);
+        mEGVAlbumView.setSize(0, listViewHeight);
+        Log.v(TumccaApplication.TAG, "BaseListFragment:applyListviewHeightWithChild:Height=" + mEGVAlbumView.getMeasuredHeight());
+        //mEGVAlbumView.
     }
 }

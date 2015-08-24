@@ -1,9 +1,6 @@
 package com.pineapple.mobilecraft.tumcca.server;
 
-import com.pineapple.mobilecraft.tumcca.data.Album;
-import com.pineapple.mobilecraft.tumcca.data.Comment;
-import com.pineapple.mobilecraft.tumcca.data.Works;
-import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
+import com.pineapple.mobilecraft.tumcca.data.*;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.utils.SyncHttpDelete;
 import com.pineapple.mobilecraft.utils.SyncHttpGet;
@@ -466,7 +463,13 @@ public class WorksServer {
                 return worksInfoList;
             }
         };
-        return post.execute();
+        List<WorksInfo> result = post.execute();
+        if(null!=result){
+            return result;
+        }
+        else{
+            return new ArrayList<WorksInfo>();
+        }
     }
 
     /**
@@ -497,7 +500,13 @@ public class WorksServer {
                 return worksInfoList;
             }
         };
-        return post.execute();
+        List<WorksInfo> result = post.execute();
+        if(null!=result){
+            return result;
+        }
+        else{
+            return new ArrayList<WorksInfo>();
+        }
     }
 
     /**
@@ -527,8 +536,16 @@ public class WorksServer {
                 }
                 return worksInfoList;
             }
+
         };
-        return post.execute();
+
+        List<Album> result = post.execute();
+        if(null!=result){
+            return result;
+        }
+        else{
+            return new ArrayList<Album>();
+        }
     }
 
     public static List<Album> getCollectAlbums(int authorId, int page, int size){
@@ -550,7 +567,13 @@ public class WorksServer {
                 return worksInfoList;
             }
         };
-        return post.execute();
+        List<Album> result = post.execute();
+        if(null!=result){
+            return result;
+        }
+        else{
+            return new ArrayList<Album>();
+        }
     }
 
 
@@ -621,7 +644,9 @@ public class WorksServer {
                     Set<Long> idSet = commentHashMap.keySet();
                     for(Long set:idSet){
                         Comment comment = commentHashMap.get(set);
-                        comment.reviewerName = UserManager.getInstance().getUserProfile(comment.reviewer).pseudonym;
+                        Profile profile = UserManager.getInstance().getUserProfile(comment.reviewer);
+                        comment.reviewerName = profile.pseudonym;
+                        comment.avatar = profile.avatar;
                         if(0!=comment.replyTarget){
                             comment.targetName = UserManager.getInstance().getUserProfile(commentHashMap.get(comment.replyTarget).reviewer).pseudonym;
                         }

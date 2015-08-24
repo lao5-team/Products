@@ -94,6 +94,7 @@ public class TumccaApplication extends Application {
 
 		ImageLoader.getInstance().init(config);
 		//ImageLoader.getInstance().init(config);
+		applicationContext = this;
 
 	}
 

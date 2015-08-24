@@ -81,7 +81,7 @@ public abstract class SyncHttpGet<T> extends SyncHTTPCaller<T> {
 
     }
 
-    private void reportError(String message){
+    protected void reportError(String message){
         try {
             JSONObject jsonObject = new JSONObject(message);
             throw new ApiException(jsonObject.getInt("code"));

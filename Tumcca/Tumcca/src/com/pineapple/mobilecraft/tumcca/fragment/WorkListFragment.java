@@ -62,6 +62,15 @@ public class WorkListFragment extends Fragment implements IWorksList {
     BroadcastReceiver mReceiver;
     StaggeredGridView mListView;
     View mFooterProgressView;
+    int mListViewMode = MODE_LV_DRAG;
+    public static final int MODE_LV_DRAG = 0;
+    public static final int MODE_LV_FIXED = 1;
+
+    public void setListViewMode(int mode){
+        if(mode>=MODE_LV_DRAG&&mode<=MODE_LV_FIXED){
+            mListViewMode = mode;
+        }
+    }
     public static interface WorkListLoader {
 
         /**
@@ -192,7 +201,8 @@ public class WorkListFragment extends Fragment implements IWorksList {
                 } else {
                     mWorksInfoList.addAll(worksInfoList);
                 }
-                //mWorksInfoList.addAll(worksInfoList);
+                //mWorksInfoList.addAll(worksInfoList);                    if(mLoadMode == MODE_FIXED_HEIGHT){
+                applyListviewHeightWithChild();
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setVisibility(View.VISIBLE);
                 mAdapter.notifyDataSetChanged();
@@ -222,6 +232,10 @@ public class WorkListFragment extends Fragment implements IWorksList {
             @Override
             public void run() {
                 mWorksInfoList.addAll(worksInfoList);
+                if(mListViewMode == MODE_LV_FIXED){
+                    applyListviewHeightWithChild();
+
+                }
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -517,4 +531,31 @@ public class WorkListFragment extends Fragment implements IWorksList {
             });
         }
     }
+
+    public void applyListviewHeightWithChild(){
+        int listViewHeightLeft = 0;
+        int listViewHeightRight = 0;
+        int adaptCount = mAdapter.getCount();
+        for(int i=0;i<adaptCount;i=i+2){
+            View viewLeft = mAdapter.getView(i, null, null);
+            viewLeft.measure(0,0);
+            listViewHeightLeft += viewLeft.getMeasuredHeight();
+            Log.v(TumccaApplication.TAG, "BaseListFragment:applyListviewHeightWithChild:HeightLeft=" + listViewHeightLeft);
+
+            if((i+1)<mAdapter.getCount()){
+                View viewRight = mAdapter.getView(i, null, null);
+                viewRight.measure(0,0);
+                listViewHeightRight += viewRight.getMeasuredHeight();
+                Log.v(TumccaApplication.TAG, "BaseListFragment:applyListviewHeightWithChild:HeightRight=" + listViewHeightLeft);
+            }
+        }
+        ViewGroup.LayoutParams layoutParams = this.mListView.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        //int expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, View.MeasureSpec.AT_MOST);
+        //super.onMeasure(widthMeasureSpec, expandSpec);
+        layoutParams.height = Math.max(listViewHeightLeft, listViewHeightRight);
+        mListView.setLayoutParams(layoutParams);
+    }
+
 }

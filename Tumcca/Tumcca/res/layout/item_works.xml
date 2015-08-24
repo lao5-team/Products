@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
@@ -88,4 +88,4 @@
                 android:textColor="#ff646464" android:layout_marginLeft="5dip" android:maxWidth="200dip"/>
     </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

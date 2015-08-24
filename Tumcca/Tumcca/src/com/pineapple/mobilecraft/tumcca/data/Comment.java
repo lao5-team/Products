@@ -18,6 +18,7 @@ public  class Comment {
 	public long replyTarget = -1;
 	public transient String reviewerName = "";
 	public transient String targetName = "";
+	public transient int avatar = -1;
 
 	public String description = "";
 

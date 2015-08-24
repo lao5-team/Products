@@ -146,7 +146,7 @@ public class UserManager {
 			return Profile.fromJSON(mProfilesCache.getItem(key));
 		}
 		else{
-			Profile profile;
+			Profile profile = Profile.NULL;
 			profile = UserServer.getInstance().getUserProfile(userId);
 			if(profile!=Profile.NULL){
 				mProfilesCache.putItem(key, Profile.toJSON(profile));
