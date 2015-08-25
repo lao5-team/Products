@@ -98,7 +98,8 @@
                 android:label="图片选择" >
 
         </activity>
-        <activity android:name=".tumcca.activity.AlbumsListActivity" android:theme="@style/my_search_activity_style"/>
+        <activity android:name=".tumcca.activity.AlbumsListActivity" android:theme="@style/my_activity_style"/>
+        <activity android:name=".tumcca.activity.WorksListActivity" android:theme="@style/my_activity_style"/>
         <service android:name="com.pineapple.mobilecraft.tumcca.service.TumccaService" />
 
     </application>

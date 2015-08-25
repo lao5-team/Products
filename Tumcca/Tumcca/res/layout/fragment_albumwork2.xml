@@ -39,7 +39,8 @@
                 android:text="@string/see_all"
                 android:id="@+id/textView_all_albums" android:textSize="@dimen/text_size_normal"
                 android:layout_alignParentEnd="true" android:textColor="@color/button_normal_red"
-                android:layout_alignParentRight="true" android:clickable="true" android:layout_marginRight="10dip"/>
+                android:layout_alignParentRight="true" android:clickable="true" android:layout_marginRight="10dip"
+                android:textStyle="bold"/>
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" android:id="@+id/container_albums"
@@ -50,6 +51,12 @@
               android:layout_height="wrap_content"
               class="com.pineapple.mobilecraft.widget.ExpandGridView" android:id="@+id/gridview_albums"
               android:layout_below="@+id/container_albums" android:numColumns="2"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/album"
+                android:id="@+id/textView3" android:textSize="@dimen/text_size_normal"
+                android:layout_marginLeft="10dip"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="0dip" android:id="@+id/layout_works"
                     android:layout_below="@id/layout_button" android:layout_weight="1" android:padding="10dip"
@@ -60,15 +67,23 @@
                 android:text="@string/see_all"
                 android:id="@+id/textView_all_works" android:textSize="@dimen/text_size_normal"
                 android:layout_alignParentEnd="true" android:textColor="@color/button_normal_red"
-                android:layout_alignParentRight="true" android:clickable="true" android:layout_marginRight="10dip"/>
+                android:layout_alignParentRight="true" android:clickable="true" android:layout_marginRight="10dip"
+                android:textStyle="bold"/>
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" android:id="@+id/container_works"
                 android:layout_below="@+id/textView_all_works">
         </RelativeLayout>
-        <view android:layout_width="wrap_content"
+        <view android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              class="com.etsy.android.grid.StaggeredGridView" android:id="@+id/view3"/>
+              class="com.etsy.android.grid.StaggeredGridView" android:id="@+id/gridview_works"
+              android:layout_below="@+id/container_works"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/work"
+                android:id="@+id/textView4" android:textSize="@dimen/text_size_normal"
+                android:layout_marginLeft="10dip"/>
     </RelativeLayout>
         </LinearLayout>
 

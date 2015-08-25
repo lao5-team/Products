@@ -248,6 +248,8 @@ public class StaggeredGridView extends ExtendableListView {
 
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+        //super.onMeasure(widthMeasureSpec, expandSpec);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         if (mColumnCount <= 0) {

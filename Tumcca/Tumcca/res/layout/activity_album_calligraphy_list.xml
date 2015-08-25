@@ -5,12 +5,6 @@
               android:layout_height="match_parent" android:id="@+id/view"
               android:background="@color/pure_white">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView18" android:layout_marginLeft="15dip" android:layout_marginTop="10dip"
-            android:layout_marginBottom="10dip" android:textSize="@dimen/text_size_normal" android:visibility="gone"/>
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" android:layout_gravity="center_horizontal"

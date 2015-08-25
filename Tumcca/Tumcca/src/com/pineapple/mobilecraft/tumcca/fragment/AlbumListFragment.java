@@ -5,25 +5,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.TextView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.TumccaApplication;
-import com.pineapple.mobilecraft.tumcca.activity.AlbumDetailActivity;
+import com.pineapple.mobilecraft.tumcca.adapter.AlbumAdapter;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
-import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.widget.ExpandGridView;
 
@@ -33,7 +30,6 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 8/4/15.
- *
  */
 public class AlbumListFragment extends Fragment {
 
@@ -43,7 +39,7 @@ public class AlbumListFragment extends Fragment {
     private int mUserId = -1;
     private List<Album> mAlbumList = new ArrayList<Album>();
     private ExpandGridView mEGVAlbumView = null;
-    private AlbumsAdapter mAlbumsAdapter = new AlbumsAdapter();
+    private AlbumAdapter mAlbumsAdapter; // = new AlbumAdapter();
     Activity mContext;
     TextView mTvAlbumCount;
     AlbumListLoader mAlbumsLoader;
@@ -56,6 +52,7 @@ public class AlbumListFragment extends Fragment {
     int mParentWidth = 0;
 
     BroadcastReceiver mReceiver;
+
     public static interface AlbumListLoader {
 
         /**
@@ -71,21 +68,21 @@ public class AlbumListFragment extends Fragment {
         public void loadHeadAlbums();
 
         /**
-         * 取得数据后，要调用{@link #addTail}
+         * 取得数据后，要调用{@link #addAlbumsTail}
          */
         public void loadTailAlbums(int page);
     }
 
-    public void setAlbumLoader(AlbumListLoader loader){
+    public void setAlbumLoader(AlbumListLoader loader) {
         mAlbumsLoader = loader;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_album_list, container, false);
-        mTvAlbumCount = (TextView)view.findViewById(R.id.textView_album_count);
+        mTvAlbumCount = (TextView) view.findViewById(R.id.textView_album_count);
         mProgressBar = (CircleProgressBar) view.findViewById(R.id.progressBar);
-        mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.button_normal_red);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -97,7 +94,7 @@ public class AlbumListFragment extends Fragment {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
-        mEGVAlbumView = (ExpandGridView)view.findViewById(R.id.gridview_albums);
+        mEGVAlbumView = (ExpandGridView) view.findViewById(R.id.gridview_albums);
         addAlbumListView(mEGVAlbumView);
         setupProgressBar();
 
@@ -118,6 +115,7 @@ public class AlbumListFragment extends Fragment {
 
     public void addAlbumListView(View view) {
         ExpandGridView gridView = (ExpandGridView) view;
+        mAlbumsAdapter = new AlbumAdapter(mContext);
         gridView.setAdapter(mAlbumsAdapter);
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -154,15 +152,15 @@ public class AlbumListFragment extends Fragment {
             if (null != initialAlbums) {
                 mAlbumList.clear();
                 mAlbumList.addAll(initialAlbums);
-                setAdapter();
-
+                mAlbumsAdapter.setAlbumList(mAlbumList);
+                mTvAlbumCount.setText(mContext.getString(R.string.you_have_albums, mAlbumList.size()));
             }
         }
     }
 
 
     @Override
-    public void onAttach(Activity activity){
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = activity;
         mContext.registerReceiver(mReceiver = new BroadcastReceiver() {
@@ -179,7 +177,7 @@ public class AlbumListFragment extends Fragment {
 
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
             @Override
@@ -209,151 +207,42 @@ public class AlbumListFragment extends Fragment {
     }
 
     @Override
-    public void onDetach(){
+    public void onDetach() {
         super.onDetach();
         getActivity().unregisterReceiver(mReceiver);
     }
 
-    private void removeAlbum(long id){
-        for(Album album:mAlbumList){
-            if(album.id == id){
+    private void removeAlbum(long id) {
+        for (Album album : mAlbumList) {
+            if (album.id == id) {
                 mAlbumList.remove(album);
                 break;
             }
         }
-        setAdapter();
+        mAlbumsAdapter.setAlbumList(mAlbumList);
 
     }
 
-    private void setAdapter(){
-        mContext.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAlbumsAdapter.mAlbumList.clear();
-                mAlbumsAdapter.mAlbumList.addAll(mAlbumList);
-                //applyListviewHeightWithChild();
-                mAlbumsAdapter.notifyDataSetChanged();
-            }
-        });
-    }
 
-    private  void setupProgressBar(){
+    private void setupProgressBar() {
         mProgressBar.setShowArrow(true);
-        if(null != mAlbumsLoader && mAlbumsLoader.getInitialAlbums()==null && mAlbumList.size()==0){
+        if (null != mAlbumsLoader && mAlbumsLoader.getInitialAlbums() == null && mAlbumList.size() == 0) {
             mAlbumsLoader.loadHeadAlbums();
-        }else{
+        } else {
             mProgressBar.setVisibility(View.GONE);
             mSwipeRefreshLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    private class AlbumsAdapter extends BaseAdapter {
-
-        private List<Album> mAlbumList = new ArrayList<Album>();
-        @Override
-        public int getCount() {
-            return mAlbumList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if(mParentWidth==0){
-                mParentWidth = parent.getWidth();
-            }
-            View view = mContext.getLayoutInflater().inflate(R.layout.item_album_preview, null);
-            AbsListView.LayoutParams param1 = new AbsListView.LayoutParams(
-                    mParentWidth/2, (int)(mParentWidth*3.5/4));
-            view.setLayoutParams(param1);
-            TextView tvTitle = (TextView)view.findViewById(R.id.textView_album_title);
-            Album album = mAlbumList.get(position);
-            tvTitle.setText(album.title);
-            ImageView imageView_0 = (ImageView)view.findViewById(R.id.imageView_0);
-            ImageView imageView_1 = (ImageView)view.findViewById(R.id.imageView_1);
-            ImageView imageView_2 = (ImageView)view.findViewById(R.id.imageView_2);
-            ImageView imageView_3 = (ImageView)view.findViewById(R.id.imageView_3);
-            int parent_width = parent.getWidth();
-            if(parent_width < 100){
-                parent_width = 800;
-            }
-            if(album.cover!=null){
-                if(album.cover.size()>0){
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(10)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(0), parent_width/2, 1), imageView_0, imageOptions);
-                }
-                if(album.cover.size() > 1) {
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(1), parent_width/6, 1), imageView_1, imageOptions);
-                }
-                if (album.cover.size()>2){
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(2), parent_width/6, 1), imageView_2, imageOptions);
-                }
-                if (album.cover.size()>3){
-                    DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                            .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                            .build();
-                    ImageLoader imageLoader = ImageLoader.getInstance();
-                    imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(3), parent_width/6, 1), imageView_3, imageOptions);
-                }
-            }
-
-            bindLikeCollect(view, album);
-
-            bindAlbum(view, album);
-            return view;
-        }
-
-        public void setData(List<Album> albums){
-            mAlbumList.clear();
-            mAlbumList.addAll(albums);
-            //applyListviewHeightWithChild();
-            notifyDataSetChanged();
-        }
-    }
-
-    private void bindAlbum(View view, final Album album){
-        LinearLayout layoutImage = (LinearLayout)view.findViewById(R.id.layout_image);
-        layoutImage.setClickable(true);
-        layoutImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlbumDetailActivity.startActivity(mContext, album.id, album.author, album.title);
-            }
-        });
-    }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-//        if(null!=getArguments()){
-//            mParentWidth = getArguments().getInt("parentWidth");
-//        }
-//        applyListviewHeightWithChild();
-//        getView().getMeasuredHeight();
         mAlbumsAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
 //        Bundle bundle = new Bundle();
 //        bundle.putInt("parentWidth", mParentWidth);
@@ -361,98 +250,19 @@ public class AlbumListFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("parentWidth", mParentWidth);
     }
 
     @Override
-    public void onViewStateRestored(Bundle savedInstanceState){
+    public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if(null!=savedInstanceState){
+        if (null != savedInstanceState) {
             mParentWidth = savedInstanceState.getInt("parentWidth");
         }
     }
 
-
-    public void bindLikeCollect(View view, final Album album){
-        RelativeLayout layout_like = (RelativeLayout) view.findViewById(R.id.layout_like);
-        if(album.author == UserManager.getInstance().getCurrentUserId()){
-            layout_like.setVisibility(View.GONE);
-        }
-        final TextView tvLike = (TextView)view.findViewById(R.id.textView_like);
-        if(album.isLiked){
-            tvLike.setText("取消喜欢");
-        }
-        else{
-            tvLike.setText("喜欢");
-        }
-        layout_like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO
-                if(null!=UserManager.getInstance().getCurrentToken(null)){
-                    if(album.isLiked){
-                        WorksServer.dislikeAlbum(UserManager.getInstance().getCurrentToken(null), album.id);
-                    }
-                    else{
-                        int userId = UserManager.getInstance().getCurrentUserId();
-                        boolean ret = WorksServer.likeAlbum(UserManager.getInstance().getCurrentToken(null), album.id, userId);
-                    }
-                    album.isLiked = !album.isLiked;
-                    Toast.makeText(mContext, album.isLiked?"喜欢成功":"取消喜欢成功", Toast.LENGTH_SHORT).show();
-                    AlbumListFragment.this.mAlbumsAdapter.notifyDataSetChanged();
-                }
-                else{
-                    UserManager.getInstance().requestLogin();
-
-                }
-
-            }
-        });
-
-        RelativeLayout layout_collect = (RelativeLayout) view.findViewById(R.id.layout_collect);
-        if(album.author == UserManager.getInstance().getCurrentUserId()){
-            layout_collect.setVisibility(View.GONE);
-        }
-        TextView tvCollect = (TextView)view.findViewById(R.id.textView_collect);
-        if(album.isCollected){
-            tvCollect.setText("取消收藏");
-        }
-        else{
-            tvCollect.setText("收藏");
-        }
-        layout_collect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO
-                if(null!=UserManager.getInstance().getCurrentToken(null))
-                {
-                    if(album.isCollected){
-                        WorksServer.discollectAlbum(UserManager.getInstance().getCurrentToken(null), album.id);
-
-                    }
-                    else
-                    {
-                        int userId = UserManager.getInstance().getCurrentUserId();
-                        boolean ret = WorksServer.collectAlbum(UserManager.getInstance().getCurrentToken(null), album.id, userId);
-                    }
-                    album.isCollected = !album.isCollected;
-                    Toast.makeText(mContext, album.isCollected?"收藏成功":"取消收藏成功", Toast.LENGTH_SHORT).show();
-                    AlbumListFragment.this.mAlbumsAdapter.notifyDataSetChanged();
-                }
-                else
-                {
-                    UserManager.getInstance().requestLogin();
-                    //Toast.makeText(mContext, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
-
-
-    }
 
     /**
      * 将数据添加到底部，需要在主线程中调用
@@ -487,7 +297,7 @@ public class AlbumListFragment extends Fragment {
                 mTvAlbumCount.setText(mContext.getString(R.string.you_have_albums, mAlbumList.size()));
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-                setAdapter();
+                mAlbumsAdapter.setAlbumList(mAlbumList);
             }
         });
 
@@ -495,7 +305,7 @@ public class AlbumListFragment extends Fragment {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAlbumsAdapter.setData(mAlbumList);
+                mAlbumsAdapter.setAlbumList(mAlbumList);
             }
         });
 
@@ -511,8 +321,8 @@ public class AlbumListFragment extends Fragment {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mTvAlbumCount.setText(mContext.getString(R.string.you_have_albums,mAlbumList.size()));
-                mAlbumsAdapter.setData(mAlbumList);
+                mTvAlbumCount.setText(mContext.getString(R.string.you_have_albums, mAlbumList.size()));
+                mAlbumsAdapter.setAlbumList(mAlbumList);
             }
         });
 
@@ -520,18 +330,19 @@ public class AlbumListFragment extends Fragment {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAlbumsAdapter.setData(mAlbumList);
+                mAlbumsAdapter.setAlbumList(mAlbumList);
             }
         });
     }
 
     int mListViewHeight = 0;
-    public void applyListviewHeightWithChild(){
+
+    public void applyListviewHeightWithChild() {
         int listViewHeight = 0;
         int adaptCount = mAlbumsAdapter.getCount();
-        for(int i=0;i<adaptCount;i=i+2){
+        for (int i = 0; i < adaptCount; i = i + 2) {
             View temp = mAlbumsAdapter.getView(i, null, mEGVAlbumView);
-            temp.measure(0,0);
+            temp.measure(0, 0);
             listViewHeight += temp.getMeasuredHeight();
 
         }

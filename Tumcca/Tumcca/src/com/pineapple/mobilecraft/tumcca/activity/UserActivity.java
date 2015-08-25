@@ -365,6 +365,8 @@ public class UserActivity extends FragmentActivity {
 //        });
 //
 //        fragment.addAlbumsFragment(albumListFragment);
+        fragment.setAuthorId(mAuthorId);
+        fragment.setDataMode(AlbumWorkListFragment2.MODE_COLLECT);
     }
 
     public void addFollowingFragment(UserListFragment fragment) {
