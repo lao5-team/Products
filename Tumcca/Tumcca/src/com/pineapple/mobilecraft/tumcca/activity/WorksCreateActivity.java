@@ -134,7 +134,7 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
                 showAlbumSelect();
             }
         });
-        mTvAlbumTitle = (TextView)findViewById(R.id.textView_album_title);
+        mTvAlbumTitle = (TextView)findViewById(R.id.textView_album_name);
         mIvAlbumSample = (ImageView)findViewById(R.id.imageView_album);
 
         Album album = WorksManager.getInstance().getLatestAlbum();
@@ -335,13 +335,13 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
             String imgSize = cursor.getString(2); // 图片大小
             String imgName = cursor.getString(3); // 图片文件名
             cursor.close();
-            String outPath = Utility.processImage(imgPath, 1080, 1920, true);
-            addPicture(new Picture(null, outPath));
+            String outPath = Utility.processImage(imgPath, 1080, 1920, 0.0f, true);
+            addPicture(new Picture(mListPicture.size(), null, outPath));
 
         }
         if(requestCode == AvatarChoose.FROMCAMERA&&resultCode == RESULT_OK){
-            String outPath = Utility.processImage(mUri.getPath(), 1080, 1920, true);
-            addPicture(new Picture(null, outPath));
+            String outPath = Utility.processImage(mUri.getPath(), 1080, 1920, 0.0f, true);
+            addPicture(new Picture(mListPicture.size(), null, outPath));
 
         }
         if(requestCode == CROP_REQUEST_CODE){
@@ -358,7 +358,7 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
                     try {
                         fos.write(stream.toByteArray());
                         fos.close();
-                        mListPicture.add(new Picture(null, localPath));
+                        mListPicture.add(new Picture(mListPicture.size(), null, localPath));
                         PictureAdapter adapter = (PictureAdapter)mGVPictures.getAdapter();
 
                         mGVPictures.requestFocus();
@@ -435,7 +435,7 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
                 displaySelectedAlbum(album);
             }
         });
-        fragment.show(getFragmentManager(), "album_select");
+        fragment.show(getSupportFragmentManager(), "album_select");
 
     }
 

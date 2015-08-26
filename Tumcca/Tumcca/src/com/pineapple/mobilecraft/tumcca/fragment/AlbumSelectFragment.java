@@ -1,9 +1,9 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,7 +131,7 @@ public class AlbumSelectFragment extends DialogFragment {
     }
 
     private void showAlbumCreate(){
-        mAlbumCreateFragment.show(getFragmentManager(), "create_album");
+        mAlbumCreateFragment.show(getChildFragmentManager(), "create_album");
     }
 
     private class AlbumAdapter extends BaseAdapter{
@@ -194,7 +194,7 @@ public class AlbumSelectFragment extends DialogFragment {
             View view = mContext.getLayoutInflater().inflate(R.layout.item_album, null);
             ImageView imageView = (ImageView)view.findViewById(R.id.imageView_album_sample);
 
-            TextView textView = (TextView)view.findViewById(R.id.textView_album_title);
+            TextView textView = (TextView)view.findViewById(R.id.textView_album_name);
 //            if(position == 0){
 //                textView.setText(mContext.getString(R.string.default_album));
 //            }

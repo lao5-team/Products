@@ -25,6 +25,7 @@ import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
+import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.util.logic.Util;
 
@@ -204,4 +205,21 @@ public class WorkAdapter extends BaseAdapter {
     public void openAuthor(int authorId) {
         UserActivity.startActivity(mActivity, authorId);
     }
+
+//    private void parseWorks(final List<WorksInfo> worksInfoList) {
+//        if(null!=worksInfoList){
+//            for (int i = 0; i < worksInfoList.size(); i++) {
+//                if (!mMapProfile.containsKey(worksInfoList.get(i).author)) {
+//                    Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
+//                    worksInfoList.get(i).profile = profile;
+//                    mMapProfile.put(worksInfoList.get(i).author, profile);
+//                }
+//                else{
+//                    worksInfoList.get(i).profile = mMapProfile.get(worksInfoList.get(i).author);
+//                }
+//
+//            }
+//        }
+//
+//    }
 }

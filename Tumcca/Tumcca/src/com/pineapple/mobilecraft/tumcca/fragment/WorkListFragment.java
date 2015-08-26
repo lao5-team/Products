@@ -3,35 +3,29 @@ package com.pineapple.mobilecraft.tumcca.fragment;
 import android.app.Activity;
 import android.content.*;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.AbsListView;
 import com.etsy.android.grid.StaggeredGridView;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.HalfRoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.activity.WorkDetailActivity;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.activity.UserActivity;
-import com.pineapple.mobilecraft.tumcca.data.PictureInfo;
+import com.pineapple.mobilecraft.tumcca.activity.WorkDetailActivity;
+import com.pineapple.mobilecraft.tumcca.adapter.WorkAdapter;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
-import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IWorksList;
-import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import com.pineapple.mobilecraft.util.logic.Util;
 
@@ -43,16 +37,17 @@ import java.util.List;
  * Created by yihao on 15/6/4.
  */
 public class WorkListFragment extends Fragment implements IWorksList {
+    public static final int MODE_LV_DRAG = 0;
+    public static final int MODE_LV_FIXED = 1;
+
     static final int CORNER_RADIUS = 5;
     List<WorksInfo> mWorksInfoList = new ArrayList<WorksInfo>();
     Activity mContext;
-    PictureAdapter mAdapter;
+    WorkAdapter mAdapter;
     DisplayImageOptions mImageOptionsWorks;
-    DisplayImageOptions mImageOptionsAvatar;
     ImageLoader mImageLoader;
     boolean mScrollingIdle = false;
     HashMap<Integer, Profile> mMapProfile;
-
     TumccaService mService;
     WorkListLoader mWorksLoader = null;
 
@@ -63,14 +58,15 @@ public class WorkListFragment extends Fragment implements IWorksList {
     StaggeredGridView mListView;
     View mFooterProgressView;
     int mListViewMode = MODE_LV_DRAG;
-    public static final int MODE_LV_DRAG = 0;
-    public static final int MODE_LV_FIXED = 1;
 
-    public void setListViewMode(int mode){
-        if(mode>=MODE_LV_DRAG&&mode<=MODE_LV_FIXED){
+    boolean mIsEnd = false;
+
+    public void setListViewMode(int mode) {
+        if (mode >= MODE_LV_DRAG && mode <= MODE_LV_FIXED) {
             mListViewMode = mode;
         }
     }
+
     public static interface WorkListLoader {
 
         /**
@@ -93,7 +89,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
     public WorkListFragment() {
         mMapProfile = new HashMap<Integer, Profile>();
-        mAdapter = new PictureAdapter();
+
 
         mImageOptionsWorks = new DisplayImageOptions.Builder()
                 .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
@@ -110,6 +106,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
+        mAdapter = new WorkAdapter(mContext);
     }
 
     @Override
@@ -131,7 +128,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
 
     @Override
-    public void onAttach(Activity activity){
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.registerReceiver(mReceiver = new BroadcastReceiver() {
             @Override
@@ -143,14 +140,14 @@ public class WorkListFragment extends Fragment implements IWorksList {
     }
 
     @Override
-    public void onDetach(){
+    public void onDetach() {
         super.onDetach();
         getActivity().unregisterReceiver(mReceiver);
     }
 
-    private void removeWork(int id){
-        for(WorksInfo worksInfo:mWorksInfoList){
-            if(worksInfo.id == id){
+    private void removeWork(int id) {
+        for (WorksInfo worksInfo : mWorksInfoList) {
+            if (worksInfo.id == id) {
                 mWorksInfoList.remove(worksInfo);
                 break;
             }
@@ -188,23 +185,18 @@ public class WorkListFragment extends Fragment implements IWorksList {
                             break;
                         }
                     }
-                    if (worksInfoList.subList(0, index).size() == 0) {
-                        //Toast.makeText(mContext, getString(R.string.there_is_no_new_works), Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        //Toast.makeText(mContext, getString(R.string.there_is_works, worksInfoList.subList(0, index).size()), Toast.LENGTH_SHORT).show();
+                    if (worksInfoList.subList(0, index).size() != 0) {
                         mWorksInfoList.addAll(0, worksInfoList.subList(0, index));
-
-                        ///mWorksInfoList.addAll(worksInfoList.subList(0, index));
                     }
 
-                } else {
+                }
+                else
+                {
                     mWorksInfoList.addAll(worksInfoList);
                 }
-                //mWorksInfoList.addAll(worksInfoList);                    if(mLoadMode == MODE_FIXED_HEIGHT){
-                //applyListviewHeightWithChild();
                 mProgressBar.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+                mAdapter.setWorks(mWorksInfoList);
                 mAdapter.notifyDataSetChanged();
             }
         });
@@ -212,10 +204,11 @@ public class WorkListFragment extends Fragment implements IWorksList {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mAdapter.setWorks(mWorksInfoList);
                 mAdapter.notifyDataSetChanged();
             }
         });
-        return (mWorksInfoList.size()-currentLength);
+        return (mWorksInfoList.size() - currentLength);
     }
 
     /**
@@ -226,27 +219,30 @@ public class WorkListFragment extends Fragment implements IWorksList {
     @Override
     public int addWorksTail(final List<WorksInfo> worksInfoList) {
         Log.v(TumccaApplication.TAG, "WorkListFragment addWorksTail");
+        if(worksInfoList!=null&&worksInfoList.size()!=0){
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mWorksInfoList.addAll(worksInfoList);
+                    mAdapter.setWorks(mWorksInfoList);
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+            parseWorks(mWorksInfoList);
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.setWorks(mWorksInfoList);
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+            return worksInfoList.size();
+        }
+        else{
+            setEnd(true);
+            return 0;
+        }
 
-
-        mContext.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mWorksInfoList.addAll(worksInfoList);
-//                if(mListViewMode == MODE_LV_FIXED){
-//                    applyListviewHeightWithChild();
-//
-//                }
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-        parseWorks(mWorksInfoList);
-        mContext.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-        return worksInfoList.size();
     }
 
     /**
@@ -254,12 +250,13 @@ public class WorkListFragment extends Fragment implements IWorksList {
      * 清空数据
      */
     public void clearWorks() {
+        mIsEnd = false;
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mWorksInfoList.clear();
                 mAdapter.notifyDataSetChanged();
-                if(null!=mWorksLoader){
+                if (null != mWorksLoader) {
                     mProgressBar.setVisibility(View.VISIBLE);
                     mWorksLoader.loadHeadWorks();
                 }
@@ -297,7 +294,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 Log.v(TumccaApplication.TAG, "onScroll " + visibleItemCount + " " + firstVisibleItem + " " + totalItemCount);
 
-                if (visibleItemCount + firstVisibleItem == totalItemCount&&!mIsEnd) {
+                if (visibleItemCount + firstVisibleItem == totalItemCount && !mIsEnd) {
                     if (null != mWorksLoader) {
                         mScrollingIdle = false;
                         Log.v(TumccaApplication.TAG, "loadTailWorks");
@@ -360,164 +357,25 @@ public class WorkListFragment extends Fragment implements IWorksList {
     }
 
 
-    private void setupProgressBar(){
+    private void setupProgressBar() {
         mProgressBar.setShowArrow(true);
-        if(null != mWorksLoader && mWorksLoader.getInitialWorks()==null && mWorksInfoList.size()==0){
+        if (null != mWorksLoader && mWorksLoader.getInitialWorks() == null && mWorksInfoList.size() == 0) {
             mWorksLoader.loadHeadWorks();
-        }else{
+        } else {
             mProgressBar.setVisibility(View.GONE);
             mSwipeRefreshLayout.setVisibility(View.VISIBLE);
         }
     }
 
 
-    private  class ViewHolder {
-        ImageView ivPic;
-        TextView tvDesc;
-        ImageView ivAuthor;
-        TextView tvAuthorName;
-        RelativeLayout rlWork;
-        RelativeLayout rlAuthor;
-        TextView tvLike;
-        TextView tvComment;
-
-        public void bindViews(View container, int pic, int desc, int author, int authorName,
-                              int layWork, int layAuthor, int like, int comment){
-            ivPic = (ImageView) container.findViewById(pic);
-            tvDesc = (TextView) container.findViewById(desc);
-            ivAuthor = (ImageView) container.findViewById(author);
-            tvAuthorName = (TextView) container.findViewById(authorName);
-            rlWork = (RelativeLayout) container.findViewById(layWork);
-            rlAuthor = (RelativeLayout) container.findViewById(layAuthor);
-            tvLike = (TextView)container.findViewById(like);
-            tvComment = (TextView)container.findViewById(comment);
-        }
-
-        public void bindWork(int position, ViewGroup parent){
-            PictureInfo pictureInfo = mWorksInfoList.get(position).picInfo;
-            //预先用图片的尺寸对imageView进行布局
-            RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
-                    parent.getWidth() / 2, parent.getWidth() * pictureInfo.height / (2 * pictureInfo.width));
-            ivPic.setLayoutParams(param);
-
-            String imageUrl = PictureServer.getInstance().getPictureUrl(mWorksInfoList.get(position).picInfo.id);
-
-            if (ivPic.getTag() == null || !ivPic.getTag().equals(imageUrl)) {
-                mImageLoader.displayImage(PictureServer.getInstance().getPictureUrl(
-                                mWorksInfoList.get(position).picInfo.id), ivPic, mImageOptionsWorks,
-                        new ImageLoadingListener() {
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
-                                view.setAlpha(0);
-                            }
-
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                            }
-
-                            @Override
-                            public void onLoadingComplete(final String imageUri, final View view, Bitmap loadedImage) {
-                                mContext.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        view.setAlpha(100);
-                                        Animation alpha = AnimationUtils.loadAnimation(mContext, R.anim.image_alpha);
-                                        view.startAnimation(alpha);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
-
-                            }
-                        }, null);
-                ivPic.setTag(imageUrl);
-            }
-
-            tvDesc.setText(mWorksInfoList.get(position).title);
-            rlWork.setTag(new Integer(position));
-            rlWork.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openWorks(mWorksInfoList.get((Integer) v.getTag()));
-                }
-            });
-
-            tvLike.setText(mWorksInfoList.get(position).likes+"");
-            tvComment.setText(mWorksInfoList.get(position).comments+"");
-        }
-
-        public void bindAuthor(int position){
-
-            rlAuthor.setTag(new Integer(position));
-            rlAuthor.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openAuthor(mWorksInfoList.get((Integer) v.getTag()).author);
-                }
-            });
-
-            Profile profile = mWorksInfoList.get(position).profile;//mMapProfile.get(mWorksInfoList.get(position).author);
-            if (null != profile) {
-                tvAuthorName.setText(profile.pseudonym);
-                PictureManager.getInstance().displayAvatar(ivAuthor, profile.avatar, 16);
-            }
-
-
-        }
-    }
-
-    private class PictureAdapter extends BaseAdapter {
-        //public List<WorksInfo> mListWorks = new ArrayList<WorksInfo>();
-
-        @Override
-        public int getCount() {
-            if (null != mWorksInfoList) {
-                Log.v("Tumcca", "Home fragment size " + mWorksInfoList.size());
-                return mWorksInfoList.size();
-            }
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                viewHolder = new ViewHolder();
-                convertView = layoutInflater.inflate(R.layout.item_works, null);
-                viewHolder.bindViews(convertView, R.id.imageView_picture, R.id.textView_describe, R.id.imageView_avatar,
-                        R.id.textView_author, R.id.layout_work, R.id.layout_author, R.id.textView_like, R.id.textView_comment);
-                convertView.setTag(viewHolder);
-            }
-            viewHolder = (ViewHolder) convertView.getTag();
-            viewHolder.bindWork(position, parent);
-            viewHolder.bindAuthor(position);
-            return convertView;
-        }
-    }
-
     private void parseWorks(final List<WorksInfo> worksInfoList) {
-        if(null!=worksInfoList){
+        if (null != worksInfoList) {
             for (int i = 0; i < worksInfoList.size(); i++) {
                 if (!mMapProfile.containsKey(worksInfoList.get(i).author)) {
                     Profile profile = UserManager.getInstance().getUserProfile(worksInfoList.get(i).author);
                     worksInfoList.get(i).profile = profile;
                     mMapProfile.put(worksInfoList.get(i).author, profile);
-                }
-                else{
+                } else {
                     worksInfoList.get(i).profile = mMapProfile.get(worksInfoList.get(i).author);
                 }
 
@@ -526,10 +384,10 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
     }
 
-    boolean mIsEnd = false;
-    public void setEnd(boolean isEnd){
+
+    private void setEnd(boolean isEnd) {
         mIsEnd = isEnd;
-        if(mIsEnd){
+        if (mIsEnd) {
             mContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

@@ -145,9 +145,6 @@ public class WorksSearchActivity extends FragmentActivity {
                         public void run() {
                             List<WorksInfo> listWorks = WorksServer.searchWorksByKeywords(mKeywords, page, 5, 400);
                             mWorksFragment.addWorksTail(listWorks);
-                            if (listWorks.size() == 0) {
-                                mWorksFragment.setEnd(true);
-                            }
                         }
                     });
                 }

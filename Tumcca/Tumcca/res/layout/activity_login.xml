@@ -127,7 +127,7 @@
                 android:text="注册新用户"
                 android:id="@+id/button_register" android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true" android:textSize="@dimen/text_size_normal"
-                style="@style/my_button_style" android:paddingLeft="5dip" android:paddingRight="5dip"
+                style="@style/my_button_style"
                 android:onClick="register"/>
     </RelativeLayout>
 

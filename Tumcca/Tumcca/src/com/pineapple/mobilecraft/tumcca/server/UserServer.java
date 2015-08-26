@@ -368,6 +368,54 @@ public class UserServer implements IUserServer {
 
     /**
      * {
+     "total": 1,
+     "results": [
+     {
+     "uid": 10,
+     "pseudonym": "欧比王",
+     "avatar": 557,
+     "cover": [
+     601,
+     600,
+     596,
+     597
+     ],
+     "worksCount": 127,
+     "fanCount": 2
+     }
+     ]
+     }
+     * @param authorId
+     * @param page
+     * @param size
+     * @return
+     */
+    public  List<Long> getUserFollowers(long authorId, long page, long size) {
+        String url = mHost + "/api/follow/fan/artist/author/" + authorId + "/page/" + page + "/size/" + size;
+
+        SyncHttpPost<List<Long>> post = new SyncHttpPost<List<Long>>(url, null, null) {
+            @Override
+            public List<Long> postExcute(String result) {
+                List<Long> ids = new ArrayList<Long>();
+                try {
+
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.getJSONArray("results");
+                    for(int i=0; i<jsonArray.length(); i++){
+                        ids.add(jsonArray.getJSONObject(i).getLong("uid"));
+                    }
+                    return ids;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return ids;
+                }
+            }
+        };
+        return post.execute();
+    }
+
+    /**
+     * {
      "count": 2
      }
 

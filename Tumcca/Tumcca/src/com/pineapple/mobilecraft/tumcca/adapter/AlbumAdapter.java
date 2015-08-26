@@ -72,7 +72,7 @@ public class AlbumAdapter extends BaseAdapter{
         AbsListView.LayoutParams param1 = new AbsListView.LayoutParams(
                 mParentWidth/2, (int)(mParentWidth*3.5/4));
         view.setLayoutParams(param1);
-        TextView tvTitle = (TextView)view.findViewById(R.id.textView_album_title);
+        TextView tvTitle = (TextView)view.findViewById(R.id.textView_album_name);
         Album album = mAlbumList.get(position);
         tvTitle.setText(album.title);
         ImageView imageView_0 = (ImageView)view.findViewById(R.id.imageView_0);

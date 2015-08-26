@@ -77,38 +77,21 @@ public class Utility {
     }
 
     /**
-     * 对图片进行处理
+     * 对图片进行处理，并生成新图片
      *
      * @param pathIn    输入图片路径
      * @param maxWidth  最大宽度
      * @param maxHeight 最大高度
-     * @param isRotate  是否需要矫正角度
+     * @param rotateDegree 旋转角度
+     * @param rotateCorrected  是否需要矫正角度
      * @return
      */
-    public static String processImage(String pathIn, int maxWidth, int maxHeight, boolean isRotate) {
+    public static String processImage(String pathIn, int maxWidth, int maxHeight, float rotateDegree, boolean rotateCorrected) {
         if (TextUtils.isEmpty(pathIn)) {
-            return null;
+            return "";
         }
-        int rotDegree = 0;
-        if (isRotate) {
-            try {
-                ExifInterface exifInterface = new ExifInterface(pathIn);
-                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                switch (orientation) {
-                    case ExifInterface.ORIENTATION_ROTATE_90:
-                        rotDegree = 90;
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_180:
-                        rotDegree = 180;
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_270:
-                        rotDegree = 270;
-                        break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
+        //压缩图片大小
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(pathIn, options);
@@ -117,18 +100,41 @@ public class Utility {
         if (options.outWidth * options.outHeight > (maxWidth * maxHeight)) {
             scale = (float) Math.pow(maxWidth * maxHeight / (options.outWidth * options.outHeight + 0.0f), 0.5);
         }
-        //options.inSampleSize = (int)(1/scale);
+
+        //对图片进行旋转操作
+        float rotDegree = rotateDegree;
+        if (rotateCorrected) {
+            try {
+                ExifInterface exifInterface = new ExifInterface(pathIn);
+                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        rotDegree += 90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        rotDegree += 180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        rotDegree += 270;
+                        break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         options.inJustDecodeBounds = false;
-        Bitmap bitmap = BitmapFactory.decodeFile(pathIn, options);
+        //生成新图片
+        Bitmap bitmapIn = BitmapFactory.decodeFile(pathIn, options);
         Matrix matrix = new Matrix();
         matrix.setScale(scale, scale);
         matrix.postRotate(rotDegree);
-        Bitmap bitmap1 = Bitmap.createBitmap(bitmap, 0, 0, options.outWidth, options.outHeight, matrix, true);
+        Bitmap bitmapOut = Bitmap.createBitmap(bitmapIn, 0, 0, options.outWidth, options.outHeight, matrix, true);
         FileOutputStream fos;
         try {
             String pathOut = Utility.getTumccaImgPath(TumccaApplication.applicationContext) + "/" + String.valueOf(System.currentTimeMillis()) + "temp.jpg";
             fos = new FileOutputStream(pathOut);
-            bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+            bitmapOut.compress(Bitmap.CompressFormat.JPEG, 50, fos);
             try {
                 fos.close();
             } catch (IOException e) {
@@ -137,7 +143,7 @@ public class Utility {
             return pathOut;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
 
     }

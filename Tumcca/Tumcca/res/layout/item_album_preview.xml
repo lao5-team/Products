@@ -17,7 +17,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:text="New Text"
-                    android:id="@+id/textView_album_title" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                    android:id="@+id/textView_album_name" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" android:textSize="@dimen/text_size_normal"
                     android:layout_weight="0.7"
                     android:layout_marginBottom="5dip"
@@ -25,7 +25,7 @@
             <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:id="@+id/imageView_0" android:layout_below="@+id/textView_album_title"
+                    android:id="@+id/imageView_0" android:layout_below="@+id/textView_album_name"
                     android:layout_centerHorizontal="true" android:background="@drawable/corner_border_imageview"
                     android:layout_weight="3" android:scaleType="centerCrop"/>
             <LinearLayout

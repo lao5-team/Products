@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="专辑名称"
-                android:id="@+id/textView_album_title" android:gravity="bottom"
+                android:id="@+id/textView_album_name" android:gravity="bottom"
                 android:layout_alignParentBottom="false" android:layout_below="@+id/textView_album"
                 android:layout_alignLeft="@+id/textView_album" android:textColor="@color/pure_black"/>
     </RelativeLayout>

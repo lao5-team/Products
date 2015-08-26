@@ -90,11 +90,16 @@ public class UserActivity extends FragmentActivity {
         mUserAlbumsFragment = new AlbumListFragment();
         mLikesFragment = new AlbumWorkListFragment2();
         mCollectFragment = new AlbumWorkListFragment2();
-        mFollowerFragment = new UserListFragment();
+
 
         mFollowingFragment = new UserListFragment();
         mFollowingFragment.setUserMode(UserListFragment.MODE_FOLLOWING);
         mFollowingFragment.setUserId((long)mAuthorId);
+
+
+        mFollowerFragment = new UserListFragment();
+        mFollowerFragment.setUserMode(UserListFragment.MODE_FOLLOWER);
+        mFollowerFragment.setUserId((long)mAuthorId);
 
         if (mIsTestMode) {
             UserManager.getInstance().login("999", "999");
@@ -231,7 +236,7 @@ public class UserActivity extends FragmentActivity {
 //
 //            @Override
 //            public void loadHeadWorks() {
-//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                Executors.newSingleThreadExecutor().submitWorks(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        final List<WorksInfo> worksInfoList = WorksServer.getLikeWorks(
@@ -244,7 +249,7 @@ public class UserActivity extends FragmentActivity {
 //
 //            @Override
 //            public void loadTailWorks(final int page) {
-//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                Executors.newSingleThreadExecutor().submitWorks(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
@@ -267,7 +272,7 @@ public class UserActivity extends FragmentActivity {
 //
 //            @Override
 //            public void loadHeadAlbums() {
-//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                Executors.newSingleThreadExecutor().submitWorks(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        final List<Album> albumList = WorksServer.getLikeAlbums(
@@ -280,7 +285,7 @@ public class UserActivity extends FragmentActivity {
 //
 //            @Override
 //            public void loadTailAlbums(int page) {
-//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                Executors.newSingleThreadExecutor().submitWorks(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        final List<Album> albumList = WorksServer.getLikeAlbums(
@@ -307,7 +312,7 @@ public class UserActivity extends FragmentActivity {
 //
 //            @Override
 //            public void loadHeadWorks() {
-//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                Executors.newSingleThreadExecutor().submitWorks(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
@@ -319,7 +324,7 @@ public class UserActivity extends FragmentActivity {
 //
 //            @Override
 //            public void loadTailWorks(final int page) {
-//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                Executors.newSingleThreadExecutor().submitWorks(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        final List<WorksInfo> worksInfoList = WorksServer.getCollectWorks(
@@ -340,7 +345,7 @@ public class UserActivity extends FragmentActivity {
 //
 //            @Override
 //            public void loadHeadAlbums() {
-//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                Executors.newSingleThreadExecutor().submitWorks(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        final List<Album> albumList = WorksServer.getCollectAlbums(
@@ -353,7 +358,7 @@ public class UserActivity extends FragmentActivity {
 //
 //            @Override
 //            public void loadTailAlbums(int page) {
-//                Executors.newSingleThreadExecutor().submit(new Runnable() {
+//                Executors.newSingleThreadExecutor().submitWorks(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        final List<Album> albumList = WorksServer.getCollectAlbums(

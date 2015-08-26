@@ -102,12 +102,12 @@ public class WorksListActivity extends FragmentActivity {
             public void loadTailWorks(int page) {
                 List<WorksInfo> worksInfoList = new ArrayList<WorksInfo>();;
                 if(mDataMode == MODE_LIKE){
-                    worksInfoList = WorksServer.getLikeWorks(mAuthorId, 1, page, 400);
+                    worksInfoList = WorksServer.getLikeWorks(mAuthorId, page, 5, 400);
                 }
                 else if(mDataMode == MODE_COLLECT){
-                    worksInfoList = WorksServer.getCollectWorks(mAuthorId, 1, page, 400);
+                    worksInfoList = WorksServer.getCollectWorks(mAuthorId, page, 5, 400);
                 }
-                mWorksFragment.addWorksHead(worksInfoList);
+                mWorksFragment.addWorksTail(worksInfoList);
             }
         });
         getSupportFragmentManager().beginTransaction().add(R.id.layout_container, mWorksFragment).commit();

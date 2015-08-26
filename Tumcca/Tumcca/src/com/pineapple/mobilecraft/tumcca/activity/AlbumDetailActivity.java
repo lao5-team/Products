@@ -80,14 +80,7 @@ public class AlbumDetailActivity extends FragmentActivity {
                     public void run() {
                         List<WorksInfo> worksInfoList = WorksServer.getWorksOfAlbum(UserManager.getInstance().getCurrentToken(null),
                                 getIntent().getLongExtra("id", -1), getIntent().getLongExtra("author", -1), page, 5, 400);
-                        if(worksInfoList.size()>0){
-                            fragment.addWorksTail(worksInfoList);
-                        }
-                        else{
-                            fragment.setEnd(true);
-                        }
-
-
+                        fragment.addWorksTail(worksInfoList);
                     }
                 });
             }

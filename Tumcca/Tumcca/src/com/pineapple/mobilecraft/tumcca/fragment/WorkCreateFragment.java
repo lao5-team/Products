@@ -10,14 +10,16 @@ import android.view.View;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.HalfRoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.activity.PictureEditActivity2;
+import com.pineapple.mobilecraft.tumcca.activity.WorksCreateActivity2;
+import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
 import com.pineapple.mobilecraft.tumcca.data.Works;
+import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
+import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
-import com.pineapple.mobilecraft.util.logic.Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,14 +30,13 @@ import java.util.List;
  * Created by yihao on 8/18/15.
  */
 public class WorkCreateFragment extends BaseListFragment {
-    List<WorkCreateItem> mItems = new ArrayList<WorkCreateItem>();
-    //List<String> mUrls = new ArrayList<String>();
+    List<WorkCreateItem> mWorkItems = new ArrayList<WorkCreateItem>();
     DisplayImageOptions mImageOptionsWorks;
-    TumccaService mService;
-
-    public void setService(TumccaService service){
-        mService = service;
-    }
+    TumccaService mTumccaService;
+    private Album mAlbum = Album.DEFAULT_ALBUM;
+    private TextView mTvAlbumTitle;
+    private ImageView mIvAlbumCover;
+    private RelativeLayout mLayoutAlbum;
 
     public WorkCreateFragment(){
         setLayout(R.layout.fragment_works_create);
@@ -43,7 +44,7 @@ public class WorkCreateFragment extends BaseListFragment {
         setItemLoader(new ItemLoader() {
             @Override
             public List<ListItem> loadHead() {
-                return Arrays.asList(mItems.toArray(new ListItem[0]));
+                return Arrays.asList(mWorkItems.toArray(new ListItem[0]));
             }
 
             @Override
@@ -53,36 +54,142 @@ public class WorkCreateFragment extends BaseListFragment {
         });
 
         mImageOptionsWorks = new DisplayImageOptions.Builder()
-                .cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
-
     }
 
-    public void setPhotos(List<String> urls){
-        if(null!=urls){
-            //mUrls.addAll(urls);
-            for(String url:urls){
+    @Override
+    public void buildView(View view){
+        super.buildView(view);
+
+        addAlbumView(view);
+    }
+
+    //添加图片
+    public void addPictures(List<Picture> pictureList){
+        if(null!=pictureList){
+            for(Picture picture:pictureList){
                 WorkCreateItem item = new WorkCreateItem();
-                item.id = mItems.size();
-                item.imgLocalUrl = url;
-                mItems.add(item);
+                item.id = mWorkItems.size();
+                item.picture = picture;
+                mWorkItems.add(item);
             }
         }
     }
 
+    //更新图片
+    public void updatePicture(List<Picture> pictures){
+        if(null!=pictures){
+            for(WorkCreateItem item: mWorkItems){
+                for(Picture picture:pictures){
+                    if(item.picture.id == picture.id){
+                        item.picture = picture;
+                    }
+                }
+            }
+            refresh();
+        }
+    }
+
+    public void setService(TumccaService service){
+        mTumccaService = service;
+    }
+
+    private void removeItem(WorkCreateItem item){
+        mWorkItems.remove(item);
+        clear();
+    }
+
+    public void submitWorks(){
+        if(mWorkItems.isEmpty()){
+            Toast.makeText(getActivity(), "请添加图片",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        List<Picture> pictures = new ArrayList<Picture>();
+        List<Works> workses = new ArrayList<Works>();
+        for(int i=0; i< mWorkItems.size(); i++){
+
+            Works works = new Works();
+            works.title = mWorkItems.get(i).desc;
+            if(TextUtils.isEmpty(works.title)){
+                Toast.makeText(getActivity(), "请填写图片的描述描述信息",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            works.albumId = mAlbum.id;
+            works.category = 1;
+            pictures.add(mWorkItems.get(i).picture);
+            workses.add(works);
+        }
+        mTumccaService.uploadWorks(pictures, workses);
+        getActivity().finish();
+    }
+
+    /**
+     *  添加专辑视图
+     */
+    private void addAlbumView(View view){
+        mLayoutAlbum = (RelativeLayout)view.findViewById(R.id.layout_choose_album);
+        mLayoutAlbum.setClickable(true);
+        mLayoutAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlbumSelectDialog();
+            }
+        });
+
+        mIvAlbumCover = (ImageView) view.findViewById(R.id.imageView_album);
+        mTvAlbumTitle = (TextView) view.findViewById(R.id.textView_album_name);
+
+        setSelectedAlbum(WorksManager.getInstance().getLatestAlbum());
+    }
+
+    /**
+     * 弹出专辑选择对话框
+     */
+    private void showAlbumSelectDialog(){
+        AlbumSelectFragment fragment = new AlbumSelectFragment();
+        fragment.setAlbumSelectListener(new AlbumSelectFragment.OnAlbumSelectListener() {
+            @Override
+            public void onAlbumSelect(Album album) {
+                WorksManager.getInstance().setLatestAlbum(album);
+                setSelectedAlbum(album);
+            }
+        });
+        fragment.show(getChildFragmentManager(), "album_select");
+
+    }
+
+    /**
+     * 专辑被选择时做的处理
+     * @param album
+     */
+    private void setSelectedAlbum(Album album){
+        mAlbum = album;
+        mTvAlbumTitle.setText(album.title);
+        List<Integer>cover = album.cover;
+        if(null!=cover&&cover.size()>0){
+            //Picasso.with(CalligraphyCreateActivity.this).load(PictureServer.getInstance().getPictureUrl(pictureInfo.id)).resize(48,48).centerCrop().into(mIvAlbumCover)
+            ImageLoader imageLoader = ImageLoader.getInstance();
+            imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(cover.get(0), 48, 1), mIvAlbumCover, mImageOptionsWorks);
+        }
+
+    }
+
+    /**
+     *
+     */
     private  class WorkCreateItem implements ListItem{
         String desc;
-        String imgLocalUrl;
-        int albumId;
+        Picture picture;
         long id;
-        WorkCreateFragment mFragment;
 
         public void editPic(){
             //拉起图片编辑页面
-            Picture picture = new Picture(null, imgLocalUrl);
+            //Picture picture = new Picture(null, imgLocalUrl);
             List<Picture> pictures = new ArrayList<Picture>();
             pictures.add(picture);
-            PictureEditActivity2.startActivity(getActivity(), 0, pictures, 0);
+            PictureEditActivity2.startActivity(getActivity(), WorksCreateActivity2.REQ_PIC_EDIT, pictures, 0);
         }
 
         public void removeSelf(){
@@ -94,16 +201,20 @@ public class WorkCreateFragment extends BaseListFragment {
         @Override
         public void bindViewHolder(ListViewHolder viewHolder) {
             PhotoEditViewHolder vh = (PhotoEditViewHolder)viewHolder;
-            String path = Uri.fromFile(new File(imgLocalUrl)).toString();
+            //显示图片
+            String path = Uri.fromFile(new File(picture.localPath)).toString();
             ImageLoader.getInstance().displayImage(path, vh.mIvPic, mImageOptionsWorks);
-            //vh.mIvPic
-            vh.mTvEdit.setOnClickListener(new View.OnClickListener() {
+            vh.mIvPic.setRotation(picture.rotArc);
+
+            //绑定图片编辑
+            vh.mTvPictureEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     editPic();
                 }
             });
 
+            //绑定删除
             vh.mIbDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -111,6 +222,7 @@ public class WorkCreateFragment extends BaseListFragment {
                 }
             });
 
+            //绑定编辑描述
             vh.mEtxDesc.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -142,42 +254,16 @@ public class WorkCreateFragment extends BaseListFragment {
 
     private static class PhotoEditViewHolder extends ListViewHolder{
 
-        public TextView mTvEdit;
+        public TextView mTvPictureEdit;
         public EditText mEtxDesc;
         public ImageView mIvPic;
         public ImageButton mIbDelete;
         public PhotoEditViewHolder(View itemView) {
             super(itemView);
-            mTvEdit = (TextView) itemView.findViewById(R.id.textView_edit);
+            mTvPictureEdit = (TextView) itemView.findViewById(R.id.textView_edit);
             mEtxDesc = (EditText) itemView.findViewById(R.id.editText_desc);
             mIvPic = (ImageView) itemView.findViewById(R.id.imageView_pic);
             mIbDelete = (ImageButton) itemView.findViewById(R.id.imageButton_delete);
         }
-    }
-
-    public void removeItem(WorkCreateItem item){
-        remove(item.getId());
-    }
-
-    public void sumbit(){
-
-        List<Picture> pictures = new ArrayList<Picture>();
-        List<Works> workses = new ArrayList<Works>();
-        for(int i=0; i<mItems.size(); i++){
-            Picture picture =new Picture(null ,mItems.get(i).imgLocalUrl);
-            Works works = new Works();
-            works.title = mItems.get(i).desc;
-            if(TextUtils.isEmpty(works.title)){
-                Toast.makeText(getActivity(), "请填写图片的描述描述信息",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            works.albumId = 0;
-            works.category = 1;
-            pictures.add(picture);
-            workses.add(works);
-
-        }
-        mService.uploadWorks(pictures, workses);
-        getActivity().finish();
     }
 }

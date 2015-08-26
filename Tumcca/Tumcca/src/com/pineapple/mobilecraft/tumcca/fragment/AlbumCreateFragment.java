@@ -1,11 +1,11 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Display;

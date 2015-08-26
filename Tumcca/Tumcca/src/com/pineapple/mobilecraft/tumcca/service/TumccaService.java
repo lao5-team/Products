@@ -138,8 +138,11 @@ public class TumccaService extends Service {
 			@Override
 			public void run() {
 				String token = UserManager.getInstance().getCurrentToken(null);
+
 				for(int i = 0; i<pictureList.size(); i++){
-					int pictureId = PictureServer.getInstance().uploadPicture(token, new File(pictureList.get(i).localPath));
+					//进行压缩和旋转
+					String localPath = Utility.processImage(pictureList.get(i).localPath, 1920, 1080, pictureList.get(i).rotArc, true);
+					int pictureId = PictureServer.getInstance().uploadPicture(token, new File(localPath));
 					if(PictureServer.INVALID_PICTURE_ID!=pictureId){
 						works.get(i).pictures.add(pictureId);
 						int id = WorksServer.uploadWorks(token, works.get(i));

@@ -80,12 +80,13 @@ public class UserListFragment extends BaseListFragment {
             setItemLoader(new ItemLoader() {
                 @Override
                 public List<ListItem> loadHead() {
-                    return null;
+                    return Arrays.asList(UserManager.getInstance().getUserFollowers(mUserId, 1, 5).toArray(new ListItem[0]));
+
                 }
 
                 @Override
                 public List<ListItem> loadTail(int page) {
-                    return null;
+                    return Arrays.asList(UserManager.getInstance().getUserFollowers(mUserId, 1, 5).toArray(new ListItem[0]));
                 }
             });
 

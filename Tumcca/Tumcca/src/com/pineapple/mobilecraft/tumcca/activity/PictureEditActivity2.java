@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.*;
@@ -138,9 +140,17 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
     private void rotatePicture() {
         int index = mVF.getDisplayedChild();
         Picture picture = mPictureList.get(index);
-        picture.localPath = Utility.rotateImage(picture.localPath, 90);
-        String path = Uri.fromFile(new File(picture.localPath)).toString();
-        ImageLoader.getInstance().displayImage(path, (ImageView) mVF.getCurrentView().findViewById(R.id.imageView), mImageOptionsWorks);
+        picture.rotArc -= 90;
+        Matrix matrix = new Matrix();
+        //matrix.setRotate(picture.rotArc);
+        matrix.postRotate(picture.rotArc);
+
+                //((ImageView) mVF.getCurrentView().findViewById(R.id.imageView)).setImageMatrix(matrix);
+        //((ImageView) mVF.getCurrentView().findViewById(R.id.imageView)).setScaleType(ImageView.ScaleType.MATRIX);
+        mVF.getCurrentView().findViewById(R.id.imageView).setRotation(picture.rotArc);
+//        picture.localPath = Utility.rotateImage(picture.localPath, 90);
+//        String path = Uri.fromFile(new File(picture.localPath)).toString();
+//        ImageLoader.getInstance().displayImage(path, (ImageView) mVF.getCurrentView().findViewById(R.id.imageView), mImageOptionsWorks);
     }
 
     private void loadData(Intent intent){

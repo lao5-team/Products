@@ -292,21 +292,24 @@ public class BaseListFragment<VH extends BaseListFragment.ListViewHolder>extends
      * 清除数据，数据清除完后，会重新调用loadHead，加载数据
      */
     public void clear(){
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mItems.clear();
-            }
-        });
-
-        if(mItemLoader!=null){
-            Executors.newSingleThreadExecutor().submit(new Runnable() {
+        if(null != mActivity){
+            mActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    addHead(mItemLoader.loadHead());
+                    mItems.clear();
                 }
             });
+
+            if(mItemLoader!=null){
+                Executors.newSingleThreadExecutor().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        addHead(mItemLoader.loadHead());
+                    }
+                });
+            }
         }
+
 
     }
 

@@ -280,6 +280,22 @@ public class UserManager {
 		return users;
 	}
 
+	public  List<Profile> getUserFollowers(long authorId, long page, long size){
+		List<Long> ids = UserServer.getInstance().getUserFollowers(authorId, page, size);
+		List<Profile> users = new ArrayList<Profile>();
+		for(Long id:ids){
+			Profile profile = getUserProfile(id);
+			profile.userId = id;
+			users.add(profile);
+		}
+		String token = getCurrentToken(null);
+		Boolean[] isFollow = UserServer.getInstance().isUsersFollowed(token, ids.toArray(new Long[0]));
+		for(int i=0; i<users.size(); i++){
+			users.get(i).isFollowed = isFollow[i];
+		}
+		return users;
+	}
+
 	private UserManager(){
 		mUserServer = UserServer.getInstance();
 		mAccountCache = new PrefsCache(TumccaApplication.applicationContext, "cache_login");

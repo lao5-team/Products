@@ -10,8 +10,10 @@ import org.json.JSONObject;
 public class Picture {
     public String url;
     public String localPath;
-
-    public Picture(String url, String localPath){
+    public float rotArc = 0;
+    public int id;
+    public Picture(int id, String url, String localPath){
+        this.id = id;
         this.url = url;
         this.localPath = localPath;
     }

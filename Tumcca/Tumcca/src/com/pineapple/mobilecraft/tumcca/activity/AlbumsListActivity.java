@@ -10,6 +10,7 @@ import com.pineapple.mobilecraft.tumcca.fragment.AlbumListFragment;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 8/23/15.
@@ -39,38 +40,44 @@ public class AlbumsListActivity extends FragmentActivity {
         mDataMode = getIntent().getIntExtra("data_mode", MODE_COLLECT);
         mAuthorId = getIntent().getIntExtra("authorId", 0);
 
-        mAlbumsFragment = new AlbumListFragment();
-
-        mAlbumsFragment.setAlbumLoader(new AlbumListFragment.AlbumListLoader() {
+        Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
-            public List<Album> getInitialAlbums() {
-                if(mDataMode == MODE_LIKE){
-                    return WorksServer.getLikeAlbums(mAuthorId, 1, 4);
+            public void run() {
+                mAlbumsFragment = new AlbumListFragment();
 
-                }
-                else if(mDataMode == MODE_COLLECT){
-                    return WorksServer.getCollectAlbums(mAuthorId, 1, 4);
-                }
-                return null;
-            }
+                mAlbumsFragment.setAlbumLoader(new AlbumListFragment.AlbumListLoader() {
+                    @Override
+                    public List<Album> getInitialAlbums() {
+                        if(mDataMode == MODE_LIKE){
+                            return WorksServer.getLikeAlbums(mAuthorId, 1, 4);
 
-            @Override
-            public void loadHeadAlbums() {
+                        }
+                        else if(mDataMode == MODE_COLLECT){
+                            return WorksServer.getCollectAlbums(mAuthorId, 1, 4);
+                        }
+                        return null;
+                    }
 
-            }
+                    @Override
+                    public void loadHeadAlbums() {
 
-            @Override
-            public void loadTailAlbums(int page) {
-                if(mDataMode == MODE_LIKE){
-                    mAlbumsFragment.addAlbumsTail(WorksServer.getLikeAlbums(mAuthorId, page, 4));
+                    }
 
-                }
-                else if(mDataMode == MODE_COLLECT){
-                    mAlbumsFragment.addAlbumsTail(WorksServer.getCollectAlbums(mAuthorId, page, 4));
-                }
+                    @Override
+                    public void loadTailAlbums(int page) {
+                        if(mDataMode == MODE_LIKE){
+                            mAlbumsFragment.addAlbumsTail(WorksServer.getLikeAlbums(mAuthorId, page, 4));
+
+                        }
+                        else if(mDataMode == MODE_COLLECT){
+                            mAlbumsFragment.addAlbumsTail(WorksServer.getCollectAlbums(mAuthorId, page, 4));
+                        }
+                    }
+                });
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, mAlbumsFragment).commit();
+
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, mAlbumsFragment).commit();
 
     }
 }
