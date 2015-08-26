@@ -3,6 +3,7 @@ package com.pineapple.mobilecraft.tumcca.manager;
 import android.util.Log;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.data.Album;
+import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.utility.JSONCache;
 import org.json.JSONArray;
@@ -147,6 +148,15 @@ public class WorksManager {
             mMyAlbumsCache.remove(String.valueOf(album.id));
         }
     }
+
+//    List<WorksInfo> mHomeWorks;
+//    int mHomePageIndex = 1;
+//    public void setHomeWorks(List<WorksInfo> works, int currentPage){
+//        mHomeWorks = works;
+//        mHomePageIndex = currentPage;
+//    }
+
+
 
 
 

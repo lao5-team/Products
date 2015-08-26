@@ -28,6 +28,8 @@ import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IWorksList;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import com.pineapple.mobilecraft.util.logic.Util;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +44,10 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
     static final int CORNER_RADIUS = 5;
     List<WorksInfo> mWorksInfoList = new ArrayList<WorksInfo>();
+    int mCurrentPage = 1;
+    int mListViewMode = MODE_LV_DRAG;
+    boolean mIsEnd = false;
+
     Activity mContext;
     WorkAdapter mAdapter;
     DisplayImageOptions mImageOptionsWorks;
@@ -53,13 +59,11 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
     CircleProgressBar mProgressBar;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    int mCurrentPage = 1;
+
     BroadcastReceiver mReceiver;
     StaggeredGridView mListView;
     View mFooterProgressView;
-    int mListViewMode = MODE_LV_DRAG;
 
-    boolean mIsEnd = false;
 
     public void setListViewMode(int mode) {
         if (mode >= MODE_LV_DRAG && mode <= MODE_LV_FIXED) {
@@ -356,6 +360,45 @@ public class WorkListFragment extends Fragment implements IWorksList {
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //outState.putInt("parentWidth", mParentWidth);
+        //缓存Works列表
+        JSONArray worksArray = new JSONArray();
+        for(WorksInfo worksInfo:mWorksInfoList){
+            worksArray.put(WorksInfo.toJSON(worksInfo));
+        }
+        outState.putString("works", worksArray.toString());
+
+        //缓存当前页
+        outState.putInt("currentPage", mCurrentPage);
+
+        //缓存是否到底
+        outState.getBoolean("isEnd", mIsEnd);
+
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (null != savedInstanceState) {
+            try {
+                mWorksInfoList.clear();
+                JSONArray worksArray = new JSONArray(savedInstanceState.getString("works"));
+                for(int i=0; i<worksArray.length(); i++){
+                    WorksInfo worksInfo = WorksInfo.fromJSON(worksArray.getJSONObject(i));
+                    mWorksInfoList.add(worksInfo);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mCurrentPage = savedInstanceState.getInt("currentPage");
+
+            mIsEnd = savedInstanceState.getBoolean("isEnd");
+        }
+    }
 
     private void setupProgressBar() {
         mProgressBar.setShowArrow(true);

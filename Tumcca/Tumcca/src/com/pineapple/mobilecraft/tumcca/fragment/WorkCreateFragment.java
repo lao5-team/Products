@@ -28,6 +28,9 @@ import java.util.List;
 
 /**
  * Created by yihao on 8/18/15.
+ *
+ * facebook风格的图片创建列表
+ * 输入参数，图库中的图片列表
  */
 public class WorkCreateFragment extends BaseListFragment {
     List<WorkCreateItem> mWorkItems = new ArrayList<WorkCreateItem>();
