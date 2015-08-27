@@ -373,7 +373,9 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
 
     public void addWorkList(WorkListFragment fragment) {
-        getSupportFragmentManager().beginTransaction().add(R.id.layout_works, mWorksListFragment).commit();
+        if(null!=fragment){
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout_works, fragment).commit();
+        }
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -421,6 +423,8 @@ public class HomeActivity extends FragmentActivity implements IHome {
         else{
             displayActionbar(0);
         }
+
+        addWorkList(mWorksListFragment);
     }
 
     private void showMessage(final String message){

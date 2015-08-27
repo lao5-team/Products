@@ -337,6 +337,11 @@ public class WorkListFragment extends Fragment implements IWorksList {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        if(null!=savedInstanceState){
+            restoreState(savedInstanceState);
+        }
+
         View view = inflater.inflate(R.layout.fragment_work_list, container, false);
         mProgressBar = (CircleProgressBar) view.findViewById(R.id.progressBar);
         StaggeredGridView listView = (StaggeredGridView) view.findViewById(R.id.list);
@@ -382,22 +387,43 @@ public class WorkListFragment extends Fragment implements IWorksList {
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (null != savedInstanceState) {
-            try {
-                mWorksInfoList.clear();
-                JSONArray worksArray = new JSONArray(savedInstanceState.getString("works"));
-                for(int i=0; i<worksArray.length(); i++){
-                    WorksInfo worksInfo = WorksInfo.fromJSON(worksArray.getJSONObject(i));
-                    mWorksInfoList.add(worksInfo);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            mCurrentPage = savedInstanceState.getInt("currentPage");
-
-            mIsEnd = savedInstanceState.getBoolean("isEnd");
+        if(null!=savedInstanceState){
+            restoreState(savedInstanceState);
         }
+//        if (null != savedInstanceState) {
+//            try {
+//                mWorksInfoList.clear();
+//                JSONArray worksArray = new JSONArray(savedInstanceState.getString("works"));
+//                for(int i=0; i<worksArray.length(); i++){
+//                    WorksInfo worksInfo = WorksInfo.fromJSON(worksArray.getJSONObject(i));
+//                    mWorksInfoList.add(worksInfo);
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            mCurrentPage = savedInstanceState.getInt("currentPage");
+//
+//            mIsEnd = savedInstanceState.getBoolean("isEnd");
+//        }
+    }
+
+    private void restoreState(Bundle savedInstanceState){
+        Log.v(TumccaApplication.TAG, "restoreState");
+        try {
+            mWorksInfoList.clear();
+            JSONArray worksArray = new JSONArray(savedInstanceState.getString("works"));
+            for(int i=0; i<worksArray.length(); i++){
+                WorksInfo worksInfo = WorksInfo.fromJSON(worksArray.getJSONObject(i));
+                mWorksInfoList.add(worksInfo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mCurrentPage = savedInstanceState.getInt("currentPage");
+
+        mIsEnd = savedInstanceState.getBoolean("isEnd");
     }
 
     private void setupProgressBar() {

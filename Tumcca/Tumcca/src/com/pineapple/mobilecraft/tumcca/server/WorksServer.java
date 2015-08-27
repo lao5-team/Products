@@ -114,7 +114,11 @@ public class WorksServer {
                 return albumList;
             }
         };
-        return get.execute();
+        List<Album> albumList = get.execute();
+        if(null==albumList){
+            albumList = new ArrayList<Album>();
+        }
+        return albumList;
     }
 
     public static List<Album> getAuthorAlbumList(int authorId){
