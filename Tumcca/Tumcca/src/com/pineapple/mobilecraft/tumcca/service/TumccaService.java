@@ -242,6 +242,7 @@ public class TumccaService extends Service {
 			//预加载用户的专辑
 			List<Album> albumList = WorksServer.getMyAlbumList(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(null));
 			albumList.add(0, Album.DEFAULT_ALBUM);
+			WorksManager.getInstance().setMyAlbumList(albumList);
 
 //			for(Album album:albumList){
 //				worksInfoList = WorksServer.getWorksOfAlbum(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(), album.id, 1, 20, 400);
@@ -250,7 +251,6 @@ public class TumccaService extends Service {
 //					WorksManager.getInstance().putAlbumWorks(album.id, worksInfoList);
 //				}
 //			}
-			WorksManager.getInstance().setMyAlbumList(albumList);
 
 		}
 	}

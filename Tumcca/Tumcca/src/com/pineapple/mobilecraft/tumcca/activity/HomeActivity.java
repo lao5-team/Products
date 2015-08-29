@@ -374,7 +374,9 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
     public void addWorkList(WorkListFragment fragment) {
         if(null!=fragment){
-            getSupportFragmentManager().beginTransaction().replace(R.id.layout_works, fragment).commit();
+            //if(getSupportFragmentManager().)
+            Log.v(TumccaApplication.TAG, (null==getSupportFragmentManager().findFragmentByTag("worksFragment"))+"");
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout_works, fragment, "worksFragment").commitAllowingStateLoss();
         }
     }
 

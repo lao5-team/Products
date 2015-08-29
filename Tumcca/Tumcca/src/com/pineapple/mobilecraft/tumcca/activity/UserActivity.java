@@ -21,7 +21,6 @@ import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.fragment.*;
-import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
@@ -40,8 +39,8 @@ public class UserActivity extends FragmentActivity {
     private static final int ALBUM_PAGE_SIZE = 20;
     AlbumListFragment mUserAlbumsFragment;
     //WorksListFragment mLikeCalligraphyFragment;
-    AlbumWorkListFragment2 mLikesFragment;
-    AlbumWorkListFragment2 mCollectFragment;
+    PinlikeAlbumWorkListFragment mLikesFragment;
+    PinlikeAlbumWorkListFragment mCollectFragment;
     UserListFragment mFollowingFragment;
     UserListFragment mFollowerFragment;
     boolean mIsTestMode = false;
@@ -88,8 +87,8 @@ public class UserActivity extends FragmentActivity {
             finish();
         }
         mUserAlbumsFragment = new AlbumListFragment();
-        mLikesFragment = new AlbumWorkListFragment2();
-        mCollectFragment = new AlbumWorkListFragment2();
+        mLikesFragment = new PinlikeAlbumWorkListFragment();
+        mCollectFragment = new PinlikeAlbumWorkListFragment();
 
 
         mFollowingFragment = new UserListFragment();
@@ -226,7 +225,7 @@ public class UserActivity extends FragmentActivity {
         });
     }
 
-    public void addLikesFragment(AlbumWorkListFragment2 fragment) {
+    public void addLikesFragment(PinlikeAlbumWorkListFragment fragment) {
 //        final WorkListFragment workListFragment = new WorkListFragment();
 //        workListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
 //            @Override
@@ -298,10 +297,10 @@ public class UserActivity extends FragmentActivity {
 //
 //        fragment.addAlbumsFragment(albumListFragment);
         fragment.setAuthorId(mAuthorId);
-        fragment.setDataMode(AlbumWorkListFragment2.MODE_LIKE);
+        fragment.setDataMode(PinlikeAlbumWorkListFragment.MODE_LIKE);
     }
 
-    public void addCollectFragment(AlbumWorkListFragment2 fragment) {
+    public void addCollectFragment(PinlikeAlbumWorkListFragment fragment) {
 //        final WorkListFragment workListFragment = new WorkListFragment();
 //
 //        workListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
@@ -371,7 +370,7 @@ public class UserActivity extends FragmentActivity {
 //
 //        fragment.addAlbumsFragment(albumListFragment);
         fragment.setAuthorId(mAuthorId);
-        fragment.setDataMode(AlbumWorkListFragment2.MODE_COLLECT);
+        fragment.setDataMode(PinlikeAlbumWorkListFragment.MODE_COLLECT);
     }
 
     public void addFollowingFragment(UserListFragment fragment) {

@@ -24,14 +24,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
+import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.IUserServer;
+import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.utils.CommonUtils;
 //import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 //import com.sina.weibo.sdk.auth.WeiboAuthListener;
 //import com.sina.weibo.sdk.exception.WeiboException;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * 登陆页面
@@ -92,6 +96,9 @@ public class LoginActivity extends Activity {
                 @Override
                 public void run() {
                     final IUserServer.LoginResult loginResult = UserManager.getInstance().login(username, password);
+                    List<Album> albumList = WorksServer.getMyAlbumList(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(null));
+                    albumList.add(0, Album.DEFAULT_ALBUM);
+                    WorksManager.getInstance().setMyAlbumList(albumList);
                     try {
                         Thread.currentThread().sleep(1000);
                     } catch (InterruptedException e) {
@@ -106,6 +113,7 @@ public class LoginActivity extends Activity {
                                 Toast.makeText(LoginActivity.this, getString(R.string.login_successed), Toast.LENGTH_SHORT).show();
                                 //Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                 UserManager.getInstance().saveLoginInfo(username, password);
+
                                 setResult(RESULT_OK);
                                 mLoginResult = true;
                                 finish();
@@ -137,9 +145,9 @@ public class LoginActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (TumccaApplication.getInstance().getUserName() != null) {
-            usernameEditText.setText(TumccaApplication.getInstance().getUserName());
-        }
+//        if (TumccaApplication.getInstance().getUserName() != null) {
+//            usernameEditText.setText(TumccaApplication.getInstance().getUserName());
+//        }
     }
 
 

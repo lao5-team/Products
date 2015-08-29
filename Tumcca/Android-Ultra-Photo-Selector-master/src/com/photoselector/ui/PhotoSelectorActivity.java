@@ -33,6 +33,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
@@ -124,7 +125,7 @@ public class PhotoSelectorActivity extends Activity implements
 		DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.ic_picture_loading)
 				.showImageOnFail(R.drawable.ic_picture_loadfailed)
-				.cacheInMemory(true).cacheOnDisk(true)
+				.cacheInMemory(true).cacheOnDisk(true).imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
 				.resetViewBeforeLoading(true).considerExifParams(false)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 

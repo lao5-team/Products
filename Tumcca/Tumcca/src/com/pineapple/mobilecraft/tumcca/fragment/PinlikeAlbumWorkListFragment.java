@@ -29,26 +29,24 @@ import java.util.concurrent.Executors;
 /**
  * Created by yihao on 8/3/15.
  */
-public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.TitleTabClickListener {
+public class PinlikeAlbumWorkListFragment extends Fragment {
 
+    public static final int SAMPLE_COUNT = 2;  //样本显示个数
     public static final int MODE_LIKE = 0;
     public static final int MODE_COLLECT = 1;
 
-
-    int mParentWidth = 0;
     private int mDataMode = MODE_LIKE;
     private Activity mActivity;
-    private ViewPager mContentPager;
-    //private WorkListFragment mWorkListFragment;
     private int mAuthorId = -1;
     private ExpandGridView mEGVAlbums;
     private List<Album> mAlbumList = new ArrayList<Album>();
-    AlbumAdapter mAlbumsAdapter;
+    private AlbumAdapter mAlbumsAdapter;
+    private TextView mTvAlbum;
 
     private StaggeredGridView mSGVWorks;
     private List<WorksInfo> mWorkList = new ArrayList<WorksInfo>();
     private WorkAdapter mWorkAdapter;
-    private TextView mTvAlbum, mTvWorks;
+    private TextView mTvWorks;
 
     public void setAuthorId(int authorId) {
         mAuthorId = authorId;
@@ -66,12 +64,6 @@ public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.Titl
         return view;
     }
 
-    @Override
-    public void callback(int index) {
-        mContentPager.setCurrentItem(index);
-    }
-
-
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
@@ -81,26 +73,18 @@ public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.Titl
      * @param view
      */
     private void buildAlbumsView(View view) {
-        /*TODO 加载4个专辑
-        添加GridView
-        添加AlbumAdapter
-        指定高度
-        添加See All按钮
-        拉起 AlbumsListActivity
-        */
-
-        mAlbumsAdapter = new AlbumAdapter(mActivity);
+        //添加GridView
         mEGVAlbums = (ExpandGridView) view.findViewById(R.id.gridview_albums);
-        mEGVAlbums.setAdapter(mAlbumsAdapter);
 
+        //添加Adapter
         Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
             public void run() {
                 if (mDataMode == MODE_LIKE) {
-                    mAlbumList = WorksServer.getLikeAlbums(mAuthorId, 1, 4);
+                    mAlbumList = WorksServer.getLikeAlbums(mAuthorId, 1, SAMPLE_COUNT);
 
                 } else if (mDataMode == MODE_COLLECT) {
-                    mAlbumList = WorksServer.getCollectAlbums(mAuthorId, 1, 4);
+                    mAlbumList = WorksServer.getCollectAlbums(mAuthorId, 1, SAMPLE_COUNT);
 
                 }
                 WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(null), mAlbumList);
@@ -108,8 +92,10 @@ public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.Titl
 
             }
         });
+        mAlbumsAdapter = new AlbumAdapter(mActivity);
+        mEGVAlbums.setAdapter(mAlbumsAdapter);
 
-
+        //设置See All按钮
         mTvAlbum = (TextView) view.findViewById(R.id.textView_all_albums);
         mTvAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +106,7 @@ public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.Titl
     }
 
     private void buildWorksView(View view) {
-        /*TODO 加载4个作品*/
+
         //添加StaggeredGridView
         mSGVWorks = (StaggeredGridView) view.findViewById(R.id.gridview_works);
 
@@ -132,15 +118,14 @@ public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.Titl
             public void run() {
                 if (mDataMode == MODE_LIKE) {
                     mWorkList = WorksServer.getLikeWorks(
-                            mAuthorId, 1, 4, 400);
+                            mAuthorId, 1, SAMPLE_COUNT, 400);
 
                 } else if (mDataMode == MODE_COLLECT) {
                     mWorkList = WorksServer.getCollectWorks(
-                            mAuthorId, 1, 4, 400);
+                            mAuthorId, 1, SAMPLE_COUNT, 400);
 
                 }
                 mWorkAdapter.setWorks(mWorkList);
-                //applyListviewHeightWithChild();
 
             }
         });
@@ -152,7 +137,7 @@ public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.Titl
                 applyListviewHeightWithChild();
             }
         });
-        //指定高度
+
         //添加See All按钮*/
         mTvWorks = (TextView) view.findViewById(R.id.textView_all_works);
         mTvWorks.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +164,8 @@ public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.Titl
         }
     }
 
-    public void applyListviewHeightWithChild() {
+    //设置ListView适应子数据的高度
+    private void applyListviewHeightWithChild() {
         int listViewHeightLeft = 0;
         int listViewHeightRight = 0;
         int adaptCount = mWorkAdapter.getCount();
@@ -200,6 +186,4 @@ public class AlbumWorkListFragment2 extends Fragment implements TitleTabBar.Titl
         params.height = Math.max(listViewHeightLeft, listViewHeightRight);
         mSGVWorks.setLayoutParams(params);
     }
-
-
 }

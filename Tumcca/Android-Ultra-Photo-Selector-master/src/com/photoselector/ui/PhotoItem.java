@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.photoselector.R;
 import com.photoselector.model.PhotoModel;
 
@@ -27,9 +28,12 @@ import com.photoselector.model.PhotoModel;
 public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 		OnLongClickListener {
 
-	static DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(false)
-			.cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-			.build();
+	static DisplayImageOptions options = new DisplayImageOptions.Builder()
+			.showImageOnLoading(R.drawable.ic_picture_loading)
+	.showImageOnFail(R.drawable.ic_picture_loadfailed)
+	.cacheInMemory(true).cacheOnDisk(true).imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
+	.resetViewBeforeLoading(true).considerExifParams(false)
+	.bitmapConfig(Bitmap.Config.RGB_565).build();
 	private ImageView ivPhoto;
 	private CheckBox cbPhoto;
 	private onPhotoItemCheckedListener listener;
@@ -90,11 +94,14 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 			if(null!=ivPhoto.getDrawable()){
 				Bitmap bitmap = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
 				if(bitmap!=null&&!bitmap.isRecycled()){
-					bitmap.recycle();
+					ivPhoto.setImageDrawable(null);
+					//bitmap.recycle();
+					//ivPhoto.setImageBitmap();
+
 				}
 			}
 			ImageLoader.getInstance().displayImage(
-					"file://" + photo.getOriginalPath(), ivPhoto);
+					"file://" + photo.getOriginalPath(), ivPhoto, options);
 			ivPhoto.setTag(photo.getOriginalPath());
 			//System.gc();
 		}

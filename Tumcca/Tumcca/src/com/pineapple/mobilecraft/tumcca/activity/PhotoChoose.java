@@ -89,14 +89,16 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.fromCamera:
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //((UserInfoActivity)getActivity()).mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
-                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-                getActivity().startActivityForResult(intent, FROMCAMERA);
-                break;
+                throw new IllegalStateException("Test Crash");
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                //((UserInfoActivity)getActivity()).mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
+//                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+//                getActivity().startActivityForResult(intent, FROMCAMERA);
+                //break;
             case R.id.fromGallery:
 //                intent = new Intent();
 //                intent.setClass(getActivity(), ImgFileListActivity.class);

@@ -31,9 +31,9 @@ public class LogManager {
         }
 
         if(remoteFlag){
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
+            //Thread t = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
                     String url = "http://120.26.202.114/api/logs/android";
                     JSONObject jsonObject = new JSONObject();
                     try {
@@ -48,9 +48,9 @@ public class LogManager {
                         }
                     };
                     post.execute();
-                }
-            });
-            t.start();
+//                }
+//            });
+//            t.start();
         }
     }
 }

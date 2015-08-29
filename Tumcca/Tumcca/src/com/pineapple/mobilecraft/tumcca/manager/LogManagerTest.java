@@ -16,7 +16,7 @@ public class LogManagerTest extends AndroidTestCase{
 
     public void testLog(){
         for(int i=0; i<10; i++){
-            LogManager.log("v", "hello", "test log upload " + i, true);
+            //LogManager.log("v", "hello", "test log upload " + i, true);
         }
 
 

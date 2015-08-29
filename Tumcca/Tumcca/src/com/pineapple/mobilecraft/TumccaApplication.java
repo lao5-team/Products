@@ -15,8 +15,10 @@ package com.pineapple.mobilecraft;
 
 import java.io.File;
 
+import android.content.*;
 import android.graphics.Bitmap;
 
+import android.text.TextUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -27,13 +29,25 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.pineapple.mobilecraft.tumcca.manager.LogManager;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+import org.acra.collector.CrashReportData;
+import org.acra.sender.ReportSender;
+import org.acra.sender.ReportSenderException;
+import org.acra.util.JSONReportBuilder;
+import org.json.JSONException;
 
+@ReportsCrashes(
+		formUri = "http://www.backendofyourchoice.com/reportpath",
+		mode = ReportingInteractionMode.TOAST,
+		forceCloseDialogAfterToast = false,
+		resToastText = R.string.crash_toast
+)
 
 public class TumccaApplication extends Application {
 
@@ -45,12 +59,51 @@ public class TumccaApplication extends Application {
 	public final String PREF_USERNAME = "username";
 	private String userName = null;
 
+	public class CrashSender implements ReportSender {
+
+		ClipboardManager clipboardManager;
+		public CrashSender(){
+			// initialize your sender with needed parameters
+			clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+		}
+
+
+		@Override
+		public void send(final Context context, final CrashReportData crashReportData) throws ReportSenderException {
+
+			String crashInfo = "";
+			try {
+				crashInfo = crashReportData.toJSON().getString("STACK_TRACE").toString();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (JSONReportBuilder.JSONReportException e) {
+				e.printStackTrace();
+			}
+			if(TextUtils.isEmpty(crashInfo)){
+				ClipData clipData = ClipData.newPlainText("crash", crashInfo);
+				clipboardManager.setPrimaryClip(clipData);
+				LogManager.log("v", TumccaApplication.TAG, crashInfo, true);
+			}
+		}
+	}
+
 	@Override
 	public void onCreate() {
+		//init crash sender
+		ACRA.init(this);
+		CrashSender yourSender = new CrashSender();
+		ACRA.getErrorReporter().setReportSender(yourSender);
+
 		super.onCreate();
+
+		applicationContext = this;
+		instance = this;
+
+		//init TumccaService
 		Intent intent = new Intent(this, TumccaService.class);
 		startService(intent);
 
+		//init Universal Image Loader
 		DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
 				.showImageOnLoading(com.photoselector.R.drawable.ic_picture_loading)
 				.showImageOnFail(com.photoselector.R.drawable.ic_picture_loadfailed)
@@ -59,12 +112,11 @@ public class TumccaApplication extends Application {
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 
 
-
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				this)
-				.memoryCacheExtraOptions(400, 400)
+				this)//.build();
+				.memoryCacheExtraOptions(1920, 1080)
 						// default = device screen dimensions
-				.diskCacheExtraOptions(400, 400, null)
+				.diskCacheExtraOptions(1920, 1080, null)
 				.threadPoolSize(5)
 						// default Thread.NORM_PRIORITY - 1
 				.threadPriority(Thread.NORM_PRIORITY)
@@ -93,8 +145,7 @@ public class TumccaApplication extends Application {
 				.defaultDisplayImageOptions(imageOptions).build();
 
 		ImageLoader.getInstance().init(config);
-		//ImageLoader.getInstance().init(config);
-		applicationContext = this;
+
 
 	}
 
@@ -110,21 +161,4 @@ public class TumccaApplication extends Application {
 		
 		return instance;
 	}
-
-
-	/**
-	 * 获取当前登陆用户名
-	 * 
-	 * @return
-	 */
-	public String getUserName() {
-		if (userName == null) {
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-			userName = preferences.getString(PREF_USERNAME, null);
-		}
-		return userName;
-	}
-
-
-
 }

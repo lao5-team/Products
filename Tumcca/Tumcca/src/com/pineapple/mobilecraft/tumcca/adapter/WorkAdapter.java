@@ -112,9 +112,10 @@ public class WorkAdapter extends BaseAdapter {
                                 mActivity.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        view.setAlpha(100);
+                                        //view.setAlpha(100);
                                         Animation alpha = AnimationUtils.loadAnimation(mActivity, R.anim.image_alpha);
                                         view.startAnimation(alpha);
+                                        view.setAlpha(100);
                                     }
                                 });
                             }
