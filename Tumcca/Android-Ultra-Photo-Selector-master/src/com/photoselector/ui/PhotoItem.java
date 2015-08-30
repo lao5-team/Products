@@ -171,4 +171,13 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 
 	}
 
+	public void setEnable(boolean enable){
+		if(enable){
+			cbPhoto.setVisibility(View.VISIBLE);
+		}
+		else{
+			cbPhoto.setVisibility(View.GONE);
+		}
+	}
+
 }

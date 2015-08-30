@@ -79,6 +79,7 @@ public class AlbumController {
 
 			}
 		} while (cursor.moveToPrevious());
+		cursor.close();
 		mAlbums =  albums;
 	}
 
@@ -100,6 +101,7 @@ public class AlbumController {
 					photos.add(photoModel);
 				}
 			} while (cursor.moveToPrevious());
+			cursor.close();
 			return photos;
 		}
 
@@ -124,6 +126,7 @@ public class AlbumController {
 				albumModel.setPhotos(photos);
 			}
 		}
+		cursor.close();
 		return photos;
 	}
 }

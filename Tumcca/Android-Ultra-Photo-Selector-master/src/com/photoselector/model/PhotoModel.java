@@ -77,6 +77,7 @@ public class PhotoModel implements Serializable {
 	public void setChecked(boolean isChecked) {
 		System.out.println("checked " + isChecked + " for " + originalPath);
 		this.isChecked = isChecked;
+		//photoView.setSelected(false);
 	}
 
 	/* (non-Javadoc)

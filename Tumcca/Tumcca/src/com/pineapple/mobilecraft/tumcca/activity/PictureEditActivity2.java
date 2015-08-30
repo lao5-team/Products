@@ -140,7 +140,7 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
     private void rotatePicture() {
         int index = mVF.getDisplayedChild();
         Picture picture = mPictureList.get(index);
-        picture.rotArc -= 90;
+        picture.rotArc += 90;
         Matrix matrix = new Matrix();
         //matrix.setRotate(picture.rotArc);
         matrix.postRotate(picture.rotArc);
@@ -169,10 +169,12 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
         for(Picture picture:pictureList){
             View view = getLayoutInflater().inflate(R.layout.fliper_pic, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+
             //ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             //ivPic.setLayoutParams(params);
             String path = Uri.fromFile(new File(picture.localPath)).toString();
             ImageLoader.getInstance().displayImage(path, imageView, mImageOptionsWorks);
+            imageView.setRotation(picture.rotArc);
             viewFlipper.addView(view);
         }
 

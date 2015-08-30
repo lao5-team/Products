@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -40,6 +41,10 @@ public class WorkCreateFragment extends BaseListFragment {
     private TextView mTvAlbumTitle;
     private ImageView mIvAlbumCover;
     private RelativeLayout mLayoutAlbum;
+    boolean mIsBatch = false;
+    private String mDescBatch = "";
+
+    String []bigNum={"一","二","三","四","五","六","七","八","九"};
 
     public WorkCreateFragment(){
         setLayout(R.layout.fragment_works_create);
@@ -116,7 +121,7 @@ public class WorkCreateFragment extends BaseListFragment {
             Works works = new Works();
             works.title = mWorkItems.get(i).desc;
             if(TextUtils.isEmpty(works.title)){
-                Toast.makeText(getActivity(), "请填写图片的描述描述信息",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "请填写图片说明",Toast.LENGTH_SHORT).show();
                 return;
             }
             works.albumId = mAlbum.id;
@@ -186,6 +191,31 @@ public class WorkCreateFragment extends BaseListFragment {
         String desc;
         Picture picture;
         long id;
+        //String index = "";
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                if(mIsBatch){
+//                    String string = s.toString();
+//                    desc = string.substring(0, string.length() - " 一".length());
+//                }
+//                else{
+//                    desc = s.toString();
+//                }
+                desc = s.toString();
+
+            }
+        };
 
         public void editPic(){
             //拉起图片编辑页面
@@ -203,7 +233,7 @@ public class WorkCreateFragment extends BaseListFragment {
 
         @Override
         public void bindViewHolder(ListViewHolder viewHolder) {
-            PhotoEditViewHolder vh = (PhotoEditViewHolder)viewHolder;
+            final PhotoEditViewHolder vh = (PhotoEditViewHolder)viewHolder;
             //显示图片
             String path = Uri.fromFile(new File(picture.localPath)).toString();
             ImageLoader.getInstance().displayImage(path, vh.mIvPic, mImageOptionsWorks);
@@ -226,22 +256,59 @@ public class WorkCreateFragment extends BaseListFragment {
             });
 
             //绑定编辑描述
-            vh.mEtxDesc.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
+            vh.mEtxDesc.removeTextChangedListener((TextWatcher) vh.mEtxDesc.getTag());
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
+            vh.mEtxDesc.addTextChangedListener(textWatcher);
+            vh.mEtxDesc.setTag(textWatcher);
+            if(mIsBatch){
+                vh.mEtxDesc.setText(mDescBatch + " " + bigNum[mWorkItems.indexOf(WorkCreateItem.this)]);
+            }
+            else{
+                vh.mEtxDesc.setText(desc);
+            }
 
-                }
 
-                @Override
-                public void afterTextChanged(Editable s) {
-                    desc = s.toString();
-                }
-            });
+//            if(mIsBatch){
+//                vh.mEtxDesc.setText(mDescBatch + " " + mWorkItems.indexOf(WorkCreateItem.this));
+//            }
+
+            //绑定批量图片说明
+            if(mWorkItems.indexOf(WorkCreateItem.this)==0){
+                vh.mCBxBatch.setVisibility(View.VISIBLE);
+                vh.mCBxBatch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked){
+                            mIsBatch = true;
+                            mDescBatch = desc;
+                            //applyBatch(mDescBatch);
+                            refresh();
+                        }
+                        else{
+                            mIsBatch = false;
+                            desc = mDescBatch;
+                            refresh();
+                        }
+                    }
+                });
+
+                vh.mEtxDesc.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (vh.mCBxBatch.isChecked()) {
+                            vh.mCBxBatch.setChecked(false);
+                            // vh.mEtxDesc.set
+                        }
+                        return false;
+                    }
+
+                });
+            }
+            else{
+                vh.mCBxBatch.setVisibility(View.GONE);
+            }
+
         }
 
         @Override
@@ -261,12 +328,22 @@ public class WorkCreateFragment extends BaseListFragment {
         public EditText mEtxDesc;
         public ImageView mIvPic;
         public ImageButton mIbDelete;
+        public CheckBox mCBxBatch;
         public PhotoEditViewHolder(View itemView) {
             super(itemView);
             mTvPictureEdit = (TextView) itemView.findViewById(R.id.textView_edit);
             mEtxDesc = (EditText) itemView.findViewById(R.id.editText_desc);
             mIvPic = (ImageView) itemView.findViewById(R.id.imageView_pic);
             mIbDelete = (ImageButton) itemView.findViewById(R.id.imageButton_delete);
+            mCBxBatch = (CheckBox) itemView.findViewById(R.id.checkBox_batch);
         }
     }
+
+//    private void applyBatch(String descBatch){
+//        int index = 0;
+//        for(WorkCreateItem item:mWorkItems){
+//            item.desc = descBatch + " " + bigNum[index++];
+//        }
+//        refresh();
+//    }
 }

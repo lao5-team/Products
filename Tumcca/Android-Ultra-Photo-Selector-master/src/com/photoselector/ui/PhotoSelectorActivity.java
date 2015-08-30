@@ -57,6 +57,7 @@ public class PhotoSelectorActivity extends Activity implements
 
 	public static final int SINGLE_IMAGE = 1;
 	public static final String KEY_MAX = "key_max";
+	public static final int IMAGE_MAX = 9;
 	private int MAX_IMAGE;
 
 	public static final int REQUEST_PHOTO = 0;
@@ -83,7 +84,7 @@ public class PhotoSelectorActivity extends Activity implements
 		setContentView(R.layout.activity_photoselector);
 
 		if (getIntent().getExtras() != null) {
-			MAX_IMAGE = getIntent().getIntExtra(KEY_MAX, 10);
+			MAX_IMAGE = getIntent().getIntExtra(KEY_MAX, IMAGE_MAX);
 		}
 
 		initImageLoader();
@@ -281,10 +282,20 @@ public class PhotoSelectorActivity extends Activity implements
 	public void onCheckedChanged(PhotoModel photoModel,
 			CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
-			if (!selected.contains(photoModel))
-
-				selected.add(photoModel);
-				photoModel.setIndex(selected.size());
+			if (!selected.contains(photoModel)) {
+				if(selected.size()==IMAGE_MAX){
+					Toast.makeText(this, getString(R.string.max_img_limit_reached, IMAGE_MAX), Toast.LENGTH_SHORT).show();
+					//buttonView.setChecked(false);
+					//photoModel.setChecked(false);
+				}
+				else {
+					selected.add(photoModel);
+					photoModel.setIndex(selected.size());
+					if(selected.size()==IMAGE_MAX){
+						photoAdapter.setLimitedReached(true);
+					}
+				}
+			}
 			tvPreview.setEnabled(true);
 		} else {
 			selected.remove(photoModel);
@@ -292,6 +303,7 @@ public class PhotoSelectorActivity extends Activity implements
 			for(int i=0; i<selected.size(); i++){
 				selected.get(i).setIndex(i+1);
 			}
+			photoAdapter.setLimitedReached(false);
 		}
 		tvNumber.setText("(" + selected.size() + ")");
 

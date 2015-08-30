@@ -32,6 +32,8 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 	private onItemClickListener mCallback;
 	private OnClickListener cameraListener;
 
+	public boolean isReachLimited = false;
+
 	private PhotoSelectorAdapter(Context context, ArrayList<PhotoModel> models) {
 		super(context, models);
 	}
@@ -66,6 +68,17 @@ public class PhotoSelectorAdapter extends MBaseAdapter<PhotoModel> {
 		item.setSelected(models.get(position).isChecked());
 		item.setOnClickListener(mCallback, position);
 		item.setIndex(models.get(position).getIndex());
+		if(isReachLimited&&!models.get(position).isChecked()){
+			item.setEnable(false);
+		}
+		else{
+			item.setEnable(true);
+		}
 		return convertView;
+	}
+
+	public void setLimitedReached(boolean isReached){
+		isReachLimited = isReached;
+		notifyDataSetChanged();
 	}
 }

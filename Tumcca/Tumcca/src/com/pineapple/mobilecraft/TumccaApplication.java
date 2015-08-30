@@ -79,7 +79,7 @@ public class TumccaApplication extends Application {
 			} catch (JSONReportBuilder.JSONReportException e) {
 				e.printStackTrace();
 			}
-			if(TextUtils.isEmpty(crashInfo)){
+			if(!TextUtils.isEmpty(crashInfo)){
 				ClipData clipData = ClipData.newPlainText("crash", crashInfo);
 				clipboardManager.setPrimaryClip(clipData);
 				LogManager.log("v", TumccaApplication.TAG, crashInfo, true);

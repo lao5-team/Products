@@ -203,7 +203,7 @@
     <string name="edit_picture_desc">添加图片说明。。。</string>
     <string name="see_all">查看所有</string>
     <string name="crash_toast">crash信息已经复制到剪切板</string>
-
+    <string name="batch_picture_description">批量添加图片说明</string>
 
 
 </resources>
