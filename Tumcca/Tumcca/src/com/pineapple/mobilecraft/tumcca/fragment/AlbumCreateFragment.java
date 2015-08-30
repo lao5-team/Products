@@ -79,6 +79,7 @@ public class AlbumCreateFragment extends DialogFragment {
                                 try {
                                     Thread.currentThread().sleep(500);
                                     if(new_album_id!=WorksServer.INVALID_WORKS_ID){
+                                        album.id = new_album_id;
                                         WorksManager.getInstance().setLatestAlbum(album);
                                         WorksManager.getInstance().addMyAlbum(album);
                                         Toast.makeText(mContext, mContext.getString(R.string.albums_create_success), Toast.LENGTH_SHORT).show();

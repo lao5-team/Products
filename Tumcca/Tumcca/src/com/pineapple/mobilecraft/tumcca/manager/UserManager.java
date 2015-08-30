@@ -318,7 +318,7 @@ public class UserManager {
 				}
 
 				mPostLoginTasks.clear();
-				mLoginReceiver = null;
+				//mLoginReceiver = null;
 			}
 		};
 		TumccaApplication.applicationContext.registerReceiver(mLoginReceiver, new IntentFilter("action_login"));

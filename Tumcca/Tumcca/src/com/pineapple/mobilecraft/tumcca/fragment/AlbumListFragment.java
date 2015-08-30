@@ -238,6 +238,7 @@ public class AlbumListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mAlbumsLoader.loadHeadAlbums();
         mAlbumsAdapter.notifyDataSetChanged();
     }
 

@@ -128,6 +128,7 @@ public class UserActivity extends FragmentActivity {
         TabPageIndicator tabPageIndicator = (TabPageIndicator) findViewById(R.id.view_tab);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_viewPager);
 
+
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
