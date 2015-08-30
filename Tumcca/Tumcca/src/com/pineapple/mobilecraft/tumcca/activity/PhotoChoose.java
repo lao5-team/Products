@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class PhotoChoose extends DialogFragment implements View.OnClickListener {
 
-    public static final int FROMCAMERA = 0;
+    public static final int FROMCAMERA = 4;
     public static final int FROMGALLERY = 5;
 
     private TextView mTvFromCamera;
@@ -33,7 +33,7 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
     private Uri mUri;
 
     public PhotoChoose(){
-        mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + "Temp.jpg"));
+        //mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + "Temp.jpg"));
     }
 
     public void setUri(Uri uri){
@@ -92,21 +92,13 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
         Intent intent;
         switch (view.getId()) {
             case R.id.fromCamera:
-                throw new IllegalStateException("Test Crash");
-//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                //((UserInfoActivity)getActivity()).mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
-//                intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
-//                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-//                getActivity().startActivityForResult(intent, FROMCAMERA);
-                //break;
+                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //((UserInfoActivity)getActivity()).mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(getActivity()) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                getActivity().startActivityForResult(intent, FROMCAMERA);
+                break;
             case R.id.fromGallery:
-//                intent = new Intent();
-//                intent.setClass(getActivity(), ImgFileListActivity.class);
-//                intent = new Intent();
-//                intent.setAction(Intent.ACTION_PICK);// Pick an item fromthe
-//                intent.setType("image/*");// ������ͼƬ�н���ѡ��
-//                getActivity().startActivityForResult(intent, FROMGALLERY);
-
                 intent = new Intent(getActivity(), PhotoSelectorActivity.class);
                 intent.putExtra(PhotoSelectorActivity.KEY_MAX, 5);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -122,19 +114,9 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
             return;
         if (requestCode == FROMGALLERY) {// selected image
             if (data != null && data.getStringExtra("photos") != null) {
-                //@SuppressWarnings("unchecked")
-                //List<PhotoModel> photos = (List<PhotoModel>) ;
-//                if (photos == null || photos.isEmpty()) {
-//                    //UIHelper.ToastMessage(this, R.string.no_photo_selected);
-//                } else {
                     Intent intent = new Intent(getActivity(), WorksCreateActivity2.class);
-                    //Bundle b = new Bundle();
-                    //b.putSerializable("album_pojo", albumPojo);
-                    //b.putSerializable("photos", (Serializable) photos);
                     intent.putExtra("photos", data.getStringExtra("photos"));
                     startActivity(intent);
-                    //finish();
-                //}
             }
         }
 

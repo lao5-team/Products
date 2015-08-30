@@ -12,8 +12,9 @@ public class Picture {
     public String localPath;
     public float rotArc = 0;
     public int id;
-    public Picture(int id, String url, String localPath){
-        this.id = id;
+    private static int ID_COUNT = 0;
+    public Picture(String url, String localPath){
+        this.id = ID_COUNT++;
         this.url = url;
         this.localPath = localPath;
     }

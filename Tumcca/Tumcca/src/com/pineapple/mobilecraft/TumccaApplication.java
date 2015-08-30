@@ -151,13 +151,13 @@ public class TumccaApplication extends Application {
 
 	public static TumccaApplication getInstance() {
 		
-		File rootDir = new File(Constant.ROOT_DIR);
-		if(!rootDir.exists())
-		{
-			rootDir.mkdir();
-			File cacheDir = new File(Constant.CACHE_DIR);
-			cacheDir.mkdir();
-		}
+//		File rootDir = new File(Constant.ROOT_DIR);
+//		if(!rootDir.exists())
+//		{
+//			rootDir.mkdir();
+//			File cacheDir = new File(Constant.CACHE_DIR);
+//			cacheDir.mkdir();
+//		}
 		
 		return instance;
 	}

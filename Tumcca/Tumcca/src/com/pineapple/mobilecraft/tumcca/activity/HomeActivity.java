@@ -12,13 +12,20 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.photoselector.model.PhotoModel;
+import com.photoselector.ui.PhotoItem;
 import com.photoselector.ui.PhotoSelectorActivity;
+import com.pineapple.mobilecraft.Constant;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.data.Album;
+import com.pineapple.mobilecraft.tumcca.data.Picture;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.fragment.WorkListFragment;
@@ -32,6 +39,7 @@ import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import com.pineapple.mobilecraft.util.logic.Util;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,6 +65,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
     private Profile mProfile;
     private TumccaService mService = null;
+    private Uri mUri;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -299,14 +308,29 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 displayActionbar(0);
             }
         }
-
-        if (requestCode == 5) {// selected image
+        if (requestCode == PhotoChoose.FROMCAMERA&&resultCode==RESULT_OK) {// selected image
+            String outPath = Utility.processImage(mUri.getPath(), Constants.MAX_PICTURE_WIDTH, Constants.MAX_PICTURE_HEIGHT, 0.0f, true);
+            List<Picture> pictures = new ArrayList<Picture>();
+            pictures.add(new Picture(null, outPath));
+            WorksCreateActivity2.startActivity(this, pictures);
+        }
+        if (requestCode == PhotoChoose.FROMGALLERY) {// selected image
             if (data != null && data.getStringExtra("photos") != null) {
-                Intent intent = new Intent(this, WorksCreateActivity2.class);
-                intent.putExtra("photos", data.getStringExtra("photos"));
-                startActivity(intent);
+                List<PhotoModel> models = new Gson().fromJson(data.getStringExtra("photos"),
+                        new TypeToken<List<PhotoModel>>(){}.getType());
+                if(null != models){
+                    List<Picture> pictures = new ArrayList<Picture>();
+                    for(PhotoModel model:models){
+                        pictures.add(new Picture(null, model.getOriginalPath()));
+                    }
+                    WorksCreateActivity2.startActivity(this, pictures);
+                }
+                else{
+                    Toast.makeText(this, "图库返回结果异常", Toast.LENGTH_SHORT).show();
+                }
             }
         }
+
     }
 
 
@@ -440,8 +464,8 @@ public class HomeActivity extends FragmentActivity implements IHome {
 
     private void startWorkCreating(){
         PhotoChoose photoChoose = new PhotoChoose();
-        Uri uri = Uri.fromFile(new File(Utility.getTumccaImgPath(HomeActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
-        photoChoose.setUri(uri);
+        mUri = Utility.createPhotoUri(this);//Uri.fromFile(new File(Utility.getTumccaImgPath(HomeActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+        photoChoose.setUri(mUri);
         photoChoose.show(getSupportFragmentManager(), "WorksPhotoChoose");
     }
 

@@ -178,7 +178,7 @@
     <string name="please_complete_profile">请先完成用户信息填写</string>
     <string name="restrict_upload_pictures">限制上传%1$张图片</string>
     <string name="works_upload_">作品发布成功</string>
-    <string name="please_enter_description">请填写作品的描述信息</string>
+    <string name="please_enter_description">请填写图片说明</string>
     <string name="please_select_picture">请选择作品图片</string>
     <string name="login_successed">登录成功</string>
     <string name="logining">正在登录......</string>
@@ -204,6 +204,7 @@
     <string name="see_all">查看所有</string>
     <string name="crash_toast">crash信息已经复制到剪切板</string>
     <string name="batch_picture_description">批量添加图片说明</string>
+    <string name="please_add_picture">请添加图片</string>
 
 
 </resources>

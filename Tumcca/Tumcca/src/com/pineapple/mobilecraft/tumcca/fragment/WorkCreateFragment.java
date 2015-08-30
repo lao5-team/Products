@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.activity.PhotoChoose;
 import com.pineapple.mobilecraft.tumcca.activity.PictureEditActivity2;
 import com.pineapple.mobilecraft.tumcca.activity.WorksCreateActivity2;
 import com.pineapple.mobilecraft.tumcca.data.Album;
@@ -21,6 +22,7 @@ import com.pineapple.mobilecraft.tumcca.data.Works;
 import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
+import com.pineapple.mobilecraft.tumcca.utility.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,17 +36,18 @@ import java.util.List;
  * 输入参数，图库中的图片列表
  */
 public class WorkCreateFragment extends BaseListFragment {
-    List<WorkCreateItem> mWorkItems = new ArrayList<WorkCreateItem>();
-    DisplayImageOptions mImageOptionsWorks;
-    TumccaService mTumccaService;
+    private List<WorkCreateItem> mWorkItems = new ArrayList<WorkCreateItem>();
+    private DisplayImageOptions mImageOptionsWorks;
+    private TumccaService mTumccaService;
     private Album mAlbum = Album.DEFAULT_ALBUM;
     private TextView mTvAlbumTitle;
     private ImageView mIvAlbumCover;
     private RelativeLayout mLayoutAlbum;
+    private TextView mTvAddPicture;
     boolean mIsBatch = false;
-    private String mDescBatch = "";
-
-    String []bigNum={"一","二","三","四","五","六","七","八","九"};
+    private String mDescBatch = "";  //批量处理使用的图片说明
+    private Uri mPhotoUri;
+    private String[] bigNum={"一","二","三","四","五","六","七","八","九"};
 
     public WorkCreateFragment(){
         setLayout(R.layout.fragment_works_create);
@@ -63,7 +66,7 @@ public class WorkCreateFragment extends BaseListFragment {
 
         mImageOptionsWorks = new DisplayImageOptions.Builder()
                 .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
+                .considerExifParams(false).build();
     }
 
     @Override
@@ -71,6 +74,27 @@ public class WorkCreateFragment extends BaseListFragment {
         super.buildView(view);
 
         addAlbumView(view);
+
+        addAddPhotoView(view);
+    }
+
+    public Uri getPhotoUri(){
+        return mPhotoUri;
+    }
+
+
+
+    //设置图片
+    public void setPictures(List<Picture> pictureList){
+        if(null!=pictureList){
+            mWorkItems.clear();
+            for(Picture picture:pictureList){
+                WorkCreateItem item = new WorkCreateItem();
+                item.id = mWorkItems.size();
+                item.picture = picture;
+                mWorkItems.add(item);
+            }
+        }
     }
 
     //添加图片
@@ -82,6 +106,7 @@ public class WorkCreateFragment extends BaseListFragment {
                 item.picture = picture;
                 mWorkItems.add(item);
             }
+            clear();
         }
     }
 
@@ -110,7 +135,7 @@ public class WorkCreateFragment extends BaseListFragment {
 
     public void submitWorks(){
         if(mWorkItems.isEmpty()){
-            Toast.makeText(getActivity(), "请添加图片",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.please_add_picture),Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -121,7 +146,7 @@ public class WorkCreateFragment extends BaseListFragment {
             Works works = new Works();
             works.title = mWorkItems.get(i).desc;
             if(TextUtils.isEmpty(works.title)){
-                Toast.makeText(getActivity(), "请填写图片说明",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.please_enter_description),Toast.LENGTH_SHORT).show();
                 return;
             }
             works.albumId = mAlbum.id;
@@ -177,11 +202,25 @@ public class WorkCreateFragment extends BaseListFragment {
         mTvAlbumTitle.setText(album.title);
         List<Integer>cover = album.cover;
         if(null!=cover&&cover.size()>0){
-            //Picasso.with(CalligraphyCreateActivity.this).load(PictureServer.getInstance().getPictureUrl(pictureInfo.id)).resize(48,48).centerCrop().into(mIvAlbumCover)
             ImageLoader imageLoader = ImageLoader.getInstance();
             imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(cover.get(0), 48, 1), mIvAlbumCover, mImageOptionsWorks);
         }
 
+    }
+
+    //添加图片视图
+    private void addAddPhotoView(View view) {
+        mTvAddPicture = (TextView) view.findViewById(R.id.textView_add_picture);
+        mTvAddPicture.setClickable(true);
+        mTvAddPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPhotoUri = Utility.createPhotoUri(mActivity);
+                PhotoChoose photoChoose = new PhotoChoose();
+                photoChoose.setUri(mPhotoUri);
+                photoChoose.show(getChildFragmentManager(), "WorksPhotoChoose");
+            }
+        });
     }
 
     /**
@@ -205,21 +244,12 @@ public class WorkCreateFragment extends BaseListFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                if(mIsBatch){
-//                    String string = s.toString();
-//                    desc = string.substring(0, string.length() - " 一".length());
-//                }
-//                else{
-//                    desc = s.toString();
-//                }
                 desc = s.toString();
-
             }
         };
 
         public void editPic(){
             //拉起图片编辑页面
-            //Picture picture = new Picture(null, imgLocalUrl);
             List<Picture> pictures = new ArrayList<Picture>();
             pictures.add(picture);
             PictureEditActivity2.startActivity(getActivity(), WorksCreateActivity2.REQ_PIC_EDIT, pictures, 0);
@@ -268,11 +298,6 @@ public class WorkCreateFragment extends BaseListFragment {
                 vh.mEtxDesc.setText(desc);
             }
 
-
-//            if(mIsBatch){
-//                vh.mEtxDesc.setText(mDescBatch + " " + mWorkItems.indexOf(WorkCreateItem.this));
-//            }
-
             //绑定批量图片说明
             if(mWorkItems.indexOf(WorkCreateItem.this)==0){
                 vh.mCBxBatch.setVisibility(View.VISIBLE);
@@ -282,7 +307,6 @@ public class WorkCreateFragment extends BaseListFragment {
                         if(isChecked){
                             mIsBatch = true;
                             mDescBatch = desc;
-                            //applyBatch(mDescBatch);
                             refresh();
                         }
                         else{
@@ -298,7 +322,6 @@ public class WorkCreateFragment extends BaseListFragment {
                     public boolean onTouch(View v, MotionEvent event) {
                         if (vh.mCBxBatch.isChecked()) {
                             vh.mCBxBatch.setChecked(false);
-                            // vh.mEtxDesc.set
                         }
                         return false;
                     }
@@ -338,12 +361,4 @@ public class WorkCreateFragment extends BaseListFragment {
             mCBxBatch = (CheckBox) itemView.findViewById(R.id.checkBox_batch);
         }
     }
-
-//    private void applyBatch(String descBatch){
-//        int index = 0;
-//        for(WorkCreateItem item:mWorkItems){
-//            item.desc = descBatch + " " + bigNum[index++];
-//        }
-//        refresh();
-//    }
 }

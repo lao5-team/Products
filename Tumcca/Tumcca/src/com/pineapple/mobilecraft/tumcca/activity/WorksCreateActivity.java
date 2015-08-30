@@ -59,7 +59,7 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
     private List<Picture> mListPicture = new ArrayList<Picture>();
     private GridView mGVPictures;
     private RelativeLayout mLayoutAlbum;
-    private AvatarChoose mAvatarChoose;
+    private PhotoChoose mAvatarChoose;
     private Uri mUri;
     private boolean mIsTestMode = false;
 
@@ -110,7 +110,7 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
 
         ImgsActivity.ImagesReceiver = WorksCreateActivity.class;
         mPictureAdapter = new PictureAdapter();
-        mAvatarChoose = new AvatarChoose();
+        mAvatarChoose = new PhotoChoose();
         setContentView(R.layout.activity_create_work);
         mGVPictures = (GridView)findViewById(R.id.gridView_picture);
         addPictureDisplayView(mGVPictures);
@@ -266,7 +266,7 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
 
                 }
                 else{
-                    mAvatarChoose = new AvatarChoose();
+                    mAvatarChoose = new PhotoChoose();
                     mUri = Uri.fromFile(new File(Utility.getTumccaImgPath(WorksCreateActivity.this) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
                     mAvatarChoose.setUri(mUri);
                     mAvatarChoose.show(getSupportFragmentManager(), "WorksPhotoChoose");
@@ -336,12 +336,12 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
             String imgName = cursor.getString(3); // 图片文件名
             cursor.close();
             String outPath = Utility.processImage(imgPath, 1080, 1920, 0.0f, true);
-            addPicture(new Picture(mListPicture.size(), null, outPath));
+            addPicture(new Picture(null, outPath));
 
         }
         if(requestCode == AvatarChoose.FROMCAMERA&&resultCode == RESULT_OK){
             String outPath = Utility.processImage(mUri.getPath(), 1080, 1920, 0.0f, true);
-            addPicture(new Picture(mListPicture.size(), null, outPath));
+            addPicture(new Picture(null, outPath));
 
         }
         if(requestCode == CROP_REQUEST_CODE){
@@ -358,7 +358,7 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
                     try {
                         fos.write(stream.toByteArray());
                         fos.close();
-                        mListPicture.add(new Picture(mListPicture.size(), null, localPath));
+                        mListPicture.add(new Picture(null, localPath));
                         PictureAdapter adapter = (PictureAdapter)mGVPictures.getAdapter();
 
                         mGVPictures.requestFocus();

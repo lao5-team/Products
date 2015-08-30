@@ -7,17 +7,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.*;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
-import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -35,7 +34,7 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
 
     private List<Picture> mPictureList = new ArrayList<Picture>();
 
-    ViewFlipper mVF;
+    ViewFlipper mViewFlipper;
     TextView mTvPictureIndex;
     ImageView mIvDelete;
     RelativeLayout mLayoutRotate;
@@ -74,7 +73,7 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
             actionBar.setCustomView(customActionBarView, lp);
         }
         setContentView(R.layout.activity_picture_edit);
-        mVF = (ViewFlipper)findViewById(R.id.viewFlipper);
+        mViewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
         mTvPictureIndex = (TextView)findViewById(R.id.textView_pic_index);
         mIvDelete = (ImageView)findViewById(R.id.imageView_delete);
         mIvDelete.setClickable(true);
@@ -100,21 +99,21 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
             }
         });
         loadData(getIntent());
-        addViewflipper(mVF, mPictureList);
-        mTvPictureIndex.setText((mVF.getDisplayedChild() + 1) + "/" + mPictureList.size());
+        addViewflipper(mViewFlipper, mPictureList);
+        mTvPictureIndex.setText((mViewFlipper.getDisplayedChild() + 1) + "/" + mPictureList.size());
 
         mDetector = new GestureDetector(this);
     }
 
     private void deletePicture() {
-        final int index = mVF.getDisplayedChild();
+        final int index = mViewFlipper.getDisplayedChild();
         AlertDialog dialog = new AlertDialog.Builder(this).setMessage(getString(R.string.remove_picture_confirm))
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mPictureList.remove(index);
-                        mVF.removeViewAt(index);
-                        mTvPictureIndex.setText((mVF.getDisplayedChild()+1) + "/" + mPictureList.size());
+                        mViewFlipper.removeViewAt(index);
+                        mTvPictureIndex.setText((mViewFlipper.getDisplayedChild() + 1) + "/" + mPictureList.size());
                         confirmEdit();
                     }
                 }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -128,29 +127,19 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
 
     private void confirmEdit() {
         Intent intent = new Intent();
-        JSONArray jsonArray = new JSONArray();
-        for(Picture picture:mPictureList){
-            jsonArray.put(Picture.toJSON(picture));
-        }
-        intent.putExtra("pictureList", jsonArray.toString());
+        intent.putExtra("pictureList", new Gson().toJson(mPictureList));
         setResult(RESULT_OK, intent);
         finish();
     }
 
     private void rotatePicture() {
-        int index = mVF.getDisplayedChild();
+        int index = mViewFlipper.getDisplayedChild();
         Picture picture = mPictureList.get(index);
         picture.rotArc += 90;
         Matrix matrix = new Matrix();
         //matrix.setRotate(picture.rotArc);
         matrix.postRotate(picture.rotArc);
-
-                //((ImageView) mVF.getCurrentView().findViewById(R.id.imageView)).setImageMatrix(matrix);
-        //((ImageView) mVF.getCurrentView().findViewById(R.id.imageView)).setScaleType(ImageView.ScaleType.MATRIX);
-        mVF.getCurrentView().findViewById(R.id.imageView).setRotation(picture.rotArc);
-//        picture.localPath = Utility.rotateImage(picture.localPath, 90);
-//        String path = Uri.fromFile(new File(picture.localPath)).toString();
-//        ImageLoader.getInstance().displayImage(path, (ImageView) mVF.getCurrentView().findViewById(R.id.imageView), mImageOptionsWorks);
+        mViewFlipper.getCurrentView().findViewById(R.id.imageView).setRotation(picture.rotArc);
     }
 
     private void loadData(Intent intent){
@@ -223,19 +212,19 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         if (e1.getX() - e2.getX() > 120) {
-            this.mVF.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_from_right));
-            this.mVF.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_to_left));
-            if(this.mVF.getDisplayedChild()<(mPictureList.size()-1)){
-                mTvPictureIndex.setText((mVF.getDisplayedChild()+2) + "/" + mPictureList.size());
-                this.mVF.showNext();
+            this.mViewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_from_right));
+            this.mViewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_to_left));
+            if(this.mViewFlipper.getDisplayedChild()<(mPictureList.size()-1)){
+                mTvPictureIndex.setText((mViewFlipper.getDisplayedChild()+2) + "/" + mPictureList.size());
+                this.mViewFlipper.showNext();
             }
             return true;
         } else if (e1.getX() - e2.getX() < -120) {
-            this.mVF.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_from_left));
-            this.mVF.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_to_right));
-            if(this.mVF.getDisplayedChild()>0){
-                mTvPictureIndex.setText((mVF.getDisplayedChild()) + "/" + mPictureList.size());
-                this.mVF.showPrevious();
+            this.mViewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_from_left));
+            this.mViewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_to_right));
+            if(this.mViewFlipper.getDisplayedChild()>0){
+                mTvPictureIndex.setText((mViewFlipper.getDisplayedChild()) + "/" + mPictureList.size());
+                this.mViewFlipper.showPrevious();
             }
             return true;
         }

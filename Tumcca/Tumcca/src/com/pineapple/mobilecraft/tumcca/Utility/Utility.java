@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
 import com.pineapple.mobilecraft.TumccaApplication;
@@ -74,6 +75,10 @@ public class Utility {
             }
         }
         return getTumccaPath(context) + File.separator + IMGPATH;
+    }
+
+    public static Uri createPhotoUri(Context context){
+        return Uri.fromFile(new File(getTumccaImgPath(context) + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
     }
 
     /**
@@ -192,4 +197,6 @@ public class Utility {
 
         return false;
     }
+
+
 }

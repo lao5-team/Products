@@ -42,16 +42,17 @@ public class WorkAdapter extends BaseAdapter {
     DisplayImageOptions mImageOptionsWorks;
     ImageLoader mImageLoader;
 
-    public WorkAdapter(Activity activity){
+    public WorkAdapter(Activity activity) {
         mActivity = activity;
 
         mImageOptionsWorks = new DisplayImageOptions.Builder()
-                .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
+                .displayer(new HalfRoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext,
+                        CORNER_RADIUS))).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                .considerExifParams(false).build();
         mImageLoader = ImageLoader.getInstance();
     }
 
-    public void setWorks(final List<WorksInfo> worksInfoList){
+    public void setWorks(final List<WorksInfo> worksInfoList) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -62,7 +63,7 @@ public class WorkAdapter extends BaseAdapter {
         });
     }
 
-    private  class ViewHolder {
+    private class ViewHolder {
         ImageView ivPic;
         TextView tvDesc;
         ImageView ivAuthor;
@@ -73,18 +74,18 @@ public class WorkAdapter extends BaseAdapter {
         TextView tvComment;
 
         public void bindViews(View container, int pic, int desc, int author, int authorName,
-                              int layWork, int layAuthor, int like, int comment){
+                              int layWork, int layAuthor, int like, int comment) {
             ivPic = (ImageView) container.findViewById(pic);
             tvDesc = (TextView) container.findViewById(desc);
             ivAuthor = (ImageView) container.findViewById(author);
             tvAuthorName = (TextView) container.findViewById(authorName);
             rlWork = (RelativeLayout) container.findViewById(layWork);
             rlAuthor = (RelativeLayout) container.findViewById(layAuthor);
-            tvLike = (TextView)container.findViewById(like);
-            tvComment = (TextView)container.findViewById(comment);
+            tvLike = (TextView) container.findViewById(like);
+            tvComment = (TextView) container.findViewById(comment);
         }
 
-        public void bindWork(int position, ViewGroup parent){
+        public void bindWork(int position, ViewGroup parent) {
             PictureInfo pictureInfo = mWorksInfoList.get(position).picInfo;
             //预先用图片的尺寸对imageView进行布局
             RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
@@ -137,11 +138,11 @@ public class WorkAdapter extends BaseAdapter {
                 }
             });
 
-            tvLike.setText(mWorksInfoList.get(position).likes+"");
-            tvComment.setText(mWorksInfoList.get(position).comments+"");
+            tvLike.setText(mWorksInfoList.get(position).likes + "");
+            tvComment.setText(mWorksInfoList.get(position).comments + "");
         }
 
-        public void bindAuthor(int position){
+        public void bindAuthor(int position) {
 
             rlAuthor.setTag(new Integer(position));
             rlAuthor.setOnClickListener(new View.OnClickListener() {
