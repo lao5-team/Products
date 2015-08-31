@@ -130,6 +130,7 @@ public class Utility {
 
         options.inJustDecodeBounds = false;
         //生成新图片
+        options.inSampleSize = (int)Math.ceil(1/scale);
         Bitmap bitmapIn = BitmapFactory.decodeFile(pathIn, options);
         Matrix matrix = new Matrix();
         matrix.setScale(scale, scale);
