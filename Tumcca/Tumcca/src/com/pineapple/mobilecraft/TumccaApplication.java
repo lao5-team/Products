@@ -108,15 +108,15 @@ public class TumccaApplication extends Application {
 				.showImageOnLoading(com.photoselector.R.drawable.ic_picture_loading)
 				.showImageOnFail(com.photoselector.R.drawable.ic_picture_loadfailed)
 				.cacheInMemory(true).cacheOnDisk(true)
-				.resetViewBeforeLoading(true).considerExifParams(false)
+				.resetViewBeforeLoading(true).considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 
 
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				this)//.build();
-				.memoryCacheExtraOptions(1920, 1080)
-						// default = device screen dimensions
-				.diskCacheExtraOptions(1920, 1080, null)
+//				.memoryCacheExtraOptions(1920, 1080)
+//						// default = device screen dimensions
+//				.diskCacheExtraOptions(1920, 1080, null)
 				.threadPoolSize(5)
 						// default Thread.NORM_PRIORITY - 1
 				.threadPriority(Thread.NORM_PRIORITY)

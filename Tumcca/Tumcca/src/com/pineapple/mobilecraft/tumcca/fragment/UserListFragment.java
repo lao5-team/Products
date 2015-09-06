@@ -42,6 +42,7 @@ public class UserListFragment extends BaseListFragment {
     long mUserId = -1;
     TextView mTvCount;
     Activity mActivity;
+    int mCount = 0;
 
     public UserListFragment(){
         super();
@@ -103,6 +104,10 @@ public class UserListFragment extends BaseListFragment {
                 if(mMode==MODE_FOLLOWING){
                     setCount(UserServer.getInstance().getAuthorFollowing(mUserId));
                 }
+                if(mMode==MODE_FOLLOWER){
+                    setCount(UserServer.getInstance().getAuthorFollowers(mUserId));
+
+                }
             }
         });
 
@@ -120,16 +125,31 @@ public class UserListFragment extends BaseListFragment {
     }
 
     @Override
-    protected void buildView(View view){
-        super.buildView(view);
+    protected void buildView(View view, Bundle savedInstanceState){
+        super.buildView(view, savedInstanceState);
         mTvCount = (TextView) view.findViewById(R.id.textView_count);
+        if(null!=savedInstanceState){
+            setCount(savedInstanceState.getInt("count"));
+        }
     }
 
+//    @Override
+//    public void onViewStateRestored(Bundle state){
+//        super.onViewStateRestored(state);
+//
+//    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle){
+        super.onSaveInstanceState(bundle);
+        bundle.putInt("count", mCount);
+    }
     /**
      * 设置关注或者粉丝的数量
      * @param count
      */
     private void setCount(final int count){
+        mCount = count;
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

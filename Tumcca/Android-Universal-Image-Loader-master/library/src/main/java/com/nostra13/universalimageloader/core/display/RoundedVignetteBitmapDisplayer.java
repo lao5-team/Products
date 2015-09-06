@@ -54,7 +54,7 @@ public class RoundedVignetteBitmapDisplayer extends RoundedBitmapDisplayer {
 	protected static class RoundedVignetteDrawable extends RoundedDrawable {
 
 		RoundedVignetteDrawable(Bitmap bitmap, int cornerRadius, int margin) {
-			super(bitmap, cornerRadius, margin, ViewScaleType.FIT_INSIDE);
+			super(bitmap, cornerRadius, margin, ViewScaleType.FIT_INSIDE, 0);
 		}
 
 		@Override

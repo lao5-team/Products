@@ -43,7 +43,8 @@ public class RoundedBitmapDisplayer implements BitmapDisplayer {
 
 	protected final int cornerRadius;
 	protected final int margin;
-
+	protected float angle = 0;
+	RoundedDrawable mDrawable = null;
 
 	public RoundedBitmapDisplayer(int cornerRadiusPixels) {
 		this(cornerRadiusPixels, 0);
@@ -54,17 +55,25 @@ public class RoundedBitmapDisplayer implements BitmapDisplayer {
 		this.margin = marginPixels;
 	}
 
+	public RoundedBitmapDisplayer setRotation(float angle){
+		this.angle = angle;
+		if(null!=mDrawable){
+			mDrawable.angle = angle;
+		}
+		return this;
+	}
 	@Override
 	public void display(Bitmap bitmap, ImageAware imageAware, LoadedFrom loadedFrom) {
 		if (!(imageAware instanceof ImageViewAware)) {
 			throw new IllegalArgumentException("ImageAware should wrap ImageView. ImageViewAware is expected.");
 		}
+		mDrawable = new RoundedDrawable(bitmap, cornerRadius, margin, imageAware.getScaleType(), angle);
+		imageAware.setImageDrawable(mDrawable);
 
-		imageAware.setImageDrawable(new RoundedDrawable(bitmap, cornerRadius, margin, imageAware.getScaleType()));
 	}
 
 	public static class RoundedDrawable extends Drawable {
-
+		protected float angle;
 		protected final float cornerRadius;
 		protected final int margin;
 
@@ -74,7 +83,7 @@ public class RoundedBitmapDisplayer implements BitmapDisplayer {
 		protected final Paint paint;
 		protected ViewScaleType mScaleType;
 
-		public RoundedDrawable(Bitmap bitmap, int cornerRadius, int margin, ViewScaleType scaleType) {
+		public RoundedDrawable(Bitmap bitmap, int cornerRadius, int margin, ViewScaleType scaleType, float angle) {
 			this.cornerRadius = cornerRadius;
 			this.margin = margin;
 
@@ -85,6 +94,7 @@ public class RoundedBitmapDisplayer implements BitmapDisplayer {
 			paint.setAntiAlias(true);
 			paint.setShader(bitmapShader);
 			mScaleType = scaleType;
+			this.angle = angle;
 		}
 
 		@Override
@@ -116,7 +126,7 @@ public class RoundedBitmapDisplayer implements BitmapDisplayer {
 			else{
 				shaderMatrix.setRectToRect(mBitmapRect, mRect, Matrix.ScaleToFit.FILL);
 			}
-
+			shaderMatrix.postRotate(angle, mRect.centerX(), mRect.centerY());
 			bitmapShader.setLocalMatrix(shaderMatrix);
 			
 		}

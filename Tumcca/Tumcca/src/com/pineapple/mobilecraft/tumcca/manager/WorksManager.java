@@ -100,7 +100,7 @@ public class WorksManager {
             return Album.fromJSON(jsonObject);
         }
         else{
-            return Album.NULL;
+            return Album.DEFAULT_ALBUM;
         }
     }
 

@@ -205,6 +205,8 @@
     <string name="crash_toast">crash信息已经复制到剪切板</string>
     <string name="batch_picture_description">批量添加图片说明</string>
     <string name="please_add_picture">请添加图片</string>
+    <string name="test">请添加图片</string>
+    <string name="delete_album">删除专辑</string>
 
 
 </resources>

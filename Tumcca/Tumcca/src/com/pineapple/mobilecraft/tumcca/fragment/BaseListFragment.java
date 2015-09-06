@@ -186,7 +186,7 @@ public class BaseListFragment<VH extends BaseListFragment.ListViewHolder>extends
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(mLayoutId, container, false);
-        buildView(view);
+        buildView(view, savedInstanceState);
         return view;
     }
 
@@ -194,7 +194,7 @@ public class BaseListFragment<VH extends BaseListFragment.ListViewHolder>extends
      * 子类重载此方法来进行扩展
      * @param view
      */
-    protected void buildView(View view){
+    protected void buildView(View view, Bundle savedInstanceState){
         //设置SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         if (mLoadMode == MODE_PULL_DRAG) {

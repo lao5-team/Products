@@ -288,7 +288,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 @Override
                 public void run() {
                     List<Album> albumList = WorksServer.getMyAlbumList(UserManager.getInstance().getCurrentToken(null));
-                    albumList.add(0, Album.DEFAULT_ALBUM);
+                    //albumList.add(0, Album.DEFAULT_ALBUM);
 
                     for(Album album:albumList){
                         List<WorksInfo> worksInfoList;

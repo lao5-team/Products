@@ -107,6 +107,8 @@ public class WorksServer {
                         albumList.add(Album.fromJSON(array.getJSONObject(i)));
                     }
 
+                    albumList.add(0, getAuthorAlbumById(UserManager.getInstance().getCurrentUserId(), 0));
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -121,7 +123,38 @@ public class WorksServer {
         return albumList;
     }
 
-    public static List<Album> getAuthorAlbumList(int authorId){
+    public static Album getAuthorAlbumById(long authorId, long albumId){
+        String url = host + "/api/album/" + albumId + "/author/" + authorId;
+        SyncHttpGet<Album> get = new SyncHttpGet<Album>(url, null) {
+            @Override
+            public Album postExcute(String result) {
+                Album album;
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    album = Album.fromJSON(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    album = Album.NULL;
+                }
+                return album;
+            }
+        };
+        Album album = get.execute();
+        if(album!=null){
+            return album;
+        }
+        else{
+            return Album.NULL;
+        }
+
+    }
+
+    /**
+     * 返回包含默认专辑的用户专辑列表
+     * @param authorId
+     * @return
+     */
+    public static List<Album> getAuthorAlbumList(final int authorId){
         String url = host + "/api/album/author/" + authorId;
         SyncHttpGet<List<Album>> get = new SyncHttpGet<List<Album>>(url, null) {
             @Override
@@ -133,6 +166,7 @@ public class WorksServer {
                     for(int i=0; i<array.length(); i++){
                         albumList.add(Album.fromJSON(array.getJSONObject(i)));
                     }
+                    albumList.add(0, getAuthorAlbumById(authorId, 0));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -199,7 +233,11 @@ public class WorksServer {
 
     public static boolean[] isWorksLiked(String token,final long [] ids){
         String url = host + "/api/like/works/islike";
-        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, null) {
+        JSONArray params = new JSONArray();
+        for(long id:ids){
+            params.put(id);
+        }
+        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, params.toString()) {
             @Override
             public boolean[] postExcute(String result) {
                 boolean[] results = {};
@@ -235,7 +273,7 @@ public class WorksServer {
         return true;
     }
 
-    public static boolean dislikeWork(String token, String workId){
+    public static boolean disLikeWork(String token, String workId){
         String url = host + "/api/like/" + workId;
         SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
             @Override
@@ -282,7 +320,11 @@ public class WorksServer {
 
     public static boolean[] isWorksCollected(String token,final long [] ids){
         String url = host + "/api/collect/works/iscollect";
-        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, null) {
+        JSONArray params = new JSONArray();
+        for(long id:ids){
+            params.put(id);
+        }
+        SyncHttpPost<boolean[]> post = new SyncHttpPost<boolean[]>(url, token, params.toString()) {
             @Override
             public boolean[] postExcute(String result) {
                 boolean[] results = {};
@@ -318,7 +360,7 @@ public class WorksServer {
         return true;
     }
 
-    public static boolean discollectWork(String token, long workId){
+    public static boolean disCollectWork(String token, long workId){
         String url = host + "/api/collect/" + workId;
         SyncHttpDelete<String> post = new SyncHttpDelete<String>(url, token) {
             @Override

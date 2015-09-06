@@ -1,6 +1,8 @@
 package com.pineapple.mobilecraft.tumcca.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 8/24/15.
@@ -117,6 +120,8 @@ public class AlbumAdapter extends BaseAdapter{
         bindLikeCollect(view, album);
 
         bindAlbum(view, album);
+
+        bindDelete(view, album);
         return view;
     }
 
@@ -132,7 +137,7 @@ public class AlbumAdapter extends BaseAdapter{
         });
     }
 
-    public void bindLikeCollect(View view, final Album album){
+    private void bindLikeCollect(View view, final Album album){
         RelativeLayout layout_like = (RelativeLayout) view.findViewById(R.id.layout_like);
         if(album.author == UserManager.getInstance().getCurrentUserId()){
             layout_like.setVisibility(View.GONE);
@@ -206,5 +211,45 @@ public class AlbumAdapter extends BaseAdapter{
             }
         });
 
+    }
+
+    private void bindDelete(View view, final Album album){
+        LinearLayout layoutImage = (LinearLayout)view.findViewById(R.id.layout_image);
+
+        layoutImage.setLongClickable(true);
+        if(album.author == UserManager.getInstance().getCurrentUserId()&&album.id!=Album.DEFAULT_ID){
+            layoutImage.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    final View viewDialog = mActivity.getLayoutInflater().inflate(R.layout.dialog_album, null);
+                    final AlertDialog dialog = new AlertDialog.Builder(mActivity).setView(viewDialog).create();
+                    viewDialog.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Executors.newSingleThreadExecutor().submit(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.dismiss();
+                                    WorksServer.removeAlbum(UserManager.getInstance().getCurrentToken(null), album.id);
+                                    mActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent();
+                                            intent.setAction("remove_album");
+                                            intent.putExtra("id", album.id);
+                                            mActivity.sendBroadcast(intent);
+                                            notifyDataSetChanged();
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
+                    });
+                    dialog.show();
+                    return false;
+                }
+            });
+        }
     }
 }

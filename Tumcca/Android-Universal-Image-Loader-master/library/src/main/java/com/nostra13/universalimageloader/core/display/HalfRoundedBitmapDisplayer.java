@@ -40,7 +40,7 @@ public class HalfRoundedBitmapDisplayer implements BitmapDisplayer {
     public static class HalfRoundedBitmapDrawable extends RoundedBitmapDisplayer.RoundedDrawable {
 
         public HalfRoundedBitmapDrawable(Bitmap bitmap, int cornerRadius, int margin, ViewScaleType scaleType) {
-            super(bitmap, cornerRadius, margin, scaleType);
+            super(bitmap, cornerRadius, margin, scaleType, 0);
         }
 
         @Override

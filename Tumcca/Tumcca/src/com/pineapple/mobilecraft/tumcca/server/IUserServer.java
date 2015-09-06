@@ -42,6 +42,9 @@ public interface IUserServer {
             catch (JsonSyntaxException exception){
                 exception.printStackTrace();
             }
+            if(result.uid.equals("-1")){
+                result = NULL;
+            }
             return result;
         }
 

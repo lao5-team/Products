@@ -46,14 +46,18 @@ public class Album {
 
     public static Album NULL = new Album();
 
+    public static long DEFAULT_ID = 0;
+
     public static Album DEFAULT_ALBUM = new Album(TumccaApplication.applicationContext.getString(R.string.default_album),
-            "", 0);
+            "", DEFAULT_ID);
+
+
 
     public Album(){
 
     }
 
-    public Album(String title, String description, int id){
+    public Album(String title, String description, long id){
         this.title = title;
         this.description = description;
         this.id = id;

@@ -161,7 +161,7 @@ public class PictureEditActivity2 extends Activity implements GestureDetector.On
 
             //ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             //ivPic.setLayoutParams(params);
-            String path = Uri.fromFile(new File(picture.localPath)).toString();
+            String path = "file://" + Uri.fromFile(new File(picture.localPath)).getPath();
             ImageLoader.getInstance().displayImage(path, imageView, mImageOptionsWorks);
             imageView.setRotation(picture.rotArc);
             viewFlipper.addView(view);

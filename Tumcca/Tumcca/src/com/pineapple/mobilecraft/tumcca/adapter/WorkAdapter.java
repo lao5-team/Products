@@ -88,8 +88,9 @@ public class WorkAdapter extends BaseAdapter {
         public void bindWork(int position, ViewGroup parent) {
             PictureInfo pictureInfo = mWorksInfoList.get(position).picInfo;
             //预先用图片的尺寸对imageView进行布局
+            int width = (parent.getWidth() - 60)/2;
             RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(
-                    parent.getWidth() / 2, parent.getWidth() * pictureInfo.height / (2 * pictureInfo.width));
+                    width, width * pictureInfo.height / ( pictureInfo.width));
             ivPic.setLayoutParams(param);
 
             String imageUrl = PictureServer.getInstance().getPictureUrl(mWorksInfoList.get(position).picInfo.id);

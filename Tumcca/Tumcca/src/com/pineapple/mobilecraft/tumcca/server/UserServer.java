@@ -439,6 +439,23 @@ public class UserServer implements IUserServer {
         return get.execute();
     }
 
+    public int getAuthorFollowers(long authorId){
+        String url = mHost + "/api/follow/count/fan/author/" + authorId;
+        SyncHttpGet<Integer> get = new SyncHttpGet<Integer>(url, null) {
+            @Override
+            public Integer postExcute(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    return jsonObject.getInt("count");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
+        };
+        return get.execute();
+    }
+
     public void followUser(String token, long authorId, long toFollow){
         String url = mHost + "/api/follow";
         JSONObject jsonObject = new JSONObject();

@@ -97,7 +97,7 @@ public class LoginActivity extends Activity {
                 public void run() {
                     final IUserServer.LoginResult loginResult = UserManager.getInstance().login(username, password);
                     List<Album> albumList = WorksServer.getMyAlbumList(com.pineapple.mobilecraft.tumcca.manager.UserManager.getInstance().getCurrentToken(null));
-                    albumList.add(0, Album.DEFAULT_ALBUM);
+                    //albumList.add(0, Album.DEFAULT_ALBUM);
                     WorksManager.getInstance().setMyAlbumList(albumList);
                     try {
                         Thread.currentThread().sleep(1000);
@@ -108,7 +108,7 @@ public class LoginActivity extends Activity {
                         @Override
                         public void run() {
 
-                            if (null != loginResult) {
+                            if (IUserServer.LoginResult.NULL != loginResult) {
 
                                 Toast.makeText(LoginActivity.this, getString(R.string.login_successed), Toast.LENGTH_SHORT).show();
                                 //Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
@@ -116,11 +116,13 @@ public class LoginActivity extends Activity {
 
                                 setResult(RESULT_OK);
                                 mLoginResult = true;
-                                finish();
-                                pd.dismiss();
+
                             } else {
                                 Toast.makeText(LoginActivity.this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
+
                             }
+                            finish();
+                            pd.dismiss();
 
                         }
                     });

@@ -25,9 +25,7 @@ import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.mediator.IMyScrollViewListener;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
-import com.pineapple.mobilecraft.tumcca.server.UserServer;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
-import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import com.pineapple.mobilecraft.tumcca.view.ObservableScrollView;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,31 +47,38 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
     private ImageView mIvWorks;
 
     //private ListView mLvComments; //普通评论和专家点评用一个ListView，用两种不同的adapter
-    private ObservableScrollView scrollView;
-    DisplayImageOptions mImageOptions;
-    ImageLoader mImageLoader;
+    private ObservableScrollView mScrollView;
+    private DisplayImageOptions mImageOptions;
+    private ImageLoader mImageLoader;
 
     //发表评论的按钮和编辑框
-    private RelativeLayout bottom;
+    private RelativeLayout mLayoutBottom;
     private Button mBtnComment;
     private EditText mEtxComment;
     private CheckBox mCBIdentify;
-    private LinearLayout funcLay;
-    private RelativeLayout replyButton;
-    private RelativeLayout collectButton;
-    private RelativeLayout excellentButton;
-    private TextView replyNumTxt;
-    private TextView excellentNumTxt;
-    private ImageView excellentImg;
-    private TextView excellentTv;
-    private ImageView collectionImg;
+    private LinearLayout mFuncLay;
+    private RelativeLayout mReplyButton;
+    private RelativeLayout mCollectButton;
+    private RelativeLayout mExcellentButton;
+    private TextView mReplyNumTxt;
+    private TextView mExcellentNumTxt;
+    private ImageView mExcellentImg;
+    private TextView mExcellentTv;
+    private ImageView mCollectionImg;
 
 
     private WorksInfo mWorks = WorksInfo.NULL;
     private Profile mProfile = Profile.NULL;
 
     private ListView mLVComment;
-    List<Comment> mCommentList = new ArrayList<Comment>();
+
+    private CommentAdapter mCommentAdapter = new CommentAdapter();
+    private long mReplyTarget;
+    private List<Comment> mCommentList = new ArrayList<Comment>();
+
+    private boolean mIsLiked = false;
+    private boolean mIsCollected = false;
+
     public static void startActivity(WorksInfo worksInfo, Activity activity) {
         Intent intent = new Intent(activity, WorkDetailActivity.class);
         intent.putExtra("works", WorksInfo.toJSON(worksInfo).toString() );
@@ -103,9 +108,9 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 .build();
         mImageLoader = ImageLoader.getInstance();
 
-        scrollView = (ObservableScrollView)this.findViewById(R.id.scrollView);
-        scrollView.setMyScrollViewListener(this);
-        scrollView.setOnTouchListener(this);
+        mScrollView = (ObservableScrollView)this.findViewById(R.id.scrollView);
+        mScrollView.setMyScrollViewListener(this);
+        mScrollView.setOnTouchListener(this);
         mTvUser = (TextView) findViewById(R.id.textView_author);
         mTvUser.setText(mProfile.pseudonym);
 
@@ -116,25 +121,10 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
         mTvTitle.setText(mWorks.title);
 
         //初始化底部功能栏
-        bottom = (RelativeLayout)this.findViewById(R.id.bottom);
-        funcLay = (LinearLayout)this.findViewById(R.id.funcLay);
-        replyButton = (RelativeLayout) findViewById(R.id.reply_layout);
-        collectButton = (RelativeLayout) findViewById(R.id.collection_layout);
-        excellentButton = (RelativeLayout) findViewById(R.id.excellent_layout);
-        replyNumTxt = (TextView) findViewById(R.id.relpy_num_text);
-        excellentNumTxt = (TextView) findViewById(R.id.excellent_num_text);
-        excellentImg = (ImageView) findViewById(R.id.excellent_img);
-        collectionImg = (ImageView) findViewById(R.id.collection_img);
-        replyButton.setOnClickListener(this);
-        collectButton.setOnClickListener(this);
-        excellentButton.setOnClickListener(this);
+        addBottomView();
+
 
         WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
-
-//        int width = wm.getDefaultDisplay().getWidth();
-//        int height = wm.getDefaultDisplay().getHeight();
-
-        //RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width-30, mWorks.picInfo.height * width / mWorks.picInfo.width);
 
         mIvWorks = (ImageView) findViewById(R.id.imageView_works);
         //mIvWorks.setLayoutParams(params);
@@ -155,13 +145,57 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        setHeight();
+                        setCommentHeight();
                         mCommentAdapter.notifyDataSetChanged();
                     }
                 });
             }
         });
 
+    }
+
+    private void addBottomView() {
+        mLayoutBottom = (RelativeLayout)this.findViewById(R.id.bottom);
+        mFuncLay = (LinearLayout)this.findViewById(R.id.funcLay);
+        mReplyButton = (RelativeLayout) findViewById(R.id.reply_layout);
+        mCollectButton = (RelativeLayout) findViewById(R.id.collection_layout);
+        mExcellentButton = (RelativeLayout) findViewById(R.id.excellent_layout);
+        mReplyNumTxt = (TextView) findViewById(R.id.relpy_num_text);
+        mExcellentNumTxt = (TextView) findViewById(R.id.excellent_num_text);
+        mExcellentImg = (ImageView) findViewById(R.id.excellent_img);
+        mCollectionImg = (ImageView) findViewById(R.id.collection_img);
+        mReplyButton.setOnClickListener(this);
+        mCollectButton.setOnClickListener(this);
+        mExcellentButton.setOnClickListener(this);
+
+        Executors.newSingleThreadExecutor().submit(new Runnable() {
+            @Override
+            public void run() {
+                long [] ids = {mWorks.id};
+                boolean[] likeList = WorksServer.isWorksLiked(UserManager.getInstance().getCurrentToken(null), ids);
+                if(likeList!=null&&likeList.length>0){
+                    mIsLiked = likeList[0];
+                }
+
+                boolean[] collectList = WorksServer.isWorksCollected(UserManager.getInstance().getCurrentToken(null), ids);
+                if(collectList!=null&&collectList.length>0){
+                    mIsCollected = collectList[0];
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(mIsLiked){
+                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_recomment));
+                        }
+
+                        if(mIsCollected){
+                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
+                        }
+                    }
+                });
+            }
+        });
     }
 
 
@@ -172,8 +206,8 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
             case R.id.reply_layout:
                 if(UserManager.getInstance().isLogin())
                 {
-                    bottom.setVisibility(View.VISIBLE);
-                    funcLay.setVisibility(View.GONE);
+                    mLayoutBottom.setVisibility(View.VISIBLE);
+                    mFuncLay.setVisibility(View.GONE);
                 }
                 else{
                     UserManager.getInstance().requestLogin();
@@ -185,13 +219,26 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 if(UserManager.getInstance().isLogin())
                 {
                     int userId = UserManager.getInstance().getCurrentUserId();
-                    boolean ret = WorksServer.collectWorks(UserManager.getInstance().getCurrentToken(null), mWorks.id, userId);
-                    if(ret)
-                    {
-                        collectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
-                        Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
-                        collectionImg.startAnimation(anim);
+                    if(mIsCollected){
+                        boolean ret = WorksServer.disCollectWork(UserManager.getInstance().getCurrentToken(null), mWorks.id);
+                        if(ret)
+                        {
+                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection));
+                            Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
+                            mCollectionImg.startAnimation(anim);
+                        }
                     }
+                    else{
+
+                        boolean ret = WorksServer.collectWorks(UserManager.getInstance().getCurrentToken(null), mWorks.id, userId);
+                        if(ret)
+                        {
+                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
+                            Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
+                            mCollectionImg.startAnimation(anim);
+                        }
+                    }
+
                 }
                 else
                 {
@@ -203,13 +250,25 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 if(UserManager.getInstance().isLogin())
                 {
                     int userId = UserManager.getInstance().getCurrentUserId();
-                    boolean ret = WorksServer.likeWorks(UserManager.getInstance().getCurrentToken(null), String.valueOf(mWorks.id), String.valueOf(userId));
-                    if(ret)
-                    {
-                        excellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_recomment));
-                        Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
-                        excellentImg.startAnimation(anim);
+                    if(mIsCollected){
+                        boolean ret = WorksServer.disLikeWork(UserManager.getInstance().getCurrentToken(null), String.valueOf(mWorks.id));
+                        if(ret)
+                        {
+                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_excellent));
+                            Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
+                            mExcellentImg.startAnimation(anim);
+                        }
                     }
+                    else{
+                        boolean ret = WorksServer.likeWorks(UserManager.getInstance().getCurrentToken(null), String.valueOf(mWorks.id), String.valueOf(userId));
+                        if(ret)
+                        {
+                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_recomment));
+                            Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
+                            mExcellentImg.startAnimation(anim);
+                        }
+                    }
+
                 }
                 else
                 {
@@ -222,37 +281,37 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if(bottom.getVisibility() == View.VISIBLE)
+        if(mLayoutBottom.getVisibility() == View.VISIBLE)
         {
-            bottom.setVisibility(View.GONE);
-            funcLay.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.GONE);
+            mFuncLay.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onScrollStateChanged(AbsListView absListView, int i) {
-        if(bottom.getVisibility() == View.VISIBLE)
+        if(mLayoutBottom.getVisibility() == View.VISIBLE)
         {
-            bottom.setVisibility(View.GONE);
-            funcLay.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.GONE);
+            mFuncLay.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-        if(bottom.getVisibility() == View.VISIBLE)
+        if(mLayoutBottom.getVisibility() == View.VISIBLE)
         {
-            bottom.setVisibility(View.GONE);
-            funcLay.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.GONE);
+            mFuncLay.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if(bottom.getVisibility() == View.VISIBLE)
+        if(mLayoutBottom.getVisibility() == View.VISIBLE)
         {
-            bottom.setVisibility(View.GONE);
-            funcLay.setVisibility(View.VISIBLE);
+            mLayoutBottom.setVisibility(View.GONE);
+            mFuncLay.setVisibility(View.VISIBLE);
         }
         return false;
     }
@@ -353,8 +412,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
         }
     }
 
-    CommentAdapter mCommentAdapter = new CommentAdapter();
-    long mReplyTarget;
+
     private void addCommentView(ListView expandListView){
 
         mBtnComment = (Button) findViewById(R.id.submit_comment);
@@ -370,7 +428,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                             @Override
                             public void run() {
                                 exitCommentMode();
-                                setHeight();
+                                setCommentHeight();
                                 mCommentAdapter.notifyDataSetChanged();
                             }
                         });
@@ -401,7 +459,7 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
         });
 
         mLVComment.setAdapter(mCommentAdapter);
-        setHeight();
+        setCommentHeight();
         mLVComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -417,24 +475,24 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
 
 //    private void addComment(Comment comment){
 //        mCommentList.add(comment);
-//        setHeight();
+//        setCommentHeight();
 //        mCommentAdapter.notifyDataSetChanged();
 //    }
 
     private void enterCommentMode(long replyTarget, String replyAuthorName){
         mReplyTarget = replyTarget;
-        bottom.setVisibility(View.VISIBLE);
-        funcLay.setVisibility(View.GONE);
+        mLayoutBottom.setVisibility(View.VISIBLE);
+        mFuncLay.setVisibility(View.GONE);
 
     }
 
     private void exitCommentMode(){
-        bottom.setVisibility(View.GONE);
-        funcLay.setVisibility(View.VISIBLE);
+        mLayoutBottom.setVisibility(View.GONE);
+        mFuncLay.setVisibility(View.VISIBLE);
         mReplyTarget = 0;
     }
 
-    public void setHeight(){
+    public void setCommentHeight(){
         int listViewHeight = 0;
         int adaptCount = mCommentAdapter.getCount();
         for(int i=0;i<adaptCount;i++){

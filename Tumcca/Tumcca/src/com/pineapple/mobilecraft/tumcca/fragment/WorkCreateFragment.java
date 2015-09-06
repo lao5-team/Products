@@ -1,17 +1,23 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.activity.PhotoChoose;
 import com.pineapple.mobilecraft.tumcca.activity.PictureEditActivity2;
@@ -23,6 +29,7 @@ import com.pineapple.mobilecraft.tumcca.manager.WorksManager;
 import com.pineapple.mobilecraft.tumcca.server.PictureServer;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import com.pineapple.mobilecraft.tumcca.utility.Utility;
+import com.pineapple.mobilecraft.widget.RotateImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +38,7 @@ import java.util.List;
 
 /**
  * Created by yihao on 8/18/15.
- *
+ * <p/>
  * facebook风格的图片创建列表
  * 输入参数，图库中的图片列表
  */
@@ -47,9 +54,9 @@ public class WorkCreateFragment extends BaseListFragment {
     boolean mIsBatch = false;
     private String mDescBatch = "";  //批量处理使用的图片说明
     private Uri mPhotoUri;
-    private String[] bigNum={"一","二","三","四","五","六","七","八","九"};
+    private String[] bigNum = {"一", "二", "三", "四", "五", "六", "七", "八", "九"};
 
-    public WorkCreateFragment(){
+    public WorkCreateFragment() {
         setLayout(R.layout.fragment_works_create);
 
         setItemLoader(new ItemLoader() {
@@ -70,25 +77,24 @@ public class WorkCreateFragment extends BaseListFragment {
     }
 
     @Override
-    public void buildView(View view){
-        super.buildView(view);
+    public void buildView(View view, Bundle savedInstanceState) {
+        super.buildView(view, savedInstanceState);
 
         addAlbumView(view);
 
         addAddPhotoView(view);
     }
 
-    public Uri getPhotoUri(){
+    public Uri getPhotoUri() {
         return mPhotoUri;
     }
 
 
-
     //设置图片
-    public void setPictures(List<Picture> pictureList){
-        if(null!=pictureList){
+    public void setPictures(List<Picture> pictureList) {
+        if (null != pictureList) {
             mWorkItems.clear();
-            for(Picture picture:pictureList){
+            for (Picture picture : pictureList) {
                 WorkCreateItem item = new WorkCreateItem();
                 item.id = mWorkItems.size();
                 item.picture = picture;
@@ -98,9 +104,9 @@ public class WorkCreateFragment extends BaseListFragment {
     }
 
     //添加图片
-    public void addPictures(List<Picture> pictureList){
-        if(null!=pictureList){
-            for(Picture picture:pictureList){
+    public void addPictures(List<Picture> pictureList) {
+        if (null != pictureList) {
+            for (Picture picture : pictureList) {
                 WorkCreateItem item = new WorkCreateItem();
                 item.id = mWorkItems.size();
                 item.picture = picture;
@@ -111,11 +117,11 @@ public class WorkCreateFragment extends BaseListFragment {
     }
 
     //更新图片
-    public void updatePicture(List<Picture> pictures){
-        if(null!=pictures){
-            for(WorkCreateItem item: mWorkItems){
-                for(Picture picture:pictures){
-                    if(item.picture.id == picture.id){
+    public void updatePicture(List<Picture> pictures) {
+        if (null != pictures) {
+            for (WorkCreateItem item : mWorkItems) {
+                for (Picture picture : pictures) {
+                    if (item.picture.id == picture.id) {
                         item.picture = picture;
                     }
                 }
@@ -124,29 +130,29 @@ public class WorkCreateFragment extends BaseListFragment {
         }
     }
 
-    public void setService(TumccaService service){
+    public void setService(TumccaService service) {
         mTumccaService = service;
     }
 
-    private void removeItem(WorkCreateItem item){
+    private void removeItem(WorkCreateItem item) {
         mWorkItems.remove(item);
         clear();
     }
 
-    public void submitWorks(){
-        if(mWorkItems.isEmpty()){
-            Toast.makeText(getActivity(), getString(R.string.please_add_picture),Toast.LENGTH_SHORT).show();
+    public void submitWorks() {
+        if (mWorkItems.isEmpty()) {
+            Toast.makeText(getActivity(), getString(R.string.please_add_picture), Toast.LENGTH_SHORT).show();
             return;
         }
 
         List<Picture> pictures = new ArrayList<Picture>();
         List<Works> workses = new ArrayList<Works>();
-        for(int i=0; i< mWorkItems.size(); i++){
+        for (int i = 0; i < mWorkItems.size(); i++) {
 
             Works works = new Works();
             works.title = mWorkItems.get(i).desc;
-            if(TextUtils.isEmpty(works.title)){
-                Toast.makeText(getActivity(), getString(R.string.please_enter_description),Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(works.title)) {
+                Toast.makeText(getActivity(), getString(R.string.please_enter_description), Toast.LENGTH_SHORT).show();
                 return;
             }
             works.albumId = mAlbum.id;
@@ -159,10 +165,10 @@ public class WorkCreateFragment extends BaseListFragment {
     }
 
     /**
-     *  添加专辑视图
+     * 添加专辑视图
      */
-    private void addAlbumView(View view){
-        mLayoutAlbum = (RelativeLayout)view.findViewById(R.id.layout_choose_album);
+    private void addAlbumView(View view) {
+        mLayoutAlbum = (RelativeLayout) view.findViewById(R.id.layout_choose_album);
         mLayoutAlbum.setClickable(true);
         mLayoutAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +186,7 @@ public class WorkCreateFragment extends BaseListFragment {
     /**
      * 弹出专辑选择对话框
      */
-    private void showAlbumSelectDialog(){
+    private void showAlbumSelectDialog() {
         AlbumSelectFragment fragment = new AlbumSelectFragment();
         fragment.setAlbumSelectListener(new AlbumSelectFragment.OnAlbumSelectListener() {
             @Override
@@ -195,13 +201,14 @@ public class WorkCreateFragment extends BaseListFragment {
 
     /**
      * 专辑被选择时做的处理
+     *
      * @param album
      */
-    private void setSelectedAlbum(Album album){
+    private void setSelectedAlbum(Album album) {
         mAlbum = album;
         mTvAlbumTitle.setText(album.title);
-        List<Integer>cover = album.cover;
-        if(null!=cover&&cover.size()>0){
+        List<Integer> cover = album.cover;
+        if (null != cover && cover.size() > 0) {
             ImageLoader imageLoader = ImageLoader.getInstance();
             imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(cover.get(0), 48, 1), mIvAlbumCover, mImageOptionsWorks);
         }
@@ -226,10 +233,13 @@ public class WorkCreateFragment extends BaseListFragment {
     /**
      *
      */
-    private  class WorkCreateItem implements ListItem{
+    private class WorkCreateItem implements ListItem {
         String desc;
         Picture picture;
         long id;
+        int width = 0;
+        int height = 0;
+
         //String index = "";
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -248,14 +258,14 @@ public class WorkCreateFragment extends BaseListFragment {
             }
         };
 
-        public void editPic(){
+        public void editPic() {
             //拉起图片编辑页面
             List<Picture> pictures = new ArrayList<Picture>();
             pictures.add(picture);
             PictureEditActivity2.startActivity(getActivity(), WorksCreateActivity2.REQ_PIC_EDIT, pictures, 0);
         }
 
-        public void removeSelf(){
+        public void removeSelf() {
             //调用fragment删除自己
             WorkCreateFragment.this.removeItem(this);
         }
@@ -263,11 +273,49 @@ public class WorkCreateFragment extends BaseListFragment {
 
         @Override
         public void bindViewHolder(ListViewHolder viewHolder) {
-            final PhotoEditViewHolder vh = (PhotoEditViewHolder)viewHolder;
+            final PhotoEditViewHolder vh = (PhotoEditViewHolder) viewHolder;
             //显示图片
-            String path = Uri.fromFile(new File(picture.localPath)).toString();
-            ImageLoader.getInstance().displayImage(path, vh.mIvPic, mImageOptionsWorks);
-            vh.mIvPic.setRotation(picture.rotArc);
+            String path = "file://" + Uri.fromFile(new File(picture.localPath)).getPath();
+            RoundedBitmapDisplayer displayer = (RoundedBitmapDisplayer) mImageOptionsWorks.getDisplayer();
+            displayer.setRotation(picture.rotArc);
+            ImageLoader.getInstance().displayImage(path, vh.mIvPic, mImageOptionsWorks, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    if (Math.abs(picture.rotArc - 0) < 0.000001) {
+                        height = vh.mIvPic.getMeasuredHeight();
+                        width = vh.mIvPic.getMeasuredWidth();
+                    }
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+
+                }
+            });
+
+            if (width != 0 && height != 0) {
+                if (((int) picture.rotArc) % 180 == 90) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mIvPic.getLayoutParams();
+                    params.height = width;//vh.mLayout.getMeasuredWidth();
+                    params.width = height;//params.height*vh.mIvPic.getDrawable().getBounds().height()/vh.mIvPic.getDrawable().getBounds().width();
+                    vh.mIvPic.setLayoutParams(params);
+                } else if (((int) picture.rotArc) % 180 == 0) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) vh.mIvPic.getLayoutParams();
+                    params.height = height;
+                    params.width = width;
+                    vh.mIvPic.setLayoutParams(params);
+                }
+            }
 
             //绑定图片编辑
             vh.mTvPictureEdit.setOnClickListener(new View.OnClickListener() {
@@ -291,25 +339,24 @@ public class WorkCreateFragment extends BaseListFragment {
 
             vh.mEtxDesc.addTextChangedListener(textWatcher);
             vh.mEtxDesc.setTag(textWatcher);
-            if(mIsBatch){
-                vh.mEtxDesc.setText(mDescBatch + " " + bigNum[mWorkItems.indexOf(WorkCreateItem.this)]);
-            }
-            else{
-                vh.mEtxDesc.setText(desc);
-            }
+//            if (mIsBatch) {
+//                vh.mEtxDesc.setText(mDescBatch + " " + bigNum[mWorkItems.indexOf(WorkCreateItem.this)]);
+//            } else {
+            vh.mEtxDesc.setText(desc);
+//            }
 
             //绑定批量图片说明
-            if(mWorkItems.indexOf(WorkCreateItem.this)==0){
+            if (mWorkItems.indexOf(WorkCreateItem.this) == 0) {
                 vh.mCBxBatch.setVisibility(View.VISIBLE);
                 vh.mCBxBatch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
+                        if (isChecked) {
                             mIsBatch = true;
                             mDescBatch = desc;
+                            applyBatch();
                             refresh();
-                        }
-                        else{
+                        } else {
                             mIsBatch = false;
                             desc = mDescBatch;
                             refresh();
@@ -327,8 +374,7 @@ public class WorkCreateFragment extends BaseListFragment {
                     }
 
                 });
-            }
-            else{
+            } else {
                 vh.mCBxBatch.setVisibility(View.GONE);
             }
 
@@ -345,20 +391,29 @@ public class WorkCreateFragment extends BaseListFragment {
         }
     }
 
-    private static class PhotoEditViewHolder extends ListViewHolder{
+    private static class PhotoEditViewHolder extends ListViewHolder {
 
         public TextView mTvPictureEdit;
         public EditText mEtxDesc;
-        public ImageView mIvPic;
+        public RotateImageView mIvPic;
         public ImageButton mIbDelete;
         public CheckBox mCBxBatch;
+        public RelativeLayout mLayout;
+
         public PhotoEditViewHolder(View itemView) {
             super(itemView);
             mTvPictureEdit = (TextView) itemView.findViewById(R.id.textView_edit);
             mEtxDesc = (EditText) itemView.findViewById(R.id.editText_desc);
-            mIvPic = (ImageView) itemView.findViewById(R.id.imageView_pic);
+            mIvPic = (RotateImageView) itemView.findViewById(R.id.imageView_pic);
             mIbDelete = (ImageButton) itemView.findViewById(R.id.imageButton_delete);
             mCBxBatch = (CheckBox) itemView.findViewById(R.id.checkBox_batch);
+            mLayout = (RelativeLayout) itemView;
+        }
+    }
+
+    private void applyBatch(){
+        for (WorkCreateItem item:mWorkItems){
+            item.desc = mDescBatch  + " " + bigNum[mWorkItems.indexOf(item)];
         }
     }
 }

@@ -139,7 +139,7 @@ public class PictureEditActivity extends Activity implements GestureDetector.OnG
         int index = mVF.getDisplayedChild();
         Picture picture = mPictureList.get(index);
         picture.localPath = Utility.rotateImage(picture.localPath, 90);
-        String path = Uri.fromFile(new File(picture.localPath)).toString();
+        String path = "file://" + Uri.fromFile(new File(picture.localPath)).getPath();
         ImageLoader.getInstance().displayImage(path, (ImageView) mVF.getCurrentView().findViewById(R.id.imageView), mImageOptionsWorks);
     }
 

@@ -1,10 +1,13 @@
 package com.photoselector.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -20,6 +23,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.photoselector.R;
 import com.photoselector.model.PhotoModel;
 
+import java.util.concurrent.Executors;
+
 /**
  * @author Aizaz AZ
  *
@@ -28,19 +33,16 @@ import com.photoselector.model.PhotoModel;
 public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 		OnLongClickListener {
 
-	static DisplayImageOptions options = new DisplayImageOptions.Builder()
-			.showImageOnLoading(R.drawable.ic_picture_loading)
-	.showImageOnFail(R.drawable.ic_picture_loadfailed)
-	.cacheInMemory(true).cacheOnDisk(true).imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
-	.resetViewBeforeLoading(true).considerExifParams(false)
-	.bitmapConfig(Bitmap.Config.RGB_565).build();
+
+	static DisplayImageOptions options;
 	private ImageView ivPhoto;
 	private CheckBox cbPhoto;
 	private onPhotoItemCheckedListener listener;
 	private PhotoModel photo;
 	private boolean isCheckAll;
 	private onItemClickListener l;
-	private int position;	
+	private int position;
+	private AsyncTask mTask;
 
 	private PhotoItem(Context context) {
 		super(context);
@@ -58,6 +60,16 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 		cbPhoto = (CheckBox) findViewById(R.id.cb_photo_lpsi);
 
 		cbPhoto.setOnCheckedChangeListener(this); // CheckBoxѡ��״̬�ı������
+		BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
+		factoryOptions.inSampleSize = 4;
+		options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(R.drawable.ic_picture_loading)
+				.showImageOnFail(R.drawable.ic_picture_loadfailed)
+				.cacheInMemory(true).cacheOnDisk(true).imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
+				.resetViewBeforeLoading(true).considerExifParams(false).decodingOptions(factoryOptions)
+				.bitmapConfig(Bitmap.Config.RGB_565).build();
+
+
 	}
 
 	@Override
@@ -90,21 +102,56 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 		 * "file://" + photo.getOriginalPath(), ivPhoto); } }, new
 		 * Random().nextInt(10));
 		 */
-		if(ivPhoto.getTag()==null||!ivPhoto.getTag().equals(photo.getOriginalPath())){
-			if(null!=ivPhoto.getDrawable()){
-				Bitmap bitmap = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
-				if(bitmap!=null&&!bitmap.isRecycled()){
-					ivPhoto.setImageDrawable(null);
-					//bitmap.recycle();
-					//ivPhoto.setImageBitmap();
+//		Executors.newSingleThreadExecutor().submit(new Runnable() {
+//			@Override
+//			public void run() {
+		if(mTask!=null){
+			mTask.cancel(true);
+		}
+		AsyncTask<String, String, BitmapFactory.Options> task = new AsyncTask<String, String, BitmapFactory.Options>() {
+			@Override
+			protected BitmapFactory.Options doInBackground(String... params) {
+				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+				bitmapOptions.inJustDecodeBounds = true;
+				BitmapFactory.decodeFile(photo.getOriginalPath(), bitmapOptions);
+				options.getDecodingOptions().inSampleSize = Math.max(bitmapOptions.outWidth/200, bitmapOptions.outHeight/200);
+				return bitmapOptions;
+			}
+
+			@Override
+			protected void onPostExecute(BitmapFactory.Options result) {
+				//之前没有图片链接
+				if(null==ivPhoto.getTag()){
+					ImageLoader.getInstance().displayImage(
+							"file://" + photo.getOriginalPath(), ivPhoto, options);
+					ivPhoto.setTag(photo.getOriginalPath());
+				}
+				//之前的图片链接和现在不一致
+				else if(!ivPhoto.getTag().equals(photo.getOriginalPath())){
+					if(null!=ivPhoto.getDrawable()){
+						Bitmap bitmap = ((BitmapDrawable)ivPhoto.getDrawable()).getBitmap();
+						if(bitmap!=null&&!bitmap.isRecycled()){
+							//ivPhoto.setImageDrawable(null);
+							//bitmap.recycle();
+						}
+					}
+
+					ImageLoader.getInstance().displayImage(
+							"file://" + photo.getOriginalPath(), ivPhoto, options);
+					ivPhoto.setTag(photo.getOriginalPath());
+
 
 				}
 			}
-			ImageLoader.getInstance().displayImage(
-					"file://" + photo.getOriginalPath(), ivPhoto, options);
-			ivPhoto.setTag(photo.getOriginalPath());
-			//System.gc();
-		}
+		};
+
+		task.execute("");
+		mTask = task;
+
+
+//			}
+//		});
+
 
 		photo.photoView = this;
 

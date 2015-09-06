@@ -67,19 +67,6 @@ public class UserActivity extends FragmentActivity {
         final ActionBar actionBar = getActionBar();
         if (null != actionBar) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-
-//            actionBar.setDisplayOptions(
-//                    ActionBar.DISPLAY_SHOW_CUSTOM,
-//                    ActionBar.DISPLAY_SHOW_CUSTOM);
-//            View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_user, null);
-//            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.MATCH_PARENT);
-//            lp.gravity = Gravity.END;
-//            actionBar.setCustomView(customActionBarView, lp);
-
-
-
         }
         mAuthorId = getIntent().getIntExtra("authorId", -1);
         if (-1 == mAuthorId) {

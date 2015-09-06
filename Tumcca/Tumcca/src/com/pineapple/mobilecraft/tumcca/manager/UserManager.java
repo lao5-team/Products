@@ -83,19 +83,11 @@ public class UserManager {
 	 */
 	public IUserServer.LoginResult login(String userName, String password)
 	{
-		IUserServer.LoginResult loginResult =  mUserServer.login(userName, password);
-		if(null!=loginResult&&null!=loginResult.uid){
-			//mCurrentUid = loginResult.uid;
-			//mCurrentToken = loginResult.token;
-			//saveLoginInfo(userName, password);
-
-			//cache token and uid
+		IUserServer.LoginResult loginResult = mUserServer.login(userName, password);
+		if(loginResult!=IUserServer.LoginResult.NULL) {
 			mAccountCache.putItem("cache_login", IUserServer.LoginResult.toJSON(loginResult));
-			return loginResult;
 		}
-		else {
-			return IUserServer.LoginResult.NULL;
-		}
+		return loginResult;
 	}
 
 	public boolean isLogin(){

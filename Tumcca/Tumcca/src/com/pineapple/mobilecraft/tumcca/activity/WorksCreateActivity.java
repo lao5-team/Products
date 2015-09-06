@@ -515,7 +515,7 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
                 int inSampleSize = options.outHeight * options.outHeight / (item_width * item_width);
                 options = new BitmapFactory.Options();
                 options.inSampleSize = inSampleSize;
-                String path = Uri.fromFile(new File(mListPicture.get(position).localPath)).toString();
+                String path = "file://" + Uri.fromFile(new File(mListPicture.get(position).localPath)).getPath();
                 ImageLoader.getInstance().displayImage(path, imageView, mImageOptionsWorks);
                 imageView.setClickable(true);
                 imageView.setOnClickListener(new View.OnClickListener() {

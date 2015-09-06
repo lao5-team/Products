@@ -97,19 +97,7 @@ public class AlbumListFragment extends Fragment {
         mEGVAlbumView = (ExpandGridView) view.findViewById(R.id.gridview_albums);
         addAlbumListView(mEGVAlbumView);
         setupProgressBar();
-
-//        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(ViewGroup.LayoutParams.MATCH_PARENT, View.MeasureSpec.EXACTLY);
-//        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(ViewGroup.LayoutParams.WRAP_CONTENT, View.MeasureSpec.EXACTLY);
-//        view.measure(widthMeasureSpec, heightMeasureSpec);
-        //ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        //layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        //layoutParams.height = view.getMeasuredHeight() + mListViewHeight;
-        //view.setLayoutParams(layoutParams);
-        Log.v(TumccaApplication.TAG, "list view height " + mEGVAlbumView.getMeasuredHeight() + "");
-
-        //int expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, View.MeasureSpec.AT_MOST);
-        //super.onMeasure(widthMeasureSpec, expandSpec);
-        //layoutParams.height = listViewHeight;
+        //Log.v(TumccaApplication.TAG, "list view height " + mEGVAlbumView.getMeasuredHeight() + "");
         return view;
     }
 
@@ -122,16 +110,12 @@ public class AlbumListFragment extends Fragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                        //mImageLoader.resume();
                         mScrollingIdle = true;
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        //mImageLoader.pause();
                         mScrollingIdle = false;
-
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                        //mScrollingIdle = false;
                         break;
                 }
             }
@@ -158,6 +142,7 @@ public class AlbumListFragment extends Fragment {
         }
     }
 
+    BroadcastReceiver mAlbumsChangeReceiver;
 
     @Override
     public void onAttach(Activity activity) {
@@ -168,11 +153,8 @@ public class AlbumListFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 long id = intent.getLongExtra("id", -1);
                 removeAlbum(id);
-
             }
         }, new IntentFilter("remove_album"));
-
-
     }
 
 
@@ -220,7 +202,7 @@ public class AlbumListFragment extends Fragment {
             }
         }
         mAlbumsAdapter.setAlbumList(mAlbumList);
-
+        mTvAlbumCount.setText(mContext.getString(R.string.you_have_albums, mAlbumList.size()));
     }
 
 
@@ -245,9 +227,6 @@ public class AlbumListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("parentWidth", mParentWidth);
-//        setArguments(bundle);
     }
 
     @Override
@@ -263,7 +242,6 @@ public class AlbumListFragment extends Fragment {
             mParentWidth = savedInstanceState.getInt("parentWidth");
         }
     }
-
 
     /**
      * 将数据添加到底部，需要在主线程中调用
