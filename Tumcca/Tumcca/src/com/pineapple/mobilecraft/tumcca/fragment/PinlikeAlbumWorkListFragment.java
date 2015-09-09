@@ -31,6 +31,13 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by yihao on 8/3/15.
+ * Pinterset 风格的专辑作品列表 http://pan.baidu.com/s/1pJ1OYaZ#render-type=grid-view
+ *
+ * 因为layout结构是ScrollView套GridView和StaggeredGridView，所以要计算后者的高度{@link #applyListviewHeightWithChild}
+ * 并且ScrollView内不能包含带有ListView的Fragment，也是因为高度计算有问题
+ *
+ * 另外，需要侦听喜欢和收藏事件，以及时刷新数据
+ *
  */
 public class PinlikeAlbumWorkListFragment extends Fragment {
 
@@ -38,18 +45,20 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
     public static final int MODE_LIKE = 0;
     public static final int MODE_COLLECT = 1;
 
+    //data
     private int mDataMode = MODE_LIKE;
     private Activity mActivity;
     private int mAuthorId = -1;
-    private ExpandGridView mEGVAlbums;
     private List<Album> mAlbumList = new ArrayList<Album>();
-    private AlbumAdapter mAlbumsAdapter;
-    private TextView mTvAlbum;
-
-    private StaggeredGridView mSGVWorks;
     private List<WorksInfo> mWorkList = new ArrayList<WorksInfo>();
+
+    //widgets
+    private ExpandGridView mEGVAlbums;
+    private AlbumAdapter mAlbumsAdapter;
+    private TextView mTvSeeAllAlbums;
+    private StaggeredGridView mSGVWorks;
     private WorkAdapter mWorkAdapter;
-    private TextView mTvWorks;
+    private TextView mTvSeeAllWorks;
 
     public void setAuthorId(int authorId) {
         mAuthorId = authorId;
@@ -61,7 +70,7 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_albumwork2, container, false);
+        View view = inflater.inflate(R.layout.fragment_pinlike_albumworks, container, false);
         buildAlbumsView(view);
         buildWorksView(view);
         return view;
@@ -85,15 +94,6 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
         Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
             public void run() {
-//                if (mDataMode == MODE_LIKE) {
-//                    mAlbumList = WorksServer.getLikeAlbums(mAuthorId, 1, SAMPLE_COUNT);
-//
-//                } else if (mDataMode == MODE_COLLECT) {
-//                    mAlbumList = WorksServer.getCollectAlbums(mAuthorId, 1, SAMPLE_COUNT);
-//
-//                }
-//                WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(null), mAlbumList);
-//                mAlbumsAdapter.setAlbumList(mAlbumList);
                 loadAlbums();
             }
         });
@@ -101,8 +101,8 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
         mEGVAlbums.setAdapter(mAlbumsAdapter);
 
         //设置See All按钮
-        mTvAlbum = (TextView) view.findViewById(R.id.textView_all_albums);
-        mTvAlbum.setOnClickListener(new View.OnClickListener() {
+        mTvSeeAllAlbums = (TextView) view.findViewById(R.id.textView_all_albums);
+        mTvSeeAllAlbums.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlbumsListActivity.startActivity(getActivity(), mDataMode, mAuthorId);
@@ -121,16 +121,6 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
         Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
             public void run() {
-//                if (mDataMode == MODE_LIKE) {
-//                    mWorkList = WorksServer.getLikeWorks(
-//                            mAuthorId, 1, SAMPLE_COUNT, 400);
-//
-//                } else if (mDataMode == MODE_COLLECT) {
-//                    mWorkList = WorksServer.getCollectWorks(
-//                            mAuthorId, 1, SAMPLE_COUNT, 400);
-//
-//                }
-//                mWorkAdapter.setWorks(mWorkList);
                 loadWorks();
             }
         });
@@ -144,8 +134,8 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
         });
 
         //添加See All按钮*/
-        mTvWorks = (TextView) view.findViewById(R.id.textView_all_works);
-        mTvWorks.setOnClickListener(new View.OnClickListener() {
+        mTvSeeAllWorks = (TextView) view.findViewById(R.id.textView_all_works);
+        mTvSeeAllWorks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WorksListActivity.startActivity(getActivity(), mDataMode, mAuthorId);
