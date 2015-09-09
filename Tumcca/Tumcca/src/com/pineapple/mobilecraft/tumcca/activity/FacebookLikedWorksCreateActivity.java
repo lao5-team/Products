@@ -11,39 +11,35 @@ import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.view.*;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photoselector.model.PhotoModel;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.Constants;
-import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
-import com.pineapple.mobilecraft.tumcca.fragment.WorkCreateFragment;
+import com.pineapple.mobilecraft.tumcca.fragment.FacebookLikedWorksCreateFragment;
 import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import com.pineapple.mobilecraft.tumcca.utility.Utility;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * facebook 风格的作品创建页面 http://pan.baidu.com/s/1sjoTI5R
  * Created by yihao on 8/18/15.
  */
-public class WorksCreateActivity2 extends FragmentActivity {
+public class FacebookLikedWorksCreateActivity extends FragmentActivity {
     public static final int REQ_PIC_EDIT = 1;
 
     /**
      * 图片列表Fragment
      */
-    private WorkCreateFragment mWorkCreateFragment;
+    private FacebookLikedWorksCreateFragment mWorkCreateFragment;
     private TumccaService mService;
     private ServiceConnection mServiceConnection;
 
     public static void startActivity(Activity activity, List<Picture> pictures) {
-        Intent intent = new Intent(activity, WorksCreateActivity2.class);
+        Intent intent = new Intent(activity, FacebookLikedWorksCreateActivity.class);
         intent.putExtra("pictures", new Gson().toJson(pictures));
         activity.startActivity(intent);
     }
@@ -60,6 +56,7 @@ public class WorksCreateActivity2 extends FragmentActivity {
 
         setContentView(R.layout.activity_works_create2);
 
+        //添加作品创建Fragment
         List<Picture> photos = new Gson().fromJson(getIntent().getStringExtra("pictures"), new TypeToken<List<Picture>>() {
         }.getType());
         if (photos != null && !photos.isEmpty()) {
@@ -70,7 +67,7 @@ public class WorksCreateActivity2 extends FragmentActivity {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mService = ((TumccaService.LocalService) service).getService();
-                mWorkCreateFragment.setService(mService);
+                mWorkCreateFragment.bindTumccaService(mService);
             }
 
             @Override
@@ -117,6 +114,7 @@ public class WorksCreateActivity2 extends FragmentActivity {
         actionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM,
                 ActionBar.DISPLAY_SHOW_CUSTOM);
+
         View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_calligrahy_create, null);
         ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -124,6 +122,7 @@ public class WorksCreateActivity2 extends FragmentActivity {
         lp.gravity = Gravity.END;
         actionBar.setCustomView(customActionBarView, lp);
 
+        //发布按钮事件绑定
         Button sumbButton = (Button) customActionBarView.findViewById(R.id.button_submit);
         sumbButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,11 +133,11 @@ public class WorksCreateActivity2 extends FragmentActivity {
     }
 
     /**
-     * 添加图片视图
+     * 添加作品Fragment
      */
     private void addWorkView(List<Picture> pictures) {
         if (null != pictures) {
-            mWorkCreateFragment = new WorkCreateFragment();
+            mWorkCreateFragment = new FacebookLikedWorksCreateFragment();
             mWorkCreateFragment.setPictures(pictures);
             getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, mWorkCreateFragment).commit();
         }

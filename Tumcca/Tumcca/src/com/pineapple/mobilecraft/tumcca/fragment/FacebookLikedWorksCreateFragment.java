@@ -18,7 +18,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.activity.PhotoChoose;
 import com.pineapple.mobilecraft.tumcca.activity.PictureEditActivity2;
-import com.pineapple.mobilecraft.tumcca.activity.WorksCreateActivity2;
+import com.pineapple.mobilecraft.tumcca.activity.FacebookLikedWorksCreateActivity;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
 import com.pineapple.mobilecraft.tumcca.data.Works;
@@ -38,22 +38,35 @@ import java.util.List;
  * <p/>
  * facebook风格的图片创建列表
  * 输入参数，图库中的图片列表
+ * 比较纠结的地方是：
+ * 1 图片进行旋转后，尺寸要重新计算，否则会盖住其他控件。
+ * 2 ConvertView会导致EditText关联的数据混乱。
+ * 3 批量添加图片描述的逻辑比较繁琐。
  */
-public class WorkCreateFragment extends BaseListFragment {
-    private List<WorkCreateItem> mWorkItems = new ArrayList<WorkCreateItem>();
-    private DisplayImageOptions mImageOptionsWorks;
-    private TumccaService mTumccaService;
-    private Album mAlbum = Album.DEFAULT_ALBUM;
+public class FacebookLikedWorksCreateFragment extends BaseListFragment {
+    //widgets
     private TextView mTvAlbumTitle;
     private ImageView mIvAlbumCover;
     private RelativeLayout mLayoutAlbum;
     private TextView mTvAddPicture;
-    boolean mIsBatch = false;
-    private String mDescBatch = "";  //批量处理使用的图片说明
-    private Uri mPhotoUri;
-    private String[] bigNum = {"一", "二", "三", "四", "五", "六", "七", "八", "九"};
 
-    public WorkCreateFragment() {
+    //data
+    private List<WorkCreateItem> mWorkItems = new ArrayList<WorkCreateItem>();
+    private DisplayImageOptions mImageOptionsWorks;
+    private TumccaService mTumccaService;
+
+    //默认专辑
+    private Album mAlbum = Album.DEFAULT_ALBUM;
+
+    boolean mIsBatch = false;
+
+    private String mDescBatch = "";  //批量处理使用的图片说明
+
+    private Uri mPhotoTakenUri;   //拍照使用的uri
+
+    private String[] bigNum = {"一", "二", "三", "四", "五", "六", "七", "八", "九"}; //数字对应的中文
+
+    public FacebookLikedWorksCreateFragment() {
         setLayout(R.layout.fragment_works_create);
 
         setItemLoader(new ItemLoader() {
@@ -83,9 +96,8 @@ public class WorkCreateFragment extends BaseListFragment {
     }
 
     public Uri getPhotoUri() {
-        return mPhotoUri;
+        return mPhotoTakenUri;
     }
-
 
     //设置图片
     public void setPictures(List<Picture> pictureList) {
@@ -127,15 +139,11 @@ public class WorkCreateFragment extends BaseListFragment {
         }
     }
 
-    public void setService(TumccaService service) {
+    public void bindTumccaService(TumccaService service) {
         mTumccaService = service;
     }
 
-    private void removeItem(WorkCreateItem item) {
-        mWorkItems.remove(item);
-        reload();
-    }
-
+    //发布作品
     public void submitWorks() {
         if (mWorkItems.isEmpty()) {
             Toast.makeText(getActivity(), getString(R.string.please_add_picture), Toast.LENGTH_SHORT).show();
@@ -219,12 +227,45 @@ public class WorkCreateFragment extends BaseListFragment {
         mTvAddPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPhotoUri = Utility.createPhotoUri(mActivity);
+                mPhotoTakenUri = Utility.createPhotoUri(mActivity);
                 PhotoChoose photoChoose = new PhotoChoose();
-                photoChoose.setUri(mPhotoUri);
+                photoChoose.setUri(mPhotoTakenUri);
                 photoChoose.show(getChildFragmentManager(), "WorksPhotoChoose");
             }
         });
+    }
+
+    //将批量描述应用到所有作品上
+    private void applyBatch(){
+        for (WorkCreateItem item:mWorkItems){
+            item.desc = mDescBatch  + " " + bigNum[mWorkItems.indexOf(item)];
+        }
+    }
+
+    //移除作品
+    private void removeItem(WorkCreateItem item) {
+        mWorkItems.remove(item);
+        reload();
+    }
+
+    private static class PhotoEditViewHolder extends ListViewHolder {
+
+        public TextView mTvPictureEdit;
+        public EditText mEtxDesc;
+        public RotateImageView mIvPic;
+        public ImageButton mIbDelete;
+        public CheckBox mCBxBatch;
+        public RelativeLayout mLayout;
+
+        public PhotoEditViewHolder(View itemView) {
+            super(itemView);
+            mTvPictureEdit = (TextView) itemView.findViewById(R.id.textView_edit);
+            mEtxDesc = (EditText) itemView.findViewById(R.id.editText_desc);
+            mIvPic = (RotateImageView) itemView.findViewById(R.id.imageView_pic);
+            mIbDelete = (ImageButton) itemView.findViewById(R.id.imageButton_delete);
+            mCBxBatch = (CheckBox) itemView.findViewById(R.id.checkBox_batch);
+            mLayout = (RelativeLayout) itemView;
+        }
     }
 
     /**
@@ -259,12 +300,12 @@ public class WorkCreateFragment extends BaseListFragment {
             //拉起图片编辑页面
             List<Picture> pictures = new ArrayList<Picture>();
             pictures.add(picture);
-            PictureEditActivity2.startActivity(getActivity(), WorksCreateActivity2.REQ_PIC_EDIT, pictures, 0);
+            PictureEditActivity2.startActivity(getActivity(), FacebookLikedWorksCreateActivity.REQ_PIC_EDIT, pictures, 0);
         }
 
         public void removeSelf() {
             //调用fragment删除自己
-            WorkCreateFragment.this.removeItem(this);
+            FacebookLikedWorksCreateFragment.this.removeItem(this);
         }
 
 
@@ -330,17 +371,11 @@ public class WorkCreateFragment extends BaseListFragment {
                 }
             });
 
-            //绑定编辑描述
-
+            //移除之前的图片说明，绑定现在的
             vh.mEtxDesc.removeTextChangedListener((TextWatcher) vh.mEtxDesc.getTag());
-
             vh.mEtxDesc.addTextChangedListener(textWatcher);
             vh.mEtxDesc.setTag(textWatcher);
-//            if (mIsBatch) {
-//                vh.mEtxDesc.setText(mDescBatch + " " + bigNum[mWorkItems.indexOf(WorkCreateItem.this)]);
-//            } else {
             vh.mEtxDesc.setText(desc);
-//            }
 
             //绑定批量图片说明
             if (mWorkItems.indexOf(WorkCreateItem.this) == 0) {
@@ -385,32 +420,6 @@ public class WorkCreateFragment extends BaseListFragment {
         @Override
         public long getId() {
             return id;
-        }
-    }
-
-    private static class PhotoEditViewHolder extends ListViewHolder {
-
-        public TextView mTvPictureEdit;
-        public EditText mEtxDesc;
-        public RotateImageView mIvPic;
-        public ImageButton mIbDelete;
-        public CheckBox mCBxBatch;
-        public RelativeLayout mLayout;
-
-        public PhotoEditViewHolder(View itemView) {
-            super(itemView);
-            mTvPictureEdit = (TextView) itemView.findViewById(R.id.textView_edit);
-            mEtxDesc = (EditText) itemView.findViewById(R.id.editText_desc);
-            mIvPic = (RotateImageView) itemView.findViewById(R.id.imageView_pic);
-            mIbDelete = (ImageButton) itemView.findViewById(R.id.imageButton_delete);
-            mCBxBatch = (CheckBox) itemView.findViewById(R.id.checkBox_batch);
-            mLayout = (RelativeLayout) itemView;
-        }
-    }
-
-    private void applyBatch(){
-        for (WorkCreateItem item:mWorkItems){
-            item.desc = mDescBatch  + " " + bigNum[mWorkItems.indexOf(item)];
         }
     }
 }

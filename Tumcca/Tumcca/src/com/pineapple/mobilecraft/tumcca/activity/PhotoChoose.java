@@ -10,14 +10,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.view.*;
 import android.widget.TextView;
-import com.photoselector.model.PhotoModel;
 import com.photoselector.ui.PhotoSelectorActivity;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.utility.Utility;
-
-import java.io.File;
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by jiankun on 2015/6/24.
@@ -114,7 +108,7 @@ public class PhotoChoose extends DialogFragment implements View.OnClickListener 
             return;
         if (requestCode == FROMGALLERY) {// selected image
             if (data != null && data.getStringExtra("photos") != null) {
-                    Intent intent = new Intent(getActivity(), WorksCreateActivity2.class);
+                    Intent intent = new Intent(getActivity(), FacebookLikedWorksCreateActivity.class);
                     intent.putExtra("photos", data.getStringExtra("photos"));
                     startActivity(intent);
             }

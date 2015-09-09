@@ -18,9 +18,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.photoselector.model.PhotoModel;
-import com.photoselector.ui.PhotoItem;
-import com.photoselector.ui.PhotoSelectorActivity;
-import com.pineapple.mobilecraft.Constant;
 import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.Constants;
@@ -38,7 +35,6 @@ import com.pineapple.mobilecraft.tumcca.service.TumccaService;
 import com.pineapple.mobilecraft.tumcca.utility.Utility;
 import com.pineapple.mobilecraft.util.logic.Util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -312,7 +308,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
             String outPath = Utility.processImage(mUri.getPath(), Constants.MAX_PICTURE_WIDTH, Constants.MAX_PICTURE_HEIGHT, 0.0f, true);
             List<Picture> pictures = new ArrayList<Picture>();
             pictures.add(new Picture(null, outPath));
-            WorksCreateActivity2.startActivity(this, pictures);
+            FacebookLikedWorksCreateActivity.startActivity(this, pictures);
         }
         if (requestCode == PhotoChoose.FROMGALLERY) {// selected image
             if (data != null && data.getStringExtra("photos") != null) {
@@ -323,7 +319,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
                     for(PhotoModel model:models){
                         pictures.add(new Picture(null, model.getOriginalPath()));
                     }
-                    WorksCreateActivity2.startActivity(this, pictures);
+                    FacebookLikedWorksCreateActivity.startActivity(this, pictures);
                 }
                 else{
                     Toast.makeText(this, "图库返回结果异常", Toast.LENGTH_SHORT).show();
