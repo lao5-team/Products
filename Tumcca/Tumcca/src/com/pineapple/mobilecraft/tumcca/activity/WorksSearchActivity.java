@@ -153,4 +153,16 @@ public class WorksSearchActivity extends FragmentActivity {
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, mWorksFragment).commit();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

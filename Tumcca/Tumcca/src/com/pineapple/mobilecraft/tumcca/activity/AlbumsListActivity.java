@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
+import android.view.Window;
 import com.pineapple.mobilecraft.R;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.fragment.AlbumListFragment;
@@ -35,6 +37,8 @@ public class AlbumsListActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_albums_list);
 
         mDataMode = getIntent().getIntExtra("data_mode", MODE_COLLECT);
@@ -79,5 +83,18 @@ public class AlbumsListActivity extends FragmentActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -46,6 +46,8 @@ public class PictureDetailActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_picture_detail);
         mScrollView = (MyScrollView)findViewById(R.id.scrollView);
         //mScrollView.setOverScrollMode();
@@ -200,6 +202,17 @@ public class PictureDetailActivity extends Activity {
 //
 //    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

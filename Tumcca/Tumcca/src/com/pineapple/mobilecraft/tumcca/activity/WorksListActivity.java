@@ -58,8 +58,8 @@ public class WorksListActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 //        final ActionBar actionBar = getActionBar();
@@ -112,6 +112,19 @@ public class WorksListActivity extends FragmentActivity {
         });
         getSupportFragmentManager().beginTransaction().add(R.id.layout_container, mWorksFragment).commit();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
