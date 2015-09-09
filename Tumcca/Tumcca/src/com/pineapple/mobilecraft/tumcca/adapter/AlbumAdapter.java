@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.activity.AlbumDetailActivity;
 import com.pineapple.mobilecraft.tumcca.data.Album;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -164,6 +165,7 @@ public class AlbumAdapter extends BaseAdapter{
                     album.isLiked = !album.isLiked;
                     Toast.makeText(mActivity, album.isLiked?"喜欢成功":"取消喜欢成功", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
+                    mActivity.sendBroadcast(new Intent(Constants.ACTION_ALBUMS_CHANGE));
                 }
                 else{
                     UserManager.getInstance().requestLogin();
@@ -201,6 +203,7 @@ public class AlbumAdapter extends BaseAdapter{
                     }
                     album.isCollected = !album.isCollected;
                     Toast.makeText(mActivity, album.isCollected?"收藏成功":"取消收藏成功", Toast.LENGTH_SHORT).show();
+                    mActivity.sendBroadcast(new Intent(Constants.ACTION_ALBUMS_CHANGE));
                     notifyDataSetChanged();
                 }
                 else

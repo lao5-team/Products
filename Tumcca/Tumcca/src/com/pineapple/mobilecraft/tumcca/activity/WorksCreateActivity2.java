@@ -9,10 +9,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -145,6 +142,18 @@ public class WorksCreateActivity2 extends FragmentActivity {
             mWorkCreateFragment.setPictures(pictures);
             getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, mWorkCreateFragment).commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

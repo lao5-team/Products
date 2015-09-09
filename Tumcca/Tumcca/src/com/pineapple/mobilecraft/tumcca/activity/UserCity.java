@@ -52,6 +52,7 @@ public class UserCity extends DialogFragment implements ExpandableListView.OnChi
         View root = inflater.inflate(R.layout.user_city, container, false);
         expandableListView = (PinnedHeaderExpandableListView) root.findViewById(R.id.expandablelist);
         expandableListView.setOnChildClickListener(this);
+        //加载数据
         provinceList = (ArrayList<MallProvinceBean>) gson.fromJson(jsonCity, (new TypeToken<ArrayList<MallProvinceBean>>(){}).getType());
         cityList = new ArrayList<List<MallCityBean>>();
         int size = provinceList.size();

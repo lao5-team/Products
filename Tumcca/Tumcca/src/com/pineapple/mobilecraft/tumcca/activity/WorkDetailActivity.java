@@ -18,6 +18,7 @@ import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.data.Comment;
 import com.pineapple.mobilecraft.tumcca.data.Profile;
 import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
@@ -226,6 +227,9 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                             mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mCollectionImg.startAnimation(anim);
+                            mIsCollected = !mIsCollected;
+                            sendBroadcast(new Intent(Constants.ACTION_WORKS_CHANGE));
+
                         }
                     }
                     else{
@@ -236,9 +240,11 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                             mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mCollectionImg.startAnimation(anim);
+                            mIsCollected = !mIsCollected;
+                            sendBroadcast(new Intent(Constants.ACTION_WORKS_CHANGE));
+
                         }
                     }
-
                 }
                 else
                 {
@@ -250,13 +256,15 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                 if(UserManager.getInstance().isLogin())
                 {
                     int userId = UserManager.getInstance().getCurrentUserId();
-                    if(mIsCollected){
+                    if(mIsLiked){
                         boolean ret = WorksServer.disLikeWork(UserManager.getInstance().getCurrentToken(null), String.valueOf(mWorks.id));
                         if(ret)
                         {
                             mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_excellent));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mExcellentImg.startAnimation(anim);
+                            mIsLiked = !mIsLiked;
+                            sendBroadcast(new Intent(Constants.ACTION_WORKS_CHANGE));
                         }
                     }
                     else{
@@ -266,6 +274,9 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
                             mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_recomment));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mExcellentImg.startAnimation(anim);
+                            mIsLiked = !mIsLiked;
+                            sendBroadcast(new Intent(Constants.ACTION_WORKS_CHANGE));
+
                         }
                     }
 

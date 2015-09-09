@@ -24,12 +24,14 @@
 
         <activity
                 android:name="com.pineapple.mobilecraft.util.logic.ImgFileListActivity"
-                android:label="@string/app_name">
+                android:label="@string/app_name"
+                android:screenOrientation="portrait">
         </activity>
 
         <activity
                 android:name="com.pineapple.mobilecraft.util.logic.ImgsActivity"
-                android:label="@string/app_name">
+                android:label="@string/app_name"
+                android:screenOrientation="portrait">
         </activity>
         <activity android:name=".tumcca.activity.WorkDetailActivity" android:theme="@style/my_activity_style"
                   android:screenOrientation="portrait">
@@ -42,19 +44,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".tumcca.activity.LoginActivity" android:theme="@style/my_dialog_activity_style">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--</intent-filter>-->
+        <activity android:name=".tumcca.activity.LoginActivity" android:theme="@style/my_dialog_activity_style"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".tumcca.activity.RegisterActivity" android:theme="@style/my_dialog_activity_style">
+        <activity android:name=".tumcca.activity.RegisterActivity" android:theme="@style/my_dialog_activity_style"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name=".tumcca.activity.HomeActivity" android:theme="@style/my_activity_style"
-                  android:screenOrientation="portrait">
+                  android:screenOrientation="portrait" >
 
         </activity>
 
         <activity android:name=".tumcca.activity.SplashActivity" android:theme="@style/Theme.Splash"
+                  android:screenOrientation="portrait"
                   android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -67,12 +69,7 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".tumcca.activity.PictureDetailActivity" android:screenOrientation="unspecified"
-                  android:theme="@style/my_activity_style">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-
+                  android:theme="@style/my_activity_style" >
         </activity>
         <activity android:name=".tumcca.activity.WorksCreateActivity"
                   android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style"
@@ -84,23 +81,24 @@
         <activity android:name=".tumcca.activity.AlbumDetailActivity"
                   android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".tumcca.activity.UserCity"/>
-        <activity android:name=".tumcca.activity.PictureEditActivity" android:theme="@style/my_activity_style">
+        <activity android:name=".tumcca.activity.UserCity" android:screenOrientation="portrait"/>
+        <activity android:name=".tumcca.activity.PictureEditActivity" android:theme="@style/my_activity_style"
+                  android:screenOrientation="portrait">
 
     </activity>
-        <activity android:name=".tumcca.activity.PictureEditActivity2" android:theme="@style/my_activity_style">
+        <activity android:name=".tumcca.activity.PictureEditActivity2" android:theme="@style/my_activity_style" android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".tumcca.activity.CommentActivity"/>
-        <activity android:name=".tumcca.activity.WorksSearchActivity" android:theme="@style/my_search_activity_style"/>
-        <activity android:name=".tumcca.activity.WorksCreateActivity2" android:theme="@style/my_search_activity_style"/>
+        <activity android:name=".tumcca.activity.WorksSearchActivity" android:theme="@style/my_search_activity_style" android:screenOrientation="portrait"/>
+        <activity android:name=".tumcca.activity.WorksCreateActivity2" android:theme="@style/my_search_activity_style" android:screenOrientation="portrait"/>
         <activity
                 android:name="com.photoselector.ui.PhotoSelectorActivity"
-                android:label="图片选择" >
+                android:label="图片选择" android:screenOrientation="portrait" >
 
         </activity>
-        <activity android:name=".tumcca.activity.AlbumsListActivity" android:theme="@style/my_activity_style"/>
-        <activity android:name=".tumcca.activity.WorksListActivity" android:theme="@style/my_activity_style"/>
+        <activity android:name=".tumcca.activity.AlbumsListActivity" android:theme="@style/my_activity_style" android:screenOrientation="portrait"/>
+        <activity android:name=".tumcca.activity.WorksListActivity" android:theme="@style/my_activity_style" android:screenOrientation="portrait"/>
         <service android:name="com.pineapple.mobilecraft.tumcca.service.TumccaService" />
 
     </application>

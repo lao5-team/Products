@@ -60,7 +60,7 @@
                 android:layout_alignBaseline="@+id/textView_all_albums"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="0dip" android:id="@+id/layout_works"
-                    android:layout_below="@id/layout_button" android:layout_weight="1" android:padding="10dip"
+                    android:layout_below="@id/layout_button" android:layout_weight="1" android:padding="10dp"
                     android:background="@color/edittext_bg_normal" android:layout_marginTop="10dip">
         <Button
                 android:layout_width="wrap_content"
@@ -78,7 +78,8 @@
         <view android:layout_width="match_parent"
               android:layout_height="wrap_content"
               class="com.etsy.android.grid.StaggeredGridView" android:id="@+id/gridview_works"
-              android:layout_below="@+id/container_works"/>
+              android:layout_below="@+id/container_works"
+                />
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

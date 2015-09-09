@@ -1,11 +1,14 @@
 package com.pineapple.mobilecraft.tumcca.data;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.Constants;
+import com.pineapple.mobilecraft.tumcca.activity.UserActivity;
 import com.pineapple.mobilecraft.tumcca.fragment.BaseListFragment;
 import com.pineapple.mobilecraft.tumcca.manager.PictureManager;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
@@ -132,25 +135,16 @@ public class Profile implements BaseListFragment.ListItem {
     }
 
     @Override
-    public void bindViewHolder(BaseListFragment.ListViewHolder viewHolder) {
+    public void bindViewHolder(final BaseListFragment.ListViewHolder viewHolder) {
         final ProfileItemVH vh = (ProfileItemVH) viewHolder;
         PictureManager.getInstance().displayAvatar(vh.avatar, avatar, 24);
-//        if (null == vh.avatar.getTag() || !vh.avatar.getTag().equals(String.valueOf(avatar))) {
-//            vh.avatar.setTag(String.valueOf(avatar));
-//            DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-//                    .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 24))).
-//                            cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-//                    .build();
-//            ImageLoader imageLoader = ImageLoader.getInstance();
-//            imageLoader.displayImage(UserServer.getInstance().getAvatarUrl(avatar), vh.avatar, imageOptions);
-//
-//            String avatarUrl = "drawable://" + R.drawable.default_avatar;
-//            if (avatar > PictureServer.INVALID_AVATAR_ID) {
-//                avatarUrl = UserServer.getInstance().getAvatarUrl(avatar);
-//            }
-//            imageLoader.displayImage(avatarUrl, vh.avatar, imageOptions);
-//
-//        }
+        vh.avatar.setClickable(true);
+        vh.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserActivity.startActivity(viewHolder.getFragment().getFragmentActivity(), (int)userId);
+            }
+        });
         vh.username.setText(pseudonym);
         //TODO 显示关注状态
         if (isFollowed) {
@@ -176,6 +170,7 @@ public class Profile implements BaseListFragment.ListItem {
                                     }
                                     isFollowed = !isFollowed;
                                     vh.getFragment().refresh();
+                                    vh.getFragment().getFragmentActivity().sendBroadcast(new Intent(Constants.ACTION_USERS_CHANGE));
                                 }
 
                                 @Override

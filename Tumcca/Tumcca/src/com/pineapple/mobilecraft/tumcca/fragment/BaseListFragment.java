@@ -291,7 +291,7 @@ public class BaseListFragment<VH extends BaseListFragment.ListViewHolder>extends
     /**
      * 清除数据，数据清除完后，会重新调用loadHead，加载数据
      */
-    public void clear(){
+    public void reload(){
         if(null != mActivity){
             mActivity.runOnUiThread(new Runnable() {
                 @Override
@@ -330,6 +330,10 @@ public class BaseListFragment<VH extends BaseListFragment.ListViewHolder>extends
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public Activity getFragmentActivity(){
+        return mActivity;
     }
 
     private class BaseListAdapter extends RecyclerView.Adapter<VH> {

@@ -253,8 +253,20 @@
         <item name="android:windowBackground">@drawable/corner_border_activity</item>
         <item name="android:textColor">@color/pure_black</item>
         <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+    </style>
 
-
+    <style name="my_user_activity_style" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarSize">68dip</item>
+        <item name="android:windowNoTitle">false</item>
+        <!--<item name="android:background">#00000000</item>-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <item name="android:windowFrame">@null</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowAnimationStyle">@null</item>-->
+        <!--<item name="android:backgroundDimEnabled">false</item>-->
+        <item name="android:windowBackground">@drawable/corner_border_activity</item>
+        <item name="android:textColor">@color/pure_black</item>
+        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
     </style>
 
     <style name="StyledIndicators" parent="@android:style/Theme.Holo.Light">
@@ -266,6 +278,8 @@
         <item name="android:windowBackground">@drawable/corner_border_activity</item>
         <item name="android:textColor">@color/pure_black</item>
         <item name="android:windowFrame">@null</item>
+        <item name="android:actionBarSize">68dip</item>
+
 
 
 

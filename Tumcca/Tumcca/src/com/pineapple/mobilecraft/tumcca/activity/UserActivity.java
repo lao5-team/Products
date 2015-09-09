@@ -50,6 +50,7 @@ public class UserActivity extends FragmentActivity {
     TextView mTvPseudonym;
     DisplayImageOptions mImageOptions;
     private RelativeLayout mLayoutProfile;
+    private RelativeLayout mLayoutBack;
 
     private static final int REQ_USERINFO = 2;
 
@@ -66,7 +67,18 @@ public class UserActivity extends FragmentActivity {
 
         final ActionBar actionBar = getActionBar();
         if (null != actionBar) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            //actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayOptions(
+                    ActionBar.DISPLAY_SHOW_CUSTOM,
+                    ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setDisplayShowHomeEnabled(false);
+            View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_user, null);
+            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            lp.gravity = Gravity.END;
+            actionBar.setCustomView(customActionBarView, lp);
+
         }
         mAuthorId = getIntent().getIntExtra("authorId", -1);
         if (-1 == mAuthorId) {
@@ -115,7 +127,7 @@ public class UserActivity extends FragmentActivity {
         TabPageIndicator tabPageIndicator = (TabPageIndicator) findViewById(R.id.view_tab);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_viewPager);
 
-
+        viewPager.setOffscreenPageLimit(5);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -143,6 +155,7 @@ public class UserActivity extends FragmentActivity {
             public CharSequence getPageTitle(int position) {
                 return getResources().getStringArray(R.array.user_activity_tabs)[position];
             }
+
         });
 
         tabPageIndicator.setViewPager(viewPager);
@@ -161,6 +174,14 @@ public class UserActivity extends FragmentActivity {
         mLayoutProfile = (RelativeLayout)findViewById(R.id.layout_profile);
 
         bindUserActions();
+
+        mLayoutBack = (RelativeLayout)findViewById(R.id.layout_back);
+        mLayoutBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

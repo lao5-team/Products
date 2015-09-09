@@ -1,18 +1,18 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import com.pineapple.mobilecraft.R;
-import com.pineapple.mobilecraft.tumcca.data.Profile;
+import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.UserServer;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -43,6 +43,25 @@ public class UserListFragment extends BaseListFragment {
     TextView mTvCount;
     Activity mActivity;
     int mCount = 0;
+
+    BroadcastReceiver mUserChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            reload();
+            Executors.newSingleThreadExecutor().submit(new Runnable() {
+                @Override
+                public void run() {
+                    if(mMode==MODE_FOLLOWING){
+                        setCount(UserServer.getInstance().getAuthorFollowing(mUserId));
+                    }
+                    if(mMode==MODE_FOLLOWER){
+                        setCount(UserServer.getInstance().getAuthorFollowers(mUserId));
+
+                    }
+                }
+            });
+        }
+    };
 
     public UserListFragment(){
         super();
@@ -114,7 +133,7 @@ public class UserListFragment extends BaseListFragment {
         UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
             @Override
             public void onLogin(String token) {
-                clear();
+                reload();
             }
 
             @Override
@@ -122,6 +141,8 @@ public class UserListFragment extends BaseListFragment {
 
             }
         });
+
+        listenUserChanges();
     }
 
     @Override
@@ -157,5 +178,26 @@ public class UserListFragment extends BaseListFragment {
             }
         });
     }
+
+    @Override
+    public void onViewCreated (View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onViewStateRestored (Bundle savedInstanceState){
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    private void listenUserChanges(){
+        mActivity.registerReceiver(mUserChangeReceiver, new IntentFilter(Constants.ACTION_USERS_CHANGE));
+    }
+
+    public void onDestroy(){
+        super.onDestroy();
+        mActivity.unregisterReceiver(mUserChangeReceiver);
+    }
+
 
 }

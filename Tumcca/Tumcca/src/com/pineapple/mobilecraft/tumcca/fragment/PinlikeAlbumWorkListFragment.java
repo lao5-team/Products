@@ -1,16 +1,20 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.etsy.android.grid.StaggeredGridView;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.activity.AlbumsListActivity;
 import com.pineapple.mobilecraft.tumcca.activity.WorksListActivity;
 import com.pineapple.mobilecraft.tumcca.adapter.AlbumAdapter;
@@ -20,7 +24,6 @@ import com.pineapple.mobilecraft.tumcca.data.WorksInfo;
 import com.pineapple.mobilecraft.tumcca.manager.UserManager;
 import com.pineapple.mobilecraft.tumcca.server.WorksServer;
 import com.pineapple.mobilecraft.widget.ExpandGridView;
-import com.pineapple.mobilecraft.widget.TitleTabBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +70,8 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+        listenAlbumsChange();
+        listenWorksChange();
     }
 
     /**
@@ -80,16 +85,16 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
         Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
             public void run() {
-                if (mDataMode == MODE_LIKE) {
-                    mAlbumList = WorksServer.getLikeAlbums(mAuthorId, 1, SAMPLE_COUNT);
-
-                } else if (mDataMode == MODE_COLLECT) {
-                    mAlbumList = WorksServer.getCollectAlbums(mAuthorId, 1, SAMPLE_COUNT);
-
-                }
-                WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(null), mAlbumList);
-                mAlbumsAdapter.setAlbumList(mAlbumList);
-
+//                if (mDataMode == MODE_LIKE) {
+//                    mAlbumList = WorksServer.getLikeAlbums(mAuthorId, 1, SAMPLE_COUNT);
+//
+//                } else if (mDataMode == MODE_COLLECT) {
+//                    mAlbumList = WorksServer.getCollectAlbums(mAuthorId, 1, SAMPLE_COUNT);
+//
+//                }
+//                WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(null), mAlbumList);
+//                mAlbumsAdapter.setAlbumList(mAlbumList);
+                loadAlbums();
             }
         });
         mAlbumsAdapter = new AlbumAdapter(mActivity);
@@ -116,17 +121,17 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
         Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
             public void run() {
-                if (mDataMode == MODE_LIKE) {
-                    mWorkList = WorksServer.getLikeWorks(
-                            mAuthorId, 1, SAMPLE_COUNT, 400);
-
-                } else if (mDataMode == MODE_COLLECT) {
-                    mWorkList = WorksServer.getCollectWorks(
-                            mAuthorId, 1, SAMPLE_COUNT, 400);
-
-                }
-                mWorkAdapter.setWorks(mWorkList);
-
+//                if (mDataMode == MODE_LIKE) {
+//                    mWorkList = WorksServer.getLikeWorks(
+//                            mAuthorId, 1, SAMPLE_COUNT, 400);
+//
+//                } else if (mDataMode == MODE_COLLECT) {
+//                    mWorkList = WorksServer.getCollectWorks(
+//                            mAuthorId, 1, SAMPLE_COUNT, 400);
+//
+//                }
+//                mWorkAdapter.setWorks(mWorkList);
+                loadWorks();
             }
         });
         mSGVWorks.setAdapter(mWorkAdapter);
@@ -185,5 +190,70 @@ public class PinlikeAlbumWorkListFragment extends Fragment {
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = Math.max(listViewHeightLeft, listViewHeightRight);
         mSGVWorks.setLayoutParams(params);
+    }
+
+    private void loadAlbums(){
+        if (mDataMode == MODE_LIKE) {
+            mAlbumList = WorksServer.getLikeAlbums(mAuthorId, 1, SAMPLE_COUNT);
+
+        } else if (mDataMode == MODE_COLLECT) {
+            mAlbumList = WorksServer.getCollectAlbums(mAuthorId, 1, SAMPLE_COUNT);
+
+        }
+        WorksServer.parseAlbumList(UserManager.getInstance().getCurrentToken(null), mAlbumList);
+        mAlbumsAdapter.setAlbumList(mAlbumList);
+    }
+
+    private void loadWorks(){
+        if (mDataMode == MODE_LIKE) {
+            mWorkList = WorksServer.getLikeWorks(
+                    mAuthorId, 1, SAMPLE_COUNT, 400);
+
+        } else if (mDataMode == MODE_COLLECT) {
+            mWorkList = WorksServer.getCollectWorks(
+                    mAuthorId, 1, SAMPLE_COUNT, 400);
+
+        }
+        mWorkAdapter.setWorks(mWorkList);
+    }
+
+    BroadcastReceiver mAlbumsChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Executors.newSingleThreadExecutor().submit(new Runnable() {
+                @Override
+                public void run() {
+                    loadAlbums();
+                }
+            });
+        }
+    };
+
+    BroadcastReceiver mWorksChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Executors.newSingleThreadExecutor().submit(new Runnable() {
+                @Override
+                public void run() {
+                    loadWorks();
+                }
+            });
+        }
+    };
+
+    private void listenAlbumsChange(){
+        IntentFilter intentFilter = new IntentFilter(Constants.ACTION_ALBUMS_CHANGE);
+        mActivity.registerReceiver(mAlbumsChangeReceiver, intentFilter);
+    }
+
+    private void listenWorksChange(){
+        IntentFilter intentFilter = new IntentFilter(Constants.ACTION_WORKS_CHANGE);
+        mActivity.registerReceiver(mWorksChangeReceiver, intentFilter);
+    }
+
+    public void onDestroy(){
+        super.onDestroy();
+        mActivity.unregisterReceiver(mAlbumsChangeReceiver);
+        mActivity.unregisterReceiver(mWorksChangeReceiver);
     }
 }

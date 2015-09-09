@@ -315,6 +315,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
                     public void run() {
                         mWorksInfoList.clear();
                         mWorksInfoList.addAll(worksInfoList);
+                        mAdapter.setWorks(mWorksInfoList);
                         mAdapter.notifyDataSetChanged();
                     }
                 });
@@ -392,7 +393,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
         }
 //        if (null != savedInstanceState) {
 //            try {
-//                mWorksInfoList.clear();
+//                mWorksInfoList.reload();
 //                JSONArray worksArray = new JSONArray(savedInstanceState.getString("works"));
 //                for(int i=0; i<worksArray.length(); i++){
 //                    WorksInfo worksInfo = WorksInfo.fromJSON(worksArray.getJSONObject(i));
