@@ -62,9 +62,14 @@ public class HomeActivity extends FragmentActivity implements IHome {
     private Profile mProfile;
     private TumccaService mService = null;
     private Uri mUri;
+    private ServiceConnection mServiceConntection;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(null!=savedInstanceState){
+            mUri = savedInstanceState.getParcelable("photo_uri");
+
+        }
         mImageOptions = new DisplayImageOptions.Builder()
                 .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 18)))
                 .cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565).build();
@@ -110,12 +115,12 @@ public class HomeActivity extends FragmentActivity implements IHome {
             displayActionbar(0);
         }
 
-        bindService(new Intent(this, TumccaService.class), new ServiceConnection() {
+        bindService(new Intent(this, TumccaService.class), mServiceConntection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mService = ((TumccaService.LocalService)service).getService();
                 mWorksListFragment = new WorkListFragment();
-                Log.v("Tumcca", "Home size " + mService.getHomeWorkList().size());
+                //Log.v("Tumcca", "Home size " + mService.getHomeWorkList().size());
                 final List<WorksInfo> worksInfoList = mService.getHomeWorkList();
                 mWorksListFragment.setWorksLoader(new WorkListFragment.WorkListLoader() {
                     @Override
@@ -395,8 +400,9 @@ public class HomeActivity extends FragmentActivity implements IHome {
     public void addWorkList(WorkListFragment fragment) {
         if(null!=fragment){
             //if(getSupportFragmentManager().)
-            Log.v(TumccaApplication.TAG, (null==getSupportFragmentManager().findFragmentByTag("worksFragment"))+"");
-            getSupportFragmentManager().beginTransaction().replace(R.id.layout_works, fragment, "worksFragment").commitAllowingStateLoss();
+            //Log.v(TumccaApplication.TAG, (null==getSupportFragmentManager().findFragmentByTag("worksFragment"))+"");
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.layout_works, fragment, "worksFragment").commitAllowingStateLoss();
         }
     }
 
@@ -447,6 +453,26 @@ public class HomeActivity extends FragmentActivity implements IHome {
         }
 
         addWorkList(mWorksListFragment);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        unbindService(mServiceConntection);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("photo_uri", mUri);
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(null!=savedInstanceState) {
+
+            mUri = savedInstanceState.getParcelable("photo_uri");
+        }
     }
 
     private void showMessage(final String message){

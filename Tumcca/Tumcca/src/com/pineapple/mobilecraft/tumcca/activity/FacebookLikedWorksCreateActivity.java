@@ -6,15 +6,19 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.photoselector.model.PhotoModel;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.Constants;
 import com.pineapple.mobilecraft.tumcca.data.Picture;
 import com.pineapple.mobilecraft.tumcca.fragment.FacebookLikedWorksCreateFragment;
@@ -37,7 +41,7 @@ public class FacebookLikedWorksCreateActivity extends FragmentActivity {
     private FacebookLikedWorksCreateFragment mWorkCreateFragment;
     private TumccaService mService;
     private ServiceConnection mServiceConnection;
-
+    private Uri mPhotoUri;
     public static void startActivity(Activity activity, List<Picture> pictures) {
         Intent intent = new Intent(activity, FacebookLikedWorksCreateActivity.class);
         intent.putExtra("pictures", new Gson().toJson(pictures));
@@ -59,6 +63,7 @@ public class FacebookLikedWorksCreateActivity extends FragmentActivity {
         //添加作品创建Fragment
         List<Picture> photos = new Gson().fromJson(getIntent().getStringExtra("pictures"), new TypeToken<List<Picture>>() {
         }.getType());
+        Log.v(TumccaApplication.TAG, "onCreate");
         if (photos != null && !photos.isEmpty()) {
             addWorkView(photos);
         }
@@ -76,6 +81,11 @@ public class FacebookLikedWorksCreateActivity extends FragmentActivity {
             }
         };
         bindService(new Intent(this, TumccaService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+//        if(null!=savedInstanceState){
+//            mPhotoUri = savedInstanceState.getParcelable("photo_uri");
+//
+//        }
+
 
     }
 
@@ -91,7 +101,8 @@ public class FacebookLikedWorksCreateActivity extends FragmentActivity {
             }
         }
         if (requestCode == PhotoChoose.FROMCAMERA&&resultCode==RESULT_OK) {// selected image
-            String outPath = Utility.processImage(mWorkCreateFragment.getPhotoUri().getPath(), Constants.MAX_PICTURE_WIDTH, Constants.MAX_PICTURE_HEIGHT, 0.0f, true);
+            mPhotoUri = mWorkCreateFragment.getPhotoUri();
+            String outPath = Utility.processImage(mPhotoUri.getPath(), Constants.MAX_PICTURE_WIDTH, Constants.MAX_PICTURE_HEIGHT, 0.0f, true);
             ArrayList<Picture> photoItems = new ArrayList<Picture>();
             photoItems.add(new Picture(null, outPath));
             mWorkCreateFragment.addPictures(photoItems);
@@ -136,10 +147,14 @@ public class FacebookLikedWorksCreateActivity extends FragmentActivity {
      * 添加作品Fragment
      */
     private void addWorkView(List<Picture> pictures) {
+        Log.v(TumccaApplication.TAG, "addWorkView");
         if (null != pictures) {
-            mWorkCreateFragment = new FacebookLikedWorksCreateFragment();
-            mWorkCreateFragment.setPictures(pictures);
-            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, mWorkCreateFragment).commit();
+            if((mWorkCreateFragment = (FacebookLikedWorksCreateFragment) getSupportFragmentManager().findFragmentByTag("works_create")) == null){
+                mWorkCreateFragment = new FacebookLikedWorksCreateFragment();
+                mWorkCreateFragment.setPictures(pictures);
+                Log.v(TumccaApplication.TAG, "new Fragment");
+                getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, mWorkCreateFragment, "works_create").commit();
+            }
         }
     }
 
@@ -155,5 +170,45 @@ public class FacebookLikedWorksCreateActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        //getSupportFragmentManager().beginTransaction().remove(mWorkCreateFragment).commit();
+//
+//        outState.putParcelable("photo_uri", mPhotoUri = mWorkCreateFragment.getPhotoUri());
+//
+//        super.onSaveInstanceState(outState);
+//    }
+
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//
+//        super.onRestoreInstanceState(savedInstanceState);
+//        if(null!=savedInstanceState) {
+//
+//            mPhotoUri = savedInstanceState.getParcelable("photo_uri");
+//        }
+//        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, mWorkCreateFragment).commit();
+//
+//
+//    }
+
+    @Override
+    public void onDestroy(){
+        Log.v(TumccaApplication.TAG, "onDestroy");
+        unbindService(mServiceConnection);
+        getSupportFragmentManager().beginTransaction().remove(mWorkCreateFragment).commitAllowingStateLoss();
+        super.onDestroy();
+     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, mWorkCreateFragment).commit();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
+    }
 
 }

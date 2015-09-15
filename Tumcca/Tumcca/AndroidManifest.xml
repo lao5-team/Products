@@ -91,7 +91,8 @@
         </activity>
         <activity android:name=".tumcca.activity.CommentActivity"/>
         <activity android:name=".tumcca.activity.WorksSearchActivity" android:theme="@style/my_search_activity_style" android:screenOrientation="portrait"/>
-        <activity android:name=".tumcca.activity.FacebookLikedWorksCreateActivity" android:theme="@style/my_search_activity_style" android:screenOrientation="portrait"/>
+        <activity android:name=".tumcca.activity.FacebookLikedWorksCreateActivity" android:theme="@style/my_search_activity_style"
+                  android:screenOrientation="portrait" android:configChanges="orientation|screenSize"/>
         <activity
                 android:name="com.photoselector.ui.PhotoSelectorActivity"
                 android:label="图片选择" android:screenOrientation="portrait" >

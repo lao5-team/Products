@@ -348,6 +348,13 @@ public class PhotoSelectorActivity extends Activity implements
 			photoSelectorDomain.getAlbum(current.id, reccentListener); // 获取选中相册的照片
 	}
 
+	@Override
+	public void onDestroy(){
+		ImageLoader.getInstance().clearMemoryCache();
+		System.gc();
+		super.onDestroy();
+	}
+
 	/** 获取本地图库照片回调 */
 	public interface OnLocalReccentListener {
 		public void onPhotoLoaded(List<PhotoModel> photos);

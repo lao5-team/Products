@@ -168,7 +168,7 @@ public class WorkAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (null != mWorksInfoList) {
-            Log.v("Tumcca", "Home fragment size " + mWorksInfoList.size());
+            //Log.v("Tumcca", "Home fragment size " + mWorksInfoList.size());
             return mWorksInfoList.size();
         }
         return 0;

@@ -32,6 +32,7 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
 	/**
 	 * 初始化时的缩放比例，如果图片宽或高大于屏幕，此值将小于0
 	 */
+	private float minScale = 1.0f;
 	private float initScale = 1.0f;
 	private boolean once = true;
 
@@ -189,14 +190,14 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
 		 * 缩放的范围控制
 		 */
 		if ((scale < SCALE_MID && scaleFactor > 1.0f)
-				|| (scale > initScale && scaleFactor < 1.0f))
+				|| (scale > minScale && scaleFactor < 1.0f))
 		{
 			/**
 			 * 最大值最小值判断
 			 */
-			if (scaleFactor * scale < initScale)
+			if (scaleFactor * scale < minScale)
 			{
-				scaleFactor = initScale / scale;
+				scaleFactor = minScale / scale;
 			}
 
 			/**
@@ -439,9 +440,17 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
 			{
 				scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
 			}
-			initScale = scale;
 
-			Log.e(TAG, "initScale = " + initScale);
+
+			// 如果宽和高都小于屏幕，则缩放至一个维度占满
+			if (dw < width && dh < height)
+			{
+				scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
+			}
+			initScale = scale;
+			minScale = Math.min(1.0f, scale);
+
+			Log.e(TAG, "minScale = " + minScale);
 			mScaleMatrix.postTranslate((width - dw) / 2, (height - dh) / 2);
 			mScaleMatrix.postScale(scale, scale, getWidth() / 2,
 					getHeight() / 2);

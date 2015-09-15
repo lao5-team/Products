@@ -1,21 +1,27 @@
 package com.pineapple.mobilecraft.tumcca.fragment;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pineapple.mobilecraft.R;
+import com.pineapple.mobilecraft.TumccaApplication;
 import com.pineapple.mobilecraft.tumcca.activity.PhotoChoose;
 import com.pineapple.mobilecraft.tumcca.activity.PictureEditActivity2;
 import com.pineapple.mobilecraft.tumcca.activity.FacebookLikedWorksCreateActivity;
@@ -52,7 +58,7 @@ public class FacebookLikedWorksCreateFragment extends BaseListFragment {
 
     //data
     private List<WorkCreateItem> mWorkItems = new ArrayList<WorkCreateItem>();
-    private DisplayImageOptions mImageOptionsWorks;
+    private static DisplayImageOptions mImageOptionsWorks;
     private TumccaService mTumccaService;
 
     //默认专辑
@@ -67,32 +73,50 @@ public class FacebookLikedWorksCreateFragment extends BaseListFragment {
     private String[] bigNum = {"一", "二", "三", "四", "五", "六", "七", "八", "九"}; //数字对应的中文
 
     public FacebookLikedWorksCreateFragment() {
+        Log.v(TumccaApplication.TAG, "WorksCreateFragment id " + this.hashCode());
         setLayout(R.layout.fragment_works_create);
 
-        setItemLoader(new ItemLoader() {
-            @Override
-            public List<ListItem> loadHead() {
-                return Arrays.asList(mWorkItems.toArray(new ListItem[0]));
-            }
+        if(mItemLoader == null){
+            setItemLoader(new ItemLoader() {
+                @Override
+                public List<ListItem> loadHead() {
+                    return Arrays.asList(mWorkItems.toArray(new ListItem[0]));
+                }
 
-            @Override
-            public List<ListItem> loadTail(int page) {
-                return null;
-            }
-        });
+                @Override
+                public List<ListItem> loadTail(int page) {
+                    return null;
+                }
+            });
+        }
 
-        mImageOptionsWorks = new DisplayImageOptions.Builder()
-                .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
-                .considerExifParams(false).build();
+        if(null == mImageOptionsWorks){
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 8;
+            mImageOptionsWorks = new DisplayImageOptions.Builder()
+                    .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                    .considerExifParams(false).decodingOptions(options).build();
+        }
+    }
+
+    public void onCreate(Bundle bundle){
+        super.onCreate(bundle);
+        Log.v(TumccaApplication.TAG, "FacebookLikedWorksCreateFragment onCreate  " + this.hashCode());
+
+
     }
 
     @Override
     public void buildView(View view, Bundle savedInstanceState) {
-        super.buildView(view, savedInstanceState);
-
+        if(null!=savedInstanceState){
+            mWorkItems = new Gson().fromJson(savedInstanceState.getString("works_items"), new TypeToken<List<WorkCreateItem>>(){}.getType());
+        }
         addAlbumView(view);
 
         addAddPhotoView(view);
+
+        super.buildView(view, savedInstanceState);
+
     }
 
     public Uri getPhotoUri() {
@@ -311,6 +335,15 @@ public class FacebookLikedWorksCreateFragment extends BaseListFragment {
 
         @Override
         public void bindViewHolder(ListViewHolder viewHolder) {
+
+            if(mImageOptionsWorks == null){
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 8;
+                mImageOptionsWorks = new DisplayImageOptions.Builder()
+                        .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                        .considerExifParams(false).decodingOptions(options).resetViewBeforeLoading(true).build();
+            }
+
             final PhotoEditViewHolder vh = (PhotoEditViewHolder) viewHolder;
             //显示图片
             String path = "file://" + Uri.fromFile(new File(picture.localPath)).getPath();
@@ -421,5 +454,44 @@ public class FacebookLikedWorksCreateFragment extends BaseListFragment {
         public long getId() {
             return id;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle){
+        super.onSaveInstanceState(bundle);
+        bundle.putString("works_items", new Gson().toJson(mWorkItems));
+    }
+
+    @Override
+    public void onResume(){
+//        if(mItemLoader == null){
+//            setItemLoader(new ItemLoader() {
+//                @Override
+//                public List<ListItem> loadHead() {
+//                    return Arrays.asList(mWorkItems.toArray(new ListItem[0]));
+//                }
+//
+//                @Override
+//                public List<ListItem> loadTail(int page) {
+//                    return null;
+//                }
+//            });
+//        }
+//
+//
+//        if(null == mImageOptionsWorks){
+//            mImageOptionsWorks = new DisplayImageOptions.Builder()
+//                    .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+//                    .considerExifParams(false).build();
+//        }
+        super.onResume();
+
+    }
+
+    @Override
+    public void onDestroy(){
+        mWorkItems.clear();
+        reload();
+        super.onDestroy();
     }
 }

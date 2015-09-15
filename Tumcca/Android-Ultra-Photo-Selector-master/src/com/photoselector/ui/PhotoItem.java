@@ -61,7 +61,7 @@ public class PhotoItem extends LinearLayout implements OnCheckedChangeListener,
 
 		cbPhoto.setOnCheckedChangeListener(this); // CheckBoxѡ��״̬�ı������
 		BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
-		factoryOptions.inSampleSize = 4;
+		factoryOptions.inSampleSize = 8;
 		options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.ic_picture_loading)
 				.showImageOnFail(R.drawable.ic_picture_loadfailed)

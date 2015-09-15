@@ -28,11 +28,11 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/scrollView6" android:background="@color/edittext_bg_normal">
+            android:id="@+id/scrollView6" android:background="@color/pure_white">
         <view android:layout_width="match_parent"
               android:layout_height="match_parent"
               class="com.pineapple.mobilecraft.tumcca.view.ZoomImageView" android:id="@+id/zoom_view"
 
-              android:scaleType="fitStart" android:adjustViewBounds="true"/>
+              android:adjustViewBounds="true" android:layout_margin="0dip"/>
     </RelativeLayout>
 </RelativeLayout>

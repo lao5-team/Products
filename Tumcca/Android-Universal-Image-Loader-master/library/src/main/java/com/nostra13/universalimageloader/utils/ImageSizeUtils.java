@@ -119,6 +119,17 @@ public final class ImageSizeUtils {
 					scale = Math.min(srcWidth / targetWidth, srcHeight / targetHeight); // min
 				}
 				break;
+			case CENTER_CROP:
+				if (powerOf2Scale) {
+					final int halfWidth = srcWidth / 2;
+					final int halfHeight = srcHeight / 2;
+					while ((halfWidth / scale) > targetWidth && (halfHeight / scale) > targetHeight) { // &&
+						scale *= 2;
+					}
+				} else {
+					scale = Math.min(srcWidth / targetWidth, srcHeight / targetHeight); // min
+				}
+				break;
 		}
 
 		if (scale < 1) {

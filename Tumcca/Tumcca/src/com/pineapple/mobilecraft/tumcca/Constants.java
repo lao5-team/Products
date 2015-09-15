@@ -10,4 +10,5 @@ public class Constants {
     public static String ACTION_ALBUMS_CHANGE = "albums_change";
     public static String ACTION_WORKS_CHANGE = "works_change";
     public static String ACTION_USERS_CHANGE = "works_change";
+    public static int IMAGE_ROUNDED_CORNER_RADIUS = 5;
 }
