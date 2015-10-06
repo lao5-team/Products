@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -77,8 +78,10 @@ public class HomeActivity extends FragmentActivity implements IHome {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(0xffffff  ));
             View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_home, null);
             addActionbarView(actionBar, customActionBarView);
+
         }
 
 
@@ -198,9 +201,10 @@ public class HomeActivity extends FragmentActivity implements IHome {
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage("drawable://" + R.drawable.default_avatar, mIvAvatar, mImageOptions);
         mTvPseudonym = (TextView) view.findViewById(R.id.textView_user);
-        mLayoutLogin = (RelativeLayout) view.findViewById(R.id.layout_login);
-        mLayoutLogin.setClickable(true);
-        mLayoutLogin.setOnClickListener(new View.OnClickListener() {
+
+        mLayoutLogin = (RelativeLayout)view.findViewById(R.id.layout_login);
+        ImageButton btnLogin = (ImageButton) view.findViewById(R.id.button_login);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoginActivity.startActivity(HomeActivity.this, REQ_LOGIN);

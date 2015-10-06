@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by yihao on 15/6/15.
  */
-public class UserActivity extends FragmentActivity {
+public class UserActivity extends TumccaBaseActivity {
     private static final int WORKS_WIDTH = 400;
     private static final int PAGE_SIZE = 5;
     private static final int ALBUM_PAGE_SIZE = 20;
@@ -63,7 +63,6 @@ public class UserActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
         final ActionBar actionBar = getActionBar();
         if (null != actionBar) {

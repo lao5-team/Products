@@ -48,7 +48,7 @@ import java.util.List;
 /**
  * Created by yihao on 15/3/12.
  */
-public class WorksCreateActivity extends FragmentActivity implements ICalligraphyCreate {
+public class WorksCreateActivity extends TumccaBaseActivity implements ICalligraphyCreate {
     public static final int CROP_REQUEST_CODE = 2;
     public static final int MAX_IMAGE_COUNT =5;
     public static int REQ_PIC_EDIT = 6;
@@ -86,7 +86,6 @@ public class WorksCreateActivity extends FragmentActivity implements ICalligraph
         mImageOptionsWorks = new DisplayImageOptions.Builder()
                 .displayer(new RoundedBitmapDisplayer(Util.dip2px(TumccaApplication.applicationContext, 5))).cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         final ActionBar actionBar = getActionBar();
         if(null!=actionBar){
             actionBar.setDisplayHomeAsUpEnabled(true);

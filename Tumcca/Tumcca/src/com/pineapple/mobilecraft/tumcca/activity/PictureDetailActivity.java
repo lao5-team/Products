@@ -21,7 +21,7 @@ import com.pineapple.mobilecraft.tumcca.view.ZoomImageView;
 /**
  * Created by yihao on 15/6/16.
  */
-public class PictureDetailActivity extends Activity {
+public class PictureDetailActivity extends TumccaBaseActivity {
 
     private final static int RADIUS = 150;
     private Rect mSrcRect = new Rect();
@@ -46,7 +46,6 @@ public class PictureDetailActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_picture_detail);
         mScrollView = (MyScrollView)findViewById(R.id.scrollView);

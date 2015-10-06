@@ -33,7 +33,7 @@
                 android:label="@string/app_name"
                 android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".tumcca.activity.WorkDetailActivity" android:theme="@style/my_activity_style"
+        <activity android:name=".tumcca.activity.WorkDetailActivity" android:theme="@style/tumcca_activity_style"
                   android:screenOrientation="portrait">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
@@ -50,7 +50,7 @@
         <activity android:name=".tumcca.activity.RegisterActivity" android:theme="@style/my_dialog_activity_style"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".tumcca.activity.HomeActivity" android:theme="@style/my_activity_style"
+        <activity android:name=".tumcca.activity.HomeActivity" android:theme="@style/tumcca_activity_style"
                   android:screenOrientation="portrait" >
 
         </activity>
@@ -63,30 +63,30 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".tumcca.activity.UserInfoActivity" android:theme="@style/my_activity_style"
+        <activity android:name=".tumcca.activity.UserInfoActivity" android:theme="@style/tumcca_activity_style"
                   android:screenOrientation="portrait"/>
         <activity android:name=".tumcca.activity.UserActivity" android:theme="@style/StyledIndicators"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".tumcca.activity.PictureDetailActivity" android:screenOrientation="unspecified"
-                  android:theme="@style/my_activity_style" >
+                  android:theme="@style/tumcca_activity_style" >
         </activity>
         <activity android:name=".tumcca.activity.WorksCreateActivity"
-                  android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style"
+                  android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/tumcca_activity_style"
                   android:screenOrientation="portrait">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".tumcca.activity.HomeActivity"/>
         </activity>
         <activity android:name=".tumcca.activity.AlbumDetailActivity"
-                  android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/my_activity_style"
+                  android:windowSoftInputMode="stateHidden|adjustPan" android:theme="@style/tumcca_activity_style"
                   android:screenOrientation="portrait"/>
         <activity android:name=".tumcca.activity.UserCity" android:screenOrientation="portrait"/>
-        <activity android:name=".tumcca.activity.PictureEditActivity" android:theme="@style/my_activity_style"
+        <activity android:name=".tumcca.activity.PictureEditActivity" android:theme="@style/tumcca_activity_style"
                   android:screenOrientation="portrait">
 
     </activity>
-        <activity android:name=".tumcca.activity.PictureEditActivity2" android:theme="@style/my_activity_style" android:screenOrientation="portrait">
+        <activity android:name=".tumcca.activity.PictureEditActivity2" android:theme="@style/tumcca_activity_style" android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".tumcca.activity.CommentActivity"/>
@@ -98,8 +98,14 @@
                 android:label="图片选择" android:screenOrientation="portrait" >
 
         </activity>
-        <activity android:name=".tumcca.activity.AlbumsListActivity" android:theme="@style/my_activity_style" android:screenOrientation="portrait"/>
-        <activity android:name=".tumcca.activity.WorksListActivity" android:theme="@style/my_activity_style" android:screenOrientation="portrait"/>
+        <activity android:name=".tumcca.activity.AlbumsListActivity" android:theme="@style/tumcca_activity_style" android:screenOrientation="portrait"/>
+        <activity android:name=".tumcca.activity.WorksListActivity" android:theme="@style/tumcca_activity_style" android:screenOrientation="portrait"/>
+        <activity
+                android:name=".tumcca.activity.TumccaBaseActivity"
+                android:theme="@style/tumcca_activity_style"
+                android:screenOrientation="portrait"
+                >
+        </activity>
         <service android:name="com.pineapple.mobilecraft.tumcca.service.TumccaService" />
 
     </application>

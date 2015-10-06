@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by yihao on 15/7/4.
  */
-public class AlbumDetailActivity extends FragmentActivity {
+public class AlbumDetailActivity extends TumccaBaseActivity {
 
     private TextView mTvTitle;
     private long mId;
@@ -41,7 +41,6 @@ public class AlbumDetailActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
         final ActionBar actionBar = getActionBar();
         if(null!=actionBar){

@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created by yihao on 7/22/15.
  */
-public class PictureEditActivity2 extends Activity implements GestureDetector.OnGestureListener {
+public class PictureEditActivity2 extends TumccaBaseActivity implements GestureDetector.OnGestureListener {
 
 
     DisplayImageOptions mImageOptionsWorks;

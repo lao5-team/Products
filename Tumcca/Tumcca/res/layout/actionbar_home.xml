@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content" android:background="@android:color/background_light">
 
     <RelativeLayout
             android:layout_width="wrap_content"
@@ -23,10 +23,10 @@
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:layout_toRightOf="@+id/layout_profile"
-            android:id="@+id/layout_login">
+            android:id="@+id/layout_login" android:background="@android:color/background_light">
         <ImageButton
-                android:layout_width="32dip"
-                android:layout_height="32dip" android:layout_alignParentTop="false"
+                android:layout_width="48dip"
+                android:layout_height="48dip" android:layout_alignParentTop="false"
                 android:layout_centerVertical="true" android:id="@+id/button_login" android:src="@drawable/sign_in"
                 android:scaleType="centerCrop" android:adjustViewBounds="true"
                 android:background="#00000000" android:padding="8dp" android:layout_marginTop="5dip"
@@ -38,6 +38,6 @@
                 android:text="登录/注册"
                 android:id="@+id/textView_login" android:layout_alignTop="@+id/button_login"
                 android:layout_toRightOf="@+id/button_login" android:layout_toEndOf="@+id/button_login"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true" android:visibility="gone"/>
     </RelativeLayout>
 </RelativeLayout>

@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
  *
  * 用于 See All功能
  */
-public class WorksListActivity extends FragmentActivity {
+public class WorksListActivity extends TumccaBaseActivity {
 
     private TextView mTvTitle;
     private long mId;
@@ -58,7 +58,6 @@ public class WorksListActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
 

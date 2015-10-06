@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by yihao on 8/14/15.
  */
-public class WorksSearchActivity extends FragmentActivity {
+public class WorksSearchActivity extends TumccaBaseActivity {
 
     EditText mEtxSearch;
     ImageButton mIBSearch;
@@ -32,15 +32,17 @@ public class WorksSearchActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addActionBar();
         setContentView(R.layout.activity_works_search);
         addSearchView();
         addWorksView();
+
+
+
     }
 
     private void addActionBar() {
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         final ActionBar actionBar = getActionBar();
         if (null != actionBar) {
             actionBar.setDisplayHomeAsUpEnabled(true);

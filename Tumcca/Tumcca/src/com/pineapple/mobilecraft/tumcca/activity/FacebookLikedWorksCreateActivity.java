@@ -32,7 +32,7 @@ import java.util.List;
  * facebook 风格的作品创建页面 http://pan.baidu.com/s/1sjoTI5R
  * Created by yihao on 8/18/15.
  */
-public class FacebookLikedWorksCreateActivity extends FragmentActivity {
+public class FacebookLikedWorksCreateActivity extends TumccaBaseActivity {
     public static final int REQ_PIC_EDIT = 1;
 
     /**
@@ -52,7 +52,6 @@ public class FacebookLikedWorksCreateActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         final ActionBar actionBar = getActionBar();
         if (null != actionBar) {
             addActionbar(actionBar);

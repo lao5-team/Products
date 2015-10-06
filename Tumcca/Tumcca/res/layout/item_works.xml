@@ -23,70 +23,77 @@
             android:layout_alignParentEnd="true" android:layout_margin="10dip"/>
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="文字说明"
                   android:id="@+id/textView_describe" android:layout_below="@+id/imageView_picture"
-                  android:layout_marginLeft="10dip" android:layout_marginTop="5dip" android:textSize="@dimen/text_size_small"
-                  android:layout_marginRight="10dip"/>
+                  android:layout_marginLeft="11dip" android:textSize="12sp"
+                  android:layout_marginRight="11dip" android:textColor="@color/text_color"
+                  android:layout_marginBottom="10dp" android:layout_marginTop="10dp"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" android:layout_below="@+id/textView_describe" android:id="@+id/divider"
+                android:background="@color/edittext_bg_normal" android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip">
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:id="@+id/foo" android:layout_below="@+id/textView_describe">
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_like">
+                android:id="@+id/layout_like" android:layout_marginTop="10dp">
             <ImageView
                     android:layout_width="12dip"
                     android:layout_height="12dip"
                     android:id="@+id/imageView_like" android:src="@drawable/like" android:layout_marginLeft="10dip"
-                    android:layout_marginTop="3dip" android:layout_marginBottom="3dip"/>
+                    android:layout_centerVertical="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:id="@+id/textView_like"
                     android:layout_marginRight="10dip" android:layout_toRightOf="@+id/imageView_like"
-                    android:layout_marginLeft="5dip" android:paddingTop="1dp"/>
+                    android:layout_marginLeft="5dip"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" android:layout_centerVertical="true"/>
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_comment" android:layout_toRightOf="@+id/layout_like">
+                android:id="@+id/layout_comment" android:layout_toRightOf="@+id/layout_like"
+                android:layout_marginTop="10dp">
             <ImageView android:layout_width="12dip" android:layout_height="12dip"
                        android:id="@+id/imageView_comment" android:src="@drawable/comment"
-                       android:layout_marginLeft="10dip" android:layout_marginTop="3dip"/>
+                       android:layout_marginLeft="10dip" android:layout_centerVertical="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:id="@+id/textView_comment"
                      android:layout_marginRight="10dip" android:layout_toRightOf="@+id/imageView_comment"
-                    android:layout_marginLeft="5dip" android:paddingTop="1dip"/>
+                    android:layout_marginLeft="5dip" android:textColor="@color/text_color"
+                    android:textSize="14sp" android:layout_centerVertical="true"/>
         </RelativeLayout>
     </RelativeLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="1dip" android:layout_below="@+id/foo" android:id="@+id/divider"
-                android:background="@color/edittext_bg_normal">
-        </LinearLayout>
 
     </RelativeLayout>
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_below="@+id/layout_work" android:padding="5dip"
-            android:id="@+id/layout_author">
+            android:layout_height="wrap_content" android:layout_below="@+id/layout_work"
+            android:id="@+id/layout_author" android:padding="10dp">
         <ImageView
-                android:layout_width="32dip"
-                android:layout_height="32dip"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
                 android:id="@+id/imageView_avatar"
-                android:background="@drawable/corner_border_imageview" android:layout_marginLeft="5dp"
+                android:background="@drawable/corner_border_imageview"
                 android:src="@drawable/default_avatar"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/textView_author" android:layout_alignTop="@+id/imageView_avatar"
+                android:id="@+id/textView_author"
                 android:layout_toRightOf="@+id/imageView_avatar" android:layout_toEndOf="@+id/imageView_avatar"
-                android:textSize="@dimen/text_size_small"
-                android:textColor="#ff646464" android:layout_marginLeft="5dip" android:maxWidth="200dip"/>
+                android:textSize="15sp"
+                android:textColor="@color/text_color" android:layout_marginLeft="5dip" android:maxWidth="200dip"
+                android:layout_centerVertical="true"/>
     </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

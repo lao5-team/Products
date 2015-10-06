@@ -34,7 +34,7 @@ import java.net.URISyntaxException;
 /**
  * Created by yihao on 15/6/8.
  */
-public class UserInfoActivity extends FragmentActivity implements IUserInfo, View.OnClickListener {
+public class UserInfoActivity extends TumccaBaseActivity implements IUserInfo, View.OnClickListener {
 
 
     public static final int CROP_REQUEST_CODE = 2;
@@ -102,7 +102,6 @@ public class UserInfoActivity extends FragmentActivity implements IUserInfo, Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
         final ActionBar actionBar = getActionBar();
         if(null!=actionBar){

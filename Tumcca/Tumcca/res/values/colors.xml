@@ -62,5 +62,6 @@
     <color name="lightgray">#999999</color><!-- 浅灰 -->
     <color name="lightwhite">#EEEEEE</color><!--浅白色    -->
     <color name="rippleColor">#58FAAC</color>
+    <color name="text_color">#889090</color>
 
 </resources>

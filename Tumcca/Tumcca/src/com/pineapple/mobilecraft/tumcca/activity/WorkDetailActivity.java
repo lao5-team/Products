@@ -40,7 +40,7 @@ import java.util.concurrent.Executors;
  * 用来查看宝物详情
  * TODO 清理这部分代码
  */
-public class WorkDetailActivity extends FragmentActivity implements View.OnClickListener, IMyScrollViewListener, AbsListView.OnScrollListener, View.OnTouchListener {
+public class WorkDetailActivity extends TumccaBaseActivity implements View.OnClickListener, IMyScrollViewListener, AbsListView.OnScrollListener, View.OnTouchListener {
 
     private TextView mTvUser;
     private ImageView mIvAvatar;
@@ -89,8 +89,6 @@ public class WorkDetailActivity extends FragmentActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-
         final ActionBar actionBar = getActionBar();
         if(null!=actionBar){
             actionBar.setDisplayHomeAsUpEnabled(true);

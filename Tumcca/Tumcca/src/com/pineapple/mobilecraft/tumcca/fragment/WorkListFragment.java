@@ -42,7 +42,7 @@ public class WorkListFragment extends Fragment implements IWorksList {
     public static final int MODE_LV_DRAG = 0;
     public static final int MODE_LV_FIXED = 1;
 
-    static final int CORNER_RADIUS = 5;
+    static final int CORNER_RADIUS = 1;
     List<WorksInfo> mWorksInfoList = new ArrayList<WorksInfo>();
     int mCurrentPage = 1;
     int mListViewMode = MODE_LV_DRAG;

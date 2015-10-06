@@ -31,7 +31,7 @@
               xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               class="com.etsy.android.grid.StaggeredGridView" android:id="@+id/list"
-              android:paddingLeft="5dp" android:paddingRight="5dp" android:paddingTop="10dp"
+              android:paddingLeft="3dp" android:paddingRight="3dp" android:paddingTop="5dp"
               app:column_count="2"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

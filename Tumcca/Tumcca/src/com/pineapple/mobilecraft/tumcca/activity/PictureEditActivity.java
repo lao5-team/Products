@@ -185,7 +185,7 @@ public class PictureEditActivity extends Activity implements GestureDetector.OnG
 
     @Override
     public boolean onDown(MotionEvent e) {
-        return false;
+        return true;
     }
 
     @Override

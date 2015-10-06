@@ -36,7 +36,7 @@ import java.util.List;
  * Created by yihao on 8/25/15.
  */
 public class WorkAdapter extends BaseAdapter {
-    static final int CORNER_RADIUS = 5;
+    static final int CORNER_RADIUS = 3;
     List<WorksInfo> mWorksInfoList = new ArrayList<WorksInfo>();
     Activity mActivity;
     DisplayImageOptions mImageOptionsWorks;

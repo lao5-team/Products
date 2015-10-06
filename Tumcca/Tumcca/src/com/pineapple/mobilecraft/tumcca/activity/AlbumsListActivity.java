@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
  *
  * 用于See All功能
  */
-public class AlbumsListActivity extends FragmentActivity {
+public class AlbumsListActivity extends TumccaBaseActivity {
 
     public static final int MODE_LIKE = 0;
     public static final int MODE_COLLECT = 1;
@@ -37,7 +37,6 @@ public class AlbumsListActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_albums_list);
 
