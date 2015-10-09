@@ -5,9 +5,11 @@
               android:layout_height="match_parent" android:gravity="right">
 
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="72dip"
+            android:layout_height="36dip"
             android:text="@string/post_work"
-            android:id="@+id/button_submit" style="@style/my_button_style" android:layout_marginTop="5dip"
-            android:layout_marginBottom="5dip" android:layout_marginRight="10dip"/>
+            android:id="@+id/button_submit" android:layout_marginTop="5dip"
+            android:layout_marginBottom="5dip" android:layout_marginRight="10dip"
+            android:background="@drawable/button_submit" android:textColor="#a40200" android:textSize="18sp"
+            android:paddingLeft="8dip" android:paddingRight="8dip"/>
 </LinearLayout>

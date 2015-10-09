@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:paddingTop="20dip" android:paddingBottom="20dip"
-              android:paddingLeft="20dip" android:paddingRight="10dip">
+              android:layout_height="match_parent"
+              android:paddingTop="10dip" android:paddingBottom="10dip" android:paddingLeft="10dip"
+              android:paddingRight="10dip">
 
         <!--<RelativeLayout-->
                 <!--android:layout_width="fill_parent"-->
@@ -12,46 +13,48 @@
                 <com.pineapple.mobilecraft.widget.RotateImageView
                     android:layout_width="match_parent"
                     android:layout_height="200dip"
-                    android:id="@+id/imageView_pic" android:layout_alignParentLeft="true"
+                    android:id="@+id/imageView_pic" android:layout_alignParentLeft="false"
                     android:layout_alignParentStart="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:scaleType="centerCrop"
-                    android:layout_marginRight="10dip"
                     android:adjustViewBounds="true"/>
         <!--</RelativeLayout>-->
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText_desc" android:layout_below="@+id/imageView_pic" android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
-            android:background="#00000000" android:hint="@string/edit_picture_desc"
-            android:layout_alignLeft="@+id/imageView_pic"
-            android:layout_alignRight="@+id/layout_pic" android:layout_marginBottom="10dp"/>
     <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton_delete"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentRight="false"
             android:layout_alignParentEnd="false"
             android:src="@drawable/delete_picture" android:background="#00000000"
-            />
+            android:layout_alignTop="@+id/imageView_pic" android:layout_alignRight="@+id/imageView_pic"
+            android:layout_marginRight="13dp" android:layout_marginTop="15dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_picture"
             android:id="@+id/textView_edit" android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" android:layout_alignBottom="@+id/imageView_pic"
-            android:layout_marginLeft="10dip" android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dip" android:layout_marginBottom="10dp"
             android:textSize="@dimen/text_size_normal" android:clickable="true" android:textColor="@color/pure_white"
-            android:background="#6e000000" android:padding="5dip"/>
+            android:background="@drawable/picture_edit" android:padding="5dip"/>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_below="@+id/textView_edit" android:background="#f8f8f8">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_desc" android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:background="#00000000" android:hint="@string/edit_picture_desc"
+            android:layout_marginBottom="10dp" android:textColor="#949494" android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dip"/>
         <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/batch_picture_description"
                 android:id="@+id/checkBox_batch" android:layout_below="@+id/editText_desc"
                 android:layout_alignParentLeft="false" android:layout_alignParentStart="false"
-                android:layout_alignLeft="@+id/editText_desc" android:layout_marginBottom="20dip"
-                android:textSize="@dimen/text_size_normal"/>
+                android:layout_alignLeft="@+id/editText_desc" android:layout_marginBottom="10dip"
+                android:textSize="18sp" android:button="@drawable/checkbox_bg"
+                android:layout_marginLeft="0dip" android:paddingLeft="10dip"/>
+    </RelativeLayout>
 </RelativeLayout>

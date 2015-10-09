@@ -55,7 +55,6 @@ public class PictureEditActivity2 extends TumccaBaseActivity implements GestureD
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         mImageOptionsWorks = new DisplayImageOptions.Builder()
                 .cacheOnDisk(false).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
