@@ -5,7 +5,19 @@
               android:orientation="vertical" android:background="@drawable/corner_border_dialog">
 
 
-<LinearLayout
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:id="@+id/textView18" android:layout_gravity="center_horizontal" android:textColor="#000000"
+            android:layout_marginTop="23dip" android:textSize="18sp" android:layout_marginBottom="20dip"
+            android:gravity="center_horizontal"/>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="1dip" android:layout_marginLeft="8dip" android:layout_marginRight="8dip"
+            android:background="#a0a0a0" android:layout_marginBottom="10dip">
+    </RelativeLayout>
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:id="@+id/layout_3rd"
@@ -67,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" android:background="#ffffffff"
-        android:layout_margin="15dp">
+        android:layout_margin="16dp">
 
 
     <RelativeLayout
@@ -83,17 +95,17 @@
                 android:hint="邮箱/手机号"
                 android:inputType="textPersonName"
                 android:singleLine="true"
-
-
+                android:drawableLeft="@drawable/username"
+                android:drawablePadding="10dip"
                 android:textSize="16sp"  style="@style/tumcca_edittext_style"
-                android:paddingLeft="10dip" />
+                />
 
     </RelativeLayout>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:layout_marginTop="10dp" >
+            android:layout_marginTop="21dp" >
 
         <EditText
                 android:id="@+id/password"
@@ -101,6 +113,8 @@
                 android:layout_height="match_parent"
                 android:hint="密码"
                 android:inputType="textPassword"
+                android:drawableLeft="@drawable/password"
+                android:drawablePadding="10dip"
                 android:singleLine="true"  style="@style/tumcca_edittext_style"
                 android:textSize="16sp" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" android:paddingLeft="10dp"/>
@@ -110,7 +124,7 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="27dp"
             android:orientation="horizontal">
 
         <Button
@@ -120,15 +134,17 @@
                 android:id="@+id/button_login" android:layout_centerVertical="true"
                 android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
                 android:textSize="@dimen/text_size_normal" style="@style/my_button_style" android:singleLine="true"
-                android:onClick="login"/>
+                android:onClick="login" android:textColor="#a50001" android:background="@drawable/login_button"
+                android:layout_marginRight="25dip"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="注册新用户"
+                android:text="注册"
                 android:id="@+id/button_register" android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true" android:textSize="@dimen/text_size_normal"
                 style="@style/my_button_style"
-                android:onClick="register"/>
+                android:onClick="register" android:textColor="#0086c8" android:background="@drawable/register_button"
+                android:layout_marginLeft="25dip"/>
     </RelativeLayout>
 
 </LinearLayout>

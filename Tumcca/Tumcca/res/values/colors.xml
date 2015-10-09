@@ -39,7 +39,7 @@
     <!--for tumcca-->
     <color name="button_normal_red">#FFAF001E</color>
     <color name="button_pressed_red">#FF6A001C</color>
-    <color name="edittext_bg_normal">#e0e0e0</color>
+    <color name="edittext_bg_normal">#eeeeee</color>
     <color name="edittext_bg_selected">#C0C0C0</color>
     <color name="pure_white">#FFFFFF</color>
     <color name="pure_black">#000000</color>
