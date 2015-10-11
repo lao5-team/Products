@@ -4,14 +4,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/edittext_bg_normal">
+        android:background="@android:color/white">
     <com.pineapple.mobilecraft.tumcca.view.ObservableScrollView
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:id="@+id/scrollView" android:layout_weight="10">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:padding="10dip">
+                        android:layout_height="match_parent">
 
 
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,11 +22,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/imageView_works"
-                        android:scaleType="fitCenter" android:adjustViewBounds="true" android:layout_margin="10dip"/>
+                        android:scaleType="fitCenter" android:adjustViewBounds="true"/>
                 <RelativeLayout
                         android:layout_width="fill_parent"
                         android:layout_height="1dip"  android:id="@+id/layout_divider_bottom"
-                        android:layout_below="@+id/imageView_works" android:background="@color/edittext_bg_normal">
+                        android:layout_below="@+id/imageView_works" android:background="@color/edittext_bg_normal"
+                        android:visibility="gone">
                 </RelativeLayout>
                 <TextView
                         android:layout_width="match_parent"
@@ -37,13 +38,15 @@
                         android:layout_alignParentStart="true"
                         android:minLines="2"
                         android:layout_below="@+id/layout_divider_bottom"
-                        android:layout_margin="10dip" android:textSize="@dimen/text_size_normal"/>
+                        android:layout_margin="10dip" android:textSize="19dip" android:textColor="@color/pure_black"
+                        android:gravity="center_vertical" android:text="test" android:paddingLeft="5dip"/>
 
             </RelativeLayout>
             <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="1dip" android:layout_below="@+id/layout_works"
-                    android:background="@color/edittext_bg_normal" android:id="@+id/layout_divider">
+                    android:layout_height="1dp" android:layout_below="@+id/layout_works"
+                    android:background="#d2d2d2" android:id="@+id/layout_divider"
+                    android:layout_marginLeft="10dip" android:layout_marginRight="10dip">
             </RelativeLayout>
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent" android:id="@+id/layout_author"
@@ -51,8 +54,8 @@
                         android:background="@color/pure_white" android:layout_below="@+id/layout_divider"
                         android:layout_marginBottom="5dip">
             <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:id="@+id/imageView_author"
                     android:layout_alignParentLeft="true"/>
 
@@ -61,11 +64,15 @@
                     android:layout_height="wrap_content"
                     android:text="Medium Text"
                     android:id="@+id/textView_author"
-                    android:layout_alignTop="@+id/imageView_author"
                     android:layout_toRightOf="@+id/imageView_author"
-                    android:textSize="@dimen/text_size_normal"
-                    android:layout_marginLeft="10dp"/>
-        </RelativeLayout>
+                    android:textSize="17dip"
+                    android:layout_marginLeft="10dp" android:layout_centerVertical="true" android:textColor="#949494"/>
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true" android:background="@drawable/right_arrow">
+                </RelativeLayout>
+            </RelativeLayout>
             <ListView
                     android:layout_width="match_parent"
                     android:layout_height="100dip"
@@ -112,90 +119,94 @@
                 android:layout_alignParentEnd="true" android:enabled="false"/>
         </RelativeLayout>
 
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" android:layout_below="@+id/bottom" android:background="#e1e1e1">
+        </RelativeLayout>
         <LinearLayout
             android:id="@+id/funcLay"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="53dip"
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal"
             >
 
             <RelativeLayout
+                android:id="@+id/collection_layout"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/coolyou_post_bottom_press"
+                android:gravity="center" android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/collection_img"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/collect" android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#889090"
+                    android:textSize="16dip" android:layout_toRightOf="@+id/collection_img"
+                    android:layout_centerVertical="true" android:layout_marginLeft="8dip"
+                    android:id="@+id/collect_num_text"/>
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="1dip"
+                    android:layout_height="match_parent" android:layout_alignParentRight="false"
+                    android:layout_alignParentEnd="false" android:layout_marginTop="13dp"
+                    android:layout_marginBottom="9dp" android:background="#e1e1e1">
+            </RelativeLayout>
+            <RelativeLayout
                 android:id="@+id/reply_layout"
                 android:layout_width="64dip"
                 android:layout_height="64dip"
-                android:layout_marginRight="8dip"
                 android:background="@drawable/coolyou_post_bottom_press"
-                android:gravity="center" >
+                android:gravity="center" android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/reply_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/coolyou_post_reply" />
+                    android:src="@drawable/comment" android:layout_centerVertical="true"/>
 
                 <TextView
                     android:id="@+id/relpy_num_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/reply_img"
                     android:layout_centerInParent="true"
-                    android:text="@string/coolyou_post_comment"
-                    android:textColor="#6e6e6e"
-                    android:textSize="10sp" />
+                    android:text="0"
+                    android:textColor="#889090"
+                    android:textSize="16dp" android:layout_toRightOf="@+id/reply_img" android:layout_marginLeft="8dp"/>
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/collection_layout"
-                android:layout_width="64dip"
-                android:layout_height="64dip"
-                android:layout_marginLeft="8dip"
-                android:layout_marginRight="8dip"
-                android:background="@drawable/coolyou_post_bottom_press"
-                android:gravity="center" >
-
-                <ImageView
-                    android:id="@+id/collection_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/coolyou_post_collection" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/collection_img"
-                    android:layout_centerInParent="true"
-                    android:text="@string/coolyou_post_collection"
-                    android:textColor="#6e6e6e"
-                    android:textSize="10sp" />
-            </RelativeLayout>
-
+            <RelativeLayout android:layout_width="1dip" android:layout_height="match_parent"
+                            android:layout_alignParentRight="false" android:layout_alignParentEnd="false"
+                            android:layout_marginTop="13dp" android:layout_marginBottom="9dp"
+                            android:background="#e1e1e1"/>
             <RelativeLayout
                 android:id="@+id/excellent_layout"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginLeft="8dip"
                 android:background="@drawable/coolyou_post_bottom_press"
-                android:gravity="center" >
+                android:gravity="center" android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/excellent_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/coolyou_post_excellent" />
+                    android:src="@drawable/like" android:layout_centerVertical="true"/>
 
                 <TextView
                     android:id="@+id/excellent_num_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/excellent_img"
-                    android:layout_centerInParent="true"
-                    android:text="@string/coolyou_recommend"
-                    android:textColor="#6e6e6e"
-                    android:textSize="10sp" />
+                    android:text="0"
+                    android:textColor="#889090"
+                    android:textSize="16dp" android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/excellent_img" android:layout_marginLeft="8dp"/>
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

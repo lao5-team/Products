@@ -44,6 +44,7 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
 
     private TextView mTvUser;
     private ImageView mIvAvatar;
+    private RelativeLayout mLayoutAuthor;
     private TextView mTvTitle;
     private ImageView mIvWorks;
 
@@ -62,6 +63,7 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
     private RelativeLayout mCollectButton;
     private RelativeLayout mExcellentButton;
     private TextView mReplyNumTxt;
+    private TextView mCollectNumTxt;
     private TextView mExcellentNumTxt;
     private ImageView mExcellentImg;
     private TextView mExcellentTv;
@@ -114,7 +116,14 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
         mTvUser.setText(mProfile.pseudonym);
 
         mIvAvatar = (ImageView) findViewById(R.id.imageView_author);
-        PictureManager.getInstance().displayAvatar(mIvAvatar, mProfile.avatar, 24);
+        mLayoutAuthor = (RelativeLayout)findViewById(R.id.layout_author);
+        mLayoutAuthor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserActivity.startActivity(WorkDetailActivity.this, mWorks.author);
+            }
+        });
+        PictureManager.getInstance().displayAvatar(mIvAvatar, mProfile.avatar, 15);
 
         mTvTitle = (TextView) findViewById(R.id.textView_desc);
         mTvTitle.setText(mWorks.title);
@@ -161,11 +170,16 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
         mExcellentButton = (RelativeLayout) findViewById(R.id.excellent_layout);
         mReplyNumTxt = (TextView) findViewById(R.id.relpy_num_text);
         mExcellentNumTxt = (TextView) findViewById(R.id.excellent_num_text);
+        mCollectNumTxt = (TextView) findViewById(R.id.collect_num_text);
         mExcellentImg = (ImageView) findViewById(R.id.excellent_img);
         mCollectionImg = (ImageView) findViewById(R.id.collection_img);
         mReplyButton.setOnClickListener(this);
         mCollectButton.setOnClickListener(this);
         mExcellentButton.setOnClickListener(this);
+
+        mCollectNumTxt.setText(mWorks.collects + "");
+        mReplyNumTxt.setText(mWorks.comments + "");
+        mExcellentNumTxt.setText(mWorks.likes + "");
 
         Executors.newSingleThreadExecutor().submit(new Runnable() {
             @Override
@@ -185,11 +199,14 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
                     @Override
                     public void run() {
                         if(mIsLiked){
-                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_recomment));
+                            //mExcellentNumTxt.setText(mWorks.likes + 1 + "");
+                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.like));
                         }
 
                         if(mIsCollected){
-                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
+                            //mCollectNumTxt.setText(mWorks.collects + 1 + "");
+
+                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.like_home));
                         }
                     }
                 });
@@ -222,9 +239,10 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
                         boolean ret = WorksServer.disCollectWork(UserManager.getInstance().getCurrentToken(null), mWorks.id);
                         if(ret)
                         {
-                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection));
+                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.collect));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mCollectionImg.startAnimation(anim);
+
                             mIsCollected = !mIsCollected;
                             sendBroadcast(new Intent(Constants.ACTION_WORKS_CHANGE));
 
@@ -235,7 +253,7 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
                         boolean ret = WorksServer.collectWorks(UserManager.getInstance().getCurrentToken(null), mWorks.id, userId);
                         if(ret)
                         {
-                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_collection_selected));
+                            mCollectionImg.setImageDrawable(getResources().getDrawable(R.drawable.like_home));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mCollectionImg.startAnimation(anim);
                             mIsCollected = !mIsCollected;
@@ -258,7 +276,7 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
                         boolean ret = WorksServer.disLikeWork(UserManager.getInstance().getCurrentToken(null), String.valueOf(mWorks.id));
                         if(ret)
                         {
-                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_excellent));
+                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.like));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mExcellentImg.startAnimation(anim);
                             mIsLiked = !mIsLiked;
@@ -269,7 +287,7 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
                         boolean ret = WorksServer.likeWorks(UserManager.getInstance().getCurrentToken(null), String.valueOf(mWorks.id), String.valueOf(userId));
                         if(ret)
                         {
-                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.coolyou_post_recomment));
+                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.like));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mExcellentImg.startAnimation(anim);
                             mIsLiked = !mIsLiked;
@@ -402,14 +420,14 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
             if(TextUtils.isEmpty(replyTargetName)){
                 String content = reviewerName + ":" + comment.description;
                 SpannableString style=new SpannableString(content);
-                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.button_normal_red)),content.indexOf(reviewerName),content.indexOf(reviewerName) + reviewerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.comment_author_blue)),content.indexOf(reviewerName),content.indexOf(reviewerName) + reviewerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 textView.setText(style);
             }
             else{
                 String content = reviewerName + "回复" + comment.targetName + ":" + comment.description;
                 SpannableString style=new SpannableString(content);
-                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.button_normal_red)),content.indexOf(reviewerName),content.indexOf(reviewerName) + reviewerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.button_normal_red)),reviewerName.length() + "回复".length(),reviewerName.length() + "回复".length() + replyTargetName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.comment_author_blue)),content.indexOf(reviewerName),content.indexOf(reviewerName) + reviewerName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.comment_author_blue)),reviewerName.length() + "回复".length(),reviewerName.length() + "回复".length() + replyTargetName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 textView.setText(style);
             }
 

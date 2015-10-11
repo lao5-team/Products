@@ -38,6 +38,7 @@
 
     <!--for tumcca-->
     <color name="button_normal_red">#FFAF001E</color>
+    <color name="comment_author_blue">#FF0B73A7</color>
     <color name="button_pressed_red">#FF6A001C</color>
     <color name="edittext_bg_normal">#eeeeee</color>
     <color name="edittext_bg_selected">#C0C0C0</color>

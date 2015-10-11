@@ -43,7 +43,7 @@
             <ImageView
                     android:layout_width="12dip"
                     android:layout_height="12dip"
-                    android:id="@+id/imageView_like" android:src="@drawable/like" android:layout_marginLeft="10dip"
+                    android:id="@+id/imageView_like" android:src="@drawable/like_home" android:layout_marginLeft="10dip"
                     android:layout_centerVertical="true"/>
             <TextView
                     android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
                 android:id="@+id/layout_comment" android:layout_toRightOf="@+id/layout_like"
                 android:layout_marginTop="10dp">
             <ImageView android:layout_width="12dip" android:layout_height="12dip"
-                       android:id="@+id/imageView_comment" android:src="@drawable/comment"
+                       android:id="@+id/imageView_comment" android:src="@drawable/comment_home"
                        android:layout_marginLeft="10dip" android:layout_centerVertical="true"/>
             <TextView
                     android:layout_width="wrap_content"
