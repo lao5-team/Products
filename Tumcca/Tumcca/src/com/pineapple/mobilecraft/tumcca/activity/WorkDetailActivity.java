@@ -115,23 +115,14 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
         mTvUser = (TextView) findViewById(R.id.textView_author);
         mTvUser.setText(mProfile.pseudonym);
 
-        mIvAvatar = (ImageView) findViewById(R.id.imageView_author);
-        mLayoutAuthor = (RelativeLayout)findViewById(R.id.layout_author);
-        mLayoutAuthor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserActivity.startActivity(WorkDetailActivity.this, mWorks.author);
-            }
-        });
-        PictureManager.getInstance().displayAvatar(mIvAvatar, mProfile.avatar, 15);
-
-        mTvTitle = (TextView) findViewById(R.id.textView_desc);
-        mTvTitle.setText(mWorks.title);
+        addAuthorView();
 
         //初始化底部功能栏
         addBottomView();
 
 
+        mTvTitle = (TextView) findViewById(R.id.textView_desc);
+        mTvTitle.setText(mWorks.title);
         WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
 
         mIvWorks = (ImageView) findViewById(R.id.imageView_works);
@@ -160,6 +151,18 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
             }
         });
 
+    }
+
+    private void addAuthorView(){
+        mIvAvatar = (ImageView) findViewById(R.id.imageView_author);
+        mLayoutAuthor = (RelativeLayout)findViewById(R.id.layout_author);
+        mLayoutAuthor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserActivity.startActivity(WorkDetailActivity.this, mWorks.author);
+            }
+        });
+        PictureManager.getInstance().displayAvatar(mIvAvatar, mProfile.avatar, 15);
     }
 
     private void addBottomView() {
@@ -308,11 +311,11 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if(mLayoutBottom.getVisibility() == View.VISIBLE)
-        {
-            mLayoutBottom.setVisibility(View.GONE);
-            mFuncLay.setVisibility(View.VISIBLE);
-        }
+//        if(mLayoutBottom.getVisibility() == View.VISIBLE)
+//        {
+//            mLayoutBottom.setVisibility(View.GONE);
+//            mFuncLay.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Override
