@@ -43,14 +43,14 @@
             <ImageView
                     android:layout_width="12dip"
                     android:layout_height="12dip"
-                    android:id="@+id/imageView_like" android:src="@drawable/like_home" android:layout_marginLeft="10dip"
+                    android:id="@+id/imageView_collect" android:src="@drawable/like_home" android:layout_marginLeft="10dip"
                     android:layout_centerVertical="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:id="@+id/textView_like"
-                    android:layout_marginRight="10dip" android:layout_toRightOf="@+id/imageView_like"
+                    android:layout_marginRight="10dip" android:layout_toRightOf="@+id/imageView_collect"
                     android:layout_marginLeft="5dip"
                     android:textColor="@color/text_color"
                     android:textSize="14sp" android:layout_centerVertical="true"/>

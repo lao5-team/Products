@@ -21,7 +21,7 @@
 
     <!--for tumcca-->
     <dimen name="normal_corner_radius">10dp</dimen>
-    <dimen name="small_corner_radius">5dp</dimen>
+    <dimen name="small_corner_radius">3dp</dimen>
     <dimen name="edittext_stroke_width">1.0dp</dimen>
     <dimen name="switch_button_stroke_width">1.0dp</dimen>
     <dimen name="album_button_stroke_width">0.5dp</dimen>

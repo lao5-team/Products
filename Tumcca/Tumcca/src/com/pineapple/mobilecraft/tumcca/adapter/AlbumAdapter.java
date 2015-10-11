@@ -69,15 +69,22 @@ public class AlbumAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        Album album = mAlbumList.get(position);
+
         if(mParentWidth==0){
             mParentWidth = parent.getWidth();
         }
         View view = mActivity.getLayoutInflater().inflate(R.layout.item_album_preview, null);
         AbsListView.LayoutParams param1 = new AbsListView.LayoutParams(
                 mParentWidth/2, (int)(mParentWidth*3.5/4));
+
+        if(album.author != UserManager.getInstance().getCurrentUserId()){
+            param1.height += 210;
+        }
         view.setLayoutParams(param1);
         TextView tvTitle = (TextView)view.findViewById(R.id.textView_album_name);
-        Album album = mAlbumList.get(position);
+
         tvTitle.setText(album.title);
         ImageView imageView_0 = (ImageView)view.findViewById(R.id.imageView_0);
         ImageView imageView_1 = (ImageView)view.findViewById(R.id.imageView_1);
@@ -90,28 +97,28 @@ public class AlbumAdapter extends BaseAdapter{
         if(album.cover!=null){
             if(album.cover.size()>0){
                 DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                        .displayer(new RoundedBitmapDisplayer(10)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                        .displayer(new RoundedBitmapDisplayer(3)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                         .build();
                 ImageLoader imageLoader = ImageLoader.getInstance();
                 imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(0), parent_width/2, 1), imageView_0, imageOptions);
             }
             if(album.cover.size() > 1) {
                 DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                        .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                        .displayer(new RoundedBitmapDisplayer(3)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                         .build();
                 ImageLoader imageLoader = ImageLoader.getInstance();
                 imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(1), parent_width/6, 1), imageView_1, imageOptions);
             }
             if (album.cover.size()>2){
                 DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                        .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                        .displayer(new RoundedBitmapDisplayer(3)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                         .build();
                 ImageLoader imageLoader = ImageLoader.getInstance();
                 imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(2), parent_width/6, 1), imageView_2, imageOptions);
             }
             if (album.cover.size()>3){
                 DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-                        .displayer(new RoundedBitmapDisplayer(5)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
+                        .displayer(new RoundedBitmapDisplayer(3)).cacheOnDisk(true).bitmapConfig(Bitmap.Config.RGB_565)
                         .build();
                 ImageLoader imageLoader = ImageLoader.getInstance();
                 imageLoader.displayImage(PictureServer.getInstance().getPictureUrl(album.cover.get(3), parent_width/6, 1), imageView_3, imageOptions);
@@ -139,16 +146,23 @@ public class AlbumAdapter extends BaseAdapter{
     }
 
     private void bindLikeCollect(View view, final Album album){
-        RelativeLayout layout_like = (RelativeLayout) view.findViewById(R.id.layout_like);
+        View view_control = view.findViewById(R.id.layout_control);
+
+        LinearLayout layout_like = (LinearLayout) view.findViewById(R.id.layout_like);
         if(album.author == UserManager.getInstance().getCurrentUserId()){
             layout_like.setVisibility(View.GONE);
+            view_control.setVisibility(View.GONE);
         }
         final TextView tvLike = (TextView)view.findViewById(R.id.textView_like);
+        final ImageView ivLike = (ImageView)view.findViewById(R.id.imageView_like);
         if(album.isLiked){
             tvLike.setText("取消喜欢");
+            ivLike.setImageResource(R.drawable.album_like);
         }
         else{
             tvLike.setText("喜欢");
+            ivLike.setImageResource(R.drawable.album_unlike);
+
         }
         layout_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,16 +189,20 @@ public class AlbumAdapter extends BaseAdapter{
             }
         });
 
-        RelativeLayout layout_collect = (RelativeLayout) view.findViewById(R.id.layout_collect);
+        LinearLayout layout_collect = (LinearLayout) view.findViewById(R.id.layout_collect);
         if(album.author == UserManager.getInstance().getCurrentUserId()){
             layout_collect.setVisibility(View.GONE);
         }
         TextView tvCollect = (TextView)view.findViewById(R.id.textView_collect);
+        final ImageView ivCollect = (ImageView)view.findViewById(R.id.imageView_collect);
         if(album.isCollected){
             tvCollect.setText("取消收藏");
+            ivCollect.setImageResource(R.drawable.album_collect);
         }
         else{
             tvCollect.setText("收藏");
+            ivCollect.setImageResource(R.drawable.album_uncollect);
+
         }
         layout_collect.setOnClickListener(new View.OnClickListener() {
             @Override

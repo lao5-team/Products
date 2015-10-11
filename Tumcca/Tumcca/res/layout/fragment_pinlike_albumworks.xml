@@ -37,10 +37,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
+                android:drawableRight="@drawable/right_arrow_blue"
                 android:id="@+id/textView_all_albums" android:textSize="@dimen/text_size_normal"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true" android:clickable="true" android:layout_marginRight="10dip"
-                android:textStyle="bold" style="@style/my_button_style"/>
+                android:textStyle="bold" android:background="#00000000" android:textColor="#0475aa"/>
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" android:id="@+id/container_albums"
@@ -57,7 +58,7 @@
                 android:text="@string/album"
                 android:id="@+id/textView3" android:textSize="@dimen/text_size_normal"
                 android:layout_marginLeft="10dip"
-                android:layout_alignBaseline="@+id/textView_all_albums"/>
+                android:layout_alignBaseline="@+id/textView_all_albums" android:textColor="#959595"/>
     </RelativeLayout>
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="0dip" android:id="@+id/layout_works"
                     android:layout_below="@id/layout_button" android:layout_weight="1" android:padding="10dp"
@@ -66,10 +67,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
+                android:drawableRight="@drawable/right_arrow_blue"
                 android:id="@+id/textView_all_works" android:textSize="@dimen/text_size_normal"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true" android:clickable="true" android:layout_marginRight="10dip"
-                android:textStyle="bold" style="@style/my_button_style"/>
+                android:textStyle="bold" android:background="#00000000" android:textColor="#0475aa"/>
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" android:id="@+id/container_works"
@@ -85,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/work"
                 android:id="@+id/textView4" android:textSize="@dimen/text_size_normal"
-                android:layout_marginLeft="10dip" android:layout_alignBaseline="@+id/textView_all_works"/>
+                android:layout_marginLeft="10dip" android:layout_alignBaseline="@+id/textView_all_works"
+                android:textColor="#959595"/>
     </RelativeLayout>
         </LinearLayout>
 
