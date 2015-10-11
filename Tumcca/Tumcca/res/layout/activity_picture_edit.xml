@@ -7,37 +7,40 @@
     <ViewFlipper
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/viewFlipper" android:layout_weight="6">
+            android:id="@+id/viewFlipper" android:layout_weight="6"
+            android:background="@android:color/background_light">
     </ViewFlipper>
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp" android:layout_weight="2">
+            android:layout_height="66dp" android:background="#EEEEEE">
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" android:id="@+id/layout_rotate">
+                android:id="@+id/layout_rotate">
             <ImageView
-                    android:layout_width="32dip"
-                    android:layout_height="32dip"
-                    android:id="@+id/imageView_rotate" android:layout_margin="5dip"
-                    android:layout_centerHorizontal="true" android:src="@drawable/rotate"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView_rotate"
+                    android:src="@drawable/rotate"
+                    android:layout_marginLeft="27dp" android:layout_alignParentLeft="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/rotate"
                     android:id="@+id/textView_rotate" android:layout_below="@+id/imageView_rotate"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true" android:visibility="gone"/>
         </RelativeLayout>
+        <Button
+                android:layout_width="50dp"
+                android:layout_height="27dp"
+                android:text="@string/ok"
+                android:id="@+id/button_OK" android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textSize="10dp" style="@style/my_button_style"
+                android:layout_marginRight="20dp"/>
     </RelativeLayout>
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp" android:layout_weight="1">
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ok"
-                android:id="@+id/button_OK" android:layout_centerVertical="true" android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" android:layout_margin="5dip"
-                android:textSize="@dimen/text_size_normal" style="@style/my_button_style"/>
+            android:layout_height="0dp" android:layout_weight="1" android:visibility="gone">
     </RelativeLayout>
 </LinearLayout>
