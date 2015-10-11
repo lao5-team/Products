@@ -8,10 +8,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:text="0个粉丝"
-                android:id="@+id/textView_count" android:layout_gravity="right|left" android:background="@color/pure_white"
+                android:id="@+id/textView_count" android:layout_gravity="right|left" android:background="#EEEEEE"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/text_size_normal" android:paddingLeft="10dip"
-                android:layout_marginTop="10dip" android:layout_marginBottom="10dip"/>
+                android:layout_marginTop="10dip" android:layout_marginBottom="10dip" android:textColor="#959595"/>
 
         <include android:layout_width="match_parent"
                  android:layout_height="wrap_content"

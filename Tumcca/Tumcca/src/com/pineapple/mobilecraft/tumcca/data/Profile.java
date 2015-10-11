@@ -3,6 +3,7 @@ package com.pineapple.mobilecraft.tumcca.data;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.gson.Gson;
@@ -148,9 +149,11 @@ public class Profile implements BaseListFragment.ListItem {
         vh.username.setText(pseudonym);
         //TODO 显示关注状态
         if (isFollowed) {
+            vh.follow.setChecked(true);
             vh.follow.setText("取消关注");
 
         } else {
+            vh.follow.setChecked(false);
             vh.follow.setText("关   注");
         }
         vh.follow.setOnClickListener(new View.OnClickListener() {
@@ -206,13 +209,13 @@ public class Profile implements BaseListFragment.ListItem {
 
         ImageView avatar;
         TextView username;
-        TextView follow;
+        CheckedTextView follow;
 
         public ProfileItemVH(View itemView) {
             super(itemView);
             avatar = (ImageView) itemView.findViewById(R.id.imageView_avatar);
             username = (TextView) itemView.findViewById(R.id.textView_name);
-            follow = (TextView) itemView.findViewById(R.id.textView_follow);
+            follow = (CheckedTextView) itemView.findViewById(R.id.textView_follow);
         }
 
     }

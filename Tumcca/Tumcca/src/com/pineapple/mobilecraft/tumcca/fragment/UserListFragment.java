@@ -174,7 +174,7 @@ public class UserListFragment extends BaseListFragment {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mTvCount.setText("共有"+count+"个用户");
+                mTvCount.setText("共有："+count+"个用户");
             }
         });
     }

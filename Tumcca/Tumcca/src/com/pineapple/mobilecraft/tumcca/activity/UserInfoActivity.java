@@ -161,7 +161,12 @@ public class UserInfoActivity extends TumccaBaseActivity implements IUserInfo, V
                         WorksManager.getInstance().clearCache();
                         setResult(RESULT_LOGOUT);
                         pd.dismiss();
+                        Intent intent = new Intent(UserInfoActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
                         finish();
+
                     }
                 });
                 thread.start();

@@ -51,6 +51,7 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name=".tumcca.activity.HomeActivity" android:theme="@style/tumcca_activity_style"
+                  android:launchMode="singleTop"
                   android:screenOrientation="portrait" >
 
         </activity>

@@ -214,7 +214,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
     }
 
     /**
-     * 0 sign_in 1 profile
+     * 0 sign_in 1 user_home
      */
     private void displayActionbar(int index){
         if(index==0){
@@ -239,7 +239,7 @@ public class HomeActivity extends FragmentActivity implements IHome {
             mLayoutProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UserInfoActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId(), REQ_USERINFO);
+                    UserActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId());
                 }
             });
             mTvPseudonym.setText(mProfile.pseudonym);
@@ -358,23 +358,23 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 Intent intent = new Intent(this, WorksSearchActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.account:
-                if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
-                    @Override
-                    public void onLogin(String token) {
-                        UserActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId());
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-
-                })){
-                    UserManager.getInstance().requestLogin();
-                }
-
-                break;
+//            case R.id.account:
+//                if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
+//                    @Override
+//                    public void onLogin(String token) {
+//                        UserActivity.startActivity(HomeActivity.this, UserManager.getInstance().getCurrentUserId());
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//
+//                })){
+//                    UserManager.getInstance().requestLogin();
+//                }
+//
+//                break;
             case R.id.add:
 
                 if(null==UserManager.getInstance().getCurrentToken(new UserManager.PostLoginTask() {
@@ -420,8 +420,9 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 public void onClick(DialogInterface dialog, int which) {
                     //
                     mService.quit();
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(0);
+                    //System.exit(0);
+                    finish();
+                    //android.os.Process.killProcess(android.os.Process.myPid());
                     //finish();
                 }
             });
