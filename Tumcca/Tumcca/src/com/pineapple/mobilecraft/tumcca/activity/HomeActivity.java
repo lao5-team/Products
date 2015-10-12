@@ -419,8 +419,12 @@ public class HomeActivity extends FragmentActivity implements IHome {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //
-                    mService.quit();
-                    //System.exit(0);
+                    if(null!=mService){
+                        mService.quit();
+                        mService = null;
+                    }
+                    System.exit(0);
+                    android.os.Process.killProcess(android.os.Process.myPid());
                     finish();
                     //android.os.Process.killProcess(android.os.Process.myPid());
                     //finish();

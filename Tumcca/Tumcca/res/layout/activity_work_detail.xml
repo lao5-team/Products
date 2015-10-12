@@ -97,8 +97,7 @@
             android:layout_height="wrap_content" android:layout_alignParentBottom="false" android:id="@+id/bottom"
             android:gravity="bottom"  android:padding="10dip"
             android:focusable="true" android:focusableInTouchMode="true"
-            android:background="@drawable/corner_border_dialog" android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
+            android:background="@drawable/corner_border_dialog"
             android:visibility="gone"
             >
             <EditText
@@ -110,13 +109,15 @@
                 android:hint="@string/input_comment" android:background="@drawable/edit_text_bg"/>
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="42dip"
+                android:layout_height="30dip"
                 android:text="@string/submit"
                 android:id="@+id/submit_comment" android:layout_alignParentRight="true"
                 android:textSize="@dimen/text_size_normal" android:layout_alignParentBottom="false"
                 android:layout_marginTop="5dip"
-                android:layout_centerVertical="true" style="@style/my_button_style" android:layout_marginLeft="5dip"
-                android:layout_alignParentEnd="true" android:enabled="false"/>
+                android:layout_centerVertical="true" android:layout_marginLeft="15dip"
+                android:layout_alignParentEnd="true" android:enabled="false"
+                android:background="@drawable/button_submit" android:textColor="#A20000"
+                android:layout_marginRight="5dp"/>
         </RelativeLayout>
 
         <RelativeLayout

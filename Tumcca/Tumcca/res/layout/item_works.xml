@@ -5,7 +5,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:focusableInTouchMode="false" android:clickable="false"
-                android:padding="5dip">
+                android:padding="3dip">
     <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent"
                     android:background="@drawable/corner_border_works"
             >
@@ -24,7 +24,7 @@
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="文字说明"
                   android:id="@+id/textView_describe" android:layout_below="@+id/imageView_picture"
                   android:layout_marginLeft="11dip" android:textSize="12sp"
-                  android:layout_marginRight="11dip" android:textColor="@color/text_color"
+                  android:layout_marginRight="11dip" android:textColor="#000000"
                   android:layout_marginBottom="10dp" android:layout_marginTop="10dp"/>
         <LinearLayout
                 android:orientation="horizontal"
