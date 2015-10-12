@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.*;
@@ -458,8 +459,9 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
                             @Override
                             public void run() {
                                 exitCommentMode();
-                                setCommentHeight();
+
                                 mCommentAdapter.notifyDataSetChanged();
+                                setCommentHeight();
                             }
                         });
                     }
@@ -527,7 +529,13 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
         int adaptCount = mCommentAdapter.getCount();
         for(int i=0;i<adaptCount;i++){
             View temp = mCommentAdapter.getView(i,null,mLVComment);
-            temp.measure(0,0);
+
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(size.x, View.MeasureSpec.AT_MOST);
+            int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            temp.measure(widthMeasureSpec, heightMeasureSpec);
             listViewHeight += temp.getMeasuredHeight();
         }
         ViewGroup.LayoutParams layoutParams = this.mLVComment.getLayoutParams();
