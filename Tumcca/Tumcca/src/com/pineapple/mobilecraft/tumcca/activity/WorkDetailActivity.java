@@ -204,7 +204,7 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
                     public void run() {
                         if(mIsLiked){
                             //mExcellentNumTxt.setText(mWorks.likes + 1 + "");
-                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.like));
+                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.like_checked));
                         }
 
                         if(mIsCollected){
@@ -291,7 +291,7 @@ public class WorkDetailActivity extends TumccaBaseActivity implements View.OnCli
                         boolean ret = WorksServer.likeWorks(UserManager.getInstance().getCurrentToken(null), String.valueOf(mWorks.id), String.valueOf(userId));
                         if(ret)
                         {
-                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.like));
+                            mExcellentImg.setImageDrawable(getResources().getDrawable(R.drawable.like_checked));
                             Animation anim = AnimationUtils.loadAnimation(WorkDetailActivity.this, R.anim.coolyou_zan_scale);
                             mExcellentImg.startAnimation(anim);
                             mIsLiked = !mIsLiked;
