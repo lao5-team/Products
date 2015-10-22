@@ -137,21 +137,27 @@ public class PrefsCache implements IListCache<String, JSONObject>{
 
     @Override
     public void putItems(Set<String> keySet, List<JSONObject> valueList) {
-        Assert.assertEquals(keySet.size(), valueList.size());
-        if(null != mPrefs){
-            SharedPreferences.Editor editor = mPrefs.edit();
-            Iterator<String> iteratorKey = keySet.iterator();
-            Iterator iteratorValue = keySet.iterator();
-            while(iteratorKey.hasNext()){
-                editor.putString(iteratorKey.next(), iteratorValue.next().toString());
+        try{
+            Assert.assertEquals(keySet.size(), valueList.size());
+            if(null != mPrefs){
+                SharedPreferences.Editor editor = mPrefs.edit();
+                Iterator<String> iteratorKey = keySet.iterator();
+                Iterator iteratorValue = keySet.iterator();
+                while(iteratorKey.hasNext()){
+                    editor.putString(iteratorKey.next(), iteratorValue.next().toString());
+                }
+                editor.commit();
             }
-            editor.commit();
         }
+        catch (NullPointerException exp){
+            exp.printStackTrace();
+        }
+
     }
 
     @Override
     public void putItem(String key, JSONObject value) {
-        if(null != mPrefs){
+        if(null != mPrefs && value!=null){
             mPrefs.edit().putString(key, value.toString()).commit();
         }
     }
