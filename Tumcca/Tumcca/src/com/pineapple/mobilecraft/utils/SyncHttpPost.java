@@ -59,8 +59,15 @@ public abstract class SyncHttpPost<T> extends SyncHTTPCaller<T> {
                 HttpResponse httpResponse;
                 try {
                     httpResponse = new DefaultHttpClient().execute(post);
-                    String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
-                    result = postExcute(str);
+                    if(httpResponse.getStatusLine().getStatusCode()==200){
+                        String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+                        result = postExcute(str);
+                    }
+                    else{
+                        String str = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+                        Log.v(TumccaApplication.TAG, "HttpPost error " + str);
+                        reportError(str);
+                    }
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
                     result = postExcute("");
